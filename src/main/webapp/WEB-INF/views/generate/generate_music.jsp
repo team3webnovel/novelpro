@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,11 +20,17 @@
         </label>
 
         <button type="submit">Generate</button>
-
-        <!-- 에러 메시지 출력 -->
-        <c:if test="${not empty errorMessage}">
-            <p style="color:red;">${errorMessage}</p>
-        </c:if>
+        
+        <!-- 로딩 메시지 -->
+        <div id="loadingMessage" style="display:none;">
+            <p>Generating your music, please wait...</p>
+        </div>
     </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('loadingMessage').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
