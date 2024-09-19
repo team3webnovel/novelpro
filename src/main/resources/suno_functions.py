@@ -55,6 +55,8 @@ def get_audio_information_until_complete(audio_id, max_attempts=10):
                 if (music_data and music_data[0]["status"] == 'streaming' and
                         music_data[0]["title"] and music_data[0]["lyric"] and music_data[0]["audio_url"]):
                     # 음악이 준비되었고 모든 정보가 채워짐
+                    print(music_data)
+                    print(music_info)
                     return music_data
                 else:
                     # 음악이 준비되지 않았을 경우 5초 후 다시 시도

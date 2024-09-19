@@ -86,6 +86,9 @@ public class MusicServiceImpl implements MusicService {
             String lyric = music.path("lyric").asText("가사 없음");
             String audioUrl = music.path("audio_url").asText("URL 없음");
             String imageUrl = music.path("image_url").asText("커버 없음");
+            
+            
+            lyric = music.path("lyric").asText("가사 없음").replace("\n", "<br/>");
 
             logger.info("Generated music - Title: {}, Lyric: {}, Audio URL: {}, Image URL: {}", title, lyric, audioUrl, imageUrl);
 
