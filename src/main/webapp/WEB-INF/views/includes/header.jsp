@@ -12,7 +12,8 @@
 
             <!-- 세션에 사용자가 있는지 확인하여 로그인/로그아웃 및 마이페이지 표시 -->
             <c:choose>
-                <c:when test="${not empty sessionScope.user}">
+               
+                <c:when test="${not empty sessionScope.user_id}">
                     <!-- 로그인 상태일 때 -->
                     <a href="<%= request.getContextPath() %>/mypage" class="btn-primary">마이페이지</a>
                     <a href="<%= request.getContextPath() %>/logout" class="btn-login">로그아웃</a>

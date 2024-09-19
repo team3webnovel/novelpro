@@ -1,11 +1,13 @@
 package com.team3webnovel.vo;
 
+import java.time.LocalDateTime;
+
 public class UserVo {
     private int userId;
     private String username;
     private String email;
     private String password;
-    private String createdAt;
+    private LocalDateTime createdAt;  // String 대신 LocalDateTime 사용
 
     // Getters and Setters
     public int getUserId() {
@@ -40,11 +42,11 @@ public class UserVo {
         this.password = password;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

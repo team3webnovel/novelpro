@@ -1,10 +1,14 @@
 package com.team3webnovel.mappers;
 
+import java.util.Map;
+
 public interface MusicMapper {
-    void insertCreation(int userId, int artForm);  // creation 테이블에 삽입
+    // creation 데이터를 삽입할 때 Map으로 전달
+    void insertCreation(Map<String, Object> params);
 
-    int getLastCreationId();  // 마지막으로 삽입된 creation_id 가져오기
+    // 마지막으로 삽입된 creation_id 가져오기
+    Integer getLastCreationId();
 
-    void insertMusicData(int creationId, String title, String lyric, String audioUrl, String imageUrl, 
-                         String modelName, String gptDescriptionPrompt, String type, String tags, String errorMessage);  // music_data 테이블에 삽입
+    // music_data 테이블에 삽입할 때도 Map으로 전달
+    void insertMusicData(Map<String, Object> params);
 }
