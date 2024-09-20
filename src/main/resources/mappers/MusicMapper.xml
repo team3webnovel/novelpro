@@ -16,7 +16,6 @@
 	    SELECT MAX(creation_id) FROM creation
 	</select>
 
-
     <!-- music_data 테이블에 음악 데이터 삽입 -->
 	<insert id="insertMusicData" parameterType="map">
 	    INSERT INTO music_data (
@@ -29,22 +28,33 @@
 	    )
 	</insert>
 
+	<!-- MusicVo에 매핑하기 위한 resultMap 정의 -->
 	<resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
+	    <id property="creationId" column="CREATION_ID"/>
 	    <result property="title" column="TITLE"/>
 	    <result property="imageUrl" column="IMAGE_URL"/>
+	    <result property="createdAt" column="CREATED_AT"/>
 	</resultMap>
+
+	<!-- 특정 user_id와 art_form을 기준으로 음악 리스트 조회 -->
+	<select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
+	    SELECT 
+	        md.CREATION_ID,
+	        md.TITLE,
+	        md.IMAGE_URL,
+	        md.CREATED_AT
+	    FROM creation c
+	    JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
+	    WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+	    ORDER BY md.CREATED_AT
+	</select>
 	
- <!-- User의 저장된 음악 조회 (art_form = 1인 경우만) -->
-    <select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
-        SELECT md.TITLE, md.IMAGE_URL
-        FROM creation c
-        JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
-        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
-        ORDER BY created_at
-    </select>
-    
-	<select id="getMusicByCreationId" parameterType="int" resultType="com.team3webnovel.vo.MusiclVo">
-	    SELECT title, lyric, audio_url, image_url, model_name, type, tags, created_at
+	<!-- creation_id로 특정 음악의 상세 정보 조회 -->
+	<select id="getMusicByCreationId" parameterType="int" resultMap="musicResultMap">
+	    SELECT 
+	        creation_id, title, lyric, audio_url as audioUrl, image_url as imageUrl, 
+	        model_name as modelName, gpt_description_prompt as gptDescriptionPrompt, 
+	        type, tags, created_at as createdAt, error_message as errorMessage
 	    FROM music_data
 	    WHERE creation_id = #{creationId}
 	</select>

@@ -23,6 +23,26 @@ public class MusicVo {
 		this.imageUrl = imageUrl;
 	}
 
+    
+    
+	public MusicVo(int creationId, String title, String lyric, String audioUrl, String imageUrl, Date createdAt,
+			String modelName, String gptDescriptionPrompt, String type, String tags, String errorMessage) {
+		super();
+		this.creationId = creationId;
+		this.title = title;
+		this.lyric = lyric;
+		this.audioUrl = audioUrl;
+		this.imageUrl = imageUrl;
+		this.createdAt = createdAt;
+		this.modelName = modelName;
+		this.gptDescriptionPrompt = gptDescriptionPrompt;
+		this.type = type;
+		this.tags = tags;
+		this.errorMessage = errorMessage;
+	}
+
+
+
 	// Getters and Setters
     public int getCreationId() {
         return creationId;
