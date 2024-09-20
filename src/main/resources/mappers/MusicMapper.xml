@@ -29,5 +29,24 @@
 	    )
 	</insert>
 
+	<resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
+	    <result property="title" column="TITLE"/>
+	    <result property="imageUrl" column="IMAGE_URL"/>
+	</resultMap>
+	
+ <!-- User의 저장된 음악 조회 (art_form = 1인 경우만) -->
+    <select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
+        SELECT md.TITLE, md.IMAGE_URL
+        FROM creation c
+        JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
+        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+        ORDER BY created_at
+    </select>
+    
+	<select id="getMusicByCreationId" parameterType="int" resultType="com.team3webnovel.vo.MusiclVo">
+	    SELECT title, lyric, audio_url, image_url, model_name, type, tags, created_at
+	    FROM music_data
+	    WHERE creation_id = #{creationId}
+	</select>
 
 </mapper>
