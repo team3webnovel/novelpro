@@ -1,7 +1,11 @@
 package com.team3webnovel.controllers;
 
+import com.team3webnovel.services.MusicServiceImpl;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +19,9 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
+    private final Logger logger = LoggerFactory.getLogger(MusicController.class);
+
+    
     // 회원가입 페이지 보여주기
     @GetMapping("/register")
     public String showRegisterPage() {
@@ -75,8 +82,25 @@ public class UsersController {
             return "users/login"; // 로그인 페이지로 다시 이동
         }
 
-        // 로그인 성공 시 세션에 사용자 정보 저장
-        session.setAttribute("user", user);
+     // 로그인 성공 시 세션에 사용자 정보 저장
+        session.setAttribute("user_id", user.getUserId());
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("password", user.getPassword());
+        session.setAttribute("created_at", user.getCreatedAt());
+
+        // 각 필드별로 로그 출력
+        logger.debug("로그인 성공: user_id = {}", user.getUserId());
+        logger.debug("로그인 성공: username = {}", user.getUsername());
+        logger.debug("로그인 성공: email = {}", user.getEmail());
+        logger.debug("로그인 성공: password = {}", user.getPassword());  // 보안 상 실제로는 password는 로그에 찍지 않는 것이 좋습니다.
+        logger.debug("로그인 성공: created_at = {}", user.getCreatedAt());
+
+        // 혹은 한 번에 모든 정보를 출력
+        logger.debug("로그인 성공: user_id = {}, username = {}, email = {}, created_at = {}", 
+                      user.getUserId(), user.getUsername(), user.getEmail(), user.getCreatedAt());
+
+
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
         
     }

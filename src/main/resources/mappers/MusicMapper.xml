@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3webnovel.mappers.MusicMapper">
+
+    <!-- creation 테이블에 데이터 삽입 -->
+	<insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
+	    INSERT INTO creation (user_id, art_form)
+	    VALUES (#{userId}, #{artForm})
+	</insert>
+
+    <!-- 마지막으로 삽입된 creation_id 가져오기 -->
+	<select id="getLastCreationId" resultType="int">
+	    SELECT MAX(creation_id) FROM creation
+	</select>
+
+
+    <!-- music_data 테이블에 음악 데이터 삽입 -->
+	<insert id="insertMusicData" parameterType="map">
+	    INSERT INTO music_data (
+	        creation_id, title, lyric, audio_url, image_url, model_name,
+	        gpt_description_prompt, type, tags, error_message
+	    )
+	    VALUES (
+	        #{creationId}, #{title}, #{lyric}, #{audioUrl}, #{imageUrl},
+	        #{modelName}, #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
+	    )
+	</insert>
+
+
+</mapper>
