@@ -1,0 +1,19 @@
+/* footer.css */
+
+/* 기본 푸터 스타일 */
+footer {
+
+    bottom: 0; /* 페이지 하단에 위치 */
+    left: 0; /* 왼쪽 정렬 */
+    width: 100%; /* 너비 100% */
+    background-color: #333; /* 배경 색상 */
+    color: #fff; /* 글자 색상 */
+    text-align: center; /* 중앙 정렬 */
+    padding: 10px 0; /* 패딩 추가 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+/* 푸터 텍스트 스타일 */
+.footer-container p {
+    margin: 0; /* 기본 여백 제거 */
+}
