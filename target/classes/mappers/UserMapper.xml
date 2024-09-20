@@ -4,9 +4,20 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.team3webnovel.mappers.UserMapper">
+
     <!-- User 조회 -->
-    <select id="findUserByUsername" parameterType="String" resultType="com.team3webnovel.vo.UserVo">
-        SELECT * FROM USERS WHERE USERNAME = #{username}
+    <resultMap id="UserResultMap" type="com.team3webnovel.vo.UserVo">
+        <id property="userId" column="USER_ID" />
+        <result property="username" column="USERNAME" />
+        <result property="email" column="EMAIL" />
+        <result property="password" column="PASSWORD" />
+        <result property="createdAt" column="CREATED_AT" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="findUserByUsername" parameterType="String" resultMap="UserResultMap">
+        SELECT USER_ID, USERNAME, EMAIL, PASSWORD, CREATED_AT
+        FROM USERS 
+        WHERE USERNAME = #{username}
     </select>
 
     <!-- User 삽입 -->
@@ -14,4 +25,5 @@
         INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) 
         VALUES (#{username}, #{email}, #{password})
     </insert>
+
 </mapper>
