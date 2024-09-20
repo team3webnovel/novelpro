@@ -95,35 +95,35 @@ if __name__ == "__main__":
 
     result = []
     if response_data:
+        # 두 개의 곡에 대해 각각 처리
         for music_info in response_data:
             audio_id = music_info["id"]
 
-# 음악이 준비될 때까지 상태 확인 (최대 시도 횟수 10회)
-music_data = get_audio_information_until_complete(audio_id, max_attempts=10)
+            # 각 음악이 준비될 때까지 상태 확인 (최대 시도 횟수 10회)
+            music_data = get_audio_information_until_complete(audio_id, max_attempts=10)
 
-if music_data and "audio_url" in music_data[0]:
-    title = music_data[0]["title"]
-    lyrics = music_data[0]["lyric"]
-    audio_url = music_data[0]["audio_url"]
-    image_url = music_data[0].get("image_url", "커버 없음")  # 커버 사진이 있을 경우 가져오기
-    model_name = music_data[0].get("model_name", "모델 없음")  # 모델 이름
-    gpt_description_prompt = music_data[0].get("gpt_description_prompt", "")  # GPT 설명
-    music_type = music_data[0].get("type", "gen")  # 타입
-    tags = music_data[0].get("tags", "")  # 태그
-    error_message = music_data[0].get("error_message", "")  # 오류 메시지
+            if music_data and "audio_url" in music_data[0]:
+                title = music_data[0]["title"]
+                lyrics = music_data[0]["lyric"]
+                audio_url = music_data[0]["audio_url"]
+                image_url = music_data[0].get("image_url", "커버 없음")  # 커버 사진이 있을 경우 가져오기
+                model_name = music_data[0].get("model_name", "모델 없음")  # 모델 이름
+                gpt_description_prompt = music_data[0].get("gpt_description_prompt", "")  # GPT 설명
+                music_type = music_data[0].get("type", "gen")  # 타입
+                tags = music_data[0].get("tags", "")  # 태그
+                error_message = music_data[0].get("error_message", "")  # 오류 메시지
 
-    result.append({
-        "title": title,
-        "lyric": lyrics,
-        "audio_url": audio_url,
-        "image_url": image_url,
-        "model_name": model_name,
-        "gpt_description_prompt": gpt_description_prompt,
-        "type": music_type,
-        "tags": tags,
-        "error_message": error_message
-    })
-
+                result.append({
+                    "title": title,
+                    "lyric": lyrics,
+                    "audio_url": audio_url,
+                    "image_url": image_url,
+                    "model_name": model_name,
+                    "gpt_description_prompt": gpt_description_prompt,
+                    "type": music_type,
+                    "tags": tags,
+                    "error_message": error_message
+                })
 
     # 결과를 JSON 형식으로 출력
     print(json.dumps(result, ensure_ascii=False), file=sys.stdout)  # ensure_ascii=False로 UTF-8 출력 보장

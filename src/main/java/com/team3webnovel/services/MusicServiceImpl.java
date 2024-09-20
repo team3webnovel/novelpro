@@ -33,7 +33,7 @@ public class MusicServiceImpl implements MusicService {
     private HttpSession session;    // 사용자 세션 주입
 
     @Override
-    public List<MusicVo> generateMusic(String prompt, boolean makeInstrumental) throws Exception {
+    public List<MusicVo> generateMusic(String prompt, boolean makeInstrumental, Map<String, String> errorMap) throws Exception {
         // 세션에서 user_id 가져오기
         Integer userId = (Integer) session.getAttribute("user_id");
         if (userId == null) {
@@ -42,26 +42,41 @@ public class MusicServiceImpl implements MusicService {
         int artForm = 1;  // music의 art_form은 1로 설정
         logger.debug("세션에서 가져온 user_id: {}", userId);
 
-        // 삽입된 데이터를 creation 테이블에 추가하고, 방금 생성된 creation_id를 가져올 준비
         MusicMapper mapper = sqlSession.getMapper(MusicMapper.class);
-        Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
-        params.put("artForm", artForm);
-        
-        // 데이터 삽입 및 생성된 creation_id 반환
-        mapper.insertCreation(params);
-        
 
-        
+        // 첫 번째 creation 삽입
+        Map<String, Object> params1 = new HashMap<>();
+        params1.put("userId", userId);
+        params1.put("artForm", artForm);
+        mapper.insertCreation(params1);
+
+        // 첫 번째 creationId 가져오기
+        Integer creationId1 = mapper.getLastCreationId();
+        if (creationId1 == null) {
+            throw new RuntimeException("첫 번째 Creation ID를 가져오는 데 실패했습니다.");
+        }
+
+        // 두 번째 creation 삽입
+        Map<String, Object> params2 = new HashMap<>();
+        params2.put("userId", userId);
+        params2.put("artForm", artForm);
+        mapper.insertCreation(params2);
+
+        // 두 번째 creationId 가져오기
+        Integer creationId2 = mapper.getLastCreationId();
+        if (creationId2 == null) {
+            throw new RuntimeException("두 번째 Creation ID를 가져오는 데 실패했습니다.");
+        }
+
         // Python 스크립트 파일 경로 설정
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("suno_functions.py").getFile());
         String pythonScriptPath = file.getAbsolutePath();
-        
+
         if (!file.exists()) {
             throw new RuntimeException("Python 스크립트 파일을 찾을 수 없습니다: " + file.getAbsolutePath());
         }
-        
+
         logger.info("Python 스크립트 파일 경로: {}", pythonScriptPath);
 
         // Python 명령어 실행 리스트 생성
@@ -106,49 +121,77 @@ public class MusicServiceImpl implements MusicService {
         // JSON 데이터 파싱
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(output.toString());
-        
-        // 삽입된 creation_id를 가져옴
-        Integer creationId = mapper.getLastCreationId();
-        if (creationId == null) {
-            throw new RuntimeException("Creation ID를 가져오는 데 실패했습니다.");
-        }
-        
-        // 음악 정보를 music_data 테이블에 삽입
-     // 음악 정보를 music_data 테이블에 삽입
+
+        // 두 개의 creationId와 음악 정보를 music_data 테이블에 각각 삽입
         List<MusicVo> musicList = new ArrayList<>();
-        for (JsonNode music : jsonNode) {
-            String title = music.path("title").asText("제목 없음");
-            String lyric = music.path("lyric").asText("가사 없음").replace("\n", "<br/>");
-            String audioUrl = music.path("audio_url").asText("URL 없음");
-            String imageUrl = music.path("image_url").asText("커버 없음");
-            String modelName = music.path("model_name").asText("모델 없음");
-            String gptDescriptionPrompt = music.path("gpt_description_prompt").asText("");
-            String type = music.path("type").asText("gen");
-            String tags = music.path("tags").asText("");
-            String errorMessage = music.path("error_message").asText("");
+        boolean firstMusicGenerated = false;
+        boolean secondMusicGenerated = false;
 
-            logger.info("Generated music - Title: {}, Lyric: {}, Audio URL: {}, Image URL: {}", title, lyric, audioUrl, imageUrl);
-
-            // 매개변수를 Map으로 묶어서 전달
-            Map<String, Object> params2 = new HashMap<>();
-            params2.put("creationId", creationId);
-            params2.put("title", title);
-            params2.put("lyric", lyric);
-            params2.put("audioUrl", audioUrl);
-            params2.put("imageUrl", imageUrl);
-            params2.put("modelName", modelName);
-            params2.put("gptDescriptionPrompt", gptDescriptionPrompt);
-            params2.put("type", type);
-            params2.put("tags", tags);
-            params2.put("errorMessage", errorMessage);
-
-            // music_data 테이블에 데이터 삽입
-            mapper.insertMusicData(params2);
-
-            musicList.add(new MusicVo(title, lyric, audioUrl, imageUrl));
+        // 첫 번째 음악 처리
+        JsonNode music1 = jsonNode.get(0);
+        if (music1 != null) {
+            firstMusicGenerated = processMusicData(mapper, music1, creationId1, musicList, errorMap);
+        } else {
+            logger.error("첫 번째 음악 데이터가 없습니다.");
+            errorMap.put("error", "첫 번째 음악 데이터가 없습니다.");
         }
 
+        // 두 번째 음악 처리
+        JsonNode music2 = jsonNode.get(1);
+        if (music2 != null) {
+            secondMusicGenerated = processMusicData(mapper, music2, creationId2, musicList, errorMap);
+        } else {
+            logger.error("두 번째 음악 데이터가 없습니다.");
+            errorMap.put("error", "두 번째 음악 데이터가 없습니다.");
+        }
+
+        // 음악 생성 결과 처리
+        if (!firstMusicGenerated && !secondMusicGenerated) {
+            errorMap.put("error", "음악 생성이 실패했습니다.");
+            throw new RuntimeException("음악 생성이 실패했습니다.");
+        } else if (firstMusicGenerated && !secondMusicGenerated) {
+            errorMap.put("warning", "하나의 음악만 생성되었습니다.");
+        } else if (!firstMusicGenerated && secondMusicGenerated) {
+            errorMap.put("warning", "하나의 음악만 생성되었습니다.");
+        }
 
         return musicList;
+    }
+
+    private boolean processMusicData(MusicMapper mapper, JsonNode music, Integer creationId, List<MusicVo> musicList, Map<String, String> errorMap) {
+        String title = music.path("title").asText("제목 없음");
+        String lyric = music.path("lyric").asText("가사 없음").replace("\n", "<br/>");
+        String audioUrl = music.path("audio_url").asText("URL 없음");
+        String imageUrl = music.path("image_url").asText("커버 없음");
+        String modelName = music.path("model_name").asText("모델 없음");
+        String gptDescriptionPrompt = music.path("gpt_description_prompt").asText("");
+        String type = music.path("type").asText("gen");
+        String tags = music.path("tags").asText("");
+        String errorMessage = music.path("error_message").asText("");
+
+        // 에러 메시지가 있는지 확인
+        if (!errorMessage.isEmpty()) {
+            logger.error("음악 생성 중 에러 발생: {}", errorMessage);
+            errorMap.put("error", errorMessage);
+            return false;
+        }
+
+        // 음악 데이터 삽입
+        Map<String, Object> params = new HashMap<>();
+        params.put("creationId", creationId);
+        params.put("title", title);
+        params.put("lyric", lyric);
+        params.put("audioUrl", audioUrl);
+        params.put("imageUrl", imageUrl);
+        params.put("modelName", modelName);
+        params.put("gptDescriptionPrompt", gptDescriptionPrompt);
+        params.put("type", type);
+        params.put("tags", tags);
+        params.put("errorMessage", errorMessage);
+        mapper.insertMusicData(params);
+
+        musicList.add(new MusicVo(title, lyric, audioUrl, imageUrl));
+
+        return true;
     }
 }
