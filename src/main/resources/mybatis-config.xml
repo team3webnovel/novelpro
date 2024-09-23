@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    
+    <!-- 로깅 설정 -->
+    <settings>
+        <!-- SQL이 콘솔에 출력되도록 설정 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        
+        <!-- 인덱스나 컬럼 이름 대신 별칭을 사용할 수 있도록 설정 -->
+        <setting name="useColumnLabel" value="true"/>
+        
+        <!-- 자동 매핑 설정 (모든 필드 자동 매핑) -->
+        <setting name="autoMappingBehavior" value="FULL"/>
+    </settings>
+    
+    <!-- 타입 핸들러 설정 -->
+    <typeHandlers>
+        <!-- Date 타입을 LocalDateTime으로 매핑 -->
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+        <!-- 필요시 다른 타입 핸들러 추가 -->
+    </typeHandlers>
+    
+    <!-- Mapper XML 파일 위치 -->
+    <mappers>
+        <mapper resource="com/team3webnovel/mappers/MusicMapper.xml"/>
+        <mapper resource="com/team3webnovel/mappers/UserMapper.xml"/>
+        <!-- 다른 매퍼 파일이 있을 경우 추가 -->
+    </mappers>
+
+</configuration>

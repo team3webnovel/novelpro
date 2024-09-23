@@ -6,57 +6,72 @@
 <mapper namespace="com.team3webnovel.mappers.MusicMapper">
 
     <!-- creation 테이블에 데이터 삽입 -->
-	<insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
-	    INSERT INTO creation (user_id, art_form)
-	    VALUES (#{userId}, #{artForm})
-	</insert>
+    <insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
+        INSERT INTO creation (user_id, art_form)
+        VALUES (#{userId}, #{artForm})
+    </insert>
 
     <!-- 마지막으로 삽입된 creation_id 가져오기 -->
-	<select id="getLastCreationId" resultType="int">
-	    SELECT MAX(creation_id) FROM creation
-	</select>
+    <select id="getLastCreationId" resultType="int">
+        SELECT MAX(creation_id) FROM creation
+    </select>
 
     <!-- music_data 테이블에 음악 데이터 삽입 -->
-	<insert id="insertMusicData" parameterType="map">
-	    INSERT INTO music_data (
-	        creation_id, title, lyric, audio_url, image_url, model_name,
-	        gpt_description_prompt, type, tags, error_message
-	    )
-	    VALUES (
-	        #{creationId}, #{title}, #{lyric}, #{audioUrl}, #{imageUrl},
-	        #{modelName}, #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
-	    )
-	</insert>
+    <insert id="insertMusicData" parameterType="map">
+        INSERT INTO music_data (
+            creation_id, title, lyric, audio_url, image_url, model_name,
+            gpt_description_prompt, type, tags, error_message
+        )
+        VALUES (
+            #{creationId}, #{title}, #{lyric}, #{audioUrl}, #{imageUrl},
+            #{modelName}, #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
+        )
+    </insert>
 
-	<!-- MusicVo에 매핑하기 위한 resultMap 정의 -->
+
+	<!-- 기본적인 음악 정보에 대한 resultMap -->
 	<resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
-	    <id property="creationId" column="CREATION_ID"/>
+	    <result property="creationId" column="CREATION_ID"/>
 	    <result property="title" column="TITLE"/>
 	    <result property="imageUrl" column="IMAGE_URL"/>
-	    <result property="createdAt" column="CREATED_AT"/>
 	</resultMap>
 
-	<!-- 특정 user_id와 art_form을 기준으로 음악 리스트 조회 -->
-	<select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
-	    SELECT 
-	        md.CREATION_ID,
-	        md.TITLE,
-	        md.IMAGE_URL,
-	        md.CREATED_AT
-	    FROM creation c
-	    JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
-	    WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
-	    ORDER BY md.CREATED_AT
-	</select>
-	
-	<!-- creation_id로 특정 음악의 상세 정보 조회 -->
-	<select id="getMusicByCreationId" parameterType="int" resultMap="musicResultMap">
-	    SELECT 
-	        creation_id, title, lyric, audio_url as audioUrl, image_url as imageUrl, 
-	        model_name as modelName, gpt_description_prompt as gptDescriptionPrompt, 
-	        type, tags, created_at as createdAt, error_message as errorMessage
-	    FROM music_data
-	    WHERE creation_id = #{creationId}
-	</select>
+
+    <!-- 특정 user_id와 art_form을 기준으로 음악 리스트 조회 -->
+    <select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
+        SELECT 
+            md.CREATION_ID,
+            md.TITLE,
+            md.IMAGE_URL,
+            md.CREATED_AT
+        FROM creation c
+        JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
+        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+        ORDER BY md.CREATED_AT
+    </select>
+
+    <!-- 음악 상세 정보를 위한 resultMap -->
+    <resultMap id="musicDetailResultMap" type="com.team3webnovel.vo.MusicVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="lyric" column="LYRIC"/>
+        <result property="audioUrl" column="AUDIO_URL"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="gptDescriptionPrompt" column="GPT_DESCRIPTION_PROMPT" jdbcType="CLOB"/>
+        <result property="type" column="TYPE"/>
+        <result property="tags" column="TAGS"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="errorMessage" column="ERROR_MESSAGE"/>
+    </resultMap>
+
+    <!-- creation_id로 특정 음악의 상세 정보 조회 -->
+    <select id="getMusicByCreationId" parameterType="int" resultMap="musicDetailResultMap">
+        SELECT 
+            creation_id, title, lyric, audio_url, image_url, 
+            gpt_description_prompt, 
+            type, tags, created_at, error_message
+        FROM music_data
+        WHERE creation_id = #{creationId}
+    </select>
 
 </mapper>

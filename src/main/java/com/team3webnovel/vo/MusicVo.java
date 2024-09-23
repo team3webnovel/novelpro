@@ -1,6 +1,6 @@
 package com.team3webnovel.vo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class MusicVo {
     private int creationId;
@@ -8,7 +8,7 @@ public class MusicVo {
     private String lyric;
     private String audioUrl;
     private String imageUrl;
-    private Date createdAt;  // 생성 날짜 필드
+    private LocalDateTime createdAt;  // 생성 날짜 필드
     private String modelName;
     private String gptDescriptionPrompt;
     private String type;
@@ -16,34 +16,29 @@ public class MusicVo {
     private String errorMessage;
 
     public MusicVo(String title, String lyric, String audioUrl, String imageUrl) {
-		super();
-		this.title = title;
-		this.lyric = lyric;
-		this.audioUrl = audioUrl;
-		this.imageUrl = imageUrl;
-	}
+        super();
+        this.title = title;
+        this.lyric = lyric;
+        this.audioUrl = audioUrl;
+        this.imageUrl = imageUrl;
+    }
 
-    
-    
-	public MusicVo(int creationId, String title, String lyric, String audioUrl, String imageUrl, Date createdAt,
-			String modelName, String gptDescriptionPrompt, String type, String tags, String errorMessage) {
-		super();
-		this.creationId = creationId;
-		this.title = title;
-		this.lyric = lyric;
-		this.audioUrl = audioUrl;
-		this.imageUrl = imageUrl;
-		this.createdAt = createdAt;
-		this.modelName = modelName;
-		this.gptDescriptionPrompt = gptDescriptionPrompt;
-		this.type = type;
-		this.tags = tags;
-		this.errorMessage = errorMessage;
-	}
+    public MusicVo(int creationId, String title, String lyric, String audioUrl, String imageUrl, LocalDateTime createdAt,
+                   String gptDescriptionPrompt, String type, String tags, String errorMessage) {
+        super();
+        this.creationId = creationId;
+        this.title = title;
+        this.lyric = lyric;
+        this.audioUrl = audioUrl;
+        this.imageUrl = imageUrl;
+        this.createdAt = createdAt;
+        this.gptDescriptionPrompt = gptDescriptionPrompt;
+        this.type = type;
+        this.tags = tags;
+        this.errorMessage = errorMessage;
+    }
 
-
-
-	// Getters and Setters
+    // Getters and Setters
     public int getCreationId() {
         return creationId;
     }
@@ -84,11 +79,11 @@ public class MusicVo {
         this.imageUrl = imageUrl;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
