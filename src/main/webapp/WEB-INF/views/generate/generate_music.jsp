@@ -25,14 +25,6 @@
         <div id="loadingMessage" style="display:none;">
             <p>Generating your music, please wait...</p>
         </div>
-<<<<<<< HEAD
-    </form>
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function() {
-            document.getElementById('loadingMessage').style.display = 'block';
-        });
-=======
 
         <!-- 에러 메시지 표시 -->
         <div id="errorMessage" style="display: none;">
@@ -57,7 +49,6 @@
         if ('${warningMessage}' !== '') {
             document.getElementById('warningMessage').style.display = 'block';
         }
->>>>>>> refs/remotes/kyogre/kyogre
     </script>
 </body>
 </html>

@@ -8,30 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-<<<<<<< HEAD
-import java.util.List;
-
-@Controller
-public class MusicController {
-
-    @Autowired
-    private MusicService musicService;
-
-    @GetMapping("/generate-music")
-    public String showGenerateMusicPage() {
-        return "generate/generate_music"; // 음악 생성 페이지로 이동
-    }
-
-    @PostMapping("/generate-music")
-    public String generateMusic(@RequestParam("prompt") String prompt,
-                                @RequestParam(value = "make_instrumental", required = false) boolean makeInstrumental,
-                                Model model, HttpServletRequest request) {
-        try {
-            // MusicService를 통해 Suno API로 음악 생성 요청
-            List<MusicVo> musicList = musicService.generateMusic(prompt, makeInstrumental);
-            System.out.println(musicList);
-            
-=======
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +45,6 @@ public class MusicController {
                 model.addAttribute("warningMessage", errorMap.get("warning"));
             }
 
->>>>>>> refs/remotes/kyogre/kyogre
             // 생성된 음악 리스트를 모델에 추가하여 결과 페이지로 전달
             model.addAttribute("musicList", musicList);
             return "generate/music_result"; // 음악 결과 페이지로 이동
