@@ -5,8 +5,8 @@
 
 <mapper namespace="com.team3webnovel.mappers.MusicMapper">
 
-    <!-- creation 테이블에 데이터 삽입 -->
-    <insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
+    <!-- creation 테이블에 데이터 삽입 (CREATION_ID는 시퀀스에 의해 자동 생성됨) -->
+    <insert id="insertCreation" parameterType="map">
         INSERT INTO creation (user_id, art_form)
         VALUES (#{userId}, #{artForm})
     </insert>
@@ -16,7 +16,7 @@
         SELECT MAX(creation_id) FROM creation
     </select>
 
-    <!-- music_data 테이블에 음악 데이터 삽입 -->
+    <!-- music_data 테이블에 음악 데이터 삽입 (CREATED_AT은 SYSDATE로 자동 설정됨) -->
     <insert id="insertMusicData" parameterType="map">
         INSERT INTO music_data (
             creation_id, title, lyric, audio_url, image_url, model_name,
@@ -28,14 +28,14 @@
         )
     </insert>
 
-
-	<!-- 기본적인 음악 정보에 대한 resultMap -->
-	<resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
-	    <result property="creationId" column="CREATION_ID"/>
-	    <result property="title" column="TITLE"/>
-	    <result property="imageUrl" column="IMAGE_URL"/>
-	</resultMap>
-
+    <!-- 기본적인 음악 정보에 대한 resultMap -->
+    <resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="audioUrl" column="AUDIO_URL"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+    </resultMap>
 
     <!-- 특정 user_id와 art_form을 기준으로 음악 리스트 조회 -->
     <select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
@@ -43,6 +43,7 @@
             md.CREATION_ID,
             md.TITLE,
             md.IMAGE_URL,
+            md.AUDIO_URL,
             md.CREATED_AT
         FROM creation c
         JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
@@ -54,24 +55,25 @@
     <resultMap id="musicDetailResultMap" type="com.team3webnovel.vo.MusicVo">
         <result property="creationId" column="CREATION_ID"/>
         <result property="title" column="TITLE"/>
-        <result property="lyric" column="LYRIC"/>
+        <result property="lyric" column="LYRIC" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
         <result property="audioUrl" column="AUDIO_URL"/>
         <result property="imageUrl" column="IMAGE_URL"/>
-        <result property="gptDescriptionPrompt" column="GPT_DESCRIPTION_PROMPT" jdbcType="CLOB"/>
+        <result property="modelName" column="MODEL_NAME"/>
+        <result property="gptDescriptionPrompt" column="GPT_DESCRIPTION_PROMPT" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
         <result property="type" column="TYPE"/>
         <result property="tags" column="TAGS"/>
-        <result property="createdAt" column="CREATED_AT"/>
-        <result property="errorMessage" column="ERROR_MESSAGE"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+        <result property="errorMessage" column="ERROR_MESSAGE" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
     </resultMap>
 
     <!-- creation_id로 특정 음악의 상세 정보 조회 -->
     <select id="getMusicByCreationId" parameterType="int" resultMap="musicDetailResultMap">
         SELECT 
-            creation_id, title, lyric, audio_url, image_url, 
-            gpt_description_prompt, 
-            type, tags, created_at, error_message
+            CREATION_ID, TITLE, LYRIC, AUDIO_URL, IMAGE_URL, 
+            MODEL_NAME, GPT_DESCRIPTION_PROMPT, 
+            TYPE, TAGS, CREATED_AT, ERROR_MESSAGE
         FROM music_data
-        WHERE creation_id = #{creationId}
+        WHERE CREATION_ID = #{creationId}
     </select>
 
 </mapper>

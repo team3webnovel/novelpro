@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Music</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/style.css">
 </head>
 <body>
     <form action="<%= request.getContextPath() %>/generate-music" method="post">
@@ -36,6 +35,11 @@
             <strong>Warning:</strong> ${warningMessage}
         </div>
     </form>
+
+    <!-- 음악 보관함으로 이동하는 링크 추가 -->
+    <p>
+        <a href="<%= request.getContextPath() %>/storage-music">Go to Music Storage</a>
+    </p>
 
     <script>
         document.querySelector('form').addEventListener('submit', function() {

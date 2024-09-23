@@ -1,6 +1,6 @@
 package com.team3webnovel.vo;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class MusicVo {
     private int creationId;
@@ -8,33 +8,53 @@ public class MusicVo {
     private String lyric;
     private String audioUrl;
     private String imageUrl;
-    private LocalDateTime createdAt;  // 생성 날짜 필드
     private String modelName;
     private String gptDescriptionPrompt;
     private String type;
     private String tags;
+    private Timestamp createdAt;
     private String errorMessage;
 
-    public MusicVo(String title, String lyric, String audioUrl, String imageUrl) {
-        super();
-        this.title = title;
-        this.lyric = lyric;
-        this.audioUrl = audioUrl;
-        this.imageUrl = imageUrl;
-    }
+    // 기본 생성자
+    public MusicVo() {}
 
-    public MusicVo(int creationId, String title, String lyric, String audioUrl, String imageUrl, LocalDateTime createdAt,
-                   String gptDescriptionPrompt, String type, String tags, String errorMessage) {
-        super();
+    
+    
+    public MusicVo(String title, String lyric, String audioUrl, String imageUrl) {
+		super();
+		this.title = title;
+		this.lyric = lyric;
+		this.audioUrl = audioUrl;
+		this.imageUrl = imageUrl;
+	}
+
+
+
+	public MusicVo(int creationId, String title, String audioUrl, String imageUrl, Timestamp createdAt) {
+		super();
+		this.creationId = creationId;
+		this.title = title;
+		this.audioUrl = audioUrl;
+		this.imageUrl = imageUrl;
+		this.createdAt = createdAt;
+	}
+
+
+
+	// 전체 필드를 받는 생성자
+    public MusicVo(int creationId, String title, String lyric, String audioUrl, String imageUrl,
+                   String modelName, String gptDescriptionPrompt, String type, String tags,
+                   Timestamp createdAt, String errorMessage) {
         this.creationId = creationId;
         this.title = title;
         this.lyric = lyric;
         this.audioUrl = audioUrl;
         this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
+        this.modelName = modelName;
         this.gptDescriptionPrompt = gptDescriptionPrompt;
         this.type = type;
         this.tags = tags;
+        this.createdAt = createdAt;
         this.errorMessage = errorMessage;
     }
 
@@ -79,14 +99,6 @@ public class MusicVo {
         this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getModelName() {
         return modelName;
     }
@@ -117,6 +129,14 @@ public class MusicVo {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getErrorMessage() {
