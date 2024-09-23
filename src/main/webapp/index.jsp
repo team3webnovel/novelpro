@@ -8,6 +8,9 @@
     <title>웹소설 플랫폼</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
+    <style>
+
+    </style>
 </head>
 <body>
     <!-- 헤더 포함 -->
@@ -41,10 +44,9 @@
     <!-- 장르 섹션 -->
     <section id="genres" class="genres-section" style="margin-top: 30px;">
         <div class="container">
-            <h2 class="my-4">장르 선택</h2>
             <div class="row">
                 <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="all">
+                    <div class="card text-center genre selected" data-genre="all">
                         <div class="card-body">
                             <h5 class="card-title">전체</h5>
                         </div>
@@ -90,55 +92,59 @@
     </section>
 
     <!-- 카테고리별 소설 섹션 -->
-    <section id="novels" class="novel-section" style="margin-top: 50px;">
+    <section id="novels" class="novel-section" style="margin-top: 10px;">
         <div class="container">
-            <h2 class="my-4">소설 목록</h2>
             <div class="row" id="novel-list">
                 <!-- 소설 항목들 (장르에 맞게 필터링 가능) -->
                 <div class="col-md-4 novel" data-genre="romance_fantasy">
-                    <div class="card mb-4">
-                        <img src="<%=request.getContextPath()%>/static/images/romance_fantasy1.png" class="card-img-top" alt="소설 1">
-                        <div class="card-body">
-                            <h5 class="card-title">소설 1</h5>
-                            <p class="card-text">로맨스판타지 소설 설명.</p>
+                    <a href="<%=request.getContextPath()%>/romance_fantasy/1" style="text-decoration: none; color: inherit;">
+                        <div class="card mb-4">
+                            <img src="<%=request.getContextPath()%>/static/images/romance_fantasy1.png" class="card-img-top" alt="소설 1">
+                            <div class="card-body">
+                                <h5 class="card-title">악녀는 두 번 산다</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 novel" data-genre="modern_fantasy">
-                    <div class="card mb-4">
-                        <img src="<%=request.getContextPath()%>/static/images/modern_fantasy1.png" class="card-img-top" alt="소설 2">
-                        <div class="card-body">
-                            <h5 class="card-title">소설 2</h5>
-                            <p class="card-text">현대판타지 소설 설명.</p>
+                    <a href="<%=request.getContextPath()%>/modern_fantasy/1" style="text-decoration: none; color: inherit;">
+                        <div class="card mb-4">
+                            <img src="<%=request.getContextPath()%>/static/images/modern_fantasy1.png" class="card-img-top" alt="소설 2">
+                            <div class="card-body">
+                                <h5 class="card-title">게이트,그거 내가 열었다</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 novel" data-genre="fantasy">
-                    <div class="card mb-4">
-                        <img src="<%=request.getContextPath()%>/static/images/fantasy1.png" class="card-img-top" alt="소설 3">
-                        <div class="card-body">
-                            <h5 class="card-title">소설 3</h5>
-                            <p class="card-text">판타지 소설 설명.</p>
+                    <a href="<%=request.getContextPath()%>/fantasy/1" style="text-decoration: none; color: inherit;">
+                        <div class="card mb-4">
+                            <img src="<%=request.getContextPath()%>/static/images/fantasy1.png" class="card-img-top" alt="소설 3">
+                            <div class="card-body">
+                                <h5 class="card-title">4000년 만에 귀환한 대마도사</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 novel" data-genre="martial_arts">
-                    <div class="card mb-4">
-                        <img src="<%=request.getContextPath()%>/static/images/martial_arts1.png" class="card-img-top" alt="소설 4">
-                        <div class="card-body">
-                            <h5 class="card-title">소설 4</h5>
-                            <p class="card-text">무협 소설 설명.</p>
+                    <a href="<%=request.getContextPath()%>/martial_arts/1" style="text-decoration: none; color: inherit;">
+                        <div class="card mb-4">
+                            <img src="<%=request.getContextPath()%>/static/images/martial_arts1.png" class="card-img-top" alt="소설 4">
+                            <div class="card-body">
+                                <h5 class="card-title">전생검신</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4 novel" data-genre="romance">
-                    <div class="card mb-4">
-                        <img src="<%=request.getContextPath()%>/static/images/romance1.jpg" class="card-img-top" alt="소설 5">
-                        <div class="card-body">
-                            <h5 class="card-title">소설 5</h5>
-                            <p class="card-text">로맨스 소설 설명.</p>
+                    <a href="<%=request.getContextPath()%>/romance/1" style="text-decoration: none; color: inherit;">
+                        <div class="card mb-4">
+                            <img src="<%=request.getContextPath()%>/static/images/romance1.png" class="card-img-top" alt="소설 5">
+                            <div class="card-body">
+                                <h5 class="card-title">스캔들</h5>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <!-- 추가 소설 항목들 -->
             </div>
@@ -153,9 +159,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        // 기본적으로 전체 버튼이 선택된 상태로 표시
+        filterNovels('all'); // 전체 소설 목록을 보여줌
+
         // 장르 선택 이벤트
         document.querySelectorAll('.genre').forEach(function (element) {
             element.addEventListener('click', function () {
+                // 모든 장르에서 selected 클래스 제거
+                document.querySelectorAll('.genre').forEach(function (el) {
+                    el.classList.remove('selected');
+                });
+                // 클릭한 장르에 selected 클래스 추가
+                this.classList.add('selected');
+
                 const selectedGenre = this.getAttribute('data-genre');
                 filterNovels(selectedGenre);
             });

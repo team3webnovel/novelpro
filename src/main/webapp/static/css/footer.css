@@ -6,7 +6,7 @@ footer {
     bottom: 0; /* 페이지 하단에 위치 */
     left: 0; /* 왼쪽 정렬 */
     width: 100%; /* 너비 100% */
-    background-color: #333; /* 배경 색상 */
+    background-color: #c0c0c0; /* 배경 색상 */
     color: #fff; /* 글자 색상 */
     text-align: center; /* 중앙 정렬 */
     padding: 10px 0; /* 패딩 추가 */
