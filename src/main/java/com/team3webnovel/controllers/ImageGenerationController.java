@@ -43,7 +43,7 @@ public class ImageGenerationController {
     
     @GetMapping("/test")
     public String test() {
-        return "test"; // generate.jsp 페이지로 이동
+        return "asd"; // generate.jsp 페이지로 이동
     }
 
 }
