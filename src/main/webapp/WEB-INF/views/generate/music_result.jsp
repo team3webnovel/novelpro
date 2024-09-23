@@ -17,7 +17,11 @@
             <c:when test="${not empty musicList}">
                 <c:forEach var="music" items="${musicList}">
                     <h2>Title: ${music.title}</h2>
+<<<<<<< HEAD
                     <p>Lyrics: <c:out value="${fn:replace(music.lyric, '\\n', '<br/>')}" escapeXml="false"/></p>
+=======
+                    <p>Lyrics: ${music.lyric}</p>
+>>>>>>> refs/remotes/kyogre/kyogre
 					<img src="${music.imageUrl}" alt="Cover Image" width="300px">
                     <audio controls>
                         <source src="${music.audioUrl}" type="audio/mpeg">

@@ -25,12 +25,39 @@
         <div id="loadingMessage" style="display:none;">
             <p>Generating your music, please wait...</p>
         </div>
+<<<<<<< HEAD
     </form>
 
     <script>
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById('loadingMessage').style.display = 'block';
         });
+=======
+
+        <!-- 에러 메시지 표시 -->
+        <div id="errorMessage" style="display: none;">
+            <strong>Error:</strong> ${errorMessage}
+        </div>
+
+        <!-- 경고 메시지 표시 -->
+        <div id="warningMessage" style="display: none;">
+            <strong>Warning:</strong> ${warningMessage}
+        </div>
+    </form>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('loadingMessage').style.display = 'block';
+        });
+
+        // 에러 메시지나 경고 메시지가 있는 경우 표시
+        if ('${errorMessage}' !== '') {
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+        if ('${warningMessage}' !== '') {
+            document.getElementById('warningMessage').style.display = 'block';
+        }
+>>>>>>> refs/remotes/kyogre/kyogre
     </script>
 </body>
 </html>
