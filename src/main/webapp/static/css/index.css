@@ -1,0 +1,184 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.top-right-links {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.top-right-links a {
+    color: #fff;
+    margin-left: 15px;
+    text-decoration: none;
+    padding: 8px 15px;
+    background-color: #f04e30;
+    border-radius: 5px;
+}
+
+.top-right-links a.btn-login {
+    background-color: #007bff;
+}
+
+.top-right-links a.btn-login:hover {
+    background-color: #0056b3;
+}
+
+/* 네비게이션 스타일 */
+nav {
+    background-color: #333; /* 네비바의 배경색 */
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* 중앙에 위치 */
+}
+
+.navbar li {
+    margin: 0 20px;
+}
+
+.navbar li a {
+    color: #fff; /* 링크 색상 */
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.navbar li a:hover {
+    background-color: #555; /* 링크 호버 시 배경 색상 */
+}
+
+/* 소설 섹션 스타일 */
+.novel-section {
+    padding: 50px 0;
+}
+
+.novel-gallery {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.novel-item {
+    margin: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Result Page Styles */
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #f04e30;
+    margin-bottom: 10px;
+}
+
+img {
+    display: block;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+audio {
+    display: block;
+    margin: 20px 0;
+}
+
+p {
+    color: #666;
+    line-height: 1.6;
+}
+
+form {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button {
+    background-color: #f04e30;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e03e28;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .navbar {
+        flex-direction: column; /* 모바일 화면에서 세로로 나열 */
+    }
+
+    .navbar li {
+        margin: 10px 0;
+    }
+}

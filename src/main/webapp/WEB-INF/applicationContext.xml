@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 데이터베이스 소스 설정 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@tcps://adb.ap-chuncheon-1.oraclecloud.com:1522/g699a7358c7003f_obdehifxdix5mjdt_high.adb.oraclecloud.com?TNS_ADMIN=src/main/resources/wallet"/>
+        <property name="username" value="Team3_project"/>
+        <property name="password" value="T3Proj#Secure"/>
+    </bean>
+
+    <!-- 서비스 Bean 정의 (userDao 주입 제거) -->
+    <bean id="userService" class="com.team3webnovel.services.UserServiceImpl"/>
+
+    <!-- MyBatis 설정 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <!-- MyBatis Mapper 스캔 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.team3webnovel.mappers"/>
+    </bean>
+    
+        <!-- spring-security.xml을 import -->
+	<import resource="spring-security.xml"/>
+   <bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
+    <property name="encoding" value="UTF-8" />
+    <property name="forceEncoding" value="true" />
+</bean>
+
+</beans>
