@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Generation Result</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -33,5 +32,8 @@
 
         <a href="<%= request.getContextPath() %>/generate-music" class="btn">Generate Another Music</a>
     </div>
+    <p>
+        <a href="<%= request.getContextPath() %>/storage-music">Go to Music Storage</a>
+    </p>
 </body>
 </html>
