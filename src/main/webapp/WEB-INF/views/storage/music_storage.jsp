@@ -60,7 +60,7 @@
             <div class="music-item" id="musicItem${music.creationId}">
                 <!-- 이미지 클릭 시 오디오 재생 -->
                 <img src="${music.imageUrl}" alt="Cover Image" onclick="playMusic('${music.creationId}', '${music.audioUrl}')">
-                <h3>${music.title}</h3>
+                 <h3><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}">${music.title}</a></h3>
                 <button class="play-button" id="playButton${music.creationId}">⏵</button>
                 <audio id="audioPlayer${music.creationId}" controls>
                     <source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
