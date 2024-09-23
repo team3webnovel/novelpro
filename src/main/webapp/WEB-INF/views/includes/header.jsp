@@ -28,6 +28,8 @@
 				class="btn-primary"> <i class="bi bi-music-note"></i> <!-- 음악 생성 -->
 			</a> <a href="<%=request.getContextPath()%>/generate-image"
 				class="btn-primary"> <i class="bi bi-image"></i> <!-- 이미지 생성 -->
+			</a> <a href="<%=request.getContextPath()%>/generate-search"
+				class="btn-primary"> <i class="bi bi-search"></i> <!-- 검색 -->
 			</a>
 
 			<c:choose>
