@@ -36,7 +36,7 @@
 			</a> <a href="<%=request.getContextPath()%>/generate-search"
 				class="btn-primary"> <i class="bi bi-search"></i> <!-- 검색 -->
 			</a>
-
+            <!-- 세션에 사용자가 있는지 확인하여 로그인/로그아웃 및 마이페이지 표시 -->
 			<c:choose>
 				<c:when test="${not empty sessionScope.user}">
 					<a href="<%=request.getContextPath()%>/mypage" class="btn-primary">

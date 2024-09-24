@@ -6,6 +6,7 @@ import java.util.Map;
 
 public interface MusicService {
     List<MusicVo> generateMusic(String prompt, boolean makeInstrumental, Map<String, String> errorMap) throws Exception;
+    
     // 새롭게 추가된 저장된 음악을 불러오는 메서드
     List<MusicVo> getStoredMusicByUserId(Integer userId);
     
