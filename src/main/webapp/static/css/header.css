@@ -19,15 +19,32 @@ header {
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
-    justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
-    align-items: center;
+    align-items: center; /* 세로 정렬 */
     height: 100%;
+}
+
+/* 제목 스타일 */
+.header-title {
+    font-size: 1.3rem; /* 폰트 크기 조정 */
+    color: white; /* 기본 색상 */
+    margin-right: 20px; /* 리뷰/홍보와의 간격 */
+    font-weight: bold; /* 두껍게 설정 */
+    line-height: 90px; /* 헤더 높이에 맞춰 세로 정렬 */
+}
+
+/* 리뷰/홍보 스타일 */
+.promo {
+    font-size: 1.2rem; /* 폰트 크기 조정 */
+    color: white; /* 기본 색상 */
+    margin-left: 40px; /* 노벨미디어와의 간격 */
+    line-height: 90px; /* 헤더 높이에 맞춰 세로 정렬 */
 }
 
 /* top-right-links 스타일 */
 .top-right-links {
     display: flex;
     align-items: center;
+    margin-left: auto; /* 오른쪽 정렬 */
 }
 
 /* 버튼 스타일 */
