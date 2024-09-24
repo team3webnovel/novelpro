@@ -1,6 +1,11 @@
 package com.team3webnovel.controllers;
 
-import com.team3webnovel.services.MusicServiceImpl;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.people.v1.PeopleService;
+import com.google.api.services.people.v1.model.Person;
+import com.team3webnovel.services.GoogleOAuthService;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
 
@@ -19,9 +24,11 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    private final Logger logger = LoggerFactory.getLogger(MusicController.class);
+    @Autowired
+    private GoogleOAuthService googleOAuthService;
 
-    
+    private final Logger logger = LoggerFactory.getLogger(UsersController.class);
+
     // 회원가입 페이지 보여주기
     @GetMapping("/register")
     public String showRegisterPage() {
@@ -82,12 +89,8 @@ public class UsersController {
             return "users/login"; // 로그인 페이지로 다시 이동
         }
 
-     // 로그인 성공 시 세션에 사용자 정보 저장
-        session.setAttribute("user_id", user.getUserId());
-        session.setAttribute("username", user.getUsername());
-        session.setAttribute("email", user.getEmail());
-        session.setAttribute("password", user.getPassword());
-        session.setAttribute("created_at", user.getCreatedAt());
+        // 로그인 성공 시 세션에 사용자 정보 저장
+        session.setAttribute("user", user);
 
         // 각 필드별로 로그 출력
         logger.debug("로그인 성공: user_id = {}", user.getUserId());
@@ -100,30 +103,63 @@ public class UsersController {
         logger.debug("로그인 성공: user_id = {}, username = {}, email = {}, created_at = {}", 
                       user.getUserId(), user.getUsername(), user.getEmail(), user.getCreatedAt());
 
-
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
-        
     }
 
     // 로그아웃 처리
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+        logger.debug("로그아웃 요청: 세션 ID = {}", session.getId());
         session.invalidate(); // 세션 무효화
         return "redirect:/login?logout=true"; // 로그아웃 후 로그인 페이지로 리다이렉트
     }
-    
+
     // 마이페이지 보여주기 (로그인된 사용자만 접근 가능)
     @GetMapping("/mypage")
     public String showMyPage(HttpSession session, Model model) {
         UserVo user = (UserVo) session.getAttribute("user");
-        
         if (user == null) {
-            // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+            logger.debug("사용자가 로그인하지 않았습니다.");
             return "redirect:/login";
+        } else {
+            logger.debug("로그인된 사용자: user_id = {}", user.getUserId());
         }
-        
-        // 로그인한 사용자의 정보를 모델에 추가
-        model.addAttribute("user", user);
-        return "users/mypage";  // /WEB-INF/views/users/mypage.jsp로 이동
+
+        // 유저가 로그인한 경우 마이페이지로 이동
+        model.addAttribute("user", user);  // 마이페이지에 사용자 정보 전달
+        return "users/mypage";  // users/mypage.jsp로 이동
+    }
+
+    // Google OAuth 로그인 페이지로 이동
+    @GetMapping("/google-login")
+    public String googleLogin() {
+        logger.debug("Google 로그인 요청.");
+        String authorizationUrl = googleOAuthService.getAuthorizationUrl();
+        logger.debug("Authorization URL: {}", authorizationUrl);
+        return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+    }
+
+    // Google OAuth 콜백 처리
+    @GetMapping("/callback")
+    public String googleCallback(@RequestParam("code") String code, HttpSession session, Model model) {
+        try {
+            logger.debug("Google OAuth 콜백 처리 시작. Code: {}", code);
+            System.err.println("콜백 진입!!!");
+            // Google OAuth 서비스에서 사용자 정보 가져오기
+            UserVo user = googleOAuthService.getUserInfo(code);
+
+            logger.debug("Google OAuth에서 사용자 정보 가져옴: username = {}, email = {}", 
+                         user.getUsername(), user.getEmail());
+
+            // 세션에 사용자 정보 저장
+            session.setAttribute("user", user);
+            logger.debug("세션 ID: {}, 세션에 저장된 사용자: {}", session.getId(), session.getAttribute("user"));
+
+            return "redirect:/";  // 로그인 성공 후 홈페이지로 리다이렉트
+        } catch (Exception e) {
+            logger.error("Google OAuth 로그인 실패", e);
+            model.addAttribute("message", "Google 로그인 중 오류가 발생했습니다.");
+            return "users/login";  // 로그인 페이지로 다시 이동
+        }
     }
 }

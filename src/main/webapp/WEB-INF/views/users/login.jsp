@@ -1,9 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,12 +16,19 @@
             <h2>당신의 이야기를 꾸며드릴게요!<br>자유 연재 플랫폼 아일란드</h2>
         </div>
 
-        <!-- form 태그에서 action 속성에 /login URL을 명시하여 POST 요청을 전송 -->
+        <!-- 기존 로그인 폼 -->
         <form id="loginForm" action="<%= request.getContextPath() %>/login" method="post">
             <input type="text" id="username" name="username" placeholder="아이디" required><br>
             <input type="password" id="password" name="password" placeholder="비밀번호" required><br>
             <button type="submit" class="login-btn">로그인</button>
         </form>
+
+        <!-- 구글 로그인 버튼 추가 -->
+        <div class="google-login">
+            <form action="<%= request.getContextPath() %>/google-login" method="get">
+                <button type="submit" class="google-login-btn">Login with Google</button>
+            </form>
+        </div>
 
         <div class="login-options">
             <a href="#">아이디 찾기</a> |
