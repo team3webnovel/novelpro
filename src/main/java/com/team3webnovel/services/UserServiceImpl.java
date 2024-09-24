@@ -27,7 +27,10 @@ public class UserServiceImpl implements UserService {
         logger.debug("findUserByUsername called with username: {}", username);
         return userMapper.findUserByUsername(username);
     }
-
+    
+    public UserVo findUserByEmail(String email) {
+        return userMapper.findUserByEmail(email);
+    }
     @Override
     @Transactional  // 트랜잭션 활성화
     public void registerUser(UserVo user) {

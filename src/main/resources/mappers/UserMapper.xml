@@ -20,6 +20,13 @@
         WHERE USERNAME = #{username}
     </select>
 
+    <!-- email로 사용자 찾기 쿼리 추가 -->
+    <select id="findUserByEmail" parameterType="String" resultType="com.team3webnovel.vo.UserVo">
+        SELECT USER_ID, USERNAME, EMAIL, PASSWORD, CREATED_AT
+        FROM users
+        WHERE EMAIL = #{email}
+    </select>
+
     <!-- User 삽입 -->
     <insert id="insertUser" parameterType="com.team3webnovel.vo.UserVo">
         INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) 

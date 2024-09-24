@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team3webnovel.mappers.MusicMapper;
 import com.team3webnovel.vo.MusicVo;
+import com.team3webnovel.vo.UserVo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -35,10 +36,12 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public List<MusicVo> generateMusic(String prompt, boolean makeInstrumental, Map<String, String> errorMap) throws Exception {
         // 세션에서 user_id 가져오기
-        Integer userId = (Integer) session.getAttribute("user_id");
-        if (userId == null) {
-            throw new RuntimeException("로그인한 사용자만 음악 생성을 할 수 있습니다.");
-        }
+    	UserVo user = (UserVo) session.getAttribute("user");
+    	if (user == null) {
+    	    throw new RuntimeException("로그인한 사용자만 음악 생성을 할 수 있습니다.");
+    	}
+    	Integer userId = user.getUserId();  // user 객체에서 user_id를 가져옴
+
         int artForm = 1;  // music의 art_form은 1로 설정
         logger.debug("세션에서 가져온 user_id: {}", userId);
 

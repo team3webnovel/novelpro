@@ -7,5 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     UserVo findUserByUsername(String username);
 
+    UserVo findUserByEmail(String email);  // 이메일로 사용자 조회 메서드 추가
+
     void insertUser(UserVo user);
 }

@@ -1,10 +1,5 @@
 package com.team3webnovel.controllers;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.people.v1.PeopleService;
-import com.google.api.services.people.v1.model.Person;
 import com.team3webnovel.services.GoogleOAuthService;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
@@ -99,10 +94,6 @@ public class UsersController {
         logger.debug("로그인 성공: password = {}", user.getPassword());  // 보안 상 실제로는 password는 로그에 찍지 않는 것이 좋습니다.
         logger.debug("로그인 성공: created_at = {}", user.getCreatedAt());
 
-        // 혹은 한 번에 모든 정보를 출력
-        logger.debug("로그인 성공: user_id = {}, username = {}, email = {}, created_at = {}", 
-                      user.getUserId(), user.getUsername(), user.getEmail(), user.getCreatedAt());
-
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
     }
 
@@ -114,16 +105,10 @@ public class UsersController {
         return "redirect:/login?logout=true"; // 로그아웃 후 로그인 페이지로 리다이렉트
     }
 
-    // 마이페이지 보여주기 (로그인된 사용자만 접근 가능)
+    // 마이페이지 보여주기
     @GetMapping("/mypage")
     public String showMyPage(HttpSession session, Model model) {
         UserVo user = (UserVo) session.getAttribute("user");
-        if (user == null) {
-            logger.debug("사용자가 로그인하지 않았습니다.");
-            return "redirect:/login";
-        } else {
-            logger.debug("로그인된 사용자: user_id = {}", user.getUserId());
-        }
 
         // 유저가 로그인한 경우 마이페이지로 이동
         model.addAttribute("user", user);  // 마이페이지에 사용자 정보 전달
@@ -139,27 +124,64 @@ public class UsersController {
         return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
     }
 
-    // Google OAuth 콜백 처리
+ // Google OAuth 콜백 처리
     @GetMapping("/callback")
     public String googleCallback(@RequestParam("code") String code, HttpSession session, Model model) {
         try {
             logger.debug("Google OAuth 콜백 처리 시작. Code: {}", code);
             System.err.println("콜백 진입!!!");
+
             // Google OAuth 서비스에서 사용자 정보 가져오기
-            UserVo user = googleOAuthService.getUserInfo(code);
-
+            UserVo googleUser = googleOAuthService.getUserInfo(code);
             logger.debug("Google OAuth에서 사용자 정보 가져옴: username = {}, email = {}", 
-                         user.getUsername(), user.getEmail());
+                         googleUser.getUsername(), googleUser.getEmail());
 
-            // 세션에 사용자 정보 저장
-            session.setAttribute("user", user);
+            // DB에서 해당 이메일로 사용자가 있는지 확인
+            UserVo existingUser = userService.findUserByEmail(googleUser.getEmail());
+
+            if (existingUser != null) {
+                // 사용자가 이미 DB에 있는 경우 세션에 기존 사용자 정보 저장
+                session.setAttribute("user", existingUser);
+                logger.debug("기존 사용자 세션에 저장: {}", existingUser);
+            } else {
+                // 사용자가 DB에 없는 경우 새로 등록 (패스워드는 null로 설정 가능)
+                googleUser.setPassword(null); // 구글 로그인 시 패스워드는 사용하지 않음
+                userService.registerUser(googleUser);
+                session.setAttribute("user", googleUser);
+                logger.debug("새로운 사용자 등록 후 세션에 저장: {}", googleUser);
+            }
+
             logger.debug("세션 ID: {}, 세션에 저장된 사용자: {}", session.getId(), session.getAttribute("user"));
-
             return "redirect:/";  // 로그인 성공 후 홈페이지로 리다이렉트
         } catch (Exception e) {
             logger.error("Google OAuth 로그인 실패", e);
             model.addAttribute("message", "Google 로그인 중 오류가 발생했습니다.");
             return "users/login";  // 로그인 페이지로 다시 이동
         }
+    }
+    
+    // 아이디 찾기 페이지 보여주기
+    @GetMapping("/find-id")
+    public String showFindIdPage() {
+        return "users/findId"; // /WEB-INF/views/users/findId.jsp로 이동
+    }
+    // 아이디 찾기 처리
+    @PostMapping("/find-id")
+    public String findIdByEmail(@RequestParam("email") String email, Model model) {
+        try {
+            // 이메일로 아이디를 찾음
+            UserVo user = userService.findUserByEmail(email);
+
+            if (user != null) {
+                model.addAttribute("message", "해당 이메일로 등록된 아이디는: " + user.getUsername() + " 입니다.");
+            } else {
+                model.addAttribute("errorMessage", "해당 이메일로 등록된 아이디가 없습니다.");
+            }
+        } catch (Exception e) {
+            logger.error("아이디 찾기 중 오류 발생", e);
+            model.addAttribute("errorMessage", "아이디 찾기 중 오류가 발생했습니다.");
+        }
+
+        return "users/findId"; // 다시 아이디 찾기 페이지로 이동
     }
 }

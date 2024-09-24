@@ -26,12 +26,15 @@
         <!-- 구글 로그인 버튼 추가 -->
         <div class="google-login">
             <form action="<%= request.getContextPath() %>/google-login" method="get">
-                <button type="submit" class="google-login-btn">Login with Google</button>
+                <!-- 이미지가 버튼으로 동작 -->
+                <button type="submit" class="google-login-btn" style="background: none; border: none;">
+                    <img src="<%= request.getContextPath() %>/static/icons/signInWithGoogle.png" alt="Login with Google" style="width: 300px;">
+                </button>
             </form>
         </div>
 
         <div class="login-options">
-            <a href="#">아이디 찾기</a> |
+            <a href="<%= request.getContextPath() %>/find-id">아이디 찾기</a> |
             <a href="#">비밀번호 재설정</a> |
             <a href="<%= request.getContextPath() %>/register">회원가입</a>
         </div>

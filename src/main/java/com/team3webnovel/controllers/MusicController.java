@@ -2,6 +2,8 @@ package com.team3webnovel.controllers;
 
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.vo.MusicVo;
+import com.team3webnovel.vo.UserVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,20 +63,10 @@ public class MusicController {
     // GET 요청: /storage-music 페이지 (저장된 음악을 가져오는 로직)
     @GetMapping("/storage-music")
     public String showMusicStorage(HttpSession session, Model model) {
-    	
-        if (!isLoggedIn(session)) {
-            return "redirect:/login"; // 세션이 없으면 로그인 페이지로 리다이렉트
-        }
-
-        // 세션에서 user_id 가져오기
-        Integer userId = (Integer) session.getAttribute("user_id");
-        if (userId == null) {
-            model.addAttribute("errorMessage", "로그인이 필요합니다.");
-            return "storage/music_storage";
-        }
-
+    	 // 세션에서 user_id를 가져옴
+        UserVo user = (UserVo) session.getAttribute("user");
         // userId와 artForm = 1인 음악들을 가져오기
-        List<MusicVo> musicList = musicService.getStoredMusicByUserId(userId);
+        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
 
         // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
@@ -91,17 +83,8 @@ public class MusicController {
     // 개별 음악 정보 조회
     @GetMapping("/music_detail/{creationId}")
     public String getMusicDetails(@PathVariable("creationId") int creationId, Model model, HttpSession session) {
-        if (!isLoggedIn(session)) {
-            return "redirect:/login"; // 세션이 없으면 로그인 페이지로 리다이렉트
-        }
         MusicVo music = musicService.getMusicDetailsByCreationId(creationId);
         model.addAttribute("music", music);
         return "storage/music_detail"; // 상세 정보 페이지로 이동
     }
-    
-    // 세션 유효성 확인
-    private boolean isLoggedIn(HttpSession session) {
-        return session.getAttribute("user_id") != null;
-    }
-    
 }
