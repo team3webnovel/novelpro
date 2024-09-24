@@ -164,13 +164,27 @@ nav {
 	border-radius: 5px; /* 링크 모서리 둥글게 */
 }
 
-/* 푸터 스타일 */
+/* Footer 고정 스타일 */
 footer {
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	padding: 20px 0;
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 0;
+    width: 100%;
 }
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container p {
+    margin: 0;
+    font-size: 1rem;
+}
+
 
 /* 반응형 미디어 쿼리 */
 @media ( max-width : 1200px) {
