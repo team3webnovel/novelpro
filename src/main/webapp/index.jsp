@@ -71,6 +71,7 @@
 		</div>
 	</section>
 
+	<!-- 인기 소설 섹션 -->
 	<section id="popular" class="novel-section" style="margin-top: 50px;">
 		<div class="container">
 			<h2 class="my-4">인기 소설</h2>
@@ -87,6 +88,18 @@
 					</div>
 				</div>
 				<!-- 추가 소설 항목들 -->
+			</div>
+		</div>
+	</section>
+
+	<!-- 게시판 버튼 섹션 추가 -->
+	<section id="board-section" class="novel-section" style="margin-top: 50px;">
+		<div class="container">
+			<h2 class="my-4">게시판</h2>
+			<div class="text-center">
+				<a href="<%=request.getContextPath()%>/posts" class="btn btn-primary btn-lg">
+					게시판으로 이동
+				</a>
 			</div>
 		</div>
 	</section>
