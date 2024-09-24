@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <head>
@@ -6,7 +6,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/static/css/header.css">
-<!-- 헤더 스타일 추가 -->
 <script>
 	window.addEventListener('scroll', function() {
 		const header = document.querySelector('header');
@@ -21,25 +20,31 @@
 
 <header>
 	<div class="header-container">
+		<div class="header-title">
+			<a href="<%=request.getContextPath()%>/"
+				style="text-decoration: none; color: inherit;"> 노벨미디어 </a>
+		</div>
+		<div class="promo">
+			<a href="<%=request.getContextPath()%>/promo"
+				style="text-decoration: none; color: inherit;"> 리뷰/홍보 </a>
+		</div>
 		<div class="top-right-links">
-			<a href="<%=request.getContextPath()%>/" class="btn-primary"> <i
-				class="bi bi-house"></i> <!-- 홈 -->
-			</a> <a href="<%=request.getContextPath()%>/generate-music"
+			<a href="<%=request.getContextPath()%>/generate-music"
 				class="btn-primary"> <i class="bi bi-music-note"></i> <!-- 음악 생성 -->
 			</a> <a href="<%=request.getContextPath()%>/generate-image"
 				class="btn-primary"> <i class="bi bi-image"></i> <!-- 이미지 생성 -->
+			</a> <a href="<%=request.getContextPath()%>/generate-search"
+				class="btn-primary"> <i class="bi bi-search"></i> <!-- 검색 -->
 			</a>
 
 			<c:choose>
-
 				<c:when test="${not empty sessionScope.user}">
-					<a href="<%=request.getContextPath()%>/mypage"
-						class="btn-primary"> <i class="bi bi-person-circle"></i> <!-- 마이페이지 -->
+					<a href="<%=request.getContextPath()%>/mypage" class="btn-primary">
+						<i class="bi bi-person-circle"></i> <!-- 마이페이지 -->
 					</a>
 					<a href="<%=request.getContextPath()%>/logout" class="btn-login">
 						<i class="bi bi-box-arrow-right"></i> <!-- 로그아웃 -->
 					</a>
-
 				</c:when>
 				<c:otherwise>
 					<a href="<%=request.getContextPath()%>/login" class="btn-login">
