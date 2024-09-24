@@ -1,6 +1,7 @@
 package com.team3webnovel.controllers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -92,6 +93,12 @@ public class ImageGenerator {
                 String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imagePath = Paths.get(IMAGE_SAVE_FOLDER, "generated_image_" + timestamp + ".png").toString(); // 파일명 지정
 
+                // 이미지 저장 폴더가 존재하는지 확인하고, 없으면 생성
+                File saveFolder = new File(IMAGE_SAVE_FOLDER);
+                if (!saveFolder.exists()) {
+                    saveFolder.mkdirs(); // 경로 생성
+                }
+                
                 // 서버에 이미지를 파일로 저장
                 try (FileOutputStream fos = new FileOutputStream(imagePath)) {
                     fos.write(imageBytes);

@@ -194,4 +194,19 @@ public class MusicServiceImpl implements MusicService {
 
         return true;
     }
+
+    @Override
+    public List<MusicVo> getStoredMusicByUserId(Integer userId) {
+        // MyBatis Mapper 가져오기
+        MusicMapper mapper = sqlSession.getMapper(MusicMapper.class);
+        // userId와 artForm = 1에 맞는 음악 데이터 가져오기
+        return mapper.getMusicByUserIdAndArtForm(userId, 1);  // artForm 1은 음악
+    }
+    
+    @Override
+    public MusicVo getMusicDetailsByCreationId(int creationId) {
+        MusicMapper mapper = sqlSession.getMapper(MusicMapper.class);
+        return mapper.getMusicByCreationId(creationId);
+    }
+    
 }
