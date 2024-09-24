@@ -21,7 +21,6 @@
 </head>
 
 <header>
-
     <div class="header-container container d-flex justify-content-between align-items-center py-2">
         <div class="header-title">
             <a href="<%=request.getContextPath()%>/"
@@ -63,4 +62,3 @@
         </div>
     </div>
 </header>
-
