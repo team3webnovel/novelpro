@@ -41,6 +41,8 @@
             <option value="DPM++ 2M">DPM++ 2M</option>
             <option value="DPM++ 2M SDE">DPM++ 2M SDE</option>
             <option value="IPNDM_V">IPNDM_V</option>
+            <option value="LMS">LMS</option>
+            <option value="LCM">LCM</option>
         </select>
         <br><br>
 
