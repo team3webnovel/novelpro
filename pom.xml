@@ -123,6 +123,7 @@
         <artifactId>mybatis-spring</artifactId>
         <version>3.0.4</version>
     </dependency>
+    
 	<dependency>
 	    <groupId>org.json</groupId>
     	<artifactId>json</artifactId>

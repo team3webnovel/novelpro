@@ -252,6 +252,12 @@
 		        <label><input type="checkbox" value="in castle"><span> 성 안</span></label>
 		        <label><input type="checkbox" value="cliff"><span> 절벽</span></label>
 		    </div>
+		    
+		    <div class="hidden">
+		    	<label><input type="checkbox" value="animal ears"><span> 동물귀</span></label>
+		    	<label><input type="checkbox" value="thighhighs"><span> 사이하이</span></label>
+		    	<label><input type="checkbox" value=""><span> </span></label>
+		    </div>
 
 		    <button type="submit">이미지 생성</button>
 		    <div id="spinner" style="display:none;">Loading...</div> <!-- 스피너 추가 -->
