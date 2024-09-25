@@ -194,7 +194,7 @@
         			<input type="checkbox" value="1girl, high resolution, Beautiful detailed eyes">
         			<span> 여자</span>
         		</label>
-        		<label><input type="checkbox" value="1boy"><span> 남자</span></label>
+        		<label><input type="checkbox" value="1boy, man"><span> 남자</span></label>
         	</div>
 		    
 		    <div class="hidden">
