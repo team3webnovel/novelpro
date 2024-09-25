@@ -5,29 +5,75 @@
 
 <mapper namespace="com.team3webnovel.mappers.MusicMapper">
 
-    <!-- creation 테이블에 데이터 삽입 -->
-	<insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
-	    INSERT INTO creation (user_id, art_form)
-	    VALUES (#{userId}, #{artForm})
-	</insert>
+    <!-- creation 테이블에 데이터 삽입 (CREATION_ID는 시퀀스에 의해 자동 생성됨) -->
+    <insert id="insertCreation" parameterType="map">
+        INSERT INTO creation (user_id, art_form)
+        VALUES (#{userId}, #{artForm})
+    </insert>
 
     <!-- 마지막으로 삽입된 creation_id 가져오기 -->
-	<select id="getLastCreationId" resultType="int">
-	    SELECT MAX(creation_id) FROM creation
-	</select>
+    <select id="getLastCreationId" resultType="int">
+        SELECT MAX(creation_id) FROM creation
+    </select>
 
+    <!-- music_data 테이블에 음악 데이터 삽입 (CREATED_AT은 SYSDATE로 자동 설정됨) -->
+    <insert id="insertMusicData" parameterType="map">
+        INSERT INTO music_data (
+            creation_id, title, lyric, audio_url, image_url, model_name,
+            gpt_description_prompt, type, tags, error_message
+        )
+        VALUES (
+            #{creationId}, #{title}, #{lyric}, #{audioUrl}, #{imageUrl},
+            #{modelName}, #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
+        )
+    </insert>
 
-    <!-- music_data 테이블에 음악 데이터 삽입 -->
-	<insert id="insertMusicData" parameterType="map">
-	    INSERT INTO music_data (
-	        creation_id, title, lyric, audio_url, image_url, model_name,
-	        gpt_description_prompt, type, tags, error_message
-	    )
-	    VALUES (
-	        #{creationId}, #{title}, #{lyric}, #{audioUrl}, #{imageUrl},
-	        #{modelName}, #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
-	    )
-	</insert>
+    <!-- 기본적인 음악 정보에 대한 resultMap -->
+    <resultMap id="musicResultMap" type="com.team3webnovel.vo.MusicVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="audioUrl" column="AUDIO_URL"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+    </resultMap>
 
+    <!-- 특정 user_id와 art_form을 기준으로 음악 리스트 조회 -->
+    <select id="getMusicByUserIdAndArtForm" parameterType="map" resultMap="musicResultMap">
+        SELECT 
+            md.CREATION_ID,
+            md.TITLE,
+            md.IMAGE_URL,
+            md.AUDIO_URL,
+            md.CREATED_AT
+        FROM creation c
+        JOIN music_data md ON c.CREATION_ID = md.CREATION_ID
+        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+        ORDER BY md.CREATED_AT
+    </select>
+
+    <!-- 음악 상세 정보를 위한 resultMap -->
+    <resultMap id="musicDetailResultMap" type="com.team3webnovel.vo.MusicVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="lyric" column="LYRIC" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result property="audioUrl" column="AUDIO_URL"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="modelName" column="MODEL_NAME"/>
+        <result property="gptDescriptionPrompt" column="GPT_DESCRIPTION_PROMPT" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+        <result property="type" column="TYPE"/>
+        <result property="tags" column="TAGS"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+        <result property="errorMessage" column="ERROR_MESSAGE" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+    </resultMap>
+
+    <!-- creation_id로 특정 음악의 상세 정보 조회 -->
+    <select id="getMusicByCreationId" parameterType="int" resultMap="musicDetailResultMap">
+        SELECT 
+            CREATION_ID, TITLE, LYRIC, AUDIO_URL, IMAGE_URL, 
+            MODEL_NAME, GPT_DESCRIPTION_PROMPT, 
+            TYPE, TAGS, CREATED_AT, ERROR_MESSAGE
+        FROM music_data
+        WHERE CREATION_ID = #{creationId}
+    </select>
 
 </mapper>
