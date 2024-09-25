@@ -1,7 +1,8 @@
+/* 기본 스타일 */
 body {
-    background-color: #000; /* 검은 배경 */
+    background-color: #f0f0f0; /* 연한 회색 배경 */
     font-family: 'Arial', sans-serif;
-    color: #ffffff; /* 기본 텍스트 색상을 흰색으로 */
+    color: #333; /* 기본 텍스트 색상 */
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,56 +10,73 @@ body {
     min-height: 100vh; /* 최소 높이를 100vh로 설정 */
 }
 
+/* 컨테이너 */
 .container {
-    background-color: #1e1e1e; /* 어두운 회색 배경 */
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    background-color: #ffffff; /* 흰색 배경 */
+    border-radius: 8px; /* 둥근 모서리 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
     padding: 20px; /* 패딩 */
     margin: 20px auto; /* 상하 여백 추가 및 중앙 정렬 */
     width: 90%; /* 너비 조정 */
-    max-width: 500px; /* 최대 너비 설정 */
+    max-width: 600px; /* 최대 너비 설정 */
     flex: 1; /* 컨테이너가 화면을 꽉 채우도록 설정 */
     display: flex;
     flex-direction: column; /* 내부 요소들을 세로로 배치 */
     justify-content: center; /* 중앙 정렬 */
 }
 
+/* 제목 스타일 */
 h1 {
     font-size: 2rem; /* 제목 크기 */
-    color: #ffffff; /* 제목 색상 흰색 */
+    color: #333; /* 제목 색상 */
     margin-bottom: 15px; /* 여백 조정 */
 }
 
+/* 폼 그룹 스타일 */
 .form-group label {
     font-weight: bold;
-    color: #ffffff; /* 레이블 색상 흰색 */
+    color: #333; /* 레이블 색상 */
 }
 
 .form-control {
-    background-color: #333; /* 입력 필드 배경색 */
-    color: #ffffff; /* 입력 필드 글자 색상 */
-    border: 1px solid #444; /* 경계선 색상 */
+    background-color: #ffffff; /* 입력 필드 배경색 */
+    color: #333; /* 입력 필드 글자 색상 */
+    border: 1px solid #ccc; /* 경계선 색상 */
+    border-radius: 4px; /* 둥근 모서리 */
+    padding: 10px; /* 패딩 */
 }
 
+/* 버튼 스타일 */
 .btn {
     font-size: 1rem; /* 버튼 크기 */
     background-color: #6f42c1; /* 버튼 배경색 */
     color: #ffffff; /* 버튼 텍스트 색상 흰색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 4px; /* 둥근 모서리 */
+    padding: 10px 15px; /* 패딩 */
+    cursor: pointer; /* 포인터 커서 */
+    transition: background-color 0.3s; /* 배경색 변화 효과 */
 }
 
+.btn:hover {
+    background-color: #5a32a2; /* 호버 시 배경색 변화 */
+}
+
+/* 로딩 메시지 스타일 */
 #loadingMessage {
     font-size: 1rem; /* 텍스트 크기 */
     color: #6c757d; /* 텍스트 색상 조정 */
 }
 
+/* 경고 스타일 */
 .alert {
     display: none;
 }
 
 /* Footer 고정 스타일 */
 footer {
-    background-color: #343a40;
-    color: #fff;
+    background-color: #343a40; /* 어두운 배경 */
+    color: #fff; /* 텍스트 색상 */
     padding: 10px 0;
     width: 100%;
 }

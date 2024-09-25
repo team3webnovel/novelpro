@@ -12,12 +12,12 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Your Stored Music</h1>
+        <h1 class="text-center mb-4 text-dark">Your Stored Music</h1>
         <div class="music-gallery">
             <c:forEach var="music" items="${musicList}">
                 <div class="music-item" id="musicItem${music.creationId}">
                     <img src="${music.imageUrl}" alt="Cover Image" onclick="playMusic('${music.creationId}', '${music.audioUrl}')">
-                    <h3><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}" class="text-white">${music.title}</a></h3>
+                    <h3 class="text-dark"><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}" class="text-dark">${music.title}</a></h3>
                     <button class="play-button" id="playButton${music.creationId}">⏵</button>
                     <audio id="audioPlayer${music.creationId}" controls>
                         <source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
@@ -27,8 +27,8 @@
             </c:forEach>
         </div>
     </div>
-	
-	<!-- 푸터 포함 -->
+    
+    <!-- 푸터 포함 -->
     <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
   
     <script>

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_result.css"> <!-- CSS 링크 추가 -->
 </head>
-<body class="bg-dark text-white">
+<body class="bg-light text-dark">
     <div class="container mt-5">
         <h1 class="text-center mb-4">Music Generation Result</h1>
 
@@ -23,7 +23,7 @@
                             <div class="lyrics">
                                 <h2 class="h5">Title: ${music.title}</h2>
                                 <div class="lyric-content">
-                                    <p>Lyrics: ${music.lyric}</p>
+                                    <p>Lyrics: ${music.lyric != null ? music.lyric : 'No lyrics available'}</p>
                                 </div>
                                 <audio controls class="w-100 mt-2">
                                     <source src="${music.audioUrl}" type="audio/mpeg">
@@ -43,7 +43,7 @@
             <a href="<%= request.getContextPath() %>/generate-music" class="btn btn-primary">Generate Another Music</a>
         </div>
         <p class="text-center mt-2">
-            <a href="<%= request.getContextPath() %>/storage-music" class="text-white">Go to Music Storage</a>
+            <a href="<%= request.getContextPath() %>/storage-music" class="text-dark">Go to Music Storage</a>
         </p>
     </div>
 
