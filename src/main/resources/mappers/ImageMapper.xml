@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3webnovel.mappers.ImageMapper">
+
+    <!-- creation 테이블에 데이터 삽입 (CREATION_ID는 시퀀스에 의해 자동 생성됨) -->
+    <insert id="insertCreation" parameterType="map">
+        INSERT INTO creation (user_id, art_form)
+        VALUES (#{userId}, #{artForm})
+    </insert>
+
+    <!-- 마지막으로 삽입된 creation_id 가져오기 -->
+    <select id="getLastCreationId" resultType="int">
+        SELECT MAX(creation_id) FROM creation
+    </select>
+
+    <!-- image_data 테이블에 이미지 데이터 삽입 (CREATED_AT은 SYSDATE로 자동 설정됨) -->
+    <insert id="insertImageData" parameterType="map">
+        INSERT INTO image_data (
+            creation_id, title, image_url, description, model_name,
+            gpt_description_prompt, type, tags, error_message
+        )
+        VALUES (
+            #{creationId}, #{title}, #{imageUrl}, #{description}, #{modelName},
+            #{gptDescriptionPrompt}, #{type}, #{tags}, #{errorMessage}
+        )
+    </insert>
+
+    <!-- 기본적인 이미지 정보에 대한 resultMap -->
+    <resultMap id="imageResultMap" type="com.team3webnovel.vo.ImageVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+    </resultMap>
+
+    <!-- 특정 user_id와 art_form을 기준으로 이미지 리스트 조회 -->
+    <select id="getImageByUserIdAndArtForm" parameterType="map" resultMap="imageResultMap">
+        SELECT 
+            id.CREATION_ID,
+            id.TITLE,
+            id.IMAGE_URL,
+            id.DESCRIPTION,
+            id.CREATED_AT
+        FROM creation c
+        JOIN image_data id ON c.CREATION_ID = id.CREATION_ID
+        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+        ORDER BY id.CREATED_AT
+    </select>
+</mapper>
