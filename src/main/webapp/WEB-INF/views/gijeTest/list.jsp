@@ -144,6 +144,7 @@
 	    }
 	}
 </style>
+<script src="<%= request.getContextPath()%>/static/js/board.js"></script>
 </head>
 <body>
 	<h1>게시판</h1>
@@ -156,7 +157,7 @@
 	        <th>조회수</th>
 	    </tr>
 	    <c:forEach items="${list}" var="board">
-	        <tr>
+	        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
 	            <td>${board.boardId}</td>
 	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 	            <td>${board.userId}</td>
@@ -183,6 +184,5 @@
 	        </c:forEach>
 	    </c:if>
 	</div>
-
 </body>
 </html>
