@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-public class ImageGenerator {
+public class gijeImageGenerator {
 	
 	private static final String IMAGE_SAVE_FOLDER = "C:/generated_images"; // 이미지 저장 경로
 	
