@@ -4,6 +4,10 @@ import com.team3webnovel.services.GoogleOAuthService;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
 
+import java.util.Map;
+import java.util.Random;
+
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +34,113 @@ public class UsersController {
         return "users/register"; // /WEB-INF/views/users/register.jsp로 이동
     }
 
+    // 이메일 인증 토큰 생성 및 전송
+    @PostMapping("/send-email-token")
+    @ResponseBody
+    public String sendEmailToken(@RequestBody Map<String, String> emailJson, HttpSession session) {
+        try {
+            String email = emailJson.get("email").trim(); // 이메일을 JSON에서 추출하고 공백 제거
+            
+            // 이메일 형식 검증
+            if (!EmailValidator.getInstance().isValid(email)) {
+                throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
+            }
+
+            // 인증 토큰 생성
+            String token = String.format("%06d", new Random().nextInt(999999));
+            
+            // 세션에 토큰 저장
+            session.setAttribute("emailAuthToken", token);
+            session.setAttribute("authEmail", email);
+
+            // 이메일 전송
+            userService.sendEmailToken(email, token);
+            return "{\"success\": true}";
+        } catch (Exception e) {
+            logger.error("이메일 인증 토큰 전송 중 오류 발생", e);
+            return "{\"success\": false}";
+        }
+    }
+
+
+    // 인증번호 확인 처리
+    @PostMapping("/verify-email-token")
+    @ResponseBody
+    public String verifyEmailToken(@RequestBody Map<String, String> tokenJson, HttpSession session) {
+        // 사용자가 보낸 토큰을 JSON에서 추출
+        String inputToken = tokenJson.get("token").trim();
+        
+        // 세션에 저장된 인증 토큰 가져오기
+        String sessionToken = (String) session.getAttribute("emailAuthToken");
+        String sessionEmail = (String) session.getAttribute("authEmail");
+
+        // 사용자가 입력한 토큰과 세션에 저장된 토큰 비교
+        logger.debug("세션 인증 토큰: {}", sessionToken);
+        logger.debug("세션 이메일: {}", sessionEmail);
+        logger.debug("입력된 토큰: {}", inputToken);
+
+        if (sessionToken != null && sessionToken.equals(inputToken)) {
+            session.setAttribute("isEmailVerified", true);
+            logger.debug("이메일 인증 성공: {}", sessionEmail);
+            return "{\"success\": true}";
+        } else {
+            return "{\"success\": false}";
+        }
+    }
+
+
     // 회원가입 처리
     @PostMapping("/register")
     public String registerUser(@RequestParam("username") String username,
                                @RequestParam("email") String email,
                                @RequestParam("password") String password,
                                @RequestParam("confirmpassword") String confirmpassword,
+                               HttpSession session,
                                Model model) {
+
+        // 빈칸이 있는지 확인
+        if (username == null || username.trim().isEmpty()) {
+            model.addAttribute("message", "아이디를 입력하세요.");
+            return "users/register";
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            model.addAttribute("message", "이메일을 입력하세요.");
+            return "users/register";
+        }
+
+        if (password == null || password.trim().isEmpty()) {
+            model.addAttribute("message", "비밀번호를 입력하세요.");
+            return "users/register";
+        }
+
+        if (confirmpassword == null || confirmpassword.trim().isEmpty()) {
+            model.addAttribute("message", "비밀번호 확인을 입력하세요.");
+            return "users/register";
+        }
+
+        // 이메일 인증 여부 확인
+        Boolean isEmailVerified = (Boolean) session.getAttribute("isEmailVerified");
+        if (isEmailVerified == null || !isEmailVerified) {
+            model.addAttribute("message", "이메일 인증이 필요합니다.");
+            return "users/register";
+        }
+
+        // 중복된 아이디 및 이메일 체크
+        if (userService.findUserByUsername(username) != null) {
+            model.addAttribute("message", "이미 존재하는 사용자 이름입니다.");
+            return "users/register";
+        }
+
+        if (userService.findUserByEmail(email) != null) {
+            model.addAttribute("message", "이미 존재하는 이메일입니다.");
+            return "users/register";
+        }
+
         // 비밀번호 일치 여부 확인
         if (!password.equals(confirmpassword)) {
             model.addAttribute("message", "비밀번호가 일치하지 않습니다.");
-            return "users/register";  // 비밀번호가 일치하지 않으면 다시 회원가입 페이지로
+            return "users/register";
         }
 
         try {
@@ -49,14 +149,14 @@ public class UsersController {
             newUser.setUsername(username);
             newUser.setEmail(email);
             newUser.setPassword(password);
-            
-            userService.registerUser(newUser);  // 서비스에서 비밀번호 암호화 처리
-            
+
+            userService.registerUser(newUser);
+
             model.addAttribute("message", "회원가입이 완료되었습니다.");
-            return "redirect:/login";  // 회원가입 성공 시 로그인 페이지로 리다이렉트
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("message", "회원가입 중 오류가 발생했습니다.");
-            return "users/register";  // 오류 발생 시 다시 회원가입 페이지로
+            return "users/register";
         }
     }
 

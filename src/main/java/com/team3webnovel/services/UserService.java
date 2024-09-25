@@ -14,4 +14,7 @@ public interface UserService {
 
     // 비밀번호 비교 (암호화된 비밀번호 비교)
     boolean isPasswordMatch(String rawPassword, String hashedPassword);
+
+    // 이메일 인증 토큰 전송
+    void sendEmailToken(String email, String token) throws Exception;
 }

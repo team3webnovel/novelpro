@@ -19,7 +19,8 @@
     <!-- 서비스 Bean 정의 -->
     <bean id="userService" class="com.team3webnovel.services.UserServiceImpl"/>
     <bean id="musicService" class="com.team3webnovel.services.MusicServiceImpl"/>
-    
+    <bean id="pwService" class="com.team3webnovel.services.PwServiceImpl"/>
+     <bean class="com.team3webnovel.config.MailConfig" />
     <!-- MyBatis 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -42,5 +43,6 @@
         <property name="encoding" value="UTF-8" />
         <property name="forceEncoding" value="true" />
     </bean>
+    
 
 </beans>
