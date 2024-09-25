@@ -110,7 +110,7 @@
 	
 	<!-- 글 목록으로 돌아가기 버튼 -->
 	<div class="button-container">
-	    <a href="/team3webnovel/gije/list" class="back-button">글 목록으로 돌아가기</a>
+	    <a href="/team3webnovel/gije/board?page=${currentPage}" class="back-button">글 목록으로 돌아가기</a>
 	</div>
 </body>
 </html>

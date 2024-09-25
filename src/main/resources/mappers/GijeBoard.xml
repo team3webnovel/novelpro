@@ -17,5 +17,20 @@
 		select board_id as boardId, user_id as userId, title, content, created_at as createdAt, updated_at as updatedAt, view_count as viewCount
 		from board where board_id = #{boardId}
 	</select>
+	
+	<select id="getTotalCount" resultType="Integer">
+	    SELECT COUNT(*) FROM board
+	</select>
+	
+	<select id="pagingBoardList" parameterType="map" resultType="com.team3webnovel.vo.GijeBoardVo">
+		<![CDATA[
+			SELECT * FROM (
+				SELECT a.*, ROWNUM rnum FROM (
+					SELECT board_id as boardId, user_id as userId, title, content, created_at as createdAt, updated_at as updatedAt, view_count as viewCount
+					FROM board ORDER BY created_at DESC
+				) a WHERE ROWNUM <= #{endRow}
+			) WHERE rnum > #{startRow}
+		]]>
+	</select>
 
 </mapper>

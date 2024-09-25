@@ -92,6 +92,33 @@
 	    background-color: #c45a8b;
 	}
 
+	/* 페이징 스타일 */
+	.pagination {
+	    text-align: center;
+	    margin: 20px auto;
+	}
+
+	.page-link {
+	    display: inline-block;
+	    padding: 10px 15px;
+	    margin: 0 5px;
+	    background-color: #95A2DB;
+	    color: white;
+	    border-radius: 5px;
+	    text-decoration: none;
+	    transition: background-color 0.3s ease;
+	}
+
+	.page-link:hover {
+	    background-color: #c45a8b;
+	}
+	
+	.page-link.active {
+	    background-color: #D979B1; /* 강조 색상 */
+	    color: white; /* 텍스트 색상 */
+	    pointer-events: none; /* 클릭 방지 */
+	}
+
 	/* 반응형 디자인 */
 	@media (max-width: 768px) {
 	    body {
@@ -131,7 +158,7 @@
 	    <c:forEach items="${list}" var="board">
 	        <tr>
 	            <td>${board.boardId}</td>
-	            <td><a href="view/${board.boardId}">${board.title}</a></td>
+	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 	            <td>${board.userId}</td>
 	            <td>${board.createdAt}</td>
 	            <td>${board.viewCount}</td>
@@ -141,6 +168,21 @@
 	
 	<!-- 게시글 작성 버튼 -->
 	<a href="/team3webnovel/gije/write" class="create-btn">게시글 작성</a>
+	
+	<div class="pagination">
+	    <c:if test="${totalPages > 1}">
+	        <c:forEach var="i" begin="1" end="${totalPages}">
+	            <c:choose>
+	                <c:when test="${i == currentPage}">
+	                    <span class="page-link active">${i}</span> <!-- 현재 페이지 강조 -->
+	                </c:when>
+	                <c:otherwise>
+	                    <a href="/team3webnovel/gije/board?page=${i}" class="page-link">${i}</a>
+	                </c:otherwise>
+	            </c:choose>
+	        </c:forEach>
+	    </c:if>
+	</div>
 
 </body>
 </html>
