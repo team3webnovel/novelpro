@@ -32,5 +32,11 @@
         INSERT INTO USERS (USERNAME, EMAIL, PASSWORD) 
         VALUES (#{username}, #{email}, #{password})
     </insert>
+    
+	<update id="updatePassword">
+		  UPDATE users
+		  SET password = #{password}
+		  WHERE email = #{email}
+	</update>
 
 </mapper>

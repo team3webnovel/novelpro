@@ -17,4 +17,11 @@ public interface UserService {
 
     // 이메일 인증 토큰 전송
     void sendEmailToken(String email, String token) throws Exception;
+
+	boolean resetPassword(String email, String newPassword);
+
+	void updateUserPassword(UserVo user);
+
+	void sendTemporaryPasswordEmail(String email, String temporaryPassword);
+	
 }

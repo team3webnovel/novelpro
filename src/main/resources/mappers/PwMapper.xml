@@ -11,4 +11,12 @@
         WHERE pw_name = #{pwName}
     </select>
 
+    <!-- 이메일로 사용자 비밀번호를 업데이트하는 쿼리 -->
+    <update id="updatePasswordByEmail">
+        UPDATE users
+        SET password = #{newPassword}
+        WHERE email = #{email}
+    </update>
+
+
 </mapper>

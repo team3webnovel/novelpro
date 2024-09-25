@@ -1,5 +1,6 @@
 package com.team3webnovel.services;
 
+import com.team3webnovel.mappers.PwMapper;
 import com.team3webnovel.mappers.UserMapper;
 import com.team3webnovel.vo.UserVo;
 
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private PwService pwService;  // 비밀번호를 가져오는 서비스
-
+    
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -101,4 +102,59 @@ public class UserServiceImpl implements UserService {
             throw new MessagingException("이메일 전송에 실패했습니다.", e);
         }
     }
+    @Override
+    @Transactional
+    public boolean resetPassword(String email, String newPassword) {
+        UserVo user = userMapper.findUserByEmail(email);
+
+        if (user == null) {
+            return false;
+        }
+
+        // 비밀번호 암호화 후 저장
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+
+        // DB에 업데이트
+        userMapper.updateUserPassword(user);
+        return true;
+    }
+    
+    // 비밀번호 업데이트
+    @Override
+    public void updateUserPassword(UserVo user) {
+        try {
+            logger.debug("DB에 사용자 비밀번호 업데이트: {}", user.getEmail());
+            userMapper.updatePassword(user);
+        } catch (Exception e) {
+            logger.error("비밀번호 업데이트 중 오류 발생", e);
+            throw new RuntimeException("비밀번호 업데이트 중 오류 발생", e);
+        }
+    }
+
+    // 임시 비밀번호 이메일 전송
+    @Override
+    public void sendTemporaryPasswordEmail(String email, String temporaryPassword) {
+        try {
+            // 이메일 전송을 위한 메시지 생성
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, "UTF-8");
+            
+            helper.setTo(email);
+            helper.setSubject("임시 비밀번호 안내");
+            // 이메일 본문 설정 (HTML 포함)
+            String htmlContent = "<p>임시 비밀번호: <strong>" + temporaryPassword + "</strong></p>"
+                               + "<p>로그인 후 비밀번호를 변경해주세요.</p>";
+            helper.setText(htmlContent, true);  // true는 HTML 형식임을 나타냅니다.
+
+            // 이메일 전송
+            mailSender.send(message);
+            logger.info("임시 비밀번호 이메일 전송 완료: {}", email);
+        } catch (MessagingException e) {
+            logger.error("임시 비밀번호 이메일 전송 실패: {}", email, e);
+            throw new RuntimeException("임시 비밀번호 이메일 전송에 실패했습니다.", e);
+        }
+    }
+    
+    
 }

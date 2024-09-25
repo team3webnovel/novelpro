@@ -11,6 +11,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ public class UsersController {
 
     private final Logger logger = LoggerFactory.getLogger(UsersController.class);
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
     // 회원가입 페이지 보여주기
     @GetMapping("/register")
     public String showRegisterPage() {
@@ -228,11 +232,8 @@ public class UsersController {
     @GetMapping("/callback")
     public String googleCallback(@RequestParam("code") String code, HttpSession session, Model model) {
         try {
-            logger.debug("Google OAuth 콜백 처리 시작. Code: {}", code);
-            System.err.println("콜백 진입!!!");
-
             // Google OAuth 서비스에서 사용자 정보 가져오기
-            UserVo googleUser = googleOAuthService.getUserInfo(code);
+            UserVo googleUser = googleOAuthService.getUserInfo(code);  // 이 시점에서 사용자 이메일과 이름을 가져옴
             logger.debug("Google OAuth에서 사용자 정보 가져옴: username = {}, email = {}", 
                          googleUser.getUsername(), googleUser.getEmail());
 
@@ -244,14 +245,13 @@ public class UsersController {
                 session.setAttribute("user", existingUser);
                 logger.debug("기존 사용자 세션에 저장: {}", existingUser);
             } else {
-                // 사용자가 DB에 없는 경우 새로 등록 (패스워드는 null로 설정 가능)
-                googleUser.setPassword(null); // 구글 로그인 시 패스워드는 사용하지 않음
-                userService.registerUser(googleUser);
+                // 사용자가 DB에 없는 경우 새로 등록 (패스워드는 null로 설정)
+                googleUser.setPassword(null);  // 구글 로그인 시 패스워드는 사용하지 않음
+                userService.registerUser(googleUser);  // DB에 사용자 정보 저장
                 session.setAttribute("user", googleUser);
                 logger.debug("새로운 사용자 등록 후 세션에 저장: {}", googleUser);
             }
 
-            logger.debug("세션 ID: {}, 세션에 저장된 사용자: {}", session.getId(), session.getAttribute("user"));
             return "redirect:/";  // 로그인 성공 후 홈페이지로 리다이렉트
         } catch (Exception e) {
             logger.error("Google OAuth 로그인 실패", e);
@@ -259,6 +259,7 @@ public class UsersController {
             return "users/login";  // 로그인 페이지로 다시 이동
         }
     }
+
     
     // 아이디 찾기 페이지 보여주기
     @GetMapping("/find-id")
@@ -284,4 +285,105 @@ public class UsersController {
 
         return "users/findId"; // 다시 아이디 찾기 페이지로 이동
     }
+    
+    // 비밀번호 재설정 페이지 표시
+    @GetMapping("/reset-password")
+    public String showResetPasswordPage() {
+        return "users/resetPassword";
+    }
+
+    // 비밀번호 재설정 요청 처리
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam("email") String email, Model model) {
+        try {
+            // 입력된 이메일로 사용자를 검색
+            UserVo user = userService.findUserByEmail(email);
+
+            if (user == null) {
+                // 사용자가 존재하지 않는 경우
+                model.addAttribute("message", "해당 이메일로 등록된 사용자가 없습니다.");
+                return "users/resetPassword";
+            }
+
+            // 무작위 숫자 코드로 임시 비밀번호 생성 (6자리 숫자)
+            String temporaryPassword = generateTemporaryCode();
+
+            // 임시 비밀번호를 암호화하여 DB에 저장
+            String encryptedPassword = passwordEncoder.encode(temporaryPassword);
+            user.setPassword(encryptedPassword);
+            userService.updateUserPassword(user);
+
+            // 임시 비밀번호를 이메일로 전송
+            userService.sendTemporaryPasswordEmail(user.getEmail(), temporaryPassword);
+
+            model.addAttribute("successMessage", "임시 비밀번호가 이메일로 전송되었습니다.");
+            return "users/resetPassword";
+        } catch (Exception e) {
+            logger.error("비밀번호 재설정 중 오류 발생", e);
+            model.addAttribute("message", "비밀번호 재설정 중 오류가 발생했습니다.");
+            return "users/resetPassword";
+        }
+    }
+
+    // 무작위 숫자 생성 메서드 (6자리)
+    private String generateTemporaryCode() {
+        Random random = new Random();
+        int code = random.nextInt(900000) + 100000; // 100000 ~ 999999 사이의 숫자 생성
+        return String.valueOf(code);
+    }
+    
+    // 비밀번호 변경 페이지 보여주기 (마이페이지에서 접근)
+    @GetMapping("/change-password")
+    public String showChangePasswordPage() {
+        return "users/changePassword"; // /WEB-INF/views/users/change-password.jsp로 이동
+    }
+    
+    @PostMapping("/change-password")
+    public String changePassword(
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            HttpSession session, Model model) {
+
+        try {
+            // 세션에서 현재 로그인된 사용자 정보 가져오기
+            UserVo user = (UserVo) session.getAttribute("user");
+
+            if (user == null) {
+                model.addAttribute("message", "로그인이 필요합니다.");
+                return "redirect:/login"; // 사용자가 로그아웃된 경우 로그인 페이지로 리다이렉트
+            }
+
+            // 새로운 비밀번호와 확인 비밀번호 일치 여부 확인
+            if (!newPassword.equals(confirmPassword)) {
+                model.addAttribute("message", "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+                return "users/changePassword"; // 비밀번호 변경 페이지로 다시 이동
+            }
+
+            // 현재 비밀번호 확인
+            if (!userService.isPasswordMatch(currentPassword, user.getPassword())) {
+                model.addAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
+                return "users/changePassword"; // 비밀번호 변경 페이지로 다시 이동
+            }
+
+            // 새로운 비밀번호 암호화 후 사용자 객체의 비밀번호 업데이트
+            String encodedNewPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(encodedNewPassword);
+
+            // DB에 사용자 비밀번호 업데이트
+            userService.updateUserPassword(user);
+
+            // 비밀번호 변경 성공 메시지
+            model.addAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
+            return "users/changePassword"; // 비밀번호 변경 완료 후 같은 페이지로 리다이렉트
+
+        } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 처리
+            model.addAttribute("message", "비밀번호 변경 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            return "users/changePassword"; // 예외 발생 시 다시 비밀번호 변경 페이지로 이동
+        }
+    }
+
+
+
 }

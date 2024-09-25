@@ -90,7 +90,7 @@ public class GoogleOAuthService {
                 .execute();
         logger.info("Token received: {}", tokenResponse.toPrettyString());
 
-        String userId = "ktw1398@gmail.com";  // 사용자 ID를 지정해 줍니다.
+        String userId = "useremail@example.com";  // 사용자 ID를 지정해 줍니다.
         Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
 
         // Credential이 null인지 확인

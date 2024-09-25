@@ -35,7 +35,7 @@
 
         <div class="login-options">
             <a href="<%= request.getContextPath() %>/find-id">아이디 찾기</a> |
-            <a href="#">비밀번호 재설정</a> |
+            <a href="<%= request.getContextPath() %>/reset-password">비밀번호 재설정</a> |
             <a href="<%= request.getContextPath() %>/register">회원가입</a>
         </div>
 

@@ -21,28 +21,29 @@
     <bean id="musicService" class="com.team3webnovel.services.MusicServiceImpl"/>
     <bean id="pwService" class="com.team3webnovel.services.PwServiceImpl"/>
      <bean class="com.team3webnovel.config.MailConfig" />
+     
     <!-- MyBatis 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
     </bean>
 
+
     <bean class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg ref="sqlSessionFactory"/>
     </bean>
 
-    <!-- MyBatis Mapper 스캔 -->
+    <!-- MyBatis Mapper 스캔 설정 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.team3webnovel.mappers"/>
     </bean>
-    
-    <!-- spring-security.xml을 import -->
+  
+    <!-- Spring Security 설정 파일을 import -->
     <import resource="spring-security.xml"/>
 
+    <!-- 인코딩 필터 설정 -->
     <bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
-        <property name="encoding" value="UTF-8" />
-        <property name="forceEncoding" value="true" />
+        <property name="encoding" value="UTF-8"/>
+        <property name="forceEncoding" value="true"/>
     </bean>
-    
-
 </beans>

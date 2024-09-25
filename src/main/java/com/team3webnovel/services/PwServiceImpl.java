@@ -25,6 +25,7 @@ public class PwServiceImpl implements PwService {
     private static final String key = "0123456789abcdef";
     private static final String initVector = "0000000000000000";
 
+    @Override
     public String decryptPassword(String encryptedPassword) {
         try {
             logger.info("암호화된 비밀번호: {}", encryptedPassword);
