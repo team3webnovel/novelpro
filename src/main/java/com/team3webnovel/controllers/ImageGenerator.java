@@ -98,7 +98,7 @@ public class ImageGenerator {
                 if (!saveFolder.exists()) {
                     saveFolder.mkdirs(); // 경로 생성
                 }
-                
+
                 // 서버에 이미지를 파일로 저장
                 try (FileOutputStream fos = new FileOutputStream(imagePath)) {
                     fos.write(imageBytes);

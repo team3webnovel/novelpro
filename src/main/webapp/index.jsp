@@ -8,9 +8,6 @@
     <title>웹소설 플랫폼</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
-    <style>
-
-    </style>
 </head>
 <body>
     <!-- 헤더 포함 -->

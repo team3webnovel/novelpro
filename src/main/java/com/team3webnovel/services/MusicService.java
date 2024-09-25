@@ -1,12 +1,13 @@
 package com.team3webnovel.services;
 
-import com.team3webnovel.vo.MusicVo;
 import java.util.List;
 import java.util.Map;
 
+import com.team3webnovel.vo.MusicVo;
+
 public interface MusicService {
     List<MusicVo> generateMusic(String prompt, boolean makeInstrumental, Map<String, String> errorMap) throws Exception;
-    
+
     // 새롭게 추가된 저장된 음악을 불러오는 메서드
     List<MusicVo> getStoredMusicByUserId(Integer userId);
     

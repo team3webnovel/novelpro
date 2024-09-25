@@ -7,32 +7,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_detail.css">
 </head>
 <body>
-    <c:if test="${music != null}">
-        <!-- 오디오 파일 재생 (PiP 지원) -->
-        <video id="audioPlayer" controls style="width: 300px;">
-            <source src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="video/mp4">
-            Your browser does not support the audio tag.
-        </video>
-        <br>
-        <button id="pipButton">Enter Picture-in-Picture</button>
+    <div class="container mt-5">
+        <c:if test="${music != null}">
+            <div class="text-center mb-4">
+                <video id="audioPlayer" controls style="width: 100%; max-width: 300px;">
+                    <source src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="video/mp4">
+                    Your browser does not support the audio tag.
+                </video>
+                <br>
+                <button id="pipButton" class="btn btn-primary mt-2">Enter Picture-in-Picture</button>
+            </div>
 
-        <h1>Music Details</h1>
-        <img src="${music.imageUrl != null ? music.imageUrl : '/default-image.jpg'}" alt="Cover Image" style="width:200px;height:200px;">
-        <h2>${music.title != null ? music.title : 'Untitled'}</h2>
-        <p>Lyrics: ${music.lyric != null ? music.lyric : 'No lyrics available'}</p>
+            <h1 class="text-center">${music.title != null ? music.title : 'Untitled'}</h1>
+            <div class="text-center mb-4">
+                <img src="${music.imageUrl != null ? music.imageUrl : '/default-image.jpg'}" alt="Cover Image" class="img-fluid" style="max-width: 200px; height: auto;">
+            </div>
+            <div class="mb-3 dark-background">
+                <h5>Lyrics:</h5>
+                <p>${music.lyric != null ? music.lyric : 'No lyrics available'}</p>
+            </div>
 
-        <p>Type: ${music.type != null ? music.type : 'N/A'}</p>
-        <p>Tags: ${music.tags != null ? music.tags : 'No tags'}</p>
-        <p>Created At: <fmt:formatDate value="${music.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
-    </c:if>
-    
-    <c:if test="${music == null}">
-        <p>Music data not available.</p>
-    </c:if>
+            <div class="mb-3">
+                <p><strong>Type:</strong> ${music.type != null ? music.type : 'N/A'}</p>
+                <p><strong>Tags:</strong> ${music.tags != null ? music.tags : 'No tags'}</p>
+                <p><strong>Created At:</strong> <fmt:formatDate value="${music.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
+            </div>
+        </c:if>
 
-    <!-- JavaScript로 PiP 모드 구현 -->
+        <c:if test="${music == null}">
+            <p class="text-danger">Music data not available.</p>
+        </c:if>
+    </div>
+
     <script>
         const video = document.getElementById('audioPlayer');
         const pipButton = document.getElementById('pipButton');

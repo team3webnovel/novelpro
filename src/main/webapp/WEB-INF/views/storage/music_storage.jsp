@@ -6,70 +6,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Stored Music</title>
-    <style>
-        .music-item {
-            display: inline-block;
-            text-align: center;
-            margin: 10px;
-            position: relative;
-        }
-
-        .music-item img {
-            display: block;
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .music-item h3 {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .music-item audio {
-            display: block;
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 30px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.6);
-            border: none;
-            border-radius: 50%;
-            padding: 10px 20px;
-            display: none;
-        }
-
-        .playing .play-button {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_storage.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/footer.css">
 </head>
 <body>
-    <h1>Your Stored Music</h1>
-    <div class="music-gallery">
-        <c:forEach var="music" items="${musicList}">
-            <div class="music-item" id="musicItem${music.creationId}">
-                <!-- 이미지 클릭 시 오디오 재생 -->
-                <img src="${music.imageUrl}" alt="Cover Image" onclick="playMusic('${music.creationId}', '${music.audioUrl}')">
-                 <h3><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}">${music.title}</a></h3>
-                <button class="play-button" id="playButton${music.creationId}">⏵</button>
-                <audio id="audioPlayer${music.creationId}" controls>
-                    <source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-        </c:forEach>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Your Stored Music</h1>
+        <div class="music-gallery">
+            <c:forEach var="music" items="${musicList}">
+                <div class="music-item" id="musicItem${music.creationId}">
+                    <img src="${music.imageUrl}" alt="Cover Image" onclick="playMusic('${music.creationId}', '${music.audioUrl}')">
+                    <h3><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}" class="text-white">${music.title}</a></h3>
+                    <button class="play-button" id="playButton${music.creationId}">⏵</button>
+                    <audio id="audioPlayer${music.creationId}" controls>
+                        <source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </c:forEach>
+        </div>
     </div>
-
+	
+	<!-- 푸터 포함 -->
+    <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
+  
     <script>
         var currentPlayingItem = null;
 
