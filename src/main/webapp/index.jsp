@@ -150,7 +150,6 @@
 
     <!-- 푸터 포함 -->
     <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
->>>>>>> 271868b68b417f53074c10ab8602df517af85872
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
