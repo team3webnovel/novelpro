@@ -28,6 +28,9 @@
     <mappers>
         <mapper resource="com/team3webnovel/mappers/MusicMapper.xml"/>
         <mapper resource="com/team3webnovel/mappers/UserMapper.xml"/>
+        <mapper resource="com/team3webnovel/mappers/BoardMapper.xml"/>
+        <mapper resource="com/team3webnovel/mappers/ImageMapper.xml"/>
+        <mapper resource="com/team3webnovel/mappers/PwMapper.xml"/>
         <!-- 다른 매퍼 파일이 있을 경우 추가 -->
     </mappers>
 

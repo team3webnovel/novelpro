@@ -16,7 +16,7 @@
     </div>
 
     <div class="mypage-actions">
-        <a href="<%= request.getContextPath() %>/edit-profile" class="btn-primary">프로필 수정</a>
+        <a href="<%= request.getContextPath() %>/change-password" class="btn-primary">비밀번호 변경</a>
         <a href="<%= request.getContextPath() %>/logout" class="btn-secondary">로그아웃</a>
     </div>
 </div>
