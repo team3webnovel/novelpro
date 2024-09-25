@@ -7,8 +7,6 @@ header {
     transition: background-color 0.3s, color 0.3s, opacity 0.3s; /* 배경색, 글자색 및 투명도 전환 효과 */
     background-color: rgba(0, 0, 0, 0.3); /* 투명한 검은색 */
     color: #333; /* 기본 글자 색상 */
-    padding: 0; /* 패딩 제거 (컨테이너에서 처리) */
-    opacity: 1; /* 기본 투명도 */
     height: 90px; /* 헤더 높이 */
 }
 
@@ -19,15 +17,32 @@ header {
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
-    justify-content: flex-end; /* 내용을 오른쪽으로 정렬 */
-    align-items: center;
+    align-items: center; /* 세로 정렬 */
     height: 100%;
+    overflow: hidden; /* 콘텐츠가 넘칠 경우 숨김 처리 */
+}
+
+/* 제목 스타일 */
+.header-title {
+    font-size: 1.3rem; /* 폰트 크기 조정 */
+    color: white; /* 기본 색상 */
+    margin-right: 20px; /* 리뷰/홍보와의 간격 */
+    white-space: nowrap; /* 글자가 줄바꿈되지 않도록 설정 */
+}
+
+/* 리뷰/홍보 스타일 */
+.board {
+    font-size: 1.2rem; /* 폰트 크기 조정 */
+    color: white; /* 기본 색상 */
+    margin-left: 40px; /* 노벨미디어와의 간격 */
+    white-space: nowrap; /* 줄바꿈 방지 */
 }
 
 /* top-right-links 스타일 */
 .top-right-links {
     display: flex;
     align-items: center;
+    margin-left: auto; /* 오른쪽 정렬 */
 }
 
 /* 버튼 스타일 */
@@ -38,7 +53,7 @@ header {
     font-size: 20px;
     background: none;
     border: none;
-    padding: 5px;
+    padding: 5px; /* 부트스트랩 스타일에 맞춰 조정 */
     transition: color 0.3s;
 }
 
@@ -73,20 +88,23 @@ header.scrolled .top-right-links a:hover {
 header.scrolled {
     background-color: #ffffff; /* 스크롤 시 흰색으로 변경 */
     color: #333; /* 흰색 배경에서 글자 색 변경 */
-    opacity: 1; /* 스크롤 시 불투명하게 설정 */
 }
 
 /* 스크롤을 내리기 전의 상태에서 헤더의 투명도 조정 */
 header:not(.scrolled) {
     background-color: rgba(0, 0, 0, 0.3); /* 기본 상태에서 투명한 검은색 유지 */
-    opacity: 1; /* 투명도 유지 */
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 (선택적) */
 @media (max-width: 768px) {
+    .header-title,
+    .promo {
+        font-size: 1.1rem; /* 작은 화면에서 제목과 리뷰/홍보 폰트 크기 축소 */
+    }
+
     .top-right-links a {
         font-size: 18px; /* 작은 화면에서 아이콘 크기 축소 */
-        margin-left: 15px; /* 간격 축소 */
+        margin-left: 10px; /* 간격 축소 */
     }
     
     .header-container {

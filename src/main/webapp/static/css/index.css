@@ -42,15 +42,18 @@ header {
 
 /* 배너 각 항목의 배경 색상 */
 #banner .carousel-item.type1 {
-	background: linear-gradient(to bottom, #fcae78, #f6d291, #a8c1a3, #4a6d8a); /* 첫 번째 배너 색상 */
+	background: linear-gradient(to bottom, #fcae78, #f6d291, #a8c1a3, #4a6d8a);
+	/* 첫 번째 배너 색상 */
 }
 
 #banner .carousel-item.type2 {
-	background: linear-gradient(to bottom, #001d4c, #003366, #0a64a0, #ff8c00); /* 두 번째 배너 색상 */
+	background: linear-gradient(to bottom, #001d4c, #003366, #0a64a0, #ff8c00);
+	/* 두 번째 배너 색상 */
 }
 
 #banner .carousel-item.type3 {
-	background: linear-gradient(to bottom, #2d1b60, #4e3d8a, #ffb347, #87ceeb); /* 세 번째 배너 색상 */
+	background: linear-gradient(to bottom, #2d1b60, #4e3d8a, #ffb347, #87ceeb);
+	/* 세 번째 배너 색상 */
 }
 
 /* 배너 이미지 스타일 */
@@ -77,6 +80,7 @@ header {
 .card {
 	transition: transform 0.3s ease;
 	border: none; /* 카드 테두리 제거 */
+	margin-bottom: 30px; /* 카드 간격 조정 */
 }
 
 .card:hover {
@@ -85,6 +89,55 @@ header {
 
 .card img {
 	border-radius: 10px; /* 이미지 모서리 둥글게 */
+}
+
+/* 장르 섹션 스타일 */
+.genres-section {
+	padding: 30px 0; /* 상하 여백 */
+	margin-top: 20px; /* 위쪽 여백 조정 */
+}
+
+.genres-section h2 {
+	text-align: center; /* 제목 중앙 정렬 */
+	margin-bottom: 30px; /* 제목과 내용 간격 조정 */
+	color: #333; /* 제목 색상 */
+	border: 2px solid black; /* 테두리 두께 및 색상 설정 */
+	padding: 10px; /* 테두리와 내용 간격 조정 */
+	border-radius: 5px; /* 테두리 모서리 둥글게 */
+	display: inline-block; /* 제목 크기 조정 */
+}
+
+/* 선택된 장르 스타일 */
+.genre.selected {
+	background-color: black; /* 배경을 검은색으로 설정 */
+	color: white; /* 글자 색상을 흰색으로 설정 */
+}
+
+/* 장르 카드 스타일 */
+.card-body {
+	padding: 20px; /* 카드 내부 여백 */
+	cursor: pointer; /* 포인터 커서 추가 */
+	transition: background-color 0.3s; /* 배경 색상 전환 효과 */
+}
+
+.card-body:hover {
+	background-color: #f0f0f0; /* 호버 시 배경 색상 변경 */
+}
+
+.card-title {
+	font-size: 1.0rem; /* 제목 크기 조정 */
+}
+
+/* 소설 카드 레이아웃 */
+.novel-section .row {
+	display: flex; /* 플렉스박스 사용 */
+	flex-wrap: wrap; /* 줄 바꿈 허용 */
+	justify-content: space-between; /* 간격 조정 */
+}
+
+.novel-section .col-md-4 {
+	flex: 0 0 calc(20% - 20px); /* 한 줄에 5개 표시 (20% - 여백) */
+	margin-bottom: 30px; /* 카드 간격 조정 */
 }
 
 /* 네비게이션 스타일 */
@@ -111,27 +164,49 @@ nav {
 	border-radius: 5px; /* 링크 모서리 둥글게 */
 }
 
-/* 푸터 스타일 */
+/* Footer 고정 스타일 */
 footer {
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	padding: 20px 0;
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 0;
+    width: 100%;
 }
 
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+
 /* 반응형 미디어 쿼리 */
-@media (max-width: 768px) {
-	.container {
-		padding: 10px;
+@media ( max-width : 1200px) {
+	.novel-section .col-md-4 {
+		flex: 0 0 calc(25% - 20px); /* 한 줄에 4개 표시 */
 	}
-	.novel-section {
-		padding: 30px 0; /* 모바일에서 소설 섹션 패딩 조정 */
-		margin-top: 20px; /* 모바일에서 여백 조정 */
+}
+
+@media ( max-width : 992px) {
+	.novel-section .col-md-4 {
+		flex: 0 0 calc(33.33% - 20px); /* 한 줄에 3개 표시 */
 	}
-	#banner {
-		height: 200px; /* 모바일에서 배너 높이 조정 */
+}
+
+@media ( max-width : 768px) {
+	.novel-section .col-md-4 {
+		flex: 0 0 calc(50% - 20px); /* 한 줄에 2개 표시 */
 	}
-	#banner .carousel-item img {
-		max-height: 200px; /* 모바일에서 최대 높이 조정 */
+}
+
+@media ( max-width : 576px) {
+	.novel-section .col-md-4 {
+		flex: 0 0 100%; /* 한 줄에 1개 표시 */
 	}
 }
