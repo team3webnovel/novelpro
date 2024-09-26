@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="gijeBoard">
+
+	<select id="boardList" resultType="com.team3webnovel.vo.GijeBoardVo">
+		SELECT board_id as boardId, user_id as userId, title, content, created_at as createdAt, updated_at as updatedAt, view_count as viewCount
+		FROM board ORDER BY created_at DESC
+	</select>
+	
+	<insert id="write" parameterType="com.team3webnovel.vo.GijeBoardVo">
+		insert into board (user_id, title, content) values (#{userId}, #{title}, #{content})
+	</insert>
+	
+	<select id="view" parameterType="int" resultType="com.team3webnovel.vo.GijeBoardVo">
+		select board_id as boardId, user_id as userId, title, content, created_at as createdAt, updated_at as updatedAt, view_count as viewCount
+		from board where board_id = #{boardId}
+	</select>
+	
+	<select id="getTotalCount" resultType="Integer">
+	    SELECT COUNT(*) FROM board
+	</select>
+	
+	<select id="pagingBoardList" parameterType="map" resultType="com.team3webnovel.vo.GijeBoardVo">
+		<![CDATA[
+			SELECT * FROM (
+				SELECT a.*, ROWNUM rnum FROM (
+					SELECT board_id as boardId, user_id as userId, title, content, created_at as createdAt, updated_at as updatedAt, view_count as viewCount
+					FROM board ORDER BY created_at DESC
+				) a WHERE ROWNUM <= #{endRow}
+			) WHERE rnum > #{startRow}
+		]]>
+	</select>
+
+</mapper>
