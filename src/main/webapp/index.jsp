@@ -96,7 +96,7 @@
                 <div class="col-md-4 novel" data-genre="romance_fantasy">
                     <a href="<%=request.getContextPath()%>/romance_fantasy/1" style="text-decoration: none; color: inherit;">
                         <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/romance_fantasy1.png" class="card-img-top" alt="소설 1">
+                            <img src="<%=request.getContextPath()%>/static/images/readme_00011.gif" class="card-img-top" alt="소설 1">
                             <div class="card-body">
                                 <h5 class="card-title">악녀는 두 번 산다</h5>
                             </div>
@@ -106,7 +106,7 @@
                 <div class="col-md-4 novel" data-genre="modern_fantasy">
                     <a href="<%=request.getContextPath()%>/modern_fantasy/1" style="text-decoration: none; color: inherit;">
                         <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/modern_fantasy1.png" class="card-img-top" alt="소설 2">
+                            <img src="<%=request.getContextPath()%>/static/images/ComfyUI_00270_.png" class="card-img-top" alt="소설 2">
                             <div class="card-body">
                                 <h5 class="card-title">게이트,그거 내가 열었다</h5>
                             </div>
