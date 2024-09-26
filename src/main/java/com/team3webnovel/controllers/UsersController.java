@@ -4,6 +4,9 @@ import com.team3webnovel.services.GoogleOAuthService;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -17,11 +20,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsersController {
 
+    private static final String CLIENT_ID = "79063217086-lsnrlcthi1q4tkqg9cd713qa3eg6qodc.apps.googleusercontent.com";
+    private static final String REDIRECT_URI = "http://localhost:8080/team3webnovel/callback";
+	
     @Autowired
     private UserService userService;
 
@@ -202,36 +211,42 @@ public class UsersController {
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
     }
 
- // 로그아웃 처리
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         logger.debug("로그아웃 요청: 세션 ID = {}", session.getId());
 
-        // 세션에서 사용자 정보를 가져옴 (예: 로그인된 사용자 정보를 세션에 저장했다고 가정)
-        UserVo loggedInUser = (UserVo) session.getAttribute("user");
+        // 세션에 저장된 모든 속성 출력
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String attributeName = attributeNames.nextElement();
+            Object attributeValue = session.getAttribute(attributeName);
+            logger.debug("세션 속성: 이름 = {}, 값 = {}", attributeName, attributeValue);
+        }
+
+        // 모든 쿠키 출력 및 삭제
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                logger.debug("쿠키 이름: {}, 값: {}", cookie.getName(), cookie.getValue());
+
+                // 쿠키 삭제 (쿠키의 유효 기간을 0으로 설정하고 경로를 지정)
+                cookie.setMaxAge(0);
+                cookie.setPath("/");  // 애플리케이션의 모든 경로에서 쿠키가 삭제되도록 설정
+                response.addCookie(cookie);
+                logger.debug("쿠키 삭제됨: {}", cookie.getName());
+            }
+        }
 
         // 세션 무효화
         session.invalidate();
+        logger.debug("세션 무효화 완료");
 
-        // 구글 로그인 사용자일 경우 구글 로그아웃 처리
-        if (loggedInUser != null && isGoogleUser(loggedInUser)) {
-            logger.debug("구글 사용자 로그아웃 처리: {}", loggedInUser.getEmail());
-
-            // 구글 로그아웃 URL로 리다이렉트
-            String googleLogoutUrl = "https://accounts.google.com/Logout?continue=http://localhost:8080/login?logout=true";
-            return "redirect:" + googleLogoutUrl;
-        }
-
-        // 일반 사용자 로그아웃 처리 (세션만 무효화)
-        logger.debug("일반 사용자 로그아웃 처리 완료");
-        return "redirect:/login?logout=true"; // 로그아웃 후 로그인 페이지로 리다이렉트
+        return "redirect:/login?logout=true";  // 로그아웃 후 로그인 페이지로 리다이렉트
     }
 
-    // 구글 로그인 사용자인지 확인하는 헬퍼 메서드
-    private boolean isGoogleUser(UserVo user) {
-        // 예시: 사용자의 가입 유형이 'google'인지 확인 (user.getSignUpType() 등이 있다고 가정)
-        return "google".equalsIgnoreCase(user.getSignUpType());
-    }
+
+
+
 
 
     // 마이페이지 보여주기
@@ -246,18 +261,34 @@ public class UsersController {
 
  // Google OAuth 로그인 페이지로 이동
     @GetMapping("/google-login")
-    public String googleLogin() {
+    public String googleLogin(HttpSession session) {
         logger.debug("Google 로그인 요청.");
+
         try {
+            // 세션에 저장된 사용자 정보 확인
+            UserVo loggedInUser = (UserVo) session.getAttribute("user");
+
+            if (loggedInUser != null) {
+                logger.debug("이미 로그인된 사용자: {}", loggedInUser.getEmail());
+                return "redirect:/";  // 이미 로그인된 사용자는 홈으로 리다이렉트
+            }
+
+            // Google Authorization URL 가져오기
             String authorizationUrl = googleOAuthService.getAuthorizationUrl();
+
+            // prompt=select_account 파라미터를 추가하여 구글 계정 선택을 강제
+            authorizationUrl += "&prompt=select_account";
+
             logger.debug("Authorization URL: {}", authorizationUrl);
             return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+
         } catch (Exception e) {
             logger.error("Google OAuth 로그인 중 오류 발생: ", e);
             // 오류 발생 시 처리할 페이지로 리다이렉트, 예: 에러 페이지
-            return "redirect:/error"; 
+            return "redirect:/error";
         }
     }
+
 
 
     @GetMapping("/callback")
