@@ -4,130 +4,117 @@ import java.sql.Timestamp;
 
 public class ImageVo {
     private int creationId;
-    private String title;
     private String imageUrl;
-    private String description;
-    private String modelName;
-    private String gptDescriptionPrompt;
-    private String type;
-    private String tags;
+    private String modelCheck;
+    private String sampler;
+    private String prompt;
+    private String nPrompt;
     private Timestamp createdAt;
-    private String errorMessage;
+    private int steps;
+    private int cfg;
+    private int seed;
+    private int width;
+    private int height;
 
     // 기본 생성자
     public ImageVo() {}
 
-    // 이미지 생성 시 필요한 주요 필드만 받는 생성자
-    public ImageVo(String title, String imageUrl, String description) {
-        super();
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.description = description;
-    }
+	public int getCreationId() {
+		return creationId;
+	}
 
-    // 생성된 이미지 정보로 사용할 생성자
-    public ImageVo(int creationId, String title, String imageUrl, Timestamp createdAt) {
-        super();
-        this.creationId = creationId;
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
-    }
+	public void setCreationId(int creationId) {
+		this.creationId = creationId;
+	}
 
-    // 전체 필드를 받는 생성자
-    public ImageVo(int creationId, String title, String imageUrl, String description,
-                   String modelName, String gptDescriptionPrompt, String type, String tags,
-                   Timestamp createdAt, String errorMessage) {
-        this.creationId = creationId;
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.description = description;
-        this.modelName = modelName;
-        this.gptDescriptionPrompt = gptDescriptionPrompt;
-        this.type = type;
-        this.tags = tags;
-        this.createdAt = createdAt;
-        this.errorMessage = errorMessage;
-    }
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
-    // Getters and Setters
-    public int getCreationId() {
-        return creationId;
-    }
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
-    public void setCreationId(int creationId) {
-        this.creationId = creationId;
-    }
+	public String getModelCheck() {
+		return modelCheck;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setModelCheck(String modelCheck) {
+		this.modelCheck = modelCheck;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getSampler() {
+		return sampler;
+	}
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+	public void setSampler(String sampler) {
+		this.sampler = sampler;
+	}
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+	public String getPrompt() {
+		return prompt;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setPrompt(String prompt) {
+		this.prompt = prompt;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getnPrompt() {
+		return nPrompt;
+	}
 
-    public String getModelName() {
-        return modelName;
-    }
+	public void setnPrompt(String nPrompt) {
+		this.nPrompt = nPrompt;
+	}
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
 
-    public String getGptDescriptionPrompt() {
-        return gptDescriptionPrompt;
-    }
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public void setGptDescriptionPrompt(String gptDescriptionPrompt) {
-        this.gptDescriptionPrompt = gptDescriptionPrompt;
-    }
+	public int getSteps() {
+		return steps;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setSteps(int steps) {
+		this.steps = steps;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public int getCfg() {
+		return cfg;
+	}
 
-    public String getTags() {
-        return tags;
-    }
+	public void setCfg(int cfg) {
+		this.cfg = cfg;
+	}
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+	public int getSeed() {
+		return seed;
+	}
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
+	public void setSeed(int seed) {
+		this.seed = seed;
+	}
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
+	public int getWidth() {
+		return width;
+	}
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+	public void setWidth(int width) {
+		this.width = width;
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+    
+    
+
 }

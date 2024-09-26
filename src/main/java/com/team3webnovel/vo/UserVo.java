@@ -49,4 +49,12 @@ public class UserVo {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+	@Override
+	public String toString() {
+		return "UserVo [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", createdAt=" + createdAt + "]";
+	}
+    
+    
 }
