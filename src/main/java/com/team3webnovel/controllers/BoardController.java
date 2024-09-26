@@ -17,7 +17,7 @@ public class BoardController {
     private BoardDao boardDao;  // 인터페이스로 DI
 
     // 게시글 목록 페이지
-    @GetMapping("/posts")
+    @GetMapping("/board")
     public String getPostList(Model model) {
         List<BoardVo> posts = boardDao.getAllPosts();
         model.addAttribute("posts", posts);
