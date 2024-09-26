@@ -194,7 +194,7 @@
         			<input type="checkbox" value="1girl, high resolution, Beautiful detailed eyes">
         			<span> 여자</span>
         		</label>
-        		<label><input type="checkbox" value="1boy"><span> 남자</span></label>
+        		<label><input type="checkbox" value="1boy, man"><span> 남자</span></label>
         	</div>
 		    
 		    <div class="hidden">
@@ -251,6 +251,12 @@
 		        <label><input type="checkbox" value="Inside the cave"><span> 동굴 안</span></label>
 		        <label><input type="checkbox" value="in castle"><span> 성 안</span></label>
 		        <label><input type="checkbox" value="cliff"><span> 절벽</span></label>
+		    </div>
+		    
+		    <div class="hidden">
+		    	<label><input type="checkbox" value="animal ears"><span> 동물귀</span></label>
+		    	<label><input type="checkbox" value="thighhighs"><span> 사이하이</span></label>
+		    	<label><input type="checkbox" value=""><span> </span></label>
 		    </div>
 
 		    <button type="submit">이미지 생성</button>
