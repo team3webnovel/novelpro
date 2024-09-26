@@ -219,14 +219,21 @@ public class UsersController {
         return "users/mypage";  // users/mypage.jsp로 이동
     }
 
-    // Google OAuth 로그인 페이지로 이동
+ // Google OAuth 로그인 페이지로 이동
     @GetMapping("/google-login")
     public String googleLogin() {
         logger.debug("Google 로그인 요청.");
-        String authorizationUrl = googleOAuthService.getAuthorizationUrl();
-        logger.debug("Authorization URL: {}", authorizationUrl);
-        return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+        try {
+            String authorizationUrl = googleOAuthService.getAuthorizationUrl();
+            logger.debug("Authorization URL: {}", authorizationUrl);
+            return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+        } catch (Exception e) {
+            logger.error("Google OAuth 로그인 중 오류 발생: ", e);
+            // 오류 발생 시 처리할 페이지로 리다이렉트, 예: 에러 페이지
+            return "redirect:/error"; 
+        }
     }
+
 
  // Google OAuth 콜백 처리
     @GetMapping("/callback")
