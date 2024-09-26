@@ -8,8 +8,17 @@ public class UserVo {
     private String email;
     private String password;
     private LocalDateTime createdAt;  // String 대신 LocalDateTime 사용
+    private String signUpType;
 
-    // Getters and Setters
+    public String getSignUpType() {
+		return signUpType;
+	}
+
+	public void setSignUpType(String signUpType) {
+		this.signUpType = signUpType;
+	}
+
+	// Getters and Setters
     public int getUserId() {
         return userId;
     }

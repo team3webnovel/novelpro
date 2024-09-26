@@ -6,6 +6,7 @@ import com.team3webnovel.vo.UserVo;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
@@ -201,13 +202,37 @@ public class UsersController {
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
     }
 
-    // 로그아웃 처리
+ // 로그아웃 처리
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         logger.debug("로그아웃 요청: 세션 ID = {}", session.getId());
-        session.invalidate(); // 세션 무효화
+
+        // 세션에서 사용자 정보를 가져옴 (예: 로그인된 사용자 정보를 세션에 저장했다고 가정)
+        UserVo loggedInUser = (UserVo) session.getAttribute("user");
+
+        // 세션 무효화
+        session.invalidate();
+
+        // 구글 로그인 사용자일 경우 구글 로그아웃 처리
+        if (loggedInUser != null && isGoogleUser(loggedInUser)) {
+            logger.debug("구글 사용자 로그아웃 처리: {}", loggedInUser.getEmail());
+
+            // 구글 로그아웃 URL로 리다이렉트
+            String googleLogoutUrl = "https://accounts.google.com/Logout?continue=http://localhost:8080/login?logout=true";
+            return "redirect:" + googleLogoutUrl;
+        }
+
+        // 일반 사용자 로그아웃 처리 (세션만 무효화)
+        logger.debug("일반 사용자 로그아웃 처리 완료");
         return "redirect:/login?logout=true"; // 로그아웃 후 로그인 페이지로 리다이렉트
     }
+
+    // 구글 로그인 사용자인지 확인하는 헬퍼 메서드
+    private boolean isGoogleUser(UserVo user) {
+        // 예시: 사용자의 가입 유형이 'google'인지 확인 (user.getSignUpType() 등이 있다고 가정)
+        return "google".equalsIgnoreCase(user.getSignUpType());
+    }
+
 
     // 마이페이지 보여주기
     @GetMapping("/mypage")
@@ -235,7 +260,6 @@ public class UsersController {
     }
 
 
- // Google OAuth 콜백 처리
     @GetMapping("/callback")
     public String googleCallback(@RequestParam("code") String code, HttpSession session, Model model) {
         try {
@@ -252,8 +276,9 @@ public class UsersController {
                 session.setAttribute("user", existingUser);
                 logger.debug("기존 사용자 세션에 저장: {}", existingUser);
             } else {
-                // 사용자가 DB에 없는 경우 새로 등록 (패스워드는 null로 설정)
-                googleUser.setPassword(null);  // 구글 로그인 시 패스워드는 사용하지 않음
+                // 사용자가 DB에 없는 경우 새로 등록 (랜덤 패스워드 설정)
+                String randomPassword = UUID.randomUUID().toString();  // 임의의 패스워드 생성
+                googleUser.setPassword(randomPassword);  // 임의로 생성된 패스워드 설정
                 userService.registerUser(googleUser);  // DB에 사용자 정보 저장
                 session.setAttribute("user", googleUser);
                 logger.debug("새로운 사용자 등록 후 세션에 저장: {}", googleUser);
