@@ -1,0 +1,75 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Font Customizer</title>
+    <link rel="stylesheet" href="static/css/font_customizer.css">
+</head>
+<body>
+
+<h2>이미지에 폰트 꾸미기</h2>
+
+<!-- 이미지 업로드 폼 -->
+<div>
+    <input type="file" id="imageUpload" accept="image/*"><br><br>
+</div>
+
+<!-- 툴바 UI 구성 -->
+<div class="toolbar">
+    <!-- 폰트 선택 -->
+    <select id="fontSelect">
+        <option value="Arial">Arial</option>
+        <option value="'SF_HambakSnow', sans-serif">SF_HambakSnow</option>
+        <option value="'Danjo-bold-Regular', sans-serif">Danjo-bold-Regular</option>
+        <option value="'Galmuri9', sans-serif">Galmuri</option>
+        <option value="'국립박물관문화재단클래식B', sans-serif">국립박물관문화재단클래식B</option>
+        <option value="'MaplestoryOTFBold', sans-serif">MaplestoryOTFBold</option>
+        <option value="'Cafe24ClassicType-Regular', sans-serif">Cafe24ClassicType-Regular</option>
+        <option value="'HSGyoulnoonkot', sans-serif">HSGyoulnoonkot</option>
+    </select>
+
+    <!-- 폰트 크기 선택 -->
+    <select id="fontSizeSelect">
+        <option value="10">10pt</option>
+        <option value="12">12pt</option>
+        <option value="14">14pt</option>
+        <option value="16">16pt</option>
+        <option value="18">18pt</option>
+        <option value="20">20pt</option>
+        <option value="24">24pt</option>
+        <option value="30">30pt</option>
+        <option value="40">40pt</option>
+    </select>
+    
+    <!-- 텍스트 박스 추가 버튼 -->
+    <button id="addTextBoxBtn" class="toolbar-btn">텍스트 박스 추가</button>
+
+    <!-- 텍스트 스타일 버튼들 -->
+    <button id="boldBtn" class="toolbar-btn"><b>B</b></button>
+    <button id="italicBtn" class="toolbar-btn"><i>I</i></button>
+    <button id="underlineBtn" class="toolbar-btn"><u>U</u></button>
+    <button id="strikethroughBtn" class="toolbar-btn"><s>S</s></button>
+
+    <!-- 텍스트 색상과 외곽선 색상 선택 -->
+    <input type="color" id="textColor" title="글자색 선택">
+    <input type="color" id="outlineColorInput" value="#FFFFFF" title="외곽선 색상 선택">
+
+    <!-- 그라데이션 적용 여부 -->
+    <label for="gradientInput">그라데이션 사용:</label>
+    <input type="checkbox" id="gradientInput">
+
+    <!-- 그라데이션 색상 설정 -->
+    <input type="color" id="gradientStartInput" value="#ff0000" title="그라데이션 시작 색상" disabled>
+    <input type="color" id="gradientEndInput" value="#0000ff" title="그라데이션 끝 색상" disabled>
+
+</div>
+
+<!-- 캔버스 (이미지와 텍스트를 표시할 영역) -->
+<canvas id="canvas"></canvas>
+
+<script src="static/js/font_customizer.js"></script>
+
+</body>
+</html>

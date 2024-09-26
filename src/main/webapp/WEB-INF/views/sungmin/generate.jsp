@@ -13,11 +13,14 @@
     	<!-- Sampler Index -->
         <label for="checkpoint">checkpoint:</label>
         <select id="checkpoint" name="checkpoint">
-            <option value="aamXLAnimeMix_v10HalfturboEulera.safetensors">aamXLAnimeMix_v10HalfturboEulera</option>
+            <option value="aamXLAnimeMix_v10.safetensors">aamXLAnimeMix_v10</option>
             <option value="animagineXLV31_v31.safetensors">animagineXLV31_v31</option>
             <option value="juggernautXL_juggXIByRundiffusion.safetensors">juggernautXL_juggXIByRundiffusion</option>
-            <option value="prefectPonyXL_v2CleanedStyle.safetensors">prefectPonyXL_v2CleanedStyle</option>
+            <option value="prefectPonyXL_v3.safetensors">prefectPonyXL_v3</option>
             <option value="romanticprism_v10.safetensors">romanticprism_v10</option>
+            <option value="dreamshaper_8.safetensors">dreamshaper_8</option>
+            <option value="majicmixRealistic.safetensors">majicmixRealistic</option>
+            <option value="sdxlNijiSeven_sdxlNijiSeven.safetensors">sdxlNijiSeven_sdxlNijiSeven</option>
         </select>
         <br><br>
         
@@ -26,8 +29,8 @@
         <select id="sampler_index" name="sampler_index">
             <option value="euler">Euler</option>
             <option value="euler_ancestral">Euler a</option>
-            <option value="dpm_2m">DPM++ 2M</option>
-            <option value="dpm_2m_sde">DPM++ 2M SDE</option>
+            <option value="dpmpp_2m">DPM++ 2M</option>
+            <option value="dpmpp_2m_sde">DPM++ 2M SDE</option>
             <option value="ipndm_v">IPNDM_V</option>
             <option value="lms">LMS</option>
             <option value="lcm">LCM</option>
@@ -68,14 +71,28 @@
 		<input type="number" id="cfg_scale" name="cfg_scale" min="1" max="20" value="7" oninput="document.getElementById('cfgScaleRange').value=this.value">
 		<br><br>
 
-        <!-- Seed -->
-        <label for="seed">Seed:</label>
-        <input type="number" id="seed" name="seed" value="1
-        ">
-        <br><br>
+	    <!-- Seed 입력 -->
+	    <label for="seed">Seed:</label>
+	    <input type="number" id="seed" name="seed" value="1">
+	    
+	    <!-- 랜덤 Seed 버튼 -->
+	    <button type="button" onclick="setRandomSeed()">랜덤 Seed</button>
+	    
+	    <br><br>
 
         <input type="submit" value="Generate Image">
     </form>
+    
+    <script>
+        // 랜덤 Seed를 설정하는 함수
+        function setRandomSeed() {
+            // 랜덤 정수 생성 (예: 1부터 9999999까지)
+            const randomSeed = Math.floor(Math.random() * 9999999) + 1;
+            
+            // seed 입력 필드에 랜덤 값을 설정
+            document.getElementById('seed').value = randomSeed;
+        }
+    </script>
 </body>
 </html>
 

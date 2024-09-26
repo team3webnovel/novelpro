@@ -23,7 +23,16 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
         </init-param>
+
+        <!-- load-on-startup은 여기서 설정되어야 합니다 -->
         <load-on-startup>1</load-on-startup>
+        
+        <!-- multipart-config 설정 -->
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- 10MB -->
+            <max-request-size>20971520</max-request-size> <!-- 20MB -->
+            <file-size-threshold>5242880</file-size-threshold> <!-- 5MB -->
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>
@@ -55,13 +64,15 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-	<filter>
-	    <filter-name>loggingFilter</filter-name>
-	    <filter-class>com.team3webnovel.filters.GlobalLoggingFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	    <filter-name>loggingFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <!-- Global Logging Filter 설정 -->
+    <filter>
+        <filter-name>loggingFilter</filter-name>
+        <filter-class>com.team3webnovel.filters.GlobalLoggingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>loggingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>
