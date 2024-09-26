@@ -106,7 +106,7 @@
                 <div class="col-md-4 novel" data-genre="modern_fantasy">
                     <a href="<%=request.getContextPath()%>/modern_fantasy/1" style="text-decoration: none; color: inherit;">
                         <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/modern_fantasy1.png" class="card-img-top" alt="소설 2">
+                            <img src="<%=request.getContextPath()%>/static/images/ComfyUI_00270_.png" class="card-img-top" alt="소설 2">
                             <div class="card-body">
                                 <h5 class="card-title">게이트,그거 내가 열었다</h5>
                             </div>
