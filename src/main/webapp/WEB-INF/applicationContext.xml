@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 데이터베이스 소스 설정 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -16,12 +19,15 @@
     <!-- 서비스 Bean 정의 -->
     <bean id="userService" class="com.team3webnovel.services.UserServiceImpl"/>
     <bean id="musicService" class="com.team3webnovel.services.MusicServiceImpl"/>
-
+    <bean id="pwService" class="com.team3webnovel.services.PwServiceImpl"/>
+     <bean class="com.team3webnovel.config.MailConfig" />
+     
     <!-- MyBatis 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
     </bean>
+
 
     <bean class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg ref="sqlSessionFactory"/>
@@ -31,7 +37,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.team3webnovel.mappers"/>
     </bean>
-
+  
     <!-- Spring Security 설정 파일을 import -->
     <import resource="spring-security.xml"/>
 
@@ -40,5 +46,4 @@
         <property name="encoding" value="UTF-8"/>
         <property name="forceEncoding" value="true"/>
     </bean>
-
 </beans>
