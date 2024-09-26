@@ -13,11 +13,14 @@
     	<!-- Sampler Index -->
         <label for="checkpoint">checkpoint:</label>
         <select id="checkpoint" name="checkpoint">
-            <option value="aamXLAnimeMix_v10HalfturboEulera.safetensors">aamXLAnimeMix_v10HalfturboEulera</option>
+            <option value="aamXLAnimeMix_v10.safetensors">aamXLAnimeMix_v10</option>
             <option value="animagineXLV31_v31.safetensors">animagineXLV31_v31</option>
             <option value="juggernautXL_juggXIByRundiffusion.safetensors">juggernautXL_juggXIByRundiffusion</option>
-            <option value="prefectPonyXL_v2CleanedStyle.safetensors">prefectPonyXL_v2CleanedStyle</option>
+            <option value="prefectPonyXL_v3.safetensors">prefectPonyXL_v3</option>
             <option value="romanticprism_v10.safetensors">romanticprism_v10</option>
+            <option value="dreamshaper_8.safetensors">dreamshaper_8</option>
+            <option value="majicmixRealistic.safetensors">majicmixRealistic</option>
+            <option value="sdxlNijiSeven_sdxlNijiSeven.safetensors">sdxlNijiSeven_sdxlNijiSeven</option>
         </select>
         <br><br>
         
@@ -26,8 +29,8 @@
         <select id="sampler_index" name="sampler_index">
             <option value="euler">Euler</option>
             <option value="euler_ancestral">Euler a</option>
-            <option value="dpm_2m">DPM++ 2M</option>
-            <option value="dpm_2m_sde">DPM++ 2M SDE</option>
+            <option value="dpmpp_2m">DPM++ 2M</option>
+            <option value="dpmpp_2m_sde">DPM++ 2M SDE</option>
             <option value="ipndm_v">IPNDM_V</option>
             <option value="lms">LMS</option>
             <option value="lcm">LCM</option>

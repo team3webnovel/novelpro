@@ -24,7 +24,7 @@ import oracle.jdbc.proxy.annotation.OnError;
 @ClientEndpoint
 public class ComfyUIImageGenerator {
 
-    private static final String SERVER_ADDRESS = "127.0.0.1:8188"; // ComfyUI 서버 주소
+    private static final String SERVER_ADDRESS = "192.168.0.237:8188"; // ComfyUI 서버 주소
     private static final String WEBSOCKET_URL = "ws://" + SERVER_ADDRESS + "/ws?clientId=";
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static String clientId = UUID.randomUUID().toString();
