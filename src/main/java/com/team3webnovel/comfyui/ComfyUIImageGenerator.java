@@ -58,7 +58,16 @@ public class ComfyUIImageGenerator {
     }
 
     // 프롬프트 전송 메서드
-    public CompletableFuture<String> queuePrompt(String promptText) throws Exception {
+    public CompletableFuture<String> queuePrompt(
+            String promptText,
+            String negativePrompt,
+            String samplerIndex,
+            int steps,
+            int width,
+            int height,
+            int cfgScale,  // CFG Scale만 double 타입으로 유지
+            int seed,
+            String checkpoint) throws Exception {
         imageUrlFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성
 
         String url = "http://" + SERVER_ADDRESS + "/prompt";
@@ -69,7 +78,7 @@ public class ComfyUIImageGenerator {
                 "3": {
                     "class_type": "KSampler",
                     "inputs": {
-                        "cfg": 8,
+                        "cfg": %d,
                         "denoise": 1,
                         "latent_image": [
                             "5",
@@ -87,24 +96,24 @@ public class ComfyUIImageGenerator {
                             "6",
                             0
                         ],
-                        "sampler_name": "euler",
+                        "sampler_name": "%s",
                         "scheduler": "normal",
-                        "seed": 8566257,
-                        "steps": 30
+                        "seed": %d,
+                        "steps": %d
                     }
                 },
                 "4": {
                     "class_type": "CheckpointLoaderSimple",
                     "inputs": {
-                        "ckpt_name": "aamXLAnimeMix_v10HalfturboEulera.safetensors"
+                        "ckpt_name": "%s"
                     }
                 },
                 "5": {
                     "class_type": "EmptyLatentImage",
                     "inputs": {
                         "batch_size": 1,
-                        "height": 832,
-                        "width": 1216
+                        "height": %d,
+                        "width": %d
                     }
                 },
                 "6": {
@@ -124,7 +133,7 @@ public class ComfyUIImageGenerator {
                             "4",
                             1
                         ],
-                        "text": "negativeXL_D"
+                        "text": "%s"
                     }
                 },
                 "8": {
@@ -153,7 +162,7 @@ public class ComfyUIImageGenerator {
             },
             "client_id": "%s"
         }
-        """.formatted(promptText, clientId);  // promptText와 clientId 포함
+        """.formatted(cfgScale, samplerIndex, seed, steps, checkpoint, height, width, promptText, negativePrompt, clientId);  // promptText와 clientId 포함
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
