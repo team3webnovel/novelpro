@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.team3webnovel.vo.resultVo;
+
 import jakarta.websocket.ClientEndpoint;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.ContainerProvider;
@@ -31,7 +33,7 @@ public class ComfyUIImageGenerator {
     private static Session userSession;
 
     // 비동기로 처리할 CompletableFuture
-    private CompletableFuture<String> imageUrlFuture;
+    private CompletableFuture<resultVo> resultVoFuture;
 
     public ComfyUIImageGenerator() {
         connectWebSocket(); // WebSocket 연결
@@ -52,13 +54,13 @@ public class ComfyUIImageGenerator {
         return userSession != null && userSession.isOpen();
     }
 
-    // 비동기적으로 이미지 URL 반환
-    public CompletableFuture<String> getGeneratedImageUrl() {
-        return imageUrlFuture;
+    // 비동기적으로 이미지 URL과 파일명을 반환
+    public CompletableFuture<resultVo> getGeneratedImageResult() {
+        return resultVoFuture;
     }
 
     // 프롬프트 전송 메서드
-    public CompletableFuture<String> queuePrompt(
+    public CompletableFuture<resultVo> queuePrompt(
             String promptText,
             String negativePrompt,
             String samplerIndex,
@@ -68,7 +70,7 @@ public class ComfyUIImageGenerator {
             int cfgScale,  // CFG Scale만 double 타입으로 유지
             int seed,
             String checkpoint) throws Exception {
-        imageUrlFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성
+        resultVoFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성
 
         String url = "http://" + SERVER_ADDRESS + "/prompt";
 
@@ -162,7 +164,7 @@ public class ComfyUIImageGenerator {
             },
             "client_id": "%s"
         }
-        """.formatted(cfgScale, samplerIndex, seed, steps, checkpoint, height, width, promptText, negativePrompt, clientId);  // promptText와 clientId 포함
+        """.formatted(cfgScale, samplerIndex, seed, steps, checkpoint, height, width, promptText, negativePrompt, clientId);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -175,7 +177,7 @@ public class ComfyUIImageGenerator {
         System.out.println("Prompt response: " + response.body());
 
         // WebSocket으로부터 이미지 URL을 받을 때까지 무제한 대기
-        return imageUrlFuture;  // 타임아웃 없이 무제한 대기
+        return resultVoFuture;  // 타임아웃 없이 무제한 대기
     }
 
     // WebSocket 메시지 처리 (이미지 생성 완료 시)
@@ -199,12 +201,18 @@ public class ComfyUIImageGenerator {
                         String filename = image.getString("filename");
                         String subfolder = image.getString("subfolder");
 
-                        // 이미지 URL 생성 후 CompletableFuture에 완료 신호 전달
+                        // 이미지 URL 생성
                         String generatedImageUrl = "http://" + SERVER_ADDRESS + "/view?filename=" + filename + "&subfolder=" + subfolder + "&type=output&nocache=" + System.currentTimeMillis();
-                        imageUrlFuture.complete(generatedImageUrl);
+
+                        // resultVo 객체 생성하여 URL과 파일명 저장 후 CompletableFuture에 완료 신호 전달
+                        resultVo result = new resultVo(generatedImageUrl, filename);
+                        resultVoFuture.complete(result);
+
                         System.out.println("Image URL: " + generatedImageUrl);
+                        System.out.println("Filename: " + filename);
                     }
                 }
+
             }
         } catch (JSONException e) {
             System.err.println("Failed to parse WebSocket message: " + e.getMessage());
@@ -226,6 +234,6 @@ public class ComfyUIImageGenerator {
     @OnError
     public void onError(Session session, Throwable throwable) {
         System.err.println("Error occurred: " + throwable.getMessage());
-        imageUrlFuture.completeExceptionally(throwable);  // 오류 발생 시 CompletableFuture에 예외 전달
+        resultVoFuture.completeExceptionally(throwable);  // 오류 발생 시 CompletableFuture에 예외 전달
     }
 }

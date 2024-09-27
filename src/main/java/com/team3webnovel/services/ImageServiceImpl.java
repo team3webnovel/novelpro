@@ -1,6 +1,7 @@
 package com.team3webnovel.services;
 
 
+import com.team3webnovel.dao.ImageDao;
 import com.team3webnovel.mappers.ImageMapper;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.vo.ImageVo;
@@ -16,6 +17,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Autowired
     private ImageMapper imageMapper;
+    
+    @Autowired
+    private ImageDao imageDao; 
 
     @Override
     public List<ImageVo> generateImage(String prompt, boolean makeHighResolution, Map<String, String> errorMap) {
@@ -66,17 +70,17 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public void insertCreation(Map<String, Object> creationData) {
-		imageMapper.insertCreation(creationData);
+		imageDao.insertCreation(creationData);
 	}
 
 	@Override
 	public int getMax() {
-		return imageMapper.getLastCreationId();
+		return imageDao.getMax();
 	}
 
 	@Override
 	public void imageGenerate(Map<String, Object> imageData) {
-		imageMapper.insertImageData(imageData);
+		imageDao.imageGenerate(imageData);
 	}
     
 	

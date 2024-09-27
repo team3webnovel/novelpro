@@ -21,11 +21,11 @@
         INSERT INTO IMAGE_GENERATION_DATA (
 		    CREATION_ID, IMAGE_URL, CREATED_AT, MODELCHECK, SAMPLER, 
 		    PROMPT, N_PROMPT, STEPS, CFG, SEED, 
-		    WIDTH, HEIGHT
+		    WIDTH, HEIGHT, FILENAME
 		)
         VALUES (
             #{creationId}, #{imageUrl}, sysdate, #{modelCheck}, #{sampler},
-            #{prompt}, #{nPrompt}, #{steps}, #{cfg}, #{seed}, #{width}, #{height}
+            #{prompt}, #{nPrompt}, #{steps}, #{cfg}, #{seed}, #{width}, #{height}, #{fileName}
         )
     </insert>
 
