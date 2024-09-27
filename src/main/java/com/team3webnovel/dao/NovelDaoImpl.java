@@ -1,5 +1,6 @@
 package com.team3webnovel.dao;
 
+import com.team3webnovel.mappers.NovelMapper;
 import com.team3webnovel.vo.NovelVo;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +13,9 @@ public class NovelDaoImpl implements NovelDao {
 
     @Autowired
     private SqlSession sqlSession; // MyBatis의 SqlSession을 이용
+    
+    @Autowired
+    private NovelMapper novelMapper;
 
     private static final String NAMESPACE = "com.team3webnovel.mappers.NovelMapper";
 
@@ -30,7 +34,7 @@ public class NovelDaoImpl implements NovelDao {
     // 소설 추가
     @Override
     public int insertNovel(NovelVo novel) {
-        return sqlSession.insert(NAMESPACE + ".insertNovel", novel);
+        return novelMapper.insertNovel(novel);
     }
 
     // 소설 수정

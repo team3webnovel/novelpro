@@ -1,18 +1,20 @@
 package com.team3webnovel.services;
 
-import com.team3webnovel.dao.NovelDao;
+import java.util.List;
 
-import com.team3webnovel.services.NovelService;
-import com.team3webnovel.vo.NovelVo;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.team3webnovel.dao.NovelDao;
+import com.team3webnovel.vo.NovelVo;
 
 @Service
 public class NovelServiceImpl implements NovelService {
 
     @Autowired
-    private NovelDao novelDao;
+    private NovelDao novelDao; // NovelDao를 주입받아 사용
 
     // 소설 리스트 조회
     @Override
@@ -28,6 +30,7 @@ public class NovelServiceImpl implements NovelService {
 
     // 소설 추가
     @Override
+    @Transactional
     public void insertNovel(NovelVo novel) {
         novelDao.insertNovel(novel);
     }

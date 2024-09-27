@@ -46,13 +46,14 @@
 
     <!-- 소설 작성 (새 소설 저장) -->
     <!-- novel_id가 자동 생성될 경우 이 컬럼은 제외 -->
-    <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        INSERT INTO novel (
-            user_id, title, content, created_at, view_count
-        ) VALUES (
-            #{userId}, #{title}, #{content}, SYSDATE, 0
-        )
-    </insert>
+	<insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
+	    INSERT INTO novel (
+	        user_id, title, content, cover_image_url, created_at, updated_at, view_count
+	    ) VALUES (
+	        #{userId}, #{title}, #{content}, #{coverImageUrl}, SYSDATE, SYSDATE, #{viewCount}
+	    )
+	</insert>
+
 
     <!-- 소설 업데이트 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">

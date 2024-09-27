@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %> <!-- javax.servlet 대신 jakarta.servlet -->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,7 +14,7 @@
 <div class="container mt-5">
     <h2>소설 쓰기</h2>
     
-    <form action="/submitNovel" method="POST">
+    <form action="${pageContext.request.contextPath}/write" method="POST">
         <!-- 제목 -->
         <div class="form-group">
             <label for="title">제목</label>

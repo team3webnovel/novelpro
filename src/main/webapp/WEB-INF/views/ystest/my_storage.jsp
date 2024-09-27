@@ -13,7 +13,7 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="/write" class="btn btn-primary">글쓰기</a>
+        <a href="<%=request.getContextPath()%>/write" class="btn btn-primary">글쓰기</a>
     </div>
     
     <!-- 탭 메뉴 -->

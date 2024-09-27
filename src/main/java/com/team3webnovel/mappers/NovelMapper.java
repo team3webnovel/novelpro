@@ -1,25 +1,28 @@
-package com.team3webnovel.services;
+package com.team3webnovel.mappers;
 
 import java.util.List;
+
 import com.team3webnovel.vo.NovelVo;
 
-public interface NovelService {
-
-    // 소설 리스트 조회
+public interface NovelMapper {
+	
+	// 소설 리스트 조회
     List<NovelVo> getNovelList();
-
+    
     // 특정 소설 조회
     NovelVo getNovelById(int novelId);
-
+    
     // 소설 추가
-    void insertNovel(NovelVo novel); // 소설 작성
-
+    int insertNovel(NovelVo novel);
+    
     // 소설 수정
-    void updateNovel(NovelVo novel);
-
+    int updateNovel(NovelVo novel);
+    
     // 소설 삭제
-    void deleteNovel(int novelId);
-
+    int deleteNovel(int novelId);
+    
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
+
+
 }
