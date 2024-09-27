@@ -120,7 +120,10 @@ public class ImageGenerationController {
     
     
     @GetMapping("/alert")
-    public String alert() {
+    public String alert(Model model) {
+    	String clientId = comfyUIImageGenerator.getClientId();
+    	System.err.println(clientId);
+    	model.addAttribute(clientId);
     	return "sungmin/alert";
     }
 }

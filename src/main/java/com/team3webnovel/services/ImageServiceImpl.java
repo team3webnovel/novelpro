@@ -4,6 +4,7 @@ package com.team3webnovel.services;
 import com.team3webnovel.dao.ImageDao;
 import com.team3webnovel.mappers.ImageMapper;
 import com.team3webnovel.services.ImageService;
+import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,7 +83,13 @@ public class ImageServiceImpl implements ImageService {
 	public void imageGenerate(Map<String, Object> imageData) {
 		imageDao.imageGenerate(imageData);
 	}
+
+	@Override
+	public List<ImageVo> getImageDataByUserId(CreationVo vo) {
+		return imageDao.getImageDataByUserId(vo);
+	}
     
+	
 	
     
     

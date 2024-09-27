@@ -38,6 +38,11 @@ public class ComfyUIImageGenerator {
     public ComfyUIImageGenerator() {
         connectWebSocket(); // WebSocket 연결
     }
+    
+    // clientId 반환 메서드
+    public String getClientId() {
+        return clientId;
+    }
 
     // WebSocket 연결
     private void connectWebSocket() {
