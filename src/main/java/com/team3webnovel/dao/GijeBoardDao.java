@@ -34,5 +34,13 @@ public class GijeBoardDao {
     public List <GijeBoardVo> boardPaging(Map <String, Integer> map) {
     	return sqlSession.selectList("gijeBoard.pagingBoardList", map);
     }
+    
+    public int delete(Map <String, Integer> map) {
+    	return sqlSession.delete("gijeBoard.deleteBoard", map);
+    }
+    
+    public void viewCount(int boardId) {
+    	sqlSession.update("gijeBoard.viewCount", boardId);
+    }
 
 }

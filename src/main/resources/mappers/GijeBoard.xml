@@ -32,5 +32,13 @@
 			) WHERE rnum > #{startRow}
 		]]>
 	</select>
+	
+	<delete id="deleteBoard" parameterType="map">
+		delete from board where board_id = #{boardId} and user_id = #{userId}
+	</delete>
+	
+	<update id="viewCount" parameterType="int">
+		update board set view_count = view_count + 1 where board_id = #{boardId}
+	</update>
 
 </mapper>

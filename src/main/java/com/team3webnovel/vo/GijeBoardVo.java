@@ -5,17 +5,19 @@ import java.util.Date;
 public class GijeBoardVo {
 	int boardId;
 	int userId;
+	String userName;
 	String title;
 	String content;
 	Date createdAt;
 	Date updatedAt;
 	int viewCount;
 	
-	public GijeBoardVo(int boardId, int userId, String title, String content, Date createdAt, Date updatedAt,
+	public GijeBoardVo(int boardId, int userId, String userName, String title, String content, Date createdAt, Date updatedAt,
 			int viewCount) {
 		super();
 		this.boardId = boardId;
 		this.userId = userId;
+		this.userName = userName;
 		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
@@ -68,5 +70,13 @@ public class GijeBoardVo {
 	}
 	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }
