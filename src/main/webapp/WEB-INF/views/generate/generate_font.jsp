@@ -30,21 +30,13 @@
         <option value="'HSGyoulnoonkot', sans-serif">HSGyoulnoonkot</option>
     </select>
 
-    <!-- 폰트 크기 선택 -->
-    <select id="fontSizeSelect">
-        <option value="10">10pt</option>
-        <option value="12">12pt</option>
-        <option value="14">14pt</option>
-        <option value="16">16pt</option>
-        <option value="18">18pt</option>
-        <option value="20">20pt</option>
-        <option value="24">24pt</option>
-        <option value="30">30pt</option>
-        <option value="40">40pt</option>
-    </select>
+	<!-- 폰트 크기 슬라이더 -->
+	<label for="fontSizeSlider">Font Size (pt):</label>
+	<input type="range" id="fontSizeSlider" min="10" max="70" value="10" step="1">
+
     
     <!-- 텍스트 박스 추가 버튼 -->
-    <button id="addTextBoxBtn" class="toolbar-btn">텍스트 박스 추가</button>
+    <button id="addTextBoxBtn" class="toolbar-btn">TXT</button>
 
     <!-- 텍스트 스타일 버튼들 -->
     <button id="boldBtn" class="toolbar-btn"><b>B</b></button>
@@ -66,10 +58,23 @@
 
 </div>
 
+<!-- 텍스트 수정 영역 (툴바와 캔버스 사이에 위치) -->
+<textarea id="textEditBox" style="
+    position: relative;
+    width: 20%; 
+    height: 30px; 
+    font-size: 20px; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 1000;">
+</textarea>
+
 <!-- 캔버스 (이미지와 텍스트를 표시할 영역) -->
 <canvas id="canvas"></canvas>
 
-<script src="static/js/font_customizer.js"></script>
+<script src="static/js/font/text_style.js"></script>
+<script src="static/js/font/canvas_draw.js"></script>
 
 </body>
 </html>
