@@ -10,8 +10,13 @@ let focusedTextBoxIndex = -1; // 포커스된 텍스트 박스의 인덱스
 let dragging = false;  // 드래그 상태 추적
 let offsetX, offsetY;  // 드래그 위치 오프셋
 let isOnTextBox = false;  // 텍스트 박스 내부에 마우스가 있는지 여부
+
 // 텍스트 박스 포커스 관리
 let isTextBoxFocused = false;
+
+let isDragging = false;
+let dragStartX, dragStartY;
+let dragEndX, dragEndY;
 
 // 이미지 업로드 핸들러
 document.getElementById('imageUpload').addEventListener('change', function () {
@@ -52,7 +57,6 @@ document.getElementById('addTextBoxBtn').addEventListener('click', function () {
 });
 
 
-// 텍스트 박스를 캔버스에 그리기
 function drawCanvas() {
     // 캔버스 초기화
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -61,7 +65,7 @@ function drawCanvas() {
     }
 
     // 모든 텍스트 박스를 그리기 위해 textBoxes 배열을 순회
-    textBoxes.forEach((textBox) => {
+    textBoxes.forEach((textBox, index) => {
         // 폰트 설정
         ctx.font = `${textBox.bold ? 'bold ' : ''}${textBox.italic ? 'italic ' : ''}${textBox.fontSize}px ${textBox.font}`;
         ctx.textAlign = 'center';
@@ -115,10 +119,29 @@ function drawCanvas() {
                 ctx.stroke();
             }
         });
+
+        const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
+        const textHeight = textBox.fontSize * 1.2 * lines.length;  // 텍스트 박스의 전체 높이 계산
+
+        // 포커스된 텍스트 박스에 점선 테두리 그리기 (클릭으로 포커스된 경우)
+        if (index === focusedTextBoxIndex) {
+            ctx.setLineDash([5, 5]);  // 점선 설정 (5px 선, 5px 간격)
+            ctx.strokeStyle = '#000';  // 테두리 색상을 검은색으로 설정
+            ctx.lineWidth = 1;  // 테두리 두께 설정
+            ctx.strokeRect(textBox.x - textWidth / 2 - 5, textBox.y - textHeight / 2 - 5, textWidth + 10, textHeight + 10);
+            ctx.setLineDash([]);  // 점선 해제 (다른 도형에 영향을 주지 않도록)
+        }
+
+        // 드래그된 범위 내 텍스트 박스에 점선 테두리 그리기
+        if (selectedTextBoxes.includes(index)) {
+            ctx.setLineDash([5, 5]);  // 점선 설정 (5px 선, 5px 간격)
+            ctx.strokeStyle = '#000';  // 테두리 색상을 검은색으로 설정
+            ctx.lineWidth = 1;  // 테두리 두께 설정
+            ctx.strokeRect(textBox.x - textWidth / 2 - 5, textBox.y - textHeight / 2 - 5, textWidth + 10, textHeight + 10);
+            ctx.setLineDash([]);  // 점선 해제 (다른 도형에 영향을 주지 않도록)
+        }
     });
 }
-
-
 
 
 
@@ -173,13 +196,13 @@ canvas.addEventListener('click', function (e) {
 
 
 
-// 마우스 이벤트로 드래그
 canvas.addEventListener('mousedown', function (e) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
     let newFocusedIndex = -1;  // 클릭한 텍스트 박스를 찾기 위한 임시 인덱스
+    let clickedOnTextBox = false;  // 텍스트 박스를 클릭했는지 여부
 
     // 모든 텍스트 박스에 대해 클릭 여부 확인
     textBoxes.forEach((box, index) => {
@@ -193,77 +216,121 @@ canvas.addEventListener('mousedown', function (e) {
             newFocusedIndex = index;  // 클릭한 텍스트 박스 인덱스 설정
             offsetX = mouseX - box.x;
             offsetY = mouseY - box.y;
-            dragging = true;
+            dragging = true;  // 텍스트 박스 드래그 모드 활성화
             canvas.style.cursor = 'grabbing';  // 드래그 중 커서 변경
+            clickedOnTextBox = true;  // 텍스트 박스를 클릭했음을 표시
         }
     });
 
-    // 클릭된 텍스트 박스가 있으면 포커스 변경
-    if (newFocusedIndex !== -1) {
-        focusedTextBoxIndex = newFocusedIndex;
-        textBox = textBoxes[focusedTextBoxIndex];  // 현재 포커스된 텍스트 박스를 전역 변수 textBox에 할당
-        drawCanvas();  // 포커스 변경 후 캔버스를 다시 그림
+    if (clickedOnTextBox) {
+        // 텍스트 박스를 클릭한 경우에만 포커스 변경
+        if (newFocusedIndex !== -1) {
+            focusedTextBoxIndex = newFocusedIndex;
+            textBox = textBoxes[focusedTextBoxIndex];  // 현재 포커스된 텍스트 박스를 전역 변수 textBox에 할당
+            drawCanvas();  // 포커스 변경 후 캔버스를 다시 그림
+        }
+    } else {
+        // 텍스트 박스를 클릭하지 않은 경우, 드래그 범위 시작
+        const rect = canvas.getBoundingClientRect();
+        dragStartX = e.clientX - rect.left;
+        dragStartY = e.clientY - rect.top;
+        isDragging = true;  // 드래그 모드 활성화
+
+        // 초기 드래그 위치에서 네모난 점선이 그려지기 시작
+        dragEndX = dragStartX;
+        dragEndY = dragStartY;
+
+        drawCanvas();  // 기존 캔버스 초기화 및 그리기
     }
 });
 
 
-// 마우스 이동 시 드래그 또는 호버 처리
-canvas.addEventListener('mousemove', function (e) {
-    if (focusedTextBoxIndex === -1) return;  // 포커스된 텍스트 박스가 없으면 리턴
 
+// 마우스 이동 시 드래그 또는 호버 처리
+document.addEventListener('mousemove', function (e) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const textBox = textBoxes[focusedTextBoxIndex];  // 포커스된 텍스트 박스 가져오기
-    const lines = textBox.text.split('\n');
-    const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
-    const textHeight = textBox.fontSize * 1.2 * lines.length;  // 전체 텍스트 박스의 높이 계산 (줄 수 반영)
+    // 드래그 중일 때는 텍스트 박스 이동 또는 드래그 영역 선택
+    if (isDragging) {
+        // 캔버스 밖으로 나가도 드래그를 계속함
+        dragEndX = Math.max(0, Math.min(mouseX, canvas.width));
+        dragEndY = Math.max(0, Math.min(mouseY, canvas.height));
+        
+        drawCanvas(); // 기존 텍스트 박스를 그리면서 드래그 범위 점선 표시
+        ctx.strokeStyle = '#000'; // 드래그 영역 테두리 색상 (검정색)
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]); // 점선 스타일 설정
+        ctx.strokeRect(
+            Math.min(dragStartX, dragEndX),
+            Math.min(dragStartY, dragEndY),
+            Math.abs(dragStartX - dragEndX),
+            Math.abs(dragStartY - dragEndY)
+        );
+        ctx.setLineDash([]); // 점선 해제
+        return;
+    }
 
-    // 드래그 중이면 텍스트 박스 이동
-    if (dragging) {
+    // 텍스트 박스 드래그 중이면 텍스트 박스 이동
+    if (dragging && focusedTextBoxIndex !== -1) {
+        const textBox = textBoxes[focusedTextBoxIndex];  // 포커스된 텍스트 박스 가져오기
         textBox.x = mouseX - offsetX;
         textBox.y = mouseY - offsetY;
         drawCanvas();
-    }
-
-    // 텍스트 박스 위에 있을 때 커서 변경
-    let cursorChanged = false;
-    textBoxes.forEach((box, index) => {
-        const boxLines = box.text.split('\n');
-        const boxTextWidth = Math.max(...boxLines.map(line => ctx.measureText(line).width));  // 각 텍스트 박스의 가장 긴 줄의 너비 계산
-        const boxTextHeight = box.fontSize * 1.2 * boxLines.length;  // 각 텍스트 박스의 높이 계산
-
-        if (mouseX >= box.x - boxTextWidth / 2 && mouseX <= box.x + boxTextWidth / 2 &&
-            mouseY >= box.y - boxTextHeight / 2 && mouseY <= box.y + boxTextHeight / 2) {
-            canvas.style.cursor = 'pointer';  // 텍스트 박스 위일 때 포인터 커서
-            isOnTextBox = true;
-            cursorChanged = true;
-        }
-    });
-
-    if (!cursorChanged) {
-        canvas.style.cursor = 'default';  // 기본 커서
-        isOnTextBox = false;
+        return;
     }
 });
 
-
-// 마우스 버튼을 떼면 드래그 종료
-canvas.addEventListener('mouseup', function () {
+// 마우스 버튼을 떼면 드래그 종료 (document에서 감지)
+document.addEventListener('mouseup', function () {
     if (dragging) {
-        dragging = false;  // 드래그 상태를 종료
+        dragging = false;  // 텍스트 박스 드래그 상태를 종료
         canvas.style.cursor = 'default';  // 드래그가 끝나면 기본 커서로 변경
     }
-});
 
-// 캔버스를 벗어나면 드래그 중지
-canvas.addEventListener('mouseleave', function () {
-    if (dragging) {
-        dragging = false;  // 드래그 상태를 종료
-        canvas.style.cursor = 'default';  // 커서를 기본 상태로 변경
+    if (isDragging) {
+        isDragging = false;  // 드래그 범위 선택 상태 종료
+
+        // 드래그된 범위 안에 있는 텍스트 박스들 포커스
+        selectedTextBoxes = [];  // 선택된 텍스트 박스들을 저장할 배열
+
+        const dragLeft = Math.min(dragStartX, dragEndX);
+        const dragRight = Math.max(dragStartX, dragEndX);
+        const dragTop = Math.min(dragStartY, dragEndY);
+        const dragBottom = Math.max(dragStartY, dragEndY);
+
+        textBoxes.forEach((box, index) => {
+            const lines = box.text.split('\n');
+            const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 텍스트 박스의 너비 계산
+            const textHeight = box.fontSize * 1.2 * lines.length;  // 텍스트 박스의 높이 계산
+
+            const boxLeft = box.x - textWidth / 2;
+            const boxRight = box.x + textWidth / 2;
+            const boxTop = box.y - textHeight / 2;
+            const boxBottom = box.y + textHeight / 2;
+
+            // 텍스트 박스가 드래그 범위 안에 있는지 확인 (텍스트 박스의 일부라도 범위 안에 있으면 선택)
+            if (
+                boxRight > dragLeft && 
+                boxLeft < dragRight && 
+                boxBottom > dragTop && 
+                boxTop < dragBottom
+            ) {
+                selectedTextBoxes.push(index);  // 선택된 텍스트 박스의 인덱스를 저장
+            }
+        });
+
+        // 선택된 텍스트 박스들 중 첫 번째 텍스트 박스에 포커스 처리
+        if (selectedTextBoxes.length > 0) {
+            focusedTextBoxIndex = selectedTextBoxes[0];  // 첫 번째 선택된 텍스트 박스에 포커스
+            textBox = textBoxes[focusedTextBoxIndex];  // 포커스된 텍스트 박스 설정
+        }
+
+        drawCanvas();  // 드래그 후 텍스트 박스에 포커스를 표시하기 위해 다시 그리기
     }
 });
+
 
 
 // 텍스트 수정용 DOM 요소 추가
