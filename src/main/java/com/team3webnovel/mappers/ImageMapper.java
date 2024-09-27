@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 
 public interface ImageMapper {
@@ -16,6 +17,8 @@ public interface ImageMapper {
 
     // image_data 테이블에 삽입할 때도 Map으로 전달
     void insertImageData(Map<String, Object> params);
+    
+    List<ImageVo> getImageDataByUserId(CreationVo vo);
     
     // 새로운 메서드: 사용자 ID와 artForm에 맞는 이미지 리스트를 가져옴
     List<ImageVo> getImageByUserIdAndArtForm(@Param("userId") Integer userId, @Param("artForm") int artForm);

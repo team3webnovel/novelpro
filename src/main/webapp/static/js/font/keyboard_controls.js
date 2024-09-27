@@ -6,11 +6,9 @@ document.addEventListener('keydown', function (e) {
     // Ctrl + C: 복사
     if (e.ctrlKey && e.key === 'c') {
         if (selectedTextBoxes.length > 0) {
-            // 다중 선택된 텍스트 박스를 복사
-            clipboardTextBoxes = selectedTextBoxes.map(index => ({ ...textBoxes[index] }));
+            clipboardTextBoxes = selectedTextBoxes.map(index => ({ ...textBoxes[index] })); // 선택된 모든 텍스트 박스를 복사
         } else if (focusedTextBoxIndex !== -1) {
-            // 단일 선택된 텍스트 박스를 복사
-            clipboardTextBoxes = [{ ...textBoxes[focusedTextBoxIndex] }];
+            clipboardTextBoxes = [{ ...textBoxes[focusedTextBoxIndex] }]; // 단일 선택된 텍스트 박스 복사
         }
         e.preventDefault();
     } 
@@ -18,12 +16,12 @@ document.addEventListener('keydown', function (e) {
     else if (e.ctrlKey && e.key === 'x') {
         if (selectedTextBoxes.length > 0) {
             clipboardTextBoxes = selectedTextBoxes.map(index => ({ ...textBoxes[index] }));
-            undoStack.push([...textBoxes]); 
-            selectedTextBoxes.sort((a, b) => b - a).forEach(index => textBoxes.splice(index, 1));
+            undoStack.push([...textBoxes]); // 잘라내기 전 상태 저장
+            selectedTextBoxes.sort((a, b) => b - a).forEach(index => textBoxes.splice(index, 1)); // 삭제
             selectedTextBoxes = [];
         } else if (focusedTextBoxIndex !== -1) {
             clipboardTextBoxes = [{ ...textBoxes[focusedTextBoxIndex] }];
-            undoStack.push([...textBoxes]); 
+            undoStack.push([...textBoxes]); // 잘라내기 전 상태 저장
             textBoxes.splice(focusedTextBoxIndex, 1);
             focusedTextBoxIndex = -1;
         }
@@ -33,12 +31,12 @@ document.addEventListener('keydown', function (e) {
     // Ctrl + V: 붙여넣기
     else if (e.ctrlKey && e.key === 'v') {
         if (clipboardTextBoxes.length > 0) {
-            undoStack.push([...textBoxes]); 
+            undoStack.push([...textBoxes]); // 붙여넣기 전 상태 저장
             clipboardTextBoxes.forEach(textBox => {
-                const newTextBox = { ...textBox, x: textBox.x + 20, y: textBox.y + 20 };
+                const newTextBox = { ...textBox, x: textBox.x + 20, y: textBox.y + 20 }; // 새 위치로 붙여넣기
                 textBoxes.push(newTextBox); 
             });
-            selectedTextBoxes = clipboardTextBoxes.map((_, i) => textBoxes.length - clipboardTextBoxes.length + i);
+            selectedTextBoxes = clipboardTextBoxes.map((_, i) => textBoxes.length - clipboardTextBoxes.length + i); // 붙여넣은 텍스트 박스 선택
             drawCanvas();
         }
         e.preventDefault();
@@ -46,7 +44,7 @@ document.addEventListener('keydown', function (e) {
     // Ctrl + Z: 되돌리기
     else if (e.ctrlKey && e.key === 'z') {
         if (undoStack.length > 0) {
-            textBoxes = undoStack.pop(); 
+            textBoxes = undoStack.pop(); // 이전 상태로 되돌리기
             selectedTextBoxes = [];
             focusedTextBoxIndex = -1;
             drawCanvas(); 
@@ -135,6 +133,7 @@ function handleSingleTextBoxMoveDelete(e) {
 // 다중 선택된 텍스트 박스 삭제 함수
 function deleteSelectedTextBoxes() {
     if (selectedTextBoxes.length > 0) {
+        undoStack.push([...textBoxes]); // 삭제 전 상태 저장
         selectedTextBoxes.sort((a, b) => b - a).forEach(index => textBoxes.splice(index, 1));
         selectedTextBoxes = [];
         drawCanvas();
@@ -144,6 +143,7 @@ function deleteSelectedTextBoxes() {
 // 단일 포커스된 텍스트 박스 삭제 함수
 function deleteFocusedTextBox() {
     if (focusedTextBoxIndex !== -1) {
+        undoStack.push([...textBoxes]); // 삭제 전 상태 저장
         textBoxes.splice(focusedTextBoxIndex, 1);
         focusedTextBoxIndex = -1;
         textBox = null;
