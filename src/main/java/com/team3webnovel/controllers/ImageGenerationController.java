@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
 import com.team3webnovel.services.ImageService;
@@ -35,9 +36,7 @@ public class ImageGenerationController {
     // GET 요청으로 JSP 페이지 렌더링
     @GetMapping("/generate")
     public String showGeneratePage(HttpSession session) {
-    	UserVo user = (UserVo)session.getAttribute("user");
-    	int clientId = user.getUserId();
-    	session.setAttribute("clientId", clientId);
+    	int clientId = (int) session.getAttribute("clientId");
     	comfyUIImageGenerator.connectWebSocket(clientId);
         return "sungmin/generate"; // generate.jsp 페이지로 이동
     }
@@ -112,6 +111,9 @@ public class ImageGenerationController {
                 // 이미지 데이터 삽입
                 imageService.imageGenerate(imageDataMap);
                 
+                session.setAttribute("imageGenerated", true);  // 세션에 완료 상태 저장
+                
+                
             } else {
                 model.addAttribute("message", "WebSocket is not connected.");
             }
@@ -123,6 +125,24 @@ public class ImageGenerationController {
         return "sungmin/result";  // 결과 페이지로 이동
     }
     
+    // 작업 상태를 확인하는 API
+    @GetMapping("/checkStatus")
+    @ResponseBody
+    public Map<String, Object> checkStatus(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        
+        Boolean imageGenerated = (Boolean) session.getAttribute("imageGenerated");
+        if (imageGenerated != null && imageGenerated) {
+            response.put("status", "completed");
+            session.removeAttribute("imageGenerated");  // 상태 체크 후 세션에서 제거
+        } else {
+            response.put("status", "in_progress");
+        }
+
+        return response;
+    }    
+    
+    
     
     @GetMapping("/alert")
     public String alert(Model model, HttpSession session) {
@@ -132,5 +152,14 @@ public class ImageGenerationController {
 
         return "sungmin/alert";  // 알림 JSP로 이동
     }
+    
+    @GetMapping("/getClientId")
+    @ResponseBody
+    public Map<String, Object> getClientId(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("clientId", session.getAttribute("clientId"));
+        return response;
+    }
+	
 
 }

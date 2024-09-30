@@ -19,20 +19,20 @@
     <!-- image_data 테이블에 이미지 데이터 삽입 (CREATED_AT은 SYSDATE로 자동 설정됨) -->
     <insert id="insertImageData" parameterType="map">
         INSERT INTO IMAGE_GENERATION_DATA (
-		    CREATION_ID, IMAGE_URL, CREATED_AT, MODELCHECK, SAMPLER, 
+		    CREATION_ID, IMAGE_URL, MODELCHECK, SAMPLER, 
 		    PROMPT, N_PROMPT, STEPS, CFG, SEED, 
-		    WIDTH, HEIGHT, FILENAME
+		    WIDTH, HEIGHT, FILENAME, title
 		)
         VALUES (
-            #{creationId}, #{imageUrl}, sysdate, #{modelCheck}, #{sampler},
-            #{prompt}, #{nPrompt}, #{steps}, #{cfg}, #{seed}, #{width}, #{height}, #{fileName}
+            #{creationId}, #{imageUrl}, #{modelCheck}, #{sampler},
+            #{prompt}, #{nPrompt}, #{steps}, #{cfg}, #{seed}, #{width}, #{height}, #{fileName}, #{fileName}
         )
     </insert>
     
     <select id="getImageDataByUserId" parameterType="com.team3webnovel.vo.CreationVo" resultType="com.team3webnovel.vo.ImageVo">
 		SELECT igd.creation_id as creationId, igd.image_url as imageUrl,
 			igd.created_at as createdAt, sampler as sampler, prompt, 
-			n_prompt as nPrompt, steps, cfg, seed, width, height, modelcheck as modelCheck
+			n_prompt as nPrompt, steps, cfg, seed, width, height, modelcheck as modelCheck, title
 		FROM image_generation_data igd 
 		JOIN creation c 
 		ON igd.creation_id = c.creation_id

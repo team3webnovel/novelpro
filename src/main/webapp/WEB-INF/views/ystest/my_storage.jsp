@@ -14,7 +14,7 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="/write" class="btn btn-primary">글쓰기</a>
+        <a href="<%= request.getContextPath()%>/write" class="btn btn-primary">글쓰기</a>
     </div>
     
     <!-- 탭 메뉴 -->
@@ -52,6 +52,7 @@
                             <img src="${image.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: cover;">
                             <div class="card-body">
                                 <h5 class="card-title">이미지</h5>
+                                <p class="card-text">제목: ${image.title }</p>
                                 <p class="card-text">생성일: ${image.createdAt}</p>
                                 <p class="card-text">샘플러: ${image.sampler}</p>
                                 <p class="card-text">프롬프트: ${image.prompt}</p>

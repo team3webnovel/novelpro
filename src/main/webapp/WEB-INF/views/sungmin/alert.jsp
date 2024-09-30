@@ -4,44 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Image Generation Status</title>
-    <script type="text/javascript">
-	    var clientId = '<%=request.getAttribute("clientId")%>';  // 서버에서 전달된 clientId를 변수에 저장
-	    var socket;
-	
-	    // WebSocket 연결 설정
-	    function connectWebSocket() {
-	        socket = new WebSocket('ws://192.168.0.237:8188/ws?clientId=' + clientId);  
-	
-	        socket.onmessage = function(event) {
-	            var data = JSON.parse(event.data);
-	            console.log("Received data: ", data);
-	
-	            // 이미지 생성 완료 메시지 수신 시 알림
-	            if (data.type === 'executed' && data.data.output && data.data.output.images) {
-	                var imageUrl = "http://192.168.0.237:8188/view?filename=" + data.data.output.images[0].filename + "&type=output";
-	                alert('Image generated successfully! URL: ' + imageUrl);
-	            }
-	        };
-	
-	        socket.onopen = function() {
-	            console.log("WebSocket 연결 성공!");
-	        };
-	
-	        socket.onclose = function() {
-	            console.log("WebSocket 연결 종료");
-	        };
-	
-	        socket.onerror = function(error) {
-	            console.log("WebSocket 에러: " + error.message);
-	        };
-	    }
-	
-	    // 페이지 로드 시 WebSocket 연결
-	    window.onload = function() {
-	        connectWebSocket();  // WebSocket 연결
-	    };
-	</script>
+<%--     <script src="<%= request.getContextPath()%>/static/js/connectWebSocket.js"></script> <!-- 외부 스크립트 파일 로드 --> --%>
+	<script>
+	function checkForImageGeneration() {
+	    // 서버로 작업 상태 확인 요청
+	    fetch('/team3webnovel/images/checkStatus')
+	        .then(response => response.json())
+	        .then(data => {
+	            if (data.status === 'completed') {
+	                // 작업이 완료되었을 경우, alert 띄우기
+	                alert('Image generation completed! URL: ' + data.imageUrl);
 
+	                // 이미지 URL로 페이지 이동 또는 추가 처리 가능
+	                // window.location.href = '/viewImage?url=' + data.imageUrl;
+	            }
+	        })
+	        .catch(error => console.error('Error checking status:', error));
+	}
+
+	// 5초마다 상태 확인 요청을 서버로 보냄
+	setInterval(checkForImageGeneration, 5000);  // 5000ms = 5초
+
+	</script>
 </head>
 <body>
     <h1>Image Generation</h1>
