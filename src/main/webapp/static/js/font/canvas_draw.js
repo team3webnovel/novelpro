@@ -10,6 +10,7 @@ let focusedTextBoxIndex = -1; // 포커스된 텍스트 박스의 인덱스
 let dragging = false;  // 드래그 상태 추적
 let offsetX, offsetY;  // 드래그 위치 오프셋
 let isOnTextBox = false;  // 텍스트 박스 내부에 마우스가 있는지 여부
+let selectedTextBoxes = []; // 다중 선택된 텍스트 박스를 저장할 배열
 
 // 텍스트 박스 포커스 관리
 let isTextBoxFocused = false;
@@ -17,6 +18,96 @@ let isTextBoxFocused = false;
 let isDragging = false;
 let dragStartX, dragStartY;
 let dragEndX, dragEndY;
+
+// 무작위로 6자리 숫자를 Base64로 인코딩하여 파일명 생성
+function generateRandomBase64FileName() {
+    const randomNum = Math.floor(100000 + Math.random() * 900000); // 100000 ~ 999999 사이의 숫자
+    const base64FileName = btoa(randomNum.toString());
+    return base64FileName;
+}
+
+// 캔버스 이미지를 서버로 업로드
+function uploadImage() {
+    var canvas = document.getElementById('canvas');
+    
+    // 캔버스에 이미지와 텍스트가 이미 그려져 있어야 함
+    drawCanvas();  // 텍스트 박스와 이미지가 그려진 캔버스를 준비
+    
+    // 무작위로 생성된 파일명 생성
+    const fileName = generateRandomBase64FileName() + '.png';  // Base64 인코딩된 파일명에 .png 확장자 추가
+    
+    // Canvas를 Blob으로 변환 (이미지 데이터로 변환)
+    canvas.toBlob(function(blob) {
+        var formData = new FormData();
+        formData.append('image', blob, fileName);  // Base64 파일명을 사용하여 이미지 추가
+        
+        // 이미지 서버로 업로드 (fetch 사용)
+        fetch('http://192.168.0.237:8188/upload/image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Upload failed');
+            }
+        })
+        .then(data => {
+            console.log("Image uploaded successfully:", data);
+
+            // 업로드된 파일명을 백엔드로 전송
+            sendFileNameToBackend(fileName);  // fileName 변수를 전송
+        })
+        .catch(error => {
+            console.error("Error uploading image:", error);
+            displayStatusMessage('Failed to upload image.', 'error');
+        });
+    }, 'image/png');  // PNG 포맷으로 변환
+}
+
+// 파일명을 백엔드로 전송하는 함수
+function sendFileNameToBackend(fileName) {
+    fetch('http://localhost:8080/team3webnovel/generate-font', {  // 백엔드 경로로 파일명 전송
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'  // JSON 형식으로 데이터 전송
+        },
+        body: JSON.stringify({ fileName: fileName })  // 파일명을 JSON으로 전송
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('File name sent successfully');
+        } else {
+            console.error('Failed to send file name');
+        }
+    })
+    .catch(error => {
+        console.error('Error sending file name:', error);
+    });
+}
+
+
+// 성공 또는 실패 메시지를 표시하는 함수
+function displayStatusMessage(message, status) {
+    var statusDiv = document.getElementById('uploadStatus');
+    statusDiv.innerText = message;
+    
+    // 상태에 따른 스타일 변경 (성공: 녹색, 실패: 빨간색)
+    if (status === 'success') {
+        statusDiv.style.color = 'green';
+    } else if (status === 'error') {
+        statusDiv.style.color = 'red';
+    }
+    
+    // 일정 시간 후 메시지를 사라지게 할 수 있음 (선택 사항)
+    setTimeout(() => {
+        statusDiv.innerText = '';
+    }, 5000);  // 5초 후 메시지 사라짐
+}
+
+// 세이브 버튼에 함수 연결
+document.getElementById('saveBtn').addEventListener('click', uploadImage);
 
 // 이미지 업로드 핸들러
 document.getElementById('imageUpload').addEventListener('change', function () {
@@ -147,19 +238,13 @@ function drawCanvas() {
 
 
 
-// 텍스트 박스 외부 클릭 시 포커스 해제
+// 텍스트 박스 외부 클릭 시 포커스 처리 (다중 선택 포함)
 canvas.addEventListener('click', function (e) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
     let clickedOnTextBox = false;  // 클릭한 곳이 텍스트 박스인지 여부를 추적
-
-    // 텍스트 박스를 클릭한 경우, 현재 포커스된 텍스트 박스가 있으면 그 내용을 저장
-    if (focusedTextBoxIndex !== -1 && textBox) {
-        // 수정된 텍스트 박스 내용을 배열에 반영
-        textBoxes[focusedTextBoxIndex] = textBox;
-    }
 
     // 모든 텍스트 박스에 대해 클릭 여부 확인
     textBoxes.forEach((box, index) => {
@@ -170,29 +255,40 @@ canvas.addEventListener('click', function (e) {
         // 마우스가 텍스트 박스 안에 있는지 확인
         if (mouseX >= box.x - textWidth / 2 && mouseX <= box.x + textWidth / 2 &&
             mouseY >= box.y - textHeight / 2 && mouseY <= box.y + textHeight / 2) {
-            // 텍스트 박스를 클릭한 경우
-            focusedTextBoxIndex = index;  // 해당 텍스트 박스로 포커스 변경
-            textBox = textBoxes[focusedTextBoxIndex];  // 전역 변수에 현재 포커스된 텍스트 박스 설정
-            clickedOnTextBox = true;
-            drawCanvas();  // 포커스된 상태로 캔버스를 다시 그림
+            
+            clickedOnTextBox = true;  // 텍스트 박스를 클릭했음을 표시
+
+            if (e.ctrlKey) {
+                // Ctrl 키가 눌린 상태에서 클릭한 경우, 다중 선택 처리
+                if (selectedTextBoxes.includes(index)) {
+                    // 이미 선택된 텍스트 박스라면 선택 해제
+                    selectedTextBoxes = selectedTextBoxes.filter(i => i !== index);
+                } else {
+                    // 선택되지 않은 텍스트 박스라면 추가
+                    selectedTextBoxes.push(index);
+                }
+            } else {
+                // Ctrl 키가 눌리지 않은 경우, 기존 선택 해제하고 새로운 박스 선택
+                selectedTextBoxes = [index];
+            }
+
+            // 텍스트 박스가 클릭된 후 포커스 상태를 반영
+            focusedTextBoxIndex = index;
+            textBox = textBoxes[focusedTextBoxIndex];  // 포커스된 텍스트 박스를 전역 변수로 할당
+
+            drawCanvas();  // 선택 상태 반영 후 캔버스 다시 그림
         }
     });
 
-    // 마우스가 캔버스 내부에 있는지 확인 (캔버스 외부 클릭 시 포커스 해제하지 않음)
-    if (mouseX >= 0 && mouseX <= canvas.width && mouseY >= 0 && mouseY <= canvas.height) {
-        // 텍스트 박스 외부를 클릭한 경우 포커스 해제
-        if (!clickedOnTextBox) {
-            if (focusedTextBoxIndex !== -1 && textBox) {
-                // 포커스된 텍스트 박스의 내용을 저장
-                textBoxes[focusedTextBoxIndex] = textBox;
-            }
-
-            focusedTextBoxIndex = -1;  // 포커스 해제
-            textBox = null;  // 전역 변수를 null로 설정하여 포커스 해제 상태 반영
-            drawCanvas();  // 포커스 해제된 상태로 캔버스를 다시 그림
-        }
+    // 텍스트 박스 외부 클릭 시 모든 선택 해제
+    if (!clickedOnTextBox && !e.ctrlKey) {
+        selectedTextBoxes = [];  // 선택 해제
+        focusedTextBoxIndex = -1;  // 포커스 해제
+        textBox = null;
+        drawCanvas();  // 다시 그리기
     }
 });
+
 
 
 

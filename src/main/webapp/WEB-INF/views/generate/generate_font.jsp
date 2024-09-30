@@ -58,20 +58,9 @@
 
 </div>
 
-<!-- 텍스트 수정 영역 (툴바와 캔버스 사이에 위치) -->
-<textarea id="textEditBox" style="
-    position: relative;
-    width: 20%; 
-    height: 30px; 
-    font-size: 20px; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    z-index: 1000;">
-</textarea>
-
-<!-- 캔버스 (이미지와 텍스트를 표시할 영역) -->
 <canvas id="canvas"></canvas>
+<button id="saveBtn">이미지 저장</button>
+<div id="uploadStatus"></div> <!-- 성공/실패 메시지가 표시될 영역 -->
 
 <script src="static/js/font/text_style.js"></script>
 <script src="static/js/font/canvas_draw.js"></script>
