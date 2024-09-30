@@ -4,76 +4,53 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class GijeBoardVo {
-	int boardId;
-	int userId;
-	String userName;
-	String title;
-	String content;
-	Date createdAt;
-	Date updatedAt;
-	int viewCount;
+public class BoardCommentVo {
+
+	private int commentId;
+	private int boardId;
+	private int userId;
+	private String userName;
+	private String content;
+	private Date createdAt;
 	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	
-	public GijeBoardVo(int boardId, int userId, String userName, String title, String content, Date createdAt, Date updatedAt,
-			int viewCount) {
+	public BoardCommentVo(int commentId, int boardId, int userId, String userName, String content, Date createdAt) {
 		super();
+		this.commentId = commentId;
 		this.boardId = boardId;
 		this.userId = userId;
 		this.userName = userName;
-		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.viewCount = viewCount;
 	}
 	
-	public GijeBoardVo() {
+	public BoardCommentVo() {
 		
 	}
-	
+
+	public int getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
+
 	public int getBoardId() {
 		return boardId;
 	}
+
 	public void setBoardId(int boardId) {
 		this.boardId = boardId;
 	}
+
 	public int getUserId() {
 		return userId;
 	}
+
 	public void setUserId(int userId) {
 		this.userId = userId;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	public int getViewCount() {
-		return viewCount;
-	}
-	public void setViewCount(int viewCount) {
-		this.viewCount = viewCount;
 	}
 
 	public String getUserName() {
@@ -82,6 +59,22 @@ public class GijeBoardVo {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	public String getFormattedCreatedAt() {
