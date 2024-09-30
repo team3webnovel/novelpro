@@ -1,5 +1,6 @@
 package com.team3webnovel.services;
 
+import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 
 import java.util.List;
@@ -23,5 +24,7 @@ public interface ImageService {
     
     // 이미지 생성 프롬프트 db 저장
     void imageGenerate(Map<String, Object> imageData);
+    
+    List<ImageVo> getImageDataByUserId(CreationVo vo);
     
 }

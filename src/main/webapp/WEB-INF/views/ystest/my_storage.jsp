@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <!-- JSTL 추가 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -41,7 +42,26 @@
         </div>
         <div class="tab-pane fade" id="images">
             <h3>이미지 및 음악</h3>
-            <p>이미지 보관함의 내용이 여기에 표시됩니다.</p>
+
+            <!-- 이미지 리스트를 반복해서 표시 -->
+            <div class="row">
+                <c:forEach var="image" items="${imageList}">
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <!-- 이미지 출력 -->
+                            <img src="${image.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">이미지</h5>
+                                <p class="card-text">생성일: ${image.createdAt}</p>
+                                <p class="card-text">샘플러: ${image.sampler}</p>
+                                <p class="card-text">프롬프트: ${image.prompt}</p>
+                                <p class="card-text">모델 체크: ${image.modelCheck}</p>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+
         </div>
     </div>
 </div>
