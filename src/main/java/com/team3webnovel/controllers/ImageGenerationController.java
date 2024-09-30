@@ -34,7 +34,11 @@ public class ImageGenerationController {
 
     // GET 요청으로 JSP 페이지 렌더링
     @GetMapping("/generate")
-    public String showGeneratePage() {
+    public String showGeneratePage(HttpSession session) {
+    	UserVo user = (UserVo)session.getAttribute("user");
+    	int clientId = user.getUserId();
+    	session.setAttribute("clientId", clientId);
+    	comfyUIImageGenerator.connectWebSocket(clientId);
         return "sungmin/generate"; // generate.jsp 페이지로 이동
     }
 
@@ -51,7 +55,7 @@ public class ImageGenerationController {
             @RequestParam("seed") int seed,
             @RequestParam("checkpoint") String checkpoint,
             Model model, HttpSession session) {
-
+    	int clientId = (int)session.getAttribute("clientId");
         try {
             if (comfyUIImageGenerator.isConnected()) {
                 // ComfyUIImageGenerator에 필요한 파라미터를 모두 넘겨서 처리
@@ -64,7 +68,8 @@ public class ImageGenerationController {
                         height, 
                         cfgScale, 
                         seed,
-                        checkpoint
+                        checkpoint,
+                        clientId
                 );
 
                 // WebSocket에서 'execution_success' 메시지를 무제한 대기
@@ -120,10 +125,12 @@ public class ImageGenerationController {
     
     
     @GetMapping("/alert")
-    public String alert(Model model) {
-    	String clientId = comfyUIImageGenerator.getClientId();
-    	System.err.println(clientId);
-    	model.addAttribute(clientId);
-    	return "sungmin/alert";
+    public String alert(Model model, HttpSession session) {
+
+        int clientId = (int) session.getAttribute("clientId");
+        model.addAttribute("clientId", clientId);  // 클라이언트 ID를 JSP로 전달
+
+        return "sungmin/alert";  // 알림 JSP로 이동
     }
+
 }
