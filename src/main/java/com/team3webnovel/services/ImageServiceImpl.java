@@ -63,4 +63,23 @@ public class ImageServiceImpl implements ImageService {
             return null;
         }
     }
+
+	@Override
+	public void insertCreation(Map<String, Object> creationData) {
+		imageMapper.insertCreation(creationData);
+	}
+
+	@Override
+	public int getMax() {
+		return imageMapper.getLastCreationId();
+	}
+
+	@Override
+	public void imageGenerate(Map<String, Object> imageData) {
+		imageMapper.insertImageData(imageData);
+	}
+    
+	
+    
+    
 }
