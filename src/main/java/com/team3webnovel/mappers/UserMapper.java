@@ -1,8 +1,10 @@
 package com.team3webnovel.mappers;
 
-import com.team3webnovel.vo.UserVo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
+import com.team3webnovel.vo.UserVo;
 
 @Mapper
 public interface UserMapper {
@@ -15,5 +17,7 @@ public interface UserMapper {
     void updateUserPassword(UserVo user);
     
     void updatePassword(UserVo user);
+    
+    List <UserVo> getUserName();
     
 }
