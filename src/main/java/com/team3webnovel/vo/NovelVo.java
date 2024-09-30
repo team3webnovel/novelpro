@@ -1,17 +1,8 @@
 package com.team3webnovel.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class NovelVo {
-    // novel_detail 테이블 필드
-    private int novelId;         // NOVEL_ID
-    private int episodeNo;       // EPISODE_NO
-    private String contents;     // CONTENTS
-    private Timestamp createdAt;  // CREATED_AT (novel_detail 테이블의 생성 날짜)
-    private int creationIdDetail;  // CREATION_ID (novel_detail 테이블의 생성자 ID)
-    private String titleDetail;    // TITLE (novel_detail의 제목)
-
     // novel 테이블 필드
     private String genre;        // GENRE
     private String status;       // STATUS
@@ -19,14 +10,20 @@ public class NovelVo {
     private String title;        // TITLE (novel 테이블의 제목)
     private int creationId;      // CREATION_ID (novel 테이블의 생성자 ID)
     private String intro;        // INTRO (소설 소개)
-//    private Date createdAt;      // CREATED_AT (novel 테이블의 생성 날짜)
+    private Timestamp createdAt; // CREATED_AT (novel 테이블의 생성 날짜)
 
+    // novel_detail 테이블 필드
+    private int novelId;         // NOVEL_ID
+    private int episodeNo;       // EPISODE_NO
+    private String contents;     // CONTENTS
+    private int creationIdDetail;  // CREATION_ID (novel_detail 테이블의 생성자 ID)
+    private String titleDetail;    // TITLE (novel_detail의 제목)
+
+    // 기본 생성자
     public NovelVo() {
-    	
     }
-    // Getter와 Setter 메서드
 
-    // novel_detail 필드
+    // novel_detail 필드 Getter/Setter
     public int getNovelId() {
         return novelId;
     }
@@ -55,8 +52,8 @@ public class NovelVo {
         return createdAt;
     }
 
-    public void setCreatedAtDetail(Date createdAtDetail) {
-        this.createdAt = createdAt;
+    public void setCreatedAtDetail(Timestamp createdAtDetail) {
+        this.createdAt = createdAtDetail;
     }
 
     public int getCreationIdDetail() {
@@ -75,7 +72,7 @@ public class NovelVo {
         this.titleDetail = titleDetail;
     }
 
-    // novel 테이블 필드
+    // novel 테이블 필드 Getter/Setter
     public String getGenre() {
         return genre;
     }
@@ -128,7 +125,16 @@ public class NovelVo {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp currentTime) {
-        this.createdAt = currentTime;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    // toString 메서드
+    @Override
+    public String toString() {
+        return "NovelVo [genre=" + genre + ", status=" + status + ", userId=" + userId + ", title=" + title
+                + ", creationId=" + creationId + ", intro=" + intro + ", createdAt=" + createdAt + ", novelId="
+                + novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
+                + creationIdDetail + ", titleDetail=" + titleDetail + "]";
     }
 }

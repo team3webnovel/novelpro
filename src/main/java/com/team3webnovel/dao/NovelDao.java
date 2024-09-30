@@ -16,8 +16,8 @@ public interface NovelDao {
     // 특정 소설 조회
     NovelVo getNovelById(int novelId);
     
-    // 소설 추가
-    int insertNovelDetail(NovelVo novel);
+    // 새 소설 생성
+    int insertNovel(NovelVo novel);
     
     // 소설 수정
     int updateNovel(NovelVo novel);

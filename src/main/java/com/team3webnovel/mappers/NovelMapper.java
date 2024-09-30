@@ -10,7 +10,7 @@ import java.util.List;
 public interface NovelMapper {
 
     // 소설 추가
-    int insertNovelDetail(NovelVo vo);
+    int insertNovel(NovelVo vo);
 
     // 특정 사용자 ID로 소설 리스트 조회
     List<NovelVo> getNovelListByUserId(int userId);

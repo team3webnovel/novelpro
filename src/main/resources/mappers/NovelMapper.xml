@@ -5,76 +5,68 @@
 
 <mapper namespace="com.team3webnovel.mappers.NovelMapper">
 
-	<!-- 소설 목록 조회 (전체 소설) -->
-<select id="getNovelList" resultType="com.team3webnovel.vo.NovelVo">
-    SELECT 
-        novel_id AS novelId,
-        title,
-        created_at AS creationDate
-    FROM novel_detail
-    ORDER BY created_at DESC
-</select>
+    <!-- 소설 목록 조회 (전체 소설) -->
+    <select id="getNovelList" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            novel_id AS novelId,
+            title,
+            created_at AS creationDate
+        FROM novel_detail
+        ORDER BY created_at DESC
+    </select>
 
-<!-- 특정 사용자 ID로 소설 목록 조회 -->
-<select id="getNovelListByUserId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
-    SELECT 
-        nd.novel_id AS novelId,
-        nd.title AS titleDetail,
-        nd.episode_no AS episodeNo,
-        nd.contents AS contents,
-        nd.created_at AS creationDate,
-        n.genre AS genre,
-        n.status AS status,
-        n.user_id AS userId,
-        n.title AS title,
-        n.intro AS intro
-    FROM 
-        novel_detail nd
-    JOIN 
-        novel n ON nd.novel_id = n.novel_id
-    WHERE 
-        n.user_id = #{userId}
-    ORDER BY 
-        nd.created_at DESC
-</select>
+    <!-- 특정 사용자 ID로 소설 목록 조회 -->
+    <select id="getNovelListByUserId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            novel_id as novelId,
+            title,
+            genre,
+            status,
+            creation_id,
+            intro,
+            created_at as createdAt
+        FROM 
+            novel
+        WHERE 
+            user_id = #{userId}  <!-- 특정 사용자 ID로 필터링 -->
+        ORDER BY 
+            created_at DESC
+    </select>
+
+    <!-- 새 소설 추가 -->
+	<insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
+	    INSERT INTO novel (
+	        novel_id, title, intro, user_id, genre, created_at as createdAt
+	    ) VALUES (
+	        novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}
+	    )
+	</insert>
 
 
 
+    <!-- 소설 수정 -->
+    <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
+        UPDATE novel_detail
+        SET title = #{title},
+            episode_no = #{episodeNo},
+            contents = #{contents}
+        WHERE novel_id = #{novelId}
+    </update>
 
-<!-- 소설 작성 (새 소설 저장) -->
-<insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
-    INSERT INTO novel_detail (
-        novel_id, title, episode_no, contents
-    ) VALUES (
-        novel_seq.NEXTVAL, #{title}, #{episodeNo}, #{contents}
-    )
-</insert>
+    <!-- 소설 삭제 -->
+    <delete id="deleteNovel" parameterType="int">
+        DELETE FROM novel WHERE novel_id = #{novelId}
+    </delete>
 
-<!-- 소설 수정 -->
-<update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-    UPDATE novel_detail
-    SET title = #{title},
-        episode_no = #{episodeNo},
-        contents = #{contents}
-    WHERE novel_id = #{novelId}
-</update>
-
-<!-- 소설 삭제 -->
-<delete id="deleteNovel" parameterType="int">
-    DELETE FROM novel_detail WHERE novel_id = #{novelId}
-</delete>
-
-<!-- 소설 검색 (제목이나 내용에서 검색) -->
-<select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
-    SELECT 
-        novel_id AS novelId,
-        title,
-        created_at AS creationDate
-    FROM novel_detail
-    WHERE title LIKE CONCAT('%', #{keyword}, '%')
-       OR contents LIKE CONCAT('%', #{keyword}, '%')
-    ORDER BY created_at DESC
-</select>
-
+    <!-- 소설 검색 (제목에서 검색) -->
+    <select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            novel_id AS novelId,
+            title,
+            created_at AS creationDate
+        FROM novel
+        WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY created_at DESC
+    </select>
 
 </mapper>

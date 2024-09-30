@@ -24,11 +24,11 @@ public class NovelServiceImpl implements NovelService {
     }
 
 
-    // 소설 추가
+    // 새 소설 생성
     @Override
     @Transactional
-    public void insertNovelDetail(NovelVo novel) {
-        novelDao.insertNovelDetail(novel);
+    public void insertNovel(NovelVo novel) {
+        novelDao.insertNovel(novel);
     }
 
     // 소설 수정
@@ -50,17 +50,11 @@ public class NovelServiceImpl implements NovelService {
         return novelDao.searchNovels(keyword);
     }
 
-	@Override
-	public List<NovelVo> getNovelListByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<NovelVo> getNovelListByUserId(int userId) {
+        // NovelDao를 사용하여 userId에 해당하는 소설 목록을 가져옵니다.
+        return novelDao.getNovelListByUserId(userId);
+    }
 
-
-	@Override
-	public List<NovelVo> getNovelListByUserId(UserVo vo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

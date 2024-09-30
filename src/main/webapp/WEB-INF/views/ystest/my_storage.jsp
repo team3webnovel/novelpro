@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">+new</a>
     </div>
     
     <!-- 탭 메뉴 -->
@@ -24,10 +24,13 @@
             <a class="nav-link active" href="#all" data-toggle="tab">전체</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#playground" data-toggle="tab">내 소설</a>
+            <a class="nav-link" href="#mynovel" data-toggle="tab">내 소설</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#images" data-toggle="tab">내 이미지랑 음악</a>
+            <a class="nav-link" href="#images" data-toggle="tab">내 이미지</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#music" data-toggle="tab">내 음악</a>
         </li>
     </ul>
 
@@ -38,28 +41,24 @@
             <p>전체 항목이 여기에 표시됩니다.</p>
         </div>
         
-        <!-- 내 소설 탭 -->
-        <div class="tab-pane fade" id="playground">
-            <h3>내소설</h3>
-            
-            <!-- 소설 리스트 -->
-            <div class="list-group">
-				<c:forEach var="novel" items="${novelList}">
-				    <div>
-				        <h3>${novel.title}</h3>
-				        <p>장르: ${novel.genre}</p>
-				        <p>에피소드 번호: ${novel.episodeNo}</p>
-				        <p>내용: ${novel.contents}</p>
-				        <p>작성일: ${novel.creationDate}</p>
-				    </div>
-				</c:forEach>
+		<div class="form-group">
+		    <label for="novel">내 소설</label>
+		    <c:forEach var="novel" items="${novelList}">
+		        <div class="card">
+		            <div class="card-body">
+		                <p class="card-text">제목: ${novel.title}</p>
+		                <p class="card-text">장르: ${novel.genre}</p>
+		                <p class="card-text">내용: ${novel.intro}</p>
+		                <p class="card-text">작성일: ${novel.createdAt}</p> <!-- createdAt으로 수정 -->
+		            </div>
+		        </div>
+		    </c:forEach>
+		</div>
 
-            </div>
-        </div>
-        
+
         <!-- 내 이미지 및 음악 탭 -->
         <div class="tab-pane fade" id="images">
-            <h3>이미지 및 음악</h3>
+            <h3>내 이미지</h3>
 
             <!-- 이미지 리스트를 반복해서 표시 -->
             <div class="row">
@@ -79,6 +78,9 @@
                     </div>
                 </c:forEach>
             </div>
+        </div>
+        <div class="tab-pane fade" id="music">
+        	<h3>내 음악</h3>
         </div>
     </div>
 </div>

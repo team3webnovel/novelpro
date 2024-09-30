@@ -29,8 +29,8 @@ public class NovelDaoImpl implements NovelDao {
 
     // 소설 추가
     @Override
-    public int insertNovelDetail(NovelVo novel) {
-        return novelMapper.insertNovelDetail(novel);  // Mapper를 통한 DB Insert
+    public int insertNovel(NovelVo novel) {
+        return novelMapper.insertNovel(novel);  // Mapper를 통한 DB Insert
     }
 
     // 소설 수정
