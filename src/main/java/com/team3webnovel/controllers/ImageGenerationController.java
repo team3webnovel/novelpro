@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.vo.UserVo;
+import com.team3webnovel.vo.resultVo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,8 +23,8 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/images")
 public class ImageGenerationController {
 	
-	@Autowired
-	private ImageService imageService;
+    @Autowired
+    private ImageService imageService;
 
     private final ComfyUIImageGenerator comfyUIImageGenerator;
 
@@ -50,12 +51,11 @@ public class ImageGenerationController {
             @RequestParam("seed") int seed,
             @RequestParam("checkpoint") String checkpoint,
             Model model, HttpSession session) {
-    	String imageUrl;
-        
+
         try {
             if (comfyUIImageGenerator.isConnected()) {
                 // ComfyUIImageGenerator에 필요한 파라미터를 모두 넘겨서 처리
-                CompletableFuture<String> imageUrlFuture = comfyUIImageGenerator.queuePrompt(
+                CompletableFuture<resultVo> resultVoFuture = comfyUIImageGenerator.queuePrompt(
                         prompt, 
                         negativePrompt, 
                         samplerIndex, 
@@ -68,24 +68,30 @@ public class ImageGenerationController {
                 );
 
                 // WebSocket에서 'execution_success' 메시지를 무제한 대기
-                imageUrl = imageUrlFuture.join();  // join()으로 결과가 나올 때까지 무제한 대기
+                resultVo result = resultVoFuture.join();  // join()으로 결과가 나올 때까지 무제한 대기
 
-                // 이미지 URL을 모델에 추가
+                // resultVo에서 이미지 URL과 파일명을 각각 가져와서 모델에 추가
+                String imageUrl = result.getImageUrl();
+                String filename = result.getFilename();
+
                 model.addAttribute("imageUrl", imageUrl);
+                model.addAttribute("filename", filename);  // 파일명도 필요시 출력
                 model.addAttribute("message", "Image generation successful.");
                 
-                UserVo vo = (UserVo)session.getAttribute("user");
+                // UserVo 세션에서 가져오기
+                UserVo vo = (UserVo) session.getAttribute("user");
                 int userId = vo.getUserId();
                 int artForm = 1;
                 Map<String, Object> paramMap = new HashMap<>();
-                paramMap.put("userId", vo.getUserId());  // vo에서 userId 가져옴
-                paramMap.put("artForm", 2);  // artform은 2로 지정
+                paramMap.put("userId", vo.getUserId());
+                paramMap.put("artForm", 2);  // artForm은 2로 지정
                 imageService.insertCreation(paramMap);
                 
                 int maxId = imageService.getMax();
-                Map<String, Object> imageDataMap = new HashMap<String, Object>();
+                Map<String, Object> imageDataMap = new HashMap<>();
                 imageDataMap.put("creationId", maxId);
                 imageDataMap.put("imageUrl", imageUrl);
+                imageDataMap.put("fileName", filename);
                 imageDataMap.put("modelCheck", checkpoint);
                 imageDataMap.put("sampler", samplerIndex);
                 imageDataMap.put("prompt", prompt);
@@ -95,9 +101,10 @@ public class ImageGenerationController {
                 imageDataMap.put("seed", seed);
                 imageDataMap.put("width", width);
                 imageDataMap.put("height", height);
-                
+
                 System.err.println(imageDataMap);
-                
+
+                // 이미지 데이터 삽입
                 imageService.imageGenerate(imageDataMap);
                 
             } else {
@@ -107,9 +114,16 @@ public class ImageGenerationController {
             // 예외 처리: 이미지 생성 중 오류가 발생했을 때
             model.addAttribute("message", "Error generating image: " + e.getMessage());
         }
-        
-        
-        
+
         return "sungmin/result";  // 결과 페이지로 이동
+    }
+    
+    
+    @GetMapping("/alert")
+    public String alert(Model model) {
+    	String clientId = comfyUIImageGenerator.getClientId();
+    	System.err.println(clientId);
+    	model.addAttribute(clientId);
+    	return "sungmin/alert";
     }
 }

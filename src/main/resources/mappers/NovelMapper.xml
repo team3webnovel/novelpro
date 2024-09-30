@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3webnovel.mappers.NovelMapper">
+
+    <resultMap id="novelResultMap" type="com.team3webnovel.vo.NovelVo">
+        <result property="novelId" column="NOVEL_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="coverImageUrl" column="COVER_IMAGE_URL"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="UPDATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="viewCount" column="VIEW_COUNT"/>
+    </resultMap>
+
+    <!-- 소설 리스트 조회 -->
+    <select id="getNovelList" resultMap="novelResultMap">
+        SELECT 
+            novel_id, 
+            user_id, 
+            title, 
+            content, 
+            created_at, 
+            updated_at, 
+            view_count
+        FROM novel
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 특정 소설 조회 -->
+    <select id="getNovelById" parameterType="int" resultMap="novelResultMap">
+        SELECT 
+            novel_id, 
+            user_id, 
+            title, 
+            content, 
+            created_at, 
+            updated_at, 
+            view_count
+        FROM novel
+        WHERE novel_id = #{novelId}
+    </select>
+
+    <!-- 소설 작성 (새 소설 저장) -->
+    <!-- novel_id가 자동 생성될 경우 이 컬럼은 제외 -->
+    <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
+        INSERT INTO novel (
+            user_id, title, content, created_at, view_count
+        ) VALUES (
+            #{userId}, #{title}, #{content}, SYSDATE, 0
+        )
+    </insert>
+
+    <!-- 소설 업데이트 -->
+    <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
+        UPDATE novel
+        SET 
+            title = #{title}, 
+            content = #{content}, 
+            updated_at = SYSDATE
+        WHERE novel_id = #{novelId}
+    </update>
+
+    <!-- 소설 삭제 -->
+    <delete id="deleteNovel" parameterType="int">
+        DELETE FROM novel
+        WHERE novel_id = #{novelId}
+    </delete>
+
+    <!-- 소설 조회 수 증가 -->
+    <update id="increaseViewCount" parameterType="int">
+        UPDATE novel
+        SET view_count = view_count + 1
+        WHERE novel_id = #{novelId}
+    </update>
+
+    <!-- 소설 검색 (LIKE 쿼리에 와일드카드 추가) -->
+    <select id="searchNovels" parameterType="string" resultMap="novelResultMap">
+        SELECT 
+            novel_id, 
+            user_id, 
+            title, 
+            content, 
+            created_at, 
+            updated_at, 
+            view_count
+        FROM novel
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') 
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY created_at DESC
+    </select>
+
+</mapper>
