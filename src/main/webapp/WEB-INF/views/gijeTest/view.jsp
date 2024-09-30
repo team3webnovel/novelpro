@@ -119,7 +119,7 @@
     }
 
 </style>
-<script src="<%= request.getContextPath()%>/static/js/board.js"></script>
+<script src="<%= request.getContextPath()%>/static/js/board_view.js"></script>
 </head>
 <body>
     <h1>게시글 상세보기</h1>
@@ -168,8 +168,7 @@
             <tr>
 		        <td colspan="4">
 		        	<input type="hidden" id="commentId" value="${comment.commentId }">
-		            ${comment.userName}: ${comment.content}
-		            <fmt:formatDate value="${comment.createdAt}" pattern="yyyy년 MM월 dd일 HH:mm:ss" />
+		            ${comment.userName}: ${comment.content} ${comment.formattedCreatedAt}
 		            <c:if test="${user.userId==comment.userId }">
 		            	<button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>
 		            </c:if>

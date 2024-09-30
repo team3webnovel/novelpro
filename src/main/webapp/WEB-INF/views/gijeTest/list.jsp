@@ -175,7 +175,7 @@
 	            <td>${board.boardId}</td>
 	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 	            <td>${board.userName}</td>
-	            <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy년 MM월 dd일 HH:mm:ss" /></td>
+	            <td>${board.formattedCreatedAt}</td>
 	            <td>${board.viewCount}</td>
 	        </tr>
 	    </c:forEach>

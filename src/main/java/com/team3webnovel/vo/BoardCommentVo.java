@@ -1,6 +1,8 @@
 package com.team3webnovel.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class BoardCommentVo {
 
@@ -10,6 +12,8 @@ public class BoardCommentVo {
 	private String userName;
 	private String content;
 	private Date createdAt;
+	
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	
 	public BoardCommentVo(int commentId, int boardId, int userId, String userName, String content, Date createdAt) {
 		super();
@@ -73,4 +77,25 @@ public class BoardCommentVo {
 		this.createdAt = createdAt;
 	}
 	
+	public String getFormattedCreatedAt() {
+        if (createdAt == null) {
+            return "";
+        }
+
+        Date now = new Date();
+        long diffInMillis = now.getTime() - createdAt.getTime();
+        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis);
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis);
+        long diffInHours = TimeUnit.MILLISECONDS.toHours(diffInMillis);
+
+        if (diffInSeconds < 60) {
+            return "1분 미만";
+        } else if (diffInMinutes < 60) {
+            return diffInMinutes + "분 전";
+        } else if (diffInHours < 24) {
+            return diffInHours + "시간 전";
+        } else {
+            return dateFormat.format(createdAt);
+        }
+    }
 }
