@@ -112,6 +112,7 @@ public class ImageGenerationController {
                 imageService.imageGenerate(imageDataMap);
                 
                 session.setAttribute("imageGenerated", true);  // 세션에 완료 상태 저장
+                session.setAttribute("imageUrl", imageUrl);    // 세션에 URL 저장
                 
                 
             } else {
@@ -125,7 +126,7 @@ public class ImageGenerationController {
         return "sungmin/result";  // 결과 페이지로 이동
     }
     
-    // 작업 상태를 확인하는 API
+ // 작업 상태를 확인하는 API
     @GetMapping("/checkStatus")
     @ResponseBody
     public Map<String, Object> checkStatus(HttpSession session) {
@@ -134,6 +135,7 @@ public class ImageGenerationController {
         Boolean imageGenerated = (Boolean) session.getAttribute("imageGenerated");
         if (imageGenerated != null && imageGenerated) {
             response.put("status", "completed");
+            response.put("imageUrl", session.getAttribute("imageUrl"));
             session.removeAttribute("imageGenerated");  // 상태 체크 후 세션에서 제거
         } else {
             response.put("status", "in_progress");
@@ -141,8 +143,6 @@ public class ImageGenerationController {
 
         return response;
     }    
-    
-    
     
     @GetMapping("/alert")
     public String alert(Model model, HttpSession session) {

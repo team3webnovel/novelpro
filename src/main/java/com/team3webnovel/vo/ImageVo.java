@@ -15,9 +15,19 @@ public class ImageVo {
     private int seed;
     private int width;
     private int height;
+    private String title;
 
-    // 기본 생성자
+
+	// 기본 생성자
     public ImageVo() {}
+    
+    public String getTitle() {
+    	return title;
+    }
+    
+    public void setTitle(String title) {
+    	this.title = title;
+    }
 
 	public int getCreationId() {
 		return creationId;

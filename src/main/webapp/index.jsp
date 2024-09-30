@@ -8,6 +8,8 @@
     <title>웹소설 플랫폼</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
+    <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>    
     <%-- <script src="<%= request.getContextPath()%>/static/js/connectWebSocket.js"></script> <!-- 외부 스크립트 파일 로드 -->     --%>
 </head>
 <body>
@@ -15,6 +17,15 @@
     <header>
         <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     </header>
+    
+        <!-- 모달 HTML -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Image generation completed!</h2>
+            <img id="imageResultImg" src="" alt="Generated Image" style="max-width:100%;">
+        </div>
+    </div>
 
     <!-- 슬라이드 배너 -->
     <section id="banner" class="carousel slide" data-ride="carousel">
