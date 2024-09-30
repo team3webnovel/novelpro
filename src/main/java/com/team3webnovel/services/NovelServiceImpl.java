@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3webnovel.dao.NovelDao;
 import com.team3webnovel.vo.NovelVo;
+import com.team3webnovel.vo.UserVo;
 
 @Service
 public class NovelServiceImpl implements NovelService {
@@ -22,21 +23,17 @@ public class NovelServiceImpl implements NovelService {
         return novelDao.getNovelList();
     }
 
-    // 특정 소설 조회
-    @Override
-    public NovelVo getNovelById(int novelId) {
-        return novelDao.getNovelById(novelId);
-    }
 
     // 소설 추가
     @Override
     @Transactional
-    public void insertNovel(NovelVo novel) {
-        novelDao.insertNovel(novel);
+    public void insertNovelDetail(NovelVo novel) {
+        novelDao.insertNovelDetail(novel);
     }
 
     // 소설 수정
     @Override
+    
     public void updateNovel(NovelVo novel) {
         novelDao.updateNovel(novel);
     }
@@ -52,4 +49,18 @@ public class NovelServiceImpl implements NovelService {
     public List<NovelVo> searchNovels(String keyword) {
         return novelDao.searchNovels(keyword);
     }
+
+	@Override
+	public List<NovelVo> getNovelListByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<NovelVo> getNovelListByUserId(UserVo vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

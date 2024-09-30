@@ -114,6 +114,14 @@ public class ImageVo {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
+	@Override
+	public String toString() {
+		return "ImageVo [creationId=" + creationId + ", imageUrl=" + imageUrl + ", modelCheck=" + modelCheck
+				+ ", sampler=" + sampler + ", prompt=" + prompt + ", nPrompt=" + nPrompt + ", createdAt=" + createdAt
+				+ ", steps=" + steps + ", cfg=" + cfg + ", seed=" + seed + ", width=" + width + ", height=" + height
+				+ "]";
+	}
     
     
 

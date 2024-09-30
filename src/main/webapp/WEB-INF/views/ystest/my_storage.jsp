@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <!-- JSTL 추가 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> <!-- JSTL functions 추가 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,7 +15,7 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/write" class="btn btn-primary">글쓰기</a>
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
     </div>
     
     <!-- 탭 메뉴 -->
@@ -35,13 +37,48 @@
             <h3>전체</h3>
             <p>전체 항목이 여기에 표시됩니다.</p>
         </div>
+        
+        <!-- 내 소설 탭 -->
         <div class="tab-pane fade" id="playground">
             <h3>내소설</h3>
-            <p>내소설에 대한 내용이 여기에 표시됩니다.</p>
+            
+            <!-- 소설 리스트 -->
+            <div class="list-group">
+				<c:forEach var="novel" items="${novelList}">
+				    <div>
+				        <h3>${novel.title}</h3>
+				        <p>장르: ${novel.genre}</p>
+				        <p>에피소드 번호: ${novel.episodeNo}</p>
+				        <p>내용: ${novel.contents}</p>
+				        <p>작성일: ${novel.creationDate}</p>
+				    </div>
+				</c:forEach>
+
+            </div>
         </div>
+        
+        <!-- 내 이미지 및 음악 탭 -->
         <div class="tab-pane fade" id="images">
             <h3>이미지 및 음악</h3>
-            <p>이미지 보관함의 내용이 여기에 표시됩니다.</p>
+
+            <!-- 이미지 리스트를 반복해서 표시 -->
+            <div class="row">
+                <c:forEach var="image" items="${imageList}">
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <!-- 이미지 출력 -->
+                            <img src="${image.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">이미지</h5>
+                                <p class="card-text">생성일: ${image.createdAt}</p>
+                                <p class="card-text">샘플러: ${image.sampler}</p>
+                                <p class="card-text">프롬프트: ${image.prompt}</p>
+                                <p class="card-text">모델 체크: ${image.modelCheck}</p>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </div>

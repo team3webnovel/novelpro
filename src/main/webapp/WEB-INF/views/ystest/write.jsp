@@ -48,9 +48,15 @@
 
         <!-- 버튼들 -->
         <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
-            <button type="submit" class="btn btn-primary">저장</button>
-        </div>
+            <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
+            <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
+
+            <!-- 버튼 그룹: 임시저장과 저장을 옆에 배치 -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
+                <button type="submit" class="btn btn-primary">저장</button>
+            </div>
+         </div>
     </form>
 </div>
 
@@ -58,6 +64,12 @@
     function saveTemporary() {
         alert("임시 저장 기능이 구현될 예정입니다.");
         // 이 부분에 실제 임시 저장 로직을 추가할 수 있습니다.
+    }
+
+    // 이전 버튼 클릭 시 cover.jsp로 이동
+    function goBack() {
+        var contextPath = "<%= request.getContextPath() %>";
+        window.location.href = contextPath + "/cover";
     }
 </script>
 
