@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,19 +80,46 @@
         transition: background-color 0.3s ease;
     }
     
-    .delete-button{
-    	background-color: #D979B1;
+    .delete-button {
+        background-color: #D979B1;
     }
 
     .back-button:hover {
         background-color: #7f8bc1;
     }
     
-    .delete-button:hover{
-    	background-color: #c45a8b;
+    .delete-button:hover {
+        background-color: #c45a8b;
+    }
+
+    /* 댓글 입력 및 표시 스타일 */
+    textarea {
+        width: 100%;
+        height: 100px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: none;
+    }
+
+    .comment-button {
+        background-color: #D979B1;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .comment-button:hover {
+        background-color: #c45a8b;
     }
 
 </style>
+<script src="<%= request.getContextPath()%>/static/js/board.js"></script>
 </head>
 <body>
     <h1>게시글 상세보기</h1>
@@ -103,13 +132,15 @@
         </tr>
         <tr>
             <th>작성자</th>
-            <td>${board.userId}</td>
+            <td>${board.userName}</td>
             <th>조회수</th>
             <td>${board.viewCount}</td>
         </tr>
         <tr>
             <th>작성일</th>
-            <td colspan="3">${board.createdAt}</td>
+            <td colspan="3">
+        		<fmt:formatDate value="${board.createdAt}" pattern="yyyy년 MM월 dd일 HH:mm:ss" />
+    		</td>
         </tr>
         <tr class="content-row">
             <th colspan="4">내용</th>
@@ -117,15 +148,43 @@
         <tr class="content-row">
             <td colspan="4" class="content-cell">${board.content}</td>
         </tr>
+
+        <!-- 댓글 입력 섹션 -->
+        <tr>
+            <th colspan="4">댓글</th>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <textarea id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea>
+                <input type="hidden" id="boardId" name="boardId" value="${board.boardId}" />
+            </td>
+            <td>
+                <button type="submit" id="comment-submit" class="comment-button">작성</button>
+            </td>
+        </tr>
+
+        <!-- 댓글 표시 섹션 -->
+        <c:forEach var="comment" items="${comments}">
+            <tr>
+		        <td colspan="4">
+		        	<input type="hidden" id="commentId" value="${comment.commentId }">
+		            ${comment.userName}: ${comment.content}
+		            <fmt:formatDate value="${comment.createdAt}" pattern="yyyy년 MM월 dd일 HH:mm:ss" />
+		            <c:if test="${user.userId==comment.userId }">
+		            	<button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>
+		            </c:if>
+		        </td>
+		    </tr>
+        </c:forEach>
     </table>
     
     <!-- 버튼 컨테이너 -->
     <div class="button-container">
         <c:if test="${user.userId == board.userId}">
-		    <form action="/team3webnovel/gije/delete/${board.boardId}" method="post" style="display:inline;">
-		        <button type="submit" class="delete-button">게시글 삭제</button>
-		    </form>
-		</c:if>
+            <form action="/team3webnovel/gije/delete/${board.boardId}" method="post" style="display:inline;">
+                <button type="submit" class="delete-button">게시글 삭제</button>
+            </form>
+        </c:if>
         <a href="/team3webnovel/gije/board?page=${currentPage}" class="back-button">글 목록으로 돌아가기</a>
     </div>
 </body>

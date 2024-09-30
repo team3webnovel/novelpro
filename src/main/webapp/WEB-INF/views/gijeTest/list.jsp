@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -174,7 +175,7 @@
 	            <td>${board.boardId}</td>
 	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 	            <td>${board.userName}</td>
-	            <td>${board.createdAt}</td>
+	            <td><fmt:formatDate value="${board.createdAt}" pattern="yyyy년 MM월 dd일 HH:mm:ss" /></td>
 	            <td>${board.viewCount}</td>
 	        </tr>
 	    </c:forEach>
