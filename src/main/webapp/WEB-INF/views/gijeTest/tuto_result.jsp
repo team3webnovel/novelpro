@@ -22,15 +22,14 @@
     <h1>이미지 결과</h1>
 
     <div id="imageContainer">
-        <c:if test="${not empty imageData}">
-            <img src="data:image/png;base64,${imageData}" alt="Generated Image" />
-        </c:if>
-        <c:if test="${empty imageData}">
-            <p>이미지가 생성되지 않았습니다.</p>
-        </c:if>
-        <c:if test="${not empty prompt }">
-        	<p>"${prompt }"</p>
-        </c:if>
+	    <c:forEach var="imageData" items="${imageDataList}">
+		    <div class="image-container">
+		        <img src="data:image/png;base64,${imageData}" alt="Generated Image" />
+		        <c:if test="${not empty prompt }">
+	        		<p>"${prompt }"</p>
+	        	</c:if>
+		    </div>
+		</c:forEach>
     </div>
 </body>
 </html>

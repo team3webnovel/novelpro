@@ -71,21 +71,23 @@ public class testController {
 	
 	private String generatedImageData; // Base64로 인코딩된 이미지 데이터
 	private String prompt;
+	private List<String> generatedImageDataList;
 	
-    @PostMapping("/image/result")
-    @ResponseBody // JSON 응답을 위해 추가
-    public ResponseEntity<String> receiveImage(@RequestBody Map<String, String> payload) {
-        this.generatedImageData = payload.get("image");
-        this.prompt = payload.get("prompt");
-        return ResponseEntity.ok("Image received"); // 성공적으로 수신했음을 응답
-    }
-
+	@PostMapping("/image/result")
+	@ResponseBody // JSON 응답을 위해 추가
+	public ResponseEntity<String> receiveImages(@RequestBody Map<String, Object> payload) {
+	    List<String> images = (List<String>) payload.get("images"); // 여러 이미지 데이터를 리스트로 받음
+	    this.generatedImageDataList = images; // 리스트로 저장 (여러 이미지 처리)
+	    this.prompt = (String) payload.get("prompt"); // 프롬프트 정보 저장
+	    return ResponseEntity.ok("Images received"); // 성공적으로 수신했음을 응답
+	}
+	
     // 이미지 결과를 표시하는 GET 메서드
-    @GetMapping("/image/result")
-    public String imageResult(Model model) {
-        model.addAttribute("imageData", generatedImageData); // 모델에 이미지 데이터 추가
-        model.addAttribute("prompt", prompt);
-        return "gijeTest/tuto_result"; // JSP 페이지 반환
-    }
+	@GetMapping("/image/result")
+	public String imageResult(Model model) {
+	    model.addAttribute("imageDataList", generatedImageDataList); // 여러 이미지 데이터를 모델에 추가
+	    model.addAttribute("prompt", prompt);
+	    return "gijeTest/tuto_result"; // JSP 페이지 반환
+	}
 	
 }

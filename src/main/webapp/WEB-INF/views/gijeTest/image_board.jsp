@@ -112,7 +112,7 @@
         <h1>게시판</h1>
         <div class="grid">
             <c:forEach var="image" items="${list}">
-                <div class="image-card" onclick="openModal('${image.imageUrl}', ${image.creationId})">
+                <div class="image-card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId})">
                     <img src="${image.imageUrl }" alt="이미지">
                 </div>
             </c:forEach>

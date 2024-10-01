@@ -16,9 +16,6 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 	@Autowired
 	private ImageBoardDaoImpl imageBoardDao;
 	
-	@Autowired
-	private ImageDao imageDao;
-	
 	@Override
 	public List<ImageBoardVo> list() {
 //		ImageVo imageInfo = imageDao.getAllInformation(0);
