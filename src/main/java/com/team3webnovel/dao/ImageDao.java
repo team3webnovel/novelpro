@@ -19,5 +19,7 @@ public interface ImageDao {
     void fontGenerate(Map<String, Object> imageData);
     
     public List<ImageVo> getImageDataByUserId(CreationVo vo);  // 메서드 선언
+    
+    public ImageVo getAllInformation(int creationId);
 
 }

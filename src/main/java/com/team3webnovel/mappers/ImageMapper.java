@@ -28,5 +28,6 @@ public interface ImageMapper {
     // creationId로 특정 이미지 정보 조회
     ImageVo getImageByCreationId(@Param("creationId") int creationId);
     
-    
+
+    ImageVo getAllInformation(int creationId);
 }

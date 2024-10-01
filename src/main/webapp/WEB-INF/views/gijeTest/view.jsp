@@ -93,31 +93,72 @@
     }
 
     /* 댓글 입력 및 표시 스타일 */
-    textarea {
-        width: 100%;
-        height: 100px;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        resize: none;
-    }
+	textarea {
+	    width: calc(100% - 120px);
+	    height: 100px;
+	    padding: 10px;
+	    font-size: 14px;
+	    border: 1px solid #ddd;
+	    border-radius: 5px;
+	    resize: none;
+	    box-sizing: border-box;
+	}
+	
+	.comment-container {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	}
+	
+	.comment-button {
+	    background-color: #D979B1;
+	    color: white;
+	    border: none;
+	    padding: 10px 20px;
+	    font-size: 16px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.comment-button:hover {
+	    background-color: #c45a8b;
+	}
 
-    .comment-button {
-        background-color: #D979B1;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .comment-button:hover {
-        background-color: #c45a8b;
-    }
-
+	.comment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+	}
+	
+	.comment-content {
+	    flex-grow: 1;
+	    font-size: 14px;
+	    line-height: 1.5;
+	}
+	
+	.comment-time {
+	    font-size: 12px;
+	    color: #999;
+	    margin-left: 10px;
+	}
+	
+	.comment-delete {
+	    background-color: #D979B1;
+	    color: white;
+	    border: none;
+	    padding: 5px 10px;
+	    font-size: 12px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.comment-delete:hover {
+	    background-color: #c45a8b;
+	}
 </style>
 <script src="<%= request.getContextPath()%>/static/js/board_view.js"></script>
 </head>
@@ -154,27 +195,32 @@
             <th colspan="4">댓글</th>
         </tr>
         <tr>
-            <td colspan="3">
-                <textarea id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea>
-                <input type="hidden" id="boardId" name="boardId" value="${board.boardId}" />
-            </td>
-            <td>
-                <button type="submit" id="comment-submit" class="comment-button">작성</button>
-            </td>
-        </tr>
+		    <td colspan="4">
+		        <div class="comment-container">
+		            <textarea id="comment" name="comment" placeholder="댓글을 입력하세요"></textarea>
+		            <button type="submit" id="comment-submit" class="comment-button">작성</button>
+		        </div>
+		        <input type="hidden" id="boardId" name="boardId" value="${board.boardId}" />
+		    </td>
+		</tr>
+
 
         <!-- 댓글 표시 섹션 -->
-        <c:forEach var="comment" items="${comments}">
-            <tr>
+		<c:forEach var="comment" items="${comments}">
+		    <tr>
 		        <td colspan="4">
-		        	<input type="hidden" id="commentId" value="${comment.commentId }">
-		            ${comment.userName}: ${comment.content} ${comment.formattedCreatedAt}
-		            <c:if test="${user.userId==comment.userId }">
-		            	<button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>
-		            </c:if>
+		            <div class="comment-row">
+		                <div class="comment-content">
+		                    <strong>${comment.userName}</strong>: ${comment.content}
+		                    <span class="comment-time">${comment.formattedCreatedAt}</span>
+		                </div>
+		                <c:if test="${user.userId==comment.userId}">
+		                    <button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>
+		                </c:if>
+		            </div>
 		        </td>
 		    </tr>
-        </c:forEach>
+		</c:forEach>
     </table>
     
     <!-- 버튼 컨테이너 -->

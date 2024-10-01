@@ -42,7 +42,9 @@ public class ImageDaoImpl implements ImageDao {
 	    return imageMapper.getImageDataByUserId(vo);  // 조회된 결과를 반환
 	}
 
-	
-	
+	@Override
+	public ImageVo getAllInformation(int creationId) {
+		return imageMapper.getAllInformation(creationId);
+	}
 
 }

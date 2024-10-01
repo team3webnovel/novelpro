@@ -39,6 +39,6 @@ public class NovelController {
     // 글쓰기 페이지로 이동
     @GetMapping("/write")
     public String showWritePage() {
-    	return "ystest/write_novel";
+    	return "ystest/write";
     }
 }
