@@ -29,23 +29,23 @@ public class ComfyUIImageGenerator {
     private static final String SERVER_ADDRESS = "192.168.0.237:8188"; // ComfyUI 서버 주소
     private static final String WEBSOCKET_URL = "ws://" + SERVER_ADDRESS + "/ws?clientId=";
     private static final HttpClient httpClient = HttpClient.newHttpClient();
-    private static String clientId = UUID.randomUUID().toString();
+//    private static String clientId = UUID.randomUUID().toString();
     private static Session userSession;
 
     // 비동기로 처리할 CompletableFuture
     private CompletableFuture<resultVo> resultVoFuture;
 
-    public ComfyUIImageGenerator() {
-        connectWebSocket(); // WebSocket 연결
-    }
+//    public ComfyUIImageGenerator() {
+//        connectWebSocket(); // WebSocket 연결
+//    }
     
     // clientId 반환 메서드
-    public String getClientId() {
-        return clientId;
-    }
+//    public String getClientId() {
+//        return clientId;
+//    }
 
     // WebSocket 연결
-    private void connectWebSocket() {
+    public void connectWebSocket(int clientId) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, new URI(WEBSOCKET_URL + clientId));
@@ -74,7 +74,8 @@ public class ComfyUIImageGenerator {
             int height,
             int cfgScale,  // CFG Scale만 double 타입으로 유지
             int seed,
-            String checkpoint) throws Exception {
+            String checkpoint,
+            int clientId) throws Exception {
         resultVoFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성
 
         String url = "http://" + SERVER_ADDRESS + "/prompt";
@@ -192,7 +193,7 @@ public class ComfyUIImageGenerator {
             JSONObject jsonMessage = new JSONObject(message);
             String messageType = jsonMessage.getString("type");
 
-            if (!"crystools.monitor".equals(messageType)) {
+            
                 System.out.println("Received message: " + message);
 
                 if ("executed".equals(messageType)) {
@@ -218,11 +219,12 @@ public class ComfyUIImageGenerator {
                     }
                 }
 
-            }
+            
         } catch (JSONException e) {
             System.err.println("Failed to parse WebSocket message: " + e.getMessage());
         }
     }
+
 
     @OnOpen
     public void onOpen(Session session) {
