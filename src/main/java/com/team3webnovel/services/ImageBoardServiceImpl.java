@@ -25,4 +25,9 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 		return imageBoardDao.list();
 	}
 
+	@Override
+	public void writeImageBoard(ImageBoardVo boardVo) {
+		imageBoardDao.writeImageBoard(boardVo);
+	}
+
 }

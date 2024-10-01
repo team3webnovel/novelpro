@@ -5,15 +5,15 @@
 <mapper namespace="com.team3webnovel.mappers.ImageBoardMapper">
 
 	<select id="getImageBoardList" resultType="com.team3webnovel.vo.ImageBoardVo">
-		select ib.board_id as boardId, ib.user_id as userId, ib.creation_id as creationId, ib.created_at as createdAt, ib.view_count as viewCount, ib.content as content,
+		select ib.board_id as boardId, ib.user_id as userId, ib.creation_id as creationId, ib.created_at as createdAt, ib.view_count as viewCount, ib.content as content, ib.public_check as publicCheck,
 			igd.image_url as imageUrl
 		from image_board ib 
 		left join image_generation_data igd ON ib.creation_id = igd.creation_id
 		order by board_id desc
 	</select>
 
-	<insert id="writeComment" parameterType="com.team3webnovel.vo.ImageBoardVo">
-		insert into board_comments (board_id, user_id, content) values (#{boardId}, #{userId}, #{content})
+	<insert id="writeImageBoard" parameterType="com.team3webnovel.vo.ImageBoardVo">
+		insert into image_board (user_id, creation_id, content, public_check) values (#{userId}, #{creationId}, #{content}, #{publicCheck})
 	</insert>
 	
 	<delete id="deleteComment" parameterType="map">
