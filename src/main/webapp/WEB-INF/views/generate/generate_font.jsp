@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Font Customizer</title>
     <link rel="stylesheet" href="static/css/font_customizer.css">
+    
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
 

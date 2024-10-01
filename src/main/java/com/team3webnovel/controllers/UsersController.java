@@ -185,6 +185,7 @@ public class UsersController {
                             @RequestParam("password") String password,
                             HttpSession session, Model model) {
         UserVo user = userService.findUserByUsername(username);
+        System.err.println(user);
         
         // 사용자가 존재하지 않는 경우
         if (user == null) {
@@ -267,6 +268,7 @@ public class UsersController {
         try {
             // 세션에 저장된 사용자 정보 확인
             UserVo loggedInUser = (UserVo) session.getAttribute("user");
+            System.err.println(loggedInUser);
 
             if (loggedInUser != null) {
                 logger.debug("이미 로그인된 사용자: {}", loggedInUser.getEmail());
@@ -296,8 +298,8 @@ public class UsersController {
         try {
             // Google OAuth 서비스에서 사용자 정보 가져오기
             UserVo googleUser = googleOAuthService.getUserInfo(code);  // 이 시점에서 사용자 이메일과 이름을 가져옴
-            logger.debug("Google OAuth에서 사용자 정보 가져옴: username = {}, email = {}", 
-                         googleUser.getUsername(), googleUser.getEmail());
+            logger.debug("Google OAuth에서 사용자 정보 가져옴: user_id = {}, username = {}, email = {}", 
+                         googleUser.getUserId(), googleUser.getUsername(), googleUser.getEmail());
 
             // DB에서 해당 이메일로 사용자가 있는지 확인
             UserVo existingUser = userService.findUserByEmail(googleUser.getEmail());

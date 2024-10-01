@@ -29,6 +29,15 @@
         )
     </insert>
     
+      <insert id="insertFontData" parameterType="map">
+        INSERT INTO IMAGE_GENERATION_DATA (
+		    CREATION_ID, IMAGE_URL, FILENAME
+		)
+        VALUES (
+            #{creationId}, #{imageUrl}, #{fileName}
+        )
+    </insert>
+    
     <select id="getImageDataByUserId" parameterType="com.team3webnovel.vo.CreationVo" resultType="com.team3webnovel.vo.ImageVo">
 		SELECT igd.creation_id as creationId, igd.image_url as imageUrl,
 			igd.created_at as createdAt, sampler as sampler, prompt, 
