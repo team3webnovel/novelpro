@@ -165,9 +165,30 @@
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
+        
+        <!-- 이미지 출력 -->
+        <img id="modalImage" src="" alt="이미지" style="max-width: 100%; height: auto;"/>
+        <input type="hidden" id="creationIdField" value="">
+        
+        <!-- 공개 여부 선택 -->
+        <div>
+            <label for="publicOption">생성 정보 공개 여부:</label>
+            <select id="publicOption">
+                <option value="public">공개</option>
+                <option value="private">비공개</option>
+            </select>
+        </div>
+
+        <!-- 코멘트 입력 -->
+        <div>
+            <label for="comment">작성자 코멘트:</label>
+            <textarea id="comment" rows="4" style="width: 100%;"></textarea>
+        </div>
+
+        <!-- 전송 버튼 -->
+        <button onclick="submitData()">전송</button>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

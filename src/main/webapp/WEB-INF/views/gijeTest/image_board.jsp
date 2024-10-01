@@ -65,24 +65,65 @@
         .image-card button:hover {
             background-color: #218838;
         }
+        
+        .modal {
+		    display: none; /* 기본적으로 숨김 */
+		    position: fixed;
+		    z-index: 1;
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    overflow: auto;
+		    background-color: rgb(0, 0, 0);
+		    background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		.close {
+		    color: #aaa;
+		    float: right;
+		    font-size: 28px;
+		    font-weight: bold;
+		}
+		
+		.close:hover,
+		.close:focus {
+		    color: black;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
+		
+		.modal-content {
+		    background-color: #fefefe;
+		    margin: 15% auto;
+		    padding: 20px;
+		    border: 1px solid #888;
+		    width: 80%;
+		    border-radius: 8px; /* 테두리 둥글게 */
+		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+		    max-height: 90vh; /* 화면 높이의 90%로 최대 높이를 설정하여 화면 밖으로 넘치지 않도록 함 */
+    		overflow-y: auto; /* 세로로 스크롤 가능 */
+		}
 	</style>
+	<script src="<%= request.getContextPath()%>/static/js/image_board.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>게시판</h1>
         <div class="grid">
-            <%-- 모델 리스트를 반복문으로 출력 --%>
             <c:forEach var="image" items="${list}">
-                <div class="image-card">
-                    <!-- 모델의 이름에 맞는 이미지 파일 출력 -->
-                    <img src="${image.imageUrl }" alt="모델 예시 이미지">
-                    <!-- 모델 이름 출력 -->
-                    <h2><c:out value="${image.creationId}"/></h2>
-                    <!-- 모델 선택 버튼 -->
-                    <button onclick="changeModel('${model}')">상세 보기</button>
+                <div class="image-card" onclick="openModal('${image.imageUrl}', ${image.creationId})">
+                    <img src="${image.imageUrl }" alt="이미지">
                 </div>
             </c:forEach>
         </div>
     </div>
+    <div id="myModal" class="modal">
+    	<div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" src="" alt="이미지" style="max-width: 100%; height: auto;"/>
+        <p id="modalContent"></p>
+		</div>
+	</div>
 </body>
 </html>

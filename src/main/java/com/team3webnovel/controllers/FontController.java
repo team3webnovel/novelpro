@@ -1,10 +1,14 @@
 package com.team3webnovel.controllers;
 
+import com.team3webnovel.dao.ImageDao;
 import com.team3webnovel.services.ImageService;
+import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.UserVo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,8 +29,24 @@ public class FontController {
     @Resource
     private ImageService imageService;
 
+    @Autowired
+    private ImageDao imageDao;
+    
     @GetMapping("/generate-font")
-    public String generateFontPage(Model model) {
+    public String generateFontPage(Model model, HttpSession session) {
+    	UserVo user = (UserVo) session.getAttribute("user");
+    	
+    	// 사용자의 이미지 리스트 가져오기
+        CreationVo creationVo = new CreationVo();
+        creationVo.setUserId(user.getUserId());
+        creationVo.setArtForm(2); // 예: 소설 형식을 나타내는 코드 2
+        
+        // 이미지 데이터 모델에 추가 및 로그 출력
+        List<ImageVo> imageList = imageDao.getImageDataByUserId(creationVo);
+        model.addAttribute("imageList", imageList);
+        System.err.println("Image List: " + imageList);  // 이미지 리스트 로그 출력
+
+    	
         logger.info("Accessing generate-font page");
         return "generate/generate_font"; // JSP 파일 경로
     }

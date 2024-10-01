@@ -93,9 +93,9 @@ public class ImageServiceImpl implements ImageService {
 	public List<ImageVo> getImageDataByUserId(CreationVo vo) {
 		return imageDao.getImageDataByUserId(vo);
 	}
-    
-	
-	
-    
-    
+
+	@Override
+	public ImageVo getAllInformation(int creationId) {
+		return imageMapper.getAllInformation(creationId);
+	}
 }

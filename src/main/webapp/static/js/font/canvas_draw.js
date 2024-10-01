@@ -66,6 +66,7 @@ function uploadImage() {
     }, 'image/png');  // PNG 포맷으로 변환
 }
 
+	
 // 파일명을 백엔드로 전송하는 함수
 function sendFileNameToBackend(fileName) {
     fetch('http://localhost:8080/team3webnovel/generate-font', {  // 백엔드 경로로 파일명 전송
@@ -123,6 +124,7 @@ document.getElementById('imageUpload').addEventListener('change', function () {
     reader.readAsDataURL(this.files[0]);
 });
 
+
 // 텍스트 박스 생성 버튼 클릭 시 새로운 텍스트 박스 추가
 document.getElementById('addTextBoxBtn').addEventListener('click', function () {
     const newTextBox = {
@@ -151,10 +153,14 @@ document.getElementById('addTextBoxBtn').addEventListener('click', function () {
 function drawCanvas() {
     // 캔버스 초기화
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (img) {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // 업로드된 이미지 그리기
-    }
 
+	// 이미지가 있는 경우 먼저 이미지 그리기
+	if (img) {
+	    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // 업로드된 이미지 그리기
+	}
+	if (img.src) {
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+	}
     // 모든 텍스트 박스를 그리기 위해 textBoxes 배열을 순회
     textBoxes.forEach((textBox, index) => {
         // 폰트 설정
@@ -240,6 +246,14 @@ function drawCanvas() {
 
 // 텍스트 박스 외부 클릭 시 포커스 처리 (다중 선택 포함)
 canvas.addEventListener('click', function (e) {
+	
+	// 모달에서 이미지가 선택된 경우에는 포커스 해제 로직을 실행하지 않음
+	if (modalImageSelected) {
+	    // 플래그를 다시 초기화 (한 번만 체크되도록)
+	    modalImageSelected = false;
+	    return;
+	}
+	
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;

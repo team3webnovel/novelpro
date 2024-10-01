@@ -10,12 +10,20 @@ public class ImageBoardVo {
 	private int viewCount;
 	private String content;
 	private String imageUrl;
+	private int publicCheck;
 	
 	public ImageBoardVo() {
 		
 	}
+	
+	public ImageBoardVo(int userId, int creationId, String content, int publicCheck) {
+		this.userId = userId;
+		this.creationId = creationId;
+		this.content = content;
+		this.publicCheck = publicCheck;
+	}
 
-	public ImageBoardVo(int boardId, int userId, int creationId, Date createAt, int viewCount, String content, String imageUrl) {
+	public ImageBoardVo(int boardId, int userId, int creationId, Date createAt, int viewCount, String content, String imageUrl, int publicCheck) {
 		super();
 		this.boardId = boardId;
 		this.userId = userId;
@@ -24,6 +32,7 @@ public class ImageBoardVo {
 		this.viewCount = viewCount;
 		this.content = content;
 		this.imageUrl = imageUrl;
+		this.publicCheck = publicCheck;
 	}
 
 	public int getBoardId() {
@@ -80,6 +89,14 @@ public class ImageBoardVo {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public int getPublicCheck() {
+		return publicCheck;
+	}
+
+	public void setPublicCheck(int publicCheck) {
+		this.publicCheck = publicCheck;
 	}
 	
 }

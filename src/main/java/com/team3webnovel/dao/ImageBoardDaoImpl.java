@@ -19,4 +19,9 @@ public class ImageBoardDaoImpl implements ImageBoardDao {
 		return imageBoardMapper.getImageBoardList();
 	}
 
+	@Override
+	public void writeImageBoard(ImageBoardVo boardVo) {
+		imageBoardMapper.writeImageBoard(boardVo);
+	}
+
 }
