@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,6 +119,16 @@
 	    color: white; /* 텍스트 색상 */
 	    pointer-events: none; /* 클릭 방지 */
 	}
+	
+	.alert {
+	    padding: 15px;
+	    background-color: #95A2DB;
+	    color: white;
+	    margin: 20px auto;
+	    width: 70%;
+	    text-align: center;
+	    border-radius: 5px;
+	}
 
 	/* 반응형 디자인 */
 	@media (max-width: 768px) {
@@ -147,6 +158,9 @@
 <script src="<%= request.getContextPath()%>/static/js/board.js"></script>
 </head>
 <body>
+	<c:if test="${not empty message}">
+        <div class="alert">${message}</div>
+    </c:if>
 	<h1>게시판</h1>
 	<table>
 	    <tr>
@@ -160,8 +174,8 @@
 	        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
 	            <td>${board.boardId}</td>
 	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
-	            <td>${board.userId}</td>
-	            <td>${board.createdAt}</td>
+	            <td>${board.userName}</td>
+	            <td>${board.formattedCreatedAt}</td>
 	            <td>${board.viewCount}</td>
 	        </tr>
 	    </c:forEach>
