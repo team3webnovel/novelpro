@@ -201,6 +201,8 @@ public class UsersController {
 
         // 로그인 성공 시 세션에 사용자 정보 저장
         session.setAttribute("user", user);
+    	int clientId = user.getUserId();
+    	session.setAttribute("clientId", clientId);
 
         // 각 필드별로 로그 출력
         logger.debug("로그인 성공: user_id = {}", user.getUserId());

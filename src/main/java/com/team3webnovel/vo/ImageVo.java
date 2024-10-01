@@ -16,6 +16,7 @@ public class ImageVo {
     private int width;
     private int height;
     private String filename;
+    private String title;
 
     // 기본 생성자
     public ImageVo() {
@@ -143,14 +144,24 @@ public class ImageVo {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-		
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String toString() {
 		return "ImageVo [creationId=" + creationId + ", imageUrl=" + imageUrl + ", modelCheck=" + modelCheck
 				+ ", sampler=" + sampler + ", prompt=" + prompt + ", nPrompt=" + nPrompt + ", createdAt=" + createdAt
 				+ ", steps=" + steps + ", cfg=" + cfg + ", seed=" + seed + ", width=" + width + ", height=" + height
-				+ "]";
+				+ ", filename=" + filename + ", title=" + title + "]";
 	}
+	
+	
     
     
 
