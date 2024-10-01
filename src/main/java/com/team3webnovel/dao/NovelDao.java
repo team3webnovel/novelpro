@@ -27,4 +27,5 @@ public interface NovelDao {
     
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
+
 }

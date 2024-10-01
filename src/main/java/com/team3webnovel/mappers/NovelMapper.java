@@ -26,4 +26,7 @@ public interface NovelMapper {
 
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
+    
+    // 소설의 디테일 정보 가져오기
+    List<NovelVo> getEpisodesByNovelId(int novelId);
 }

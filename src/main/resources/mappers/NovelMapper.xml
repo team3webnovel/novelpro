@@ -43,7 +43,6 @@
 	</insert>
 
 
-
     <!-- 소설 수정 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
         UPDATE novel_detail

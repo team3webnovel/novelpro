@@ -25,4 +25,5 @@ public interface NovelService {
     List<NovelVo> searchNovels(String keyword);
 
 
+
 }

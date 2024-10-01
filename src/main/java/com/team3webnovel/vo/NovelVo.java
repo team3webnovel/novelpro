@@ -1,6 +1,7 @@
 package com.team3webnovel.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class NovelVo {
     // novel 테이블 필드
@@ -137,4 +138,6 @@ public class NovelVo {
                 + novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
                 + creationIdDetail + ", titleDetail=" + titleDetail + "]";
     }
+
+
 }

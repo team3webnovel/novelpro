@@ -44,16 +44,20 @@
 		<div class="form-group">
 		    <label for="novel">내 소설</label>
 		    <c:forEach var="novel" items="${novelList}">
-		        <div class="card">
-		            <div class="card-body">
-		                <p class="card-text">제목: ${novel.title}</p>
-		                <p class="card-text">장르: ${novel.genre}</p>
-		                <p class="card-text">내용: ${novel.intro}</p>
-		                <p class="card-text">작성일: ${novel.createdAt}</p> <!-- createdAt으로 수정 -->
+		        <!-- 카드 전체를 링크로 감쌈 -->
+		        <a href="<%=request.getContextPath()%>/ystest/novel_detail/${novel.novelId}" class="card-link">
+		            <div class="card">
+		                <div class="card-body">
+		                    <p class="card-text">제목: ${novel.title}</p>
+		                    <p class="card-text">장르: ${novel.genre}</p>
+		                    <p class="card-text">내용: ${novel.intro}</p>
+		                    <p class="card-text">작성일: ${novel.createdAt}</p>
+		                </div>
 		            </div>
-		        </div>
+		        </a>
 		    </c:forEach>
 		</div>
+
 
 
         <!-- 내 이미지 및 음악 탭 -->
