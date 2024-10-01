@@ -5,91 +5,75 @@
 
 <mapper namespace="com.team3webnovel.mappers.NovelMapper">
 
-    <resultMap id="novelResultMap" type="com.team3webnovel.vo.NovelVo">
-        <result property="novelId" column="NOVEL_ID"/>
-        <result property="userId" column="USER_ID"/>
-        <result property="title" column="TITLE"/>
-        <result property="content" column="CONTENT"/>
-        <result property="coverImageUrl" column="COVER_IMAGE_URL"/>
-        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="updatedAt" column="UPDATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
-        <result property="viewCount" column="VIEW_COUNT"/>
-    </resultMap>
-
-    <!-- 소설 리스트 조회 -->
-    <select id="getNovelList" resultMap="novelResultMap">
+    <!-- 소설 목록 조회 (전체 소설) -->
+    <select id="getNovelList" resultType="com.team3webnovel.vo.NovelVo">
         SELECT 
-            novel_id, 
-            user_id, 
-            title, 
-            content, 
-            created_at, 
-            updated_at, 
-            view_count
-        FROM novel
+            novel_id AS novelId,
+            title,
+            created_at AS creationDate
+        FROM novel_detail
         ORDER BY created_at DESC
     </select>
 
-    <!-- 특정 소설 조회 -->
-    <select id="getNovelById" parameterType="int" resultMap="novelResultMap">
+    <!-- 특정 사용자 ID로 소설 목록 조회 -->
+    <select id="getNovelListByUserId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
         SELECT 
-            novel_id, 
-            user_id, 
-            title, 
-            content, 
-            created_at, 
-            updated_at, 
-            view_count
-        FROM novel
-        WHERE novel_id = #{novelId}
+		    n.novel_id AS novelId,
+		    n.title,
+		    n.genre,
+		    n.status,
+		    n.creation_id,
+		    n.intro,
+		    n.created_at AS createdAt,
+		    i.image_url AS imageUrl
+		FROM 
+		    novel n
+		LEFT JOIN image_generation_data i ON n.creation_id = i.creation_id
+		WHERE 
+		    n.user_id = #{userId}  
+		ORDER BY 
+		    n.created_at DESC
     </select>
 
-    <!-- 소설 작성 (새 소설 저장) -->
-    <!-- novel_id가 자동 생성될 경우 이 컬럼은 제외 -->
+    <!-- 새 소설 추가 -->
     <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
         INSERT INTO novel (
-            user_id, title, content, created_at, view_count
+            novel_id, title, intro, user_id, genre, created_at, creation_id
         ) VALUES (
-            #{userId}, #{title}, #{content}, SYSDATE, 0
+            novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}, #{creationId}
         )
     </insert>
+    
+    <!-- <insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
+    	INSERT INTO nevel_detail (
+    		novel_id, title, episode_no, contents, image_id, bgm_id
+    	) VALUES (
+    		#{novelId}, #{title}, #{episodeNo}, #{contents}, #{
+    	)
+    </insert> -->
 
-    <!-- 소설 업데이트 -->
+    <!-- 소설 수정 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        UPDATE novel
-        SET 
-            title = #{title}, 
-            content = #{content}, 
-            updated_at = SYSDATE
+        UPDATE novel_detail
+        SET title = #{title},
+            episode_no = #{episodeNo},
+            contents = #{contents}
         WHERE novel_id = #{novelId}
     </update>
 
     <!-- 소설 삭제 -->
     <delete id="deleteNovel" parameterType="int">
-        DELETE FROM novel
-        WHERE novel_id = #{novelId}
+        DELETE FROM novel WHERE novel_id = #{novelId}
     </delete>
 
-    <!-- 소설 조회 수 증가 -->
-    <update id="increaseViewCount" parameterType="int">
-        UPDATE novel
-        SET view_count = view_count + 1
-        WHERE novel_id = #{novelId}
-    </update>
-
-    <!-- 소설 검색 (LIKE 쿼리에 와일드카드 추가) -->
-    <select id="searchNovels" parameterType="string" resultMap="novelResultMap">
+    <!-- 소설 검색 (제목에서 검색) -->
+    <select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
         SELECT 
-            novel_id, 
-            user_id, 
-            title, 
-            content, 
-            created_at, 
-            updated_at, 
-            view_count
+            novel_id AS novelId,
+            title,
+            created_at AS creationDate
         FROM novel
-        WHERE title LIKE CONCAT('%', #{keyword}, '%') 
-           OR content LIKE CONCAT('%', #{keyword}, '%')
+        WHERE title LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY created_at DESC
     </select>
 
