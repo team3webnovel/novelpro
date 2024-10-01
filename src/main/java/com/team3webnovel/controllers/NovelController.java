@@ -30,12 +30,6 @@ public class NovelController {
 
     @Autowired
     private NovelService novelService;
-
-    @Autowired
-    private NovelDao novelDao;  // NovelDao 주입
-
-    @Autowired
-    private ImageDao imageDao;  // ImageDao 주입
     
     @Autowired
     private ImageService imageService;
@@ -59,7 +53,7 @@ public class NovelController {
         creationVo.setArtForm(2); // 예: 소설 형식을 나타내는 코드 2
         
         // 이미지 데이터 모델에 추가 및 로그 출력
-        List<ImageVo> imageList = imageDao.getImageDataByUserId(creationVo);
+        List<ImageVo> imageList = imageService.getImageDataByUserId(creationVo);
         model.addAttribute("imageList", imageList);
         System.err.println("Image List: " + imageList);  // 이미지 리스트 로그 출력
 
