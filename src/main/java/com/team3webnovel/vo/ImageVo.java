@@ -15,19 +15,30 @@ public class ImageVo {
     private int seed;
     private int width;
     private int height;
-    private String title;
+    private String filename;
 
+    // 기본 생성자
+    public ImageVo() {
+    	
+    }
 
-	// 기본 생성자
-    public ImageVo() {}
-    
-    public String getTitle() {
-    	return title;
-    }
-    
-    public void setTitle(String title) {
-    	this.title = title;
-    }
+	public ImageVo(int creationId, String imageUrl, String modelCheck, String sampler, String prompt, String nPrompt,
+			Timestamp createdAt, int steps, int cfg, int seed, int width, int height, String filename) {
+		super();
+		this.creationId = creationId;
+		this.imageUrl = imageUrl;
+		this.modelCheck = modelCheck;
+		this.sampler = sampler;
+		this.prompt = prompt;
+		this.nPrompt = nPrompt;
+		this.createdAt = createdAt;
+		this.steps = steps;
+		this.cfg = cfg;
+		this.seed = seed;
+		this.width = width;
+		this.height = height;
+		this.filename = filename;
+	}
 
 	public int getCreationId() {
 		return creationId;
@@ -123,6 +134,14 @@ public class ImageVo {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
     
     
