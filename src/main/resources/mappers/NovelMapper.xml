@@ -43,6 +43,14 @@
             novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}, #{creationId}
         )
     </insert>
+    
+    <!-- <insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
+    	INSERT INTO nevel_detail (
+    		novel_id, title, episode_no, contents, image_id, bgm_id
+    	) VALUES (
+    		#{novelId}, #{title}, #{episodeNo}, #{contents}, #{
+    	)
+    </insert> -->
 
     <!-- 소설 수정 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
