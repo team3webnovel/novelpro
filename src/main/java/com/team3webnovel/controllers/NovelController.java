@@ -124,7 +124,11 @@ public class NovelController {
         return "ystest/cover";
     }
     
-
+    // 소설 상세페이지로 이동
+    @GetMapping("/novel_detail")
+    public String detailPage() {
+        return "ystest/novel_detail";
+    }
 
     }
 
