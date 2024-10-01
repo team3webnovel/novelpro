@@ -8,17 +8,19 @@ public class UserVo {
     private String email;
     private String password;
     private LocalDateTime createdAt;  // String 대신 LocalDateTime 사용
-    
-	// Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
+
+    // Getters and Setters
+    public UserVo() {}
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getUsername() {
+    public int getUserId() {
+		return userId;
+	}
+
+	public String getUsername() {
         return username;
     }
 
