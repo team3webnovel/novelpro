@@ -18,30 +18,31 @@
     <!-- 특정 사용자 ID로 소설 목록 조회 -->
     <select id="getNovelListByUserId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
         SELECT 
-            novel_id as novelId,
-            title,
-            genre,
-            status,
-            creation_id,
-            intro,
-            created_at as createdAt
-        FROM 
-            novel
-        WHERE 
-            user_id = #{userId}  <!-- 특정 사용자 ID로 필터링 -->
-        ORDER BY 
-            created_at DESC
+		    n.novel_id AS novelId,
+		    n.title,
+		    n.genre,
+		    n.status,
+		    n.creation_id,
+		    n.intro,
+		    n.created_at AS createdAt,
+		    i.image_url AS imageUrl
+		FROM 
+		    novel n
+		LEFT JOIN image_generation_data i ON n.creation_id = i.creation_id
+		WHERE 
+		    n.user_id = #{userId}  
+		ORDER BY 
+		    n.created_at DESC
     </select>
 
     <!-- 새 소설 추가 -->
-	<insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
-	    INSERT INTO novel (
-	        novel_id, title, intro, user_id, genre, created_at as createdAt
-	    ) VALUES (
-	        novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}
-	    )
-	</insert>
-
+    <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
+        INSERT INTO novel (
+            novel_id, title, intro, user_id, genre, created_at, creation_id
+        ) VALUES (
+            novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}, #{creationId}
+        )
+    </insert>
 
     <!-- 소설 수정 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
