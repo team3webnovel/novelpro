@@ -71,14 +71,22 @@ document.addEventListener("DOMContentLoaded", function() {
 		        },
 		        body: JSON.stringify(imageData) // 데이터를 JSON으로 변환
 			})
-			.then(response => response.json())
+			.then(response => {
+			    if (response.ok) {
+			        return response.json(); // 응답을 JSON 형식으로 파싱
+			    } else {
+			        throw new Error('Network response was not ok');
+			    }
+			})
 			.then(result => {
-				console.log(result);
-				document.getElementById("spinner").style.display = "none";
-		    })
-		    .catch(error => {
-		        console.error('Error:', error);
-		    });
+			    console.log(result);  // 서버에서 받은 JSON 응답 출력
+			    document.getElementById("spinner").style.display = "none";
+			    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
+			})
+			.catch(error => {
+			    console.error('Error:', error);
+			    alert('이미지 생성에 실패했습니다.');
+			});
 		}
 	}
 });

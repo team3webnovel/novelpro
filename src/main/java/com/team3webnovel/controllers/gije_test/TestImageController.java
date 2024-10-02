@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
 import com.team3webnovel.services.ImageService;
@@ -37,9 +39,12 @@ public class TestImageController {
     	return "gijeTest/new_gen";
 	}
 	
-	@PostMapping("/gije/test")
-	public String genet(@RequestBody Map<String, Object> requestData, Model model, HttpSession session) {
+	@RequestMapping(value="/gije/test", method=RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Map <String, Object> genet(@RequestBody Map<String, Object> requestData, Model model, HttpSession session) {
 		int clientId = (int)session.getAttribute("clientId");
+		
+		Map<String, Object> response = new HashMap<>();
 		
 		String prompt = (String) requestData.get("prompt");
 	    String negativePrompt = (String) requestData.get("negative_prompt");
@@ -108,15 +113,16 @@ public class TestImageController {
                 session.setAttribute("imageGenerated", true);  // 세션에 완료 상태 저장
                 session.setAttribute("imageUrl", imageUrl);    // 세션에 URL 저장
                 
-                
+                response.put("success", true);
             } else {
                 model.addAttribute("message", "WebSocket is not connected.");
             }
         } catch (Exception e) {
             // 예외 처리: 이미지 생성 중 오류가 발생했을 때
             model.addAttribute("message", "Error generating image: " + e.getMessage());
+            response.put("success", false);
         }
 
-        return "sungmin/result";  // 결과 페이지로 이동
+        return response;  // 결과 페이지로 이동
 	}
 }
