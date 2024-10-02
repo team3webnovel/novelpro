@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.team3webnovel.mappers.PwMapper;
+import com.team3webnovel.dao.PwDao;
 import com.team3webnovel.vo.PwVo;
 
 import java.util.Base64;
@@ -18,7 +18,7 @@ import java.util.Base64;
 public class PwServiceImpl implements PwService {
 
     @Autowired
-    private PwMapper pwMapper;
+    private PwDao pwDao;
 
     private static final Logger logger = LoggerFactory.getLogger(PwServiceImpl.class);
 
@@ -55,7 +55,7 @@ public class PwServiceImpl implements PwService {
 
     @Override
     public String getGoogleAppPassword() {
-        PwVo pwVo = pwMapper.getPasswordByName("google_app_pw");
+        PwVo pwVo = pwDao.getPasswordByName("google_app_pw");
 
         logger.info("DB에서 가져온 암호화된 비밀번호: {}", pwVo.getPwPw());
         return decryptPassword(pwVo.getPwPw());

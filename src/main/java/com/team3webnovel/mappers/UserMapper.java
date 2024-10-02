@@ -14,8 +14,6 @@ public interface UserMapper {
 
     void insertUser(UserVo user);
 
-    void updateUserPassword(UserVo user);
-    
     void updatePassword(UserVo user);
     
     List <UserVo> getUserName();

@@ -137,7 +137,6 @@ public class ImageVo {
 		this.height = height;
 	}
 
-
 	public String getFilename() {
 		return filename;
 	}
@@ -146,8 +145,6 @@ public class ImageVo {
 		this.filename = filename;
 	}
 	
-	
-
 	public String getTitle() {
 		return title;
 	}

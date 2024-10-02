@@ -31,6 +31,11 @@ public class ImageDaoImpl implements ImageDao {
 	public void imageGenerate(Map<String, Object> imageData) {
 		imageMapper.insertImageData(imageData);
 	}
+	
+	@Override
+	public void fontGenerate(Map<String, Object> imageData) {
+		imageMapper.insertFontData(imageData);
+	}
 
 	@Override
 	public List<ImageVo> getImageDataByUserId(CreationVo vo) {
