@@ -32,22 +32,14 @@
             gap: 20px;
             justify-content: center;
         }
-        .image-card {
-            width: 200px;
+        .card {
             padding: 20px;
             background-color: #f9f9f9;
-            border: 1px solid #ddd;
             border-radius: 8px;
-            text-align: center;
             transition: transform 0.3s ease;
         }
-        .image-card:hover {
+        .card:hover {
             transform: translateY(-10px);
-        }
-        .image-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
         }
         
         .modal-content {
