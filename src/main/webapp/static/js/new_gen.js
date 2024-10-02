@@ -1,11 +1,11 @@
 function openModal() {
-    document.getElementById("myModal").style.display = "block";
+    $('#myModal').modal('show');
 	console.log(checkpoint);
 	console.log(seed);
 }
 
 function closeModal() {
-    document.getElementById("myModal").style.display = "none";
+    $('#myModal').modal('hide');
 }
 
 var checkpoint = '';
