@@ -26,6 +26,10 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+	    <!-- 파일 업로드 처리를 위한 MultipartResolver 설정 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
+
     <!-- 정적 리소스 핸들러 -->
     <mvc:resources mapping="/static/**" location="/static/" />
 

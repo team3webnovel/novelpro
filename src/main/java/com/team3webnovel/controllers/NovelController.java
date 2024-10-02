@@ -30,7 +30,6 @@ public class NovelController {
 
     @Autowired
     private NovelService novelService;
-    
     @Autowired
     private ImageService imageService;
     
@@ -219,9 +218,5 @@ public class NovelController {
         }
     }
 
-
-
-
-    
 
 }

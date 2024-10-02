@@ -9,25 +9,40 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.people.v1.PeopleService;
 import com.google.api.services.people.v1.model.Person;
+import com.team3webnovel.mappers.PwMapper;
+import com.team3webnovel.vo.PwVo;
 import com.team3webnovel.vo.UserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 @Service
 public class GoogleOAuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(GoogleOAuthService.class);
     private static final String CLIENT_ID = "79063217086-lsnrlcthi1q4tkqg9cd713qa3eg6qodc.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";
+    private String CLIENT_SECRET;  // 나중에 초기화할 수 있도록 변경
     private static final String REDIRECT_URI = "http://localhost:8080/team3webnovel/callback";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final NetHttpTransport HTTP_TRANSPORT;
+
+    // Static AES key and IV
+    private static final String AES_KEY = "01234567890123456789012345678901"; // 32-byte key
+    private static final String AES_IV = "0123456789012345"; // 16-byte IV
+
+    @Autowired
+    private PwMapper pwMapper;
 
     static {
         try {
@@ -41,46 +56,93 @@ public class GoogleOAuthService {
 
     private AuthorizationCodeFlow flow;
 
-    public GoogleOAuthService() throws IOException {
-        logger.debug("Setting up token directory and flow initialization.");
+    // AES Decryption Method
+    private String decryptAES(String encryptedPassword) throws Exception {
+        logger.debug("Starting AES decryption process...");
 
-        // 사용자 홈 디렉토리 설정
-        String homeDir = System.getProperty("user.home");
-        File tokensDir = new File(homeDir, "team3webnovel_tokens");
-        logger.info("Tokens directory path: {}", tokensDir.getAbsolutePath());
+        // Convert static key and IV to byte arrays
+        byte[] decodedKey = AES_KEY.getBytes("UTF-8");
+        byte[] decodedIv = AES_IV.getBytes("UTF-8");
 
-        // 디렉토리가 존재하지 않으면 생성
-        if (!tokensDir.exists()) {
-            boolean isCreated = tokensDir.mkdirs();  // 경로가 존재하지 않을 경우 디렉토리 생성
-            if (isCreated) {
-                logger.info("Tokens directory created at {}", tokensDir.getAbsolutePath());
-            } else {
-                logger.error("Failed to create tokens directory at {}", tokensDir.getAbsolutePath());
-            }
+        logger.debug("Decoded Key: {}", Base64.getEncoder().encodeToString(decodedKey));
+        logger.debug("IV: {}", AES_IV);
+
+        // Check IV length
+        if (decodedIv.length != 16) {
+            logger.error("Invalid IV length: {} bytes. IV must be 16 bytes long.", decodedIv.length);
+            throw new IllegalArgumentException("IV length must be 16 bytes");
         }
 
-        // Google Client Secrets 설정
-        GoogleClientSecrets clientSecrets = new GoogleClientSecrets().setInstalled(
-            new GoogleClientSecrets.Details().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET));
-        logger.info("Google Client Secrets initialized.");
+        // AES decryption process
+        try {
+            SecretKeySpec secretKey = new SecretKeySpec(decodedKey, "AES");
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(decodedIv);
 
-        // 토큰 저장 경로 설정 및 OAuth 2.0 Flow 설정
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+
+            // Decode encrypted Base64 password
+            byte[] decodedValue = Base64.getDecoder().decode(encryptedPassword);
+            logger.debug("Decoded encrypted data (Base64): {}", Base64.getEncoder().encodeToString(decodedValue));
+
+            byte[] decryptedVal = cipher.doFinal(decodedValue);
+            String result = new String(decryptedVal, "UTF-8");
+
+            logger.debug("Decryption successful. Decrypted value: {}", result);
+            return result;
+
+        } catch (Exception e) {
+            logger.error("Decryption failed: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    // Fetches client secret from database and decrypts it
+    private String getClientSecret(String pwName) throws Exception {
+        PwVo pwVo = pwMapper.getPasswordByName(pwName);
+
+        if (pwVo != null && pwVo.getPwPw() != null) {
+            return decryptAES(pwVo.getPwPw()); // Decrypt password using static key and IV
+        } else {
+            throw new RuntimeException("Password not found for the given name.");
+        }
+    }
+
+    // Initialize OAuth flow
+    public void initializeFlow() throws Exception {
+        if (this.CLIENT_SECRET == null) {
+            this.CLIENT_SECRET = getClientSecret("google_client_secret"); // Replace with the appropriate pwName
+        }
+
+        String homeDir = System.getProperty("user.home");
+        File tokensDir = new File(homeDir, "team3webnovel_tokens");
+
+        if (!tokensDir.exists()) {
+            tokensDir.mkdirs();
+        }
+
+        GoogleClientSecrets clientSecrets = new GoogleClientSecrets().setInstalled(
+                new GoogleClientSecrets.Details().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET));
+
         FileDataStoreFactory dataStoreFactory = new FileDataStoreFactory(tokensDir);
         flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, Arrays.asList("profile", "email"))
                 .setAccessType("offline")
                 .setDataStoreFactory(dataStoreFactory)
                 .build();
-        logger.info("Google OAuth flow initialized with offline access.");
+        logger.info("Google OAuth flow initialized.");
     }
 
-    public String getAuthorizationUrl() {
-        logger.debug("Generating Google Authorization URL...");
+    // Returns the authorization URL
+    public String getAuthorizationUrl() throws Exception {
+        initializeFlow();
         AuthorizationCodeRequestUrl authorizationUrl = flow.newAuthorizationUrl();
         authorizationUrl.setRedirectUri(REDIRECT_URI);
-        String url = authorizationUrl.build();
-        logger.info("Authorization URL generated: {}", url);
-        return url;
+        return authorizationUrl.build();
+    }
+
+    public GoogleOAuthService() {
+        logger.debug("GoogleOAuthService constructor called.");
     }
 
     public Credential getCredential(String code) throws IOException {
@@ -90,10 +152,9 @@ public class GoogleOAuthService {
                 .execute();
         logger.info("Token received: {}", tokenResponse.toPrettyString());
 
-        String userId = "useremail@example.com";  // 사용자 ID를 지정해 줍니다.
+        String userId = "useremail@example.com"; // Replace with appropriate user identifier
         Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
 
-        // Credential이 null인지 확인
         if (credential == null) {
             logger.error("Failed to obtain Credential. Returned null.");
             throw new RuntimeException("Credential is null.");
