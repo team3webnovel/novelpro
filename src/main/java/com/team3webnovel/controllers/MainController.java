@@ -8,6 +8,7 @@ public class MainController {
 	
     @RequestMapping("/")
     public String showIndexPage() {
+    	System.err.println("메인 진입");
         return "index";  // index.jsp로 이동
     }
     
