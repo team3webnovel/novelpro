@@ -191,15 +191,24 @@ function drawCanvas() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
+        let textWidth, textHeight;
+
+        if (textBox.orientation === 'horizontal' || !textBox.orientation) {
+            // 가로 텍스트 크기 계산
+            const lines = textBox.text.split('\n');
+            const lineHeight = textBox.fontSize * 1.2;
+            textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));
+            textHeight = lineHeight * lines.length;
+        } else if (textBox.orientation === 'vertical') {
+            // 세로 텍스트 크기 계산
+            const characters = textBox.text.split('');
+            textWidth = textBox.fontSize; // 세로 텍스트의 너비는 글자 크기로 설정
+            textHeight = characters.length * textBox.fontSize; // 총 높이
+        }
+
         // 그라데이션 적용 여부 확인
         if (textBox.useGradient) {
             let gradient;
-
-            const lines = textBox.text.split('\n');
-            const lineHeight = textBox.fontSize * 1.2;  // 줄 간격
-            const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
-            const textHeight = lineHeight * lines.length;  // 전체 텍스트의 높이
-
             if (textBox.gradientDirection === 'vertical') {
                 // 세로 방향 그라데이션
                 gradient = ctx.createLinearGradient(
@@ -209,7 +218,7 @@ function drawCanvas() {
                     textBox.y + textHeight / 2
                 );
             } else {
-                // 가로 방향 그라데이션 (기본값)
+                // 가로 방향 그라데이션
                 gradient = ctx.createLinearGradient(
                     textBox.x - textWidth / 2,
                     0,
@@ -224,7 +233,6 @@ function drawCanvas() {
             ctx.fillStyle = textBox.color;
         }
 
-        // 텍스트 그리기
         if (textBox.orientation === 'horizontal' || !textBox.orientation) {
             // 가로 텍스트 처리
             const lines = textBox.text.split('\n');
@@ -245,16 +253,8 @@ function drawCanvas() {
             });
         } else if (textBox.orientation === 'vertical') {
             // 세로 텍스트 처리
-            const characters = textBox.text.split(''); // 글자를 개별적으로 처리
-            let maxCharWidth = 0;
-            let totalHeight = characters.length * textBox.fontSize; // 총 높이 계산
-
-            characters.forEach((char) => {
-                const charWidth = ctx.measureText(char).width; // 각 글자의 너비 계산
-                maxCharWidth = Math.max(maxCharWidth, charWidth); // 가장 넓은 글자 찾기
-            });
-
-            let y = textBox.y - totalHeight / 2; // 세로로 중앙 정렬
+            const characters = textBox.text.split('');
+            let y = textBox.y - (characters.length - 1) * textBox.fontSize / 2;
 
             characters.forEach((char) => {
                 // 글자 외곽선 그리기
@@ -266,13 +266,8 @@ function drawCanvas() {
 
                 // 텍스트 그리기
                 ctx.fillText(char, textBox.x, y);
-
-                y += textBox.fontSize; // 다음 글자를 아래에 배치
+                y += textBox.fontSize;
             });
-
-            // 텍스트 박스의 너비와 높이 설정
-            textWidth = maxCharWidth;
-            textHeight = totalHeight;
         }
 
         // 포커스된 텍스트 박스에 점선 테두리 그리기
@@ -304,6 +299,8 @@ function drawCanvas() {
         }
     });
 }
+
+
 
 
 
@@ -383,9 +380,19 @@ canvas.addEventListener('mousedown', function (e) {
 
     // 모든 텍스트 박스에 대해 클릭 여부 확인
     textBoxes.forEach((box, index) => {
-        const lines = box.text.split('\n');
-        const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 각 텍스트 박스의 가장 긴 줄의 너비 계산
-        const textHeight = box.fontSize * 1.2 * lines.length;  // 각 텍스트 박스의 높이 계산
+        let textWidth, textHeight;
+
+        if (box.orientation === 'vertical') {
+            // 세로 텍스트 박스의 크기 계산
+            const characters = box.text.split('');
+            textWidth = box.fontSize;  // 세로 텍스트 박스의 너비는 글자 크기로 설정
+            textHeight = characters.length * box.fontSize;  // 텍스트 박스의 높이는 글자의 수 * 글자 크기
+        } else {
+            // 가로 텍스트 박스의 크기 계산
+            const lines = box.text.split('\n');
+            textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 각 텍스트 박스의 가장 긴 줄의 너비 계산
+            textHeight = box.fontSize * 1.2 * lines.length;  // 각 텍스트 박스의 높이 계산
+        }
 
         // 마우스가 텍스트 박스 안에 있는지 확인
         if (mouseX >= box.x - textWidth / 2 && mouseX <= box.x + textWidth / 2 &&
@@ -408,7 +415,6 @@ canvas.addEventListener('mousedown', function (e) {
         }
     } else {
         // 텍스트 박스를 클릭하지 않은 경우, 드래그 범위 시작
-        const rect = canvas.getBoundingClientRect();
         dragStartX = e.clientX - rect.left;
         dragStartY = e.clientY - rect.top;
         isDragging = true;  // 드래그 모드 활성화
@@ -509,8 +515,6 @@ document.addEventListener('mouseup', function () {
 });
 
 
-
-// 텍스트 수정용 DOM 요소 추가
 canvas.addEventListener('dblclick', function (e) {
     if (!textBox) return;  // 텍스트 박스가 없는 경우 아무것도 하지 않음
     
@@ -518,39 +522,83 @@ canvas.addEventListener('dblclick', function (e) {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const lines = textBox.text.split('\n');
-    const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
-    const textHeight = textBox.fontSize * 1.2 * lines.length;  // 전체 텍스트 박스의 높이 계산 (줄 수 반영)
+    let textWidth, textHeight;
 
-    // 더블 클릭한 위치가 텍스트 박스 안쪽일 때
-    if (mouseX >= textBox.x - textWidth / 2 && mouseX <= textBox.x + textWidth / 2 &&
-        mouseY >= textBox.y - textHeight / 2 && mouseY <= textBox.y + textHeight / 2) {
-        
-        // 기존 텍스트 박스를 숨기고, DOM 요소로 텍스트 편집 가능하게 만듦
-        const textarea = document.createElement('textarea');
-        textarea.value = textBox.text;
-        textarea.style.position = 'absolute';
-        textarea.style.left = `${rect.left + textBox.x - textWidth / 2}px`;  // 입력 상자를 텍스트 위치로 이동
-        textarea.style.top = `${rect.top + textBox.y - textHeight / 2}px`;
-        textarea.style.width = `${textWidth + 10}px`;  // 너비는 텍스트 박스의 너비에 맞춤
-        textarea.style.height = `${textHeight + 10}px`;  // 높이는 텍스트 박스의 높이에 맞춤
-        textarea.style.fontSize = `${textBox.fontSize}px`;
-        textarea.style.fontFamily = textBox.font;
-        textarea.style.border = '1px solid #000';  // 테두리 추가
-        textarea.style.padding = '5px';
-        textarea.style.zIndex = 1000;  // 캔버스 위로 오도록 설정
-        textarea.style.lineHeight = '1.2';  // 줄 간격 설정
-        
-        document.body.appendChild(textarea);
-        textarea.focus();  // 자동으로 포커스를 입력 상자에 설정
+    if (textBox.orientation === 'vertical') {
+        // 세로 텍스트 박스의 크기 계산
+        const characters = textBox.text.split('');
+        textWidth = textBox.fontSize;  // 세로 텍스트 박스의 너비는 글자 크기
+        textHeight = characters.length * textBox.fontSize;  // 텍스트 박스의 높이는 글자의 수 * 글자 크기
 
-        // 포커스를 잃으면 텍스트 업데이트
-        textarea.addEventListener('blur', function () {
-            updateTextBox(textarea.value);  // 입력된 값을 텍스트 박스로 반영
-            document.body.removeChild(textarea);  // 입력 상자 제거
-        });
+        // 더블클릭한 위치가 텍스트 박스 안쪽인지 확인
+        if (mouseX >= textBox.x - textWidth / 2 && mouseX <= textBox.x + textWidth / 2 &&
+            mouseY >= textBox.y - textHeight / 2 && mouseY <= textBox.y + textHeight / 2) {
+
+            // 기존 텍스트 박스를 숨기고 DOM 요소로 텍스트 편집 가능하게 만듦
+            const textarea = document.createElement('textarea');
+            textarea.value = textBox.text;
+            textarea.style.position = 'absolute';
+
+            // 세로 텍스트인 경우 입력 상자를 세로 배치에 맞춰 설정
+            textarea.style.left = `${rect.left + textBox.x - textWidth / 2}px`;
+            textarea.style.top = `${rect.top + textBox.y - textHeight / 2}px`;  // 텍스트 위치로 이동
+            textarea.style.width = `${textWidth + 20}px`;  // 너비는 글자 크기
+            textarea.style.height = `${textHeight + 20}px`;  // 높이는 글자 수에 비례
+            textarea.style.fontSize = `${textBox.fontSize}px`;
+            textarea.style.fontFamily = textBox.font;
+            textarea.style.border = '1px solid #000';
+            textarea.style.padding = '5px';
+            textarea.style.zIndex = 1000;
+            textarea.style.lineHeight = '1.2';  // 줄 간격 설정
+
+            document.body.appendChild(textarea);
+            textarea.focus();  // 자동으로 포커스를 입력 상자에 설정
+
+            // 포커스를 잃으면 텍스트 업데이트
+            textarea.addEventListener('blur', function () {
+                updateTextBox(textarea.value);  // 입력된 값을 텍스트 박스로 반영
+                document.body.removeChild(textarea);  // 입력 상자 제거
+            });
+        }
+
+    } else {
+        // 가로 텍스트 박스의 크기 계산
+        const lines = textBox.text.split('\n');
+        textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
+        textHeight = textBox.fontSize * 1.2 * lines.length;  // 전체 텍스트 박스의 높이 계산
+
+        // 더블 클릭한 위치가 텍스트 박스 안쪽일 때
+        if (mouseX >= textBox.x - textWidth / 2 && mouseX <= textBox.x + textWidth / 2 &&
+            mouseY >= textBox.y - textHeight / 2 && mouseY <= textBox.y + textHeight / 2) {
+            
+            // 기존 텍스트 박스를 숨기고, DOM 요소로 텍스트 편집 가능하게 만듦
+            const textarea = document.createElement('textarea');
+            textarea.value = textBox.text;
+            textarea.style.position = 'absolute';
+            textarea.style.left = `${rect.left + textBox.x - textWidth / 2}px`;  // 입력 상자를 텍스트 위치로 이동
+            textarea.style.top = `${rect.top + textBox.y - textHeight / 2}px`;
+            textarea.style.width = `${textWidth + 10}px`;  // 너비는 텍스트 박스의 너비에 맞춤
+            textarea.style.height = `${textHeight + 10}px`;  // 높이는 텍스트 박스의 높이에 맞춤
+            textarea.style.fontSize = `${textBox.fontSize}px`;
+            textarea.style.fontFamily = textBox.font;
+            textarea.style.border = '1px solid #000';  // 테두리 추가
+            textarea.style.padding = '5px';
+            textarea.style.zIndex = 1000;  // 캔버스 위로 오도록 설정
+            textarea.style.lineHeight = '1.2';  // 줄 간격 설정
+            
+            document.body.appendChild(textarea);
+            textarea.focus();  // 자동으로 포커스를 입력 상자에 설정
+
+            // 포커스를 잃으면 텍스트 업데이트
+            textarea.addEventListener('blur', function () {
+                updateTextBox(textarea.value);  // 입력된 값을 텍스트 박스로 반영
+                document.body.removeChild(textarea);  // 입력 상자 제거
+            });
+        }
     }
 });
+
+
 
 // 텍스트 박스 업데이트 함수
 function updateTextBox(newText) {

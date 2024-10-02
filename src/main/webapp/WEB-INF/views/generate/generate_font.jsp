@@ -92,7 +92,6 @@
 <script src="static/js/font/text_style.js"></script>
 <script src="static/js/font/canvas_draw.js"></script>
 <script src="static/js/font/keyboard_controls.js"></script>
-<script src="static/js/font/drag_controls.js"></script>
 <script src="static/js/font/modal.js"></script>
 
 
