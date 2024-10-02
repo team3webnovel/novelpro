@@ -25,7 +25,8 @@
 		    n.creation_id,
 		    n.intro,
 		    n.created_at AS createdAt,
-		    i.image_url AS imageUrl
+		    i.image_url AS imageUrl,
+		    n.user_id as userId
 		FROM 
 		    novel n
 		LEFT JOIN image_generation_data i ON n.creation_id = i.creation_id
@@ -47,26 +48,31 @@
     <!-- 성민 -->
     <insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
     	INSERT INTO novel_detail (
-    		novel_id, title, episode_no, contents, image_id, bgm_id, VISIBILITY
+    		novel_id, title, episode_no, contents, image_id, bgm_id, visibility
     	) VALUES (
     		#{novelId}, #{title}, #{episodeNo}, #{contents}, #{imageId}, #{bgmId}, 'private'
     	)
     </insert>
     
     <select id="getNovelDetailByNovelId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
-    	SELECT 
-		    NOVEL_ID as novelId,
-		    EPISODE_NO as episodeNo,
-		    CONTENTS as contents,
-		    CREATED_AT as createdAt,
-		    IMAGE_ID as imageId,
-		    TITLE as title,
-		    BGM_ID as bgmId,
-		    VISIBILITY
+		SELECT 
+		    ND.NOVEL_ID as novelId,
+		    ND.EPISODE_NO as episodeNo,
+		    ND.CONTENTS as contents,
+		    ND.CREATED_AT as createdAt,
+		    ND.IMAGE_ID as imageId,
+		    ND.TITLE as title,
+		    ND.BGM_ID as bgmId,
+		    ND.VISIBILITY,
+		    igd.image_url as imageUrl
 		FROM 
-		    NOVEL_DETAIL
+		    NOVEL_DETAIL ND
+		LEFT JOIN 
+		    IMAGE_GENERATION_DATA IGD 
+		ON 
+		    ND.IMAGE_ID = IGD.creation_ID
 		WHERE 
-		    NOVEL_ID = #{novelId}
+		    ND.NOVEL_ID = #{novelId}
     </select>
     
     <update id="updateStatus" parameterType="com.team3webnovel.vo.NovelVo">

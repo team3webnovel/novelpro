@@ -165,23 +165,27 @@
 		    transition: transform 0.5s ease; /* 애니메이션 추가 */
 		}
     </style>
-    <script src="<%= request.getContextPath()%>/static/js/test123.js"></script>
+    <script src="<%= request.getContextPath()%>/static/js/new_gen.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>모델 선택</h1>
         <div class="grid">
-            <%-- 모델 리스트를 반복문으로 출력 --%>
-            <c:forEach var="model" items="${models}">
-                <div class="model-card">
-                    <!-- 모델의 이름에 맞는 이미지 파일 출력 -->
-                    <img src="/example_images/${model}.png" alt="모델 예시 이미지">
-                    <!-- 모델 이름 출력 -->
-                    <h2><c:out value="${model}"/></h2>
-                    <!-- 모델 선택 버튼 -->
-                    <button onclick="changeModel('${model}')">모델 선택</button>
-                </div>
-            </c:forEach>
+            <div class="model-card">
+                <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v3.png" alt="모델 예시 이미지">
+                <h2>prefectPonyXL_v3</h2>
+                <button onclick="changeModel('prefectPonyXL_v3.safetensors')">모델 선택</button>
+            </div>
+            <div class="model-card">
+                <img src="<%= request.getContextPath()%>/static/images/ComfyUI_00403_.png" alt="모델 예시 이미지">
+                <h2>romanticprism_v10</h2>
+                <button onclick="changeModel('romanticprism_v10.safetensors')">모델 선택</button>
+            </div>
+            <div class="model-card">
+                <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" alt="모델 예시 이미지">
+                <h2>animagineXLV31_v31</h2>
+                <button onclick="changeModel('animagineXLV31_v31.safetensors')">모델 선택</button>
+            </div>
         </div>
     </div>
     

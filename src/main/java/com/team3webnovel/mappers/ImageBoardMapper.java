@@ -11,4 +11,6 @@ public interface ImageBoardMapper {
 	List<ImageBoardVo> getImageBoardList();
 	
 	void writeImageBoard(ImageBoardVo boardVo);
+	
+	int publicCheck(int boardId);
 }

@@ -187,23 +187,25 @@ public class NovelController {
                                  .filter(n -> n.getNovelId() == novelId)
                                  .findFirst()
                                  .orElse(null);  // 만약 찾지 못하면 null 반환
-        
-        if (novelCover == null) {
-            // 만약 해당 novelId의 소설이 없다면 404 페이지로 리다이렉트하거나 오류 처리
-            return "redirect:/404";  // 404 페이지로 리다이렉트 예시
+
+        // 조회한 소설 데이터를 모델에 추가 (novelCover가 null이 아닐 경우만 추가)
+        if (novelCover != null) {
+            model.addAttribute("novelCover", novelCover);
         }
-        System.err.println(novelCover);
-        // 조회한 소설 데이터를 모델에 추가
-        model.addAttribute("novelCover", novelCover);
-        
+
         System.err.println(novelService.getNovelDetailByNovelId(novelId));
         
         model.addAttribute("detailList", novelService.getNovelDetailByNovelId(novelId));
         
+        // 소설 상세 페이지로 이동
+        if (novelCover == null) {
+            // 만약 해당 novelId의 소설이 없다면 404 페이지로 리다이렉트하거나 오류 처리
+            return "ystest/userView";  // 404 페이지로 리다이렉트 예시
+        }
         
-        // 소설 상세페이지로 이동
         return "ystest/novel_detail";
     }
+
     
     @PostMapping("/updateStatus")
     public void updateStatus(@RequestParam("novelId") int novelId, @RequestParam("status") String status) {
