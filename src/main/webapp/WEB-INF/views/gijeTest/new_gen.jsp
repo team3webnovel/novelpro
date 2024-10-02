@@ -122,12 +122,13 @@
     <div class="container">
         <h1>모델 선택</h1>
         <div class="row">
-            <div class="col-md-4" onclick="changeModel('prefectPonyXL_v3.safetensors')">
+            <div class="col-md-4">
                 <div class="card">
                     <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v3.png" class="card-img-top" alt="모델 예시 이미지">
                     <div class="card-body">
                         <h5 class="card-title">prefectPonyXL_v3</h5>
                         <button class="btn btn-success" onclick="changeModel('prefectPonyXL_v3.safetensors')">모델 선택</button>
+                        <button class="btn btn-success" onclick="changeModelVer2('prefectPonyXL_v3.safetensors')">직접 입력</button>
                     </div>
                 </div>
             </div>
@@ -137,6 +138,7 @@
                     <div class="card-body">
                         <h5 class="card-title">romanticprism_v10</h5>
                         <button class="btn btn-success" onclick="changeModel('romanticprism_v10.safetensors')">모델 선택</button>
+                        <button class="btn btn-success" onclick="changeModelVer2('romanticprism_v10.safetensors')">직접 입력</button>
                     </div>
                 </div>
             </div>
@@ -229,6 +231,27 @@
 		    	<label><input type="checkbox" value="thighs"><span> 선택 안함</span></label>
 	          </div>
 	
+	          <button type="submit" class="btn btn-primary mt-3">이미지 생성</button>
+	          <div id="spinner" style="display:none;" class="mt-3">Loading...</div>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div id="myModal2" class="modal fade">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">이미지 생성</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form id="create-with-ai">
+			  <div class="form-group">
+          		<textarea id="comment" class="form-control" rows="4"></textarea>
+        	  </div>
 	          <button type="submit" class="btn btn-primary mt-3">이미지 생성</button>
 	          <div id="spinner" style="display:none;" class="mt-3">Loading...</div>
 	        </form>
