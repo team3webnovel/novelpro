@@ -18,11 +18,11 @@ function openModal(boardId, imageUrl, creationId) {
 		.catch(error => console.error('실패'))
 	
     // modal을 보이게 설정
-    document.getElementById('myModal').style.display = 'block';
+    $('#myModal').modal('show');
 }
 
 // modal을 닫는 함수
 function closeModal() {
 	document.getElementById('modalContent').textContent = "";
-    document.getElementById('myModal').style.display = 'none';
+    $('#myModal').modal('hide');
 }
