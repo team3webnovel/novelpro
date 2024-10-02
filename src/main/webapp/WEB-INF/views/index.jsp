@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +11,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
     <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>    
-    <%-- <script src="<%= request.getContextPath()%>/static/js/connectWebSocket.js"></script> <!-- 외부 스크립트 파일 로드 -->     --%>
 </head>
 <body>
     <!-- 헤더 포함 -->
@@ -18,7 +18,7 @@
         <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     </header>
     
-        <!-- 모달 HTML -->
+    <!-- 모달 HTML -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -61,41 +61,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="romance_fantasy">
-                        <div class="card-body">
-                            <h5 class="card-title">로맨스판타지</h5>
+                <!-- 동적으로 장르 렌더링 -->
+                <c:forEach var="genre" items="${genres}">
+                    <div class="col-md-2">
+                        <div class="card text-center genre" data-genre="${genre.code}">
+                            <div class="card-body">
+                                <h5 class="card-title">${genre.name}</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="modern_fantasy">
-                        <div class="card-body">
-                            <h5 class="card-title">현대판타지</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="fantasy">
-                        <div class="card-body">
-                            <h5 class="card-title">판타지</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="martial_arts">
-                        <div class="card-body">
-                            <h5 class="card-title">무협</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="card text-center genre" data-genre="romance">
-                        <div class="card-body">
-                            <h5 class="card-title">로맨스</h5>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
     </section>
@@ -104,58 +79,19 @@
     <section id="novels" class="novel-section" style="margin-top: 10px;">
         <div class="container">
             <div class="row" id="novel-list">
-                <!-- 소설 항목들 (장르에 맞게 필터링 가능) -->
-                <div class="col-md-4 novel" data-genre="romance_fantasy">
-                    <a href="<%=request.getContextPath()%>/romance_fantasy/1" style="text-decoration: none; color: inherit;">
-                        <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/readme_00011.gif" class="card-img-top" alt="소설 1">
-                            <div class="card-body">
-                                <h5 class="card-title">악녀는 두 번 산다</h5>
+                <!-- 동적으로 소설 목록 렌더링 -->
+                <c:forEach var="novel" items="${novelList}">
+                    <div class="col-md-4 novel" data-genre="${novel.genre}">
+                        <a href="${pageContext.request.contextPath}/${novel.genre}/${novel.novelId}" style="text-decoration: none; color: inherit;">
+                            <div class="card mb-4">
+                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${novel.title}</h5>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 novel" data-genre="modern_fantasy">
-                    <a href="<%=request.getContextPath()%>/modern_fantasy/1" style="text-decoration: none; color: inherit;">
-                        <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/ComfyUI_00270_.png" class="card-img-top" alt="소설 2">
-                            <div class="card-body">
-                                <h5 class="card-title">게이트,그거 내가 열었다</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 novel" data-genre="fantasy">
-                    <a href="<%=request.getContextPath()%>/fantasy/1" style="text-decoration: none; color: inherit;">
-                        <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/fantasy1.png" class="card-img-top" alt="소설 3">
-                            <div class="card-body">
-                                <h5 class="card-title">4000년 만에 귀환한 대마도사</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 novel" data-genre="martial_arts">
-                    <a href="<%=request.getContextPath()%>/martial_arts/1" style="text-decoration: none; color: inherit;">
-                        <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/martial_arts1.png" class="card-img-top" alt="소설 4">
-                            <div class="card-body">
-                                <h5 class="card-title">전생검신</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 novel" data-genre="romance">
-                    <a href="<%=request.getContextPath()%>/romance/1" style="text-decoration: none; color: inherit;">
-                        <div class="card mb-4">
-                            <img src="<%=request.getContextPath()%>/static/images/romance1.png" class="card-img-top" alt="소설 5">
-                            <div class="card-body">
-                                <h5 class="card-title">스캔들</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- 추가 소설 항목들 -->
+                        </a>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </section>
