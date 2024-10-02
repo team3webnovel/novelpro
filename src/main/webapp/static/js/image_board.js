@@ -23,5 +23,6 @@ function openModal(boardId, imageUrl, creationId) {
 
 // modal을 닫는 함수
 function closeModal() {
+	document.getElementById('modalContent').textContent = "";
     document.getElementById('myModal').style.display = 'none';
 }
