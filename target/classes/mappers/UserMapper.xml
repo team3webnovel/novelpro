@@ -4,23 +4,25 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.team3webnovel.mappers.UserMapper">
+
+    <!-- User 조회 -->
     <resultMap id="UserResultMap" type="com.team3webnovel.vo.UserVo">
-        <result property="userId" column="USER_ID"/>
-        <result property="username" column="USERNAME"/>
-        <result property="email" column="EMAIL"/>
-        <result property="password" column="PASSWORD"/>
-        <result property="createdAt" column="CREATED_AT"/>
+        <id property="userId" column="USER_ID" />
+        <result property="username" column="USERNAME" />
+        <result property="email" column="EMAIL" />
+        <result property="password" column="PASSWORD" />
+        <result property="createdAt" column="CREATED_AT" jdbcType="TIMESTAMP"/>
     </resultMap>
-    
+
     <select id="findUserByUsername" parameterType="String" resultMap="UserResultMap">
-        SELECT USER_ID as userId, USERNAME, EMAIL, PASSWORD, CREATED_AT as createdAt
+        SELECT USER_ID, USERNAME, EMAIL, PASSWORD, CREATED_AT
         FROM USERS 
         WHERE USERNAME = #{username}
     </select>
 
     <!-- email로 사용자 찾기 쿼리 추가 -->
     <select id="findUserByEmail" parameterType="String" resultType="com.team3webnovel.vo.UserVo">
-        SELECT USER_ID as userId, USERNAME, EMAIL, PASSWORD, CREATED_AT as createdAt
+        SELECT USER_ID, USERNAME, EMAIL, PASSWORD, CREATED_AT
         FROM users
         WHERE EMAIL = #{email}
     </select>
@@ -31,15 +33,15 @@
         VALUES (#{username}, #{email}, #{password})
     </insert>
     
-	<update id="updatePassword">
-		  UPDATE users
-		  SET password = #{password}
-		  WHERE email = #{email}
-	</update>
-	
-	<!-- 기제 board용 이름 수집기 -->
-	<select id="getUserName" resultType="com.team3webnovel.vo.UserVo">
-		select user_id as userId, username from users
-	</select>
+   <update id="updatePassword">
+        UPDATE users
+        SET password = #{password}
+        WHERE email = #{email}
+   </update>
+   
+   <!-- 기제 board용 이름 수집기 -->
+   <select id="getUserName" resultType="com.team3webnovel.vo.UserVo">
+      select user_id as userId, username from users
+   </select>
 
 </mapper>
