@@ -2,7 +2,6 @@ package com.team3webnovel.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +18,11 @@ public class UserDaoImpl implements UserDao {
     public UserVo findUserByUsername(String username) {
         return userMapper.findUserByUsername(username);
     }
+    
+    @Override
+    public UserVo findUserByEmail(String email) {
+    	return userMapper.findUserByEmail(email);
+    }
 
     @Override
     public void insertUser(UserVo user) {
@@ -29,4 +33,10 @@ public class UserDaoImpl implements UserDao {
     public List<UserVo> getUserName() {
         return userMapper.getUserName();
     }
+
+	@Override
+	public void updatePassword(UserVo user) {
+		userMapper.updatePassword(user);
+		
+	}
 }

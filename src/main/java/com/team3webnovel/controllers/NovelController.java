@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.team3webnovel.dao.ImageDao;
-import com.team3webnovel.dao.NovelDao;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
@@ -30,7 +28,6 @@ public class NovelController {
 
     @Autowired
     private NovelService novelService;
-    
     @Autowired
     private ImageService imageService;
     
@@ -164,9 +161,6 @@ public class NovelController {
         // 소설 상세페이지로 이동
         return "ystest/novel_detail";
     }
-
-
-
     
 
 }

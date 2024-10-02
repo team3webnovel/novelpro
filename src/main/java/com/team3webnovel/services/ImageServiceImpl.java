@@ -87,6 +87,11 @@ public class ImageServiceImpl implements ImageService {
 	public void imageGenerate(Map<String, Object> imageData) {
 		imageDao.imageGenerate(imageData);
 	}
+	
+	@Override
+	public void fontGenerate(Map<String, Object> imageData) {
+		imageDao.fontGenerate(imageData);
+	}
 
 	@Override
 	public List<ImageVo> getImageDataByUserId(CreationVo vo) {
