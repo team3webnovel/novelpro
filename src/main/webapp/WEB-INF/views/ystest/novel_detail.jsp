@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +16,7 @@
     <div class="d-flex justify-content-between">
         <h2>${novelCover.title}</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/write/${novelCover.novelId}" class="btn btn-primary">+new</a>
+        <a href="<%=request.getContextPath()%>/write/${novelCover.novelId}" class="btn btn-primary">회차 쓰기</a>
     </div>
 </div>
 
@@ -30,16 +31,19 @@
 
         <!-- 오른쪽: 소설 정보 -->
         <div class="col-md-8">
-            <%-- <h2>${novelCover.title}</h2> --%>
             <p>작가: 작가명</p>
-            <p>장르: ${novel.genre}</p>
+            <p>장르: ${novelCover.genre}</p>
             <p>전체 에피소드: n화</p>
-            <p>상태: 구현예정
-                <%-- <c:choose>
-                    <c:when test="${novel.status == 'ongoing'}">연재중</c:when>
-                    <c:when test="${novel.status == 'paused'}">휴재중</c:when>
-                    <c:when test="${novel.status == 'completed'}">완결</c:when>
-                </c:choose> --%>
+
+            <!-- 상태 표시 및 변경 -->
+            <p>상태:
+                <!-- 상태 선택 드롭다운 -->
+                <select id="statusSelect" onchange="updateStatus()">
+                    <option value="ongoing" ${novelCover.status == 'ongoing' ? 'selected' : ''}>연재중</option>
+                    <option value="paused" ${novelCover.status == 'paused' ? 'selected' : ''}>휴재중</option>
+                    <option value="completed" ${novelCover.status == 'completed' ? 'selected' : ''}>완결</option>
+                    <option value="" ${novelCover.status == null ? 'selected' : ''}>미등록</option>
+                </select>
             </p>
 
             <!-- 구분선 -->
@@ -48,18 +52,35 @@
             <!-- 에피소드 리스트 -->
             <h3>에피소드 목록</h3>
             <ul class="list-group">
-                <%-- <c:forEach var="episode" items="${episodeList}">
+                <c:forEach var="episode" items="${detailList}">
                     <li class="list-group-item">
-                        <a href="/novel/episode/${episode.episodeId}">
-                            에피소드 ${episode.episodeNumber}화: ${episode.title}
+                        <a href="/novel/episode/${episode.episodeNo}">
+                            에피소드 ${episode.episodeNo}화: ${episode.title}
                         </a>
                         <span class="float-right">작성일: ${episode.createdAt}</span>
                     </li>
-                </c:forEach> --%>
+                </c:forEach>
             </ul>
         </div>
     </div>
 </div>
+
+<!-- JavaScript 부분 -->
+<script>
+    // 상태 변경시 서버로 AJAX 요청을 보내는 함수
+	function updateStatus() {
+	    var selectedStatus = document.getElementById('statusSelect').value;
+	    var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
+	
+	    // AJAX 요청으로 상태 변경
+	    var xhr = new XMLHttpRequest();
+	    xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
+	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	
+	    // 데이터 전송 (응답 처리는 생략)
+	    xhr.send("novelId=" + novelId + "&status=" + selectedStatus);
+	}
+</script>
 
 <!-- jQuery와 Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

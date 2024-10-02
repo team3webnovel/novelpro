@@ -24,6 +24,12 @@ public interface NovelService {
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
 
+//  성민
+    void insertNovelDetail(NovelVo vo);
 
+    List<NovelVo> getNovelDetailByNovelId(int novelId);
+    
+    void updateStatus(NovelVo vo);
 
+    List<NovelVo> getMainNovelList();
 }

@@ -3,7 +3,9 @@ package com.team3webnovel.controllers;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.team3webnovel.dao.ImageDao;
-import com.team3webnovel.dao.NovelDao;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
@@ -88,12 +88,13 @@ public class NovelController {
     }
 
     // 글쓰기 처리
-    @PostMapping("/write")
+    @PostMapping("/write/{novelId}")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
     					@RequestParam("illust") int illust,
+    					@RequestParam("bgm") int bgm,
                         @RequestParam("title") String title,
-                        @RequestParam("intro") String intro,
-                        @RequestParam("genre") String genre) {
+                        @RequestParam("episode") int episode,
+                        @RequestParam("content") String content) {
         
         // 세션에서 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");
@@ -105,9 +106,10 @@ public class NovelController {
         // 전달받은 값으로 NovelVo 객체 설정
         vo.setUserId(user.getUserId()); // 작성자 ID로 설정
         vo.setTitle(title);             // 소설 제목 설정
-        vo.setIntro(intro);             // 소설 소개 설정
-        vo.setGenre(genre);             // 소설 장르 설정
-        vo.setCreationId(illust);		// 소설 표지 설정
+        vo.setImageId(illust);		// 소설 표지 설정
+        vo.setBgmId(bgm);
+        vo.setEpisodeNo(episode);
+        vo.setContents(content);
 
         // 생성일을 현재 시간으로 설정 (Timestamp로 변경)
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -117,11 +119,10 @@ public class NovelController {
         System.err.println(vo.toString());
 
         // NovelService를 통해 소설 삽입
-        novelService.insertNovel(vo);
+        novelService.insertNovelDetail(vo);
 
         return "redirect:/my_storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
-
     
     // 글쓰기 페이지로 이동
     @GetMapping("/cover")
@@ -134,6 +135,41 @@ public class NovelController {
     	System.err.println(imageList);
     	model.addAttribute("imageList", imageList);
         return "ystest/cover";
+    }
+
+    // 소설 생성
+    @PostMapping("/cover")
+    public String write(@ModelAttribute NovelVo vo, HttpSession session,
+    		@RequestParam("illust") int illust,
+    		@RequestParam("title") String title,
+    		@RequestParam("intro") String intro,
+    		@RequestParam("genre") String genre) {
+    	
+    	// 세션에서 사용자 정보 가져오기
+    	UserVo user = (UserVo) session.getAttribute("user");
+    	if (user == null) {
+    		// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+    		return "redirect:/login";
+    	}
+    	
+    	// 전달받은 값으로 NovelVo 객체 설정
+    	vo.setUserId(user.getUserId()); // 작성자 ID로 설정
+    	vo.setTitle(title);             // 소설 제목 설정
+    	vo.setIntro(intro);             // 소설 소개 설정
+    	vo.setGenre(genre);             // 소설 장르 설정
+    	vo.setCreationId(illust);		// 소설 표지 설정
+    	
+    	// 생성일을 현재 시간으로 설정 (Timestamp로 변경)
+    	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+    	vo.setCreatedAt(currentTime);   // 생성일 설정
+    	
+    	// 디버깅용 출력
+    	System.err.println(vo.toString());
+    	
+    	// NovelService를 통해 소설 삽입
+    	novelService.insertNovel(vo);
+    	
+    	return "redirect:/my_storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
     
  // 소설 상세페이지로 이동
@@ -160,10 +196,29 @@ public class NovelController {
         // 조회한 소설 데이터를 모델에 추가
         model.addAttribute("novelCover", novelCover);
         
+        System.err.println(novelService.getNovelDetailByNovelId(novelId));
+        
+        model.addAttribute("detailList", novelService.getNovelDetailByNovelId(novelId));
+        
         
         // 소설 상세페이지로 이동
         return "ystest/novel_detail";
     }
+    
+    @PostMapping("/updateStatus")
+    public void updateStatus(@RequestParam("novelId") int novelId, @RequestParam("status") String status) {
+        try {
+            // 상태 업데이트 로직 수행
+            NovelVo vo = new NovelVo();
+            vo.setNovelId(novelId);
+            vo.setStatus(status);
+            novelService.updateStatus(vo);
+            // 응답을 반환하지 않음
+        } catch (Exception e) {
+            // 오류 발생 시에도 아무런 응답을 보내지 않음
+        }
+    }
+
 
 
 
