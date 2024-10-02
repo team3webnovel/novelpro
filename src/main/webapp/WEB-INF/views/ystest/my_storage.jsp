@@ -58,7 +58,7 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">+new</a>
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">소설 쓰기</a>
     </div>
     
     <!-- 탭 메뉴 -->

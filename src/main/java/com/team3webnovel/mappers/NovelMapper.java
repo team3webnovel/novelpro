@@ -29,4 +29,13 @@ public interface NovelMapper {
     
     // 소설의 디테일 정보 가져오기
     List<NovelVo> getEpisodesByNovelId(int novelId);
+    
+//    성민
+    void insertNovelDetail(NovelVo vo);
+    
+    List<NovelVo> getNovelDetailByNovelId(int novelId);
+    
+    void updateStatus(NovelVo vo);
+    
+    List<NovelVo> getMainNovelList();
 }

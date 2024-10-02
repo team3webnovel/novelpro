@@ -47,6 +47,8 @@ public class ImageServiceImpl implements ImageService {
             return null;
         }
     }
+    
+    
 
     @Override
     public List<ImageVo> getStoredImageByUserId(Integer userId) {
@@ -68,7 +70,9 @@ public class ImageServiceImpl implements ImageService {
             return null;
         }
     }
-
+    
+    
+    // 성민
 	@Override
 	public void insertCreation(Map<String, Object> creationData) {
 		imageDao.insertCreation(creationData);
@@ -98,4 +102,5 @@ public class ImageServiceImpl implements ImageService {
 	public ImageVo getAllInformation(int creationId) {
 		return imageMapper.getAllInformation(creationId);
 	}
+	// 성민
 }

@@ -14,7 +14,7 @@
     <h2>소설 쓰기</h2>
     
     <!-- 폼 시작 -->
-    <form action="<%=request.getContextPath()%>/write" method="POST">
+    <form action="<%=request.getContextPath()%>/write/${novelId}" method="POST">
         
         <!-- 이미지 선택 드롭다운 -->
         <div class="form-group">
