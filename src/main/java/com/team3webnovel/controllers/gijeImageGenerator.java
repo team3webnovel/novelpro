@@ -45,90 +45,96 @@ public class gijeImageGenerator {
 	
 	@PostMapping("/create/image")
 	public void getImage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		
-		//	클라에서 받은 json 요청 데이터
-		BufferedReader reader = req.getReader();
-		StringBuilder json = new StringBuilder();
-		String line;
-		while((line = reader.readLine()) != null) {
-			json.append(line);
-		}
-		
-		
-		try {
-			//	가운데 컴퓨터 api
-			String apiUrl = "http://192.168.0.241:7860/sdapi/v1/txt2img";
-			
-			JSONObject jsonData = new JSONObject(json.toString());
-			
-			// 요청 보내기 설정
-			URL url = new URL(apiUrl);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-			
-            //	요청 전송
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonData.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-            
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-                StringBuilder apiResponse = new StringBuilder();
-                String responseLine;
-                while ((responseLine = in.readLine()) != null) {
-                    apiResponse.append(responseLine.trim());
-                }
+	    
+	    // 클라이언트에서 받은 json 요청 데이터
+	    BufferedReader reader = req.getReader();
+	    StringBuilder json = new StringBuilder();
+	    String line;
+	    while((line = reader.readLine()) != null) {
+	        json.append(line);
+	    }
+	    
+	    try {
+	        // API 요청을 보낼 URL
+	        String apiUrl = "http://192.168.0.241:7860/sdapi/v1/txt2img";
+	        
+	        JSONObject jsonData = new JSONObject(json.toString());
+	        
+	        // 요청 보내기 설정
+	        URL url = new URL(apiUrl);
+	        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	        connection.setRequestMethod("POST");
+	        connection.setRequestProperty("Content-Type", "application/json");
+	        connection.setDoOutput(true);
+	        
+	        // 요청 전송
+	        try (OutputStream os = connection.getOutputStream()) {
+	            byte[] input = jsonData.toString().getBytes("utf-8");
+	            os.write(input, 0, input.length);
+	        }
+	        
+	        int responseCode = connection.getResponseCode();
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+	            StringBuilder apiResponse = new StringBuilder();
+	            String responseLine;
+	            while ((responseLine = in.readLine()) != null) {
+	                apiResponse.append(responseLine.trim());
+	            }
+	            
+	            JSONObject apiResponseJson = new JSONObject(apiResponse.toString());
+	            JSONArray imagesArray = apiResponseJson.getJSONArray("images");  // 여러 이미지 데이터를 배열로 받음
+	            
+	            // 현재 날짜 및 시간 기준으로 파일명 생성
+	            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+	            
+	            // 이미지 저장 폴더가 존재하는지 확인하고, 없으면 생성
+	            File saveFolder = new File(IMAGE_SAVE_FOLDER);
+	            if (!saveFolder.exists()) {
+	                saveFolder.mkdirs(); // 경로 생성
+	            }
 
-                JSONObject apiResponseJson = new JSONObject(apiResponse.toString());
-                String base64Image = apiResponseJson.getJSONArray("images").getString(0);
-                
-                // Base64 이미지 디코딩
-                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+	            // 여러 이미지를 저장
+	            List<String> base64ImageList = new ArrayList<>();
+	            for (int i = 0; i < imagesArray.length(); i++) {
+	                String base64Image = imagesArray.getString(i);
+	                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+	                
+	                String imagePath = Paths.get(IMAGE_SAVE_FOLDER, "generated_image_" + timestamp + "_" + i + ".png").toString();
+	                
+	                // 이미지 파일로 저장
+	                try (FileOutputStream fos = new FileOutputStream(imagePath)) {
+	                    fos.write(imageBytes);
+	                }
+	                
+	                // 이미지 데이터를 리스트에 추가
+	                base64ImageList.add(base64Image);
+	                
+	                System.out.println("Image saved to: " + imagePath);
+	            }
+	            
+	            // 메타데이터 JSON 객체 생성
+	            JSONObject metadata = apiResponseJson.getJSONObject("parameters");
+	            String metadataPath = Paths.get(IMAGE_SAVE_FOLDER, "metadata_" + timestamp + ".json").toString();
+	            
+	            // 메타데이터 파일로 저장
+	            try (FileWriter file = new FileWriter(metadataPath)) {
+	                file.write(metadata.toString(4)); // Pretty print with 4 spaces
+	            }
 
-                // 현재 날짜 및 시간 기준으로 파일명 생성
-                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imagePath = Paths.get(IMAGE_SAVE_FOLDER, "generated_image_" + timestamp + ".png").toString(); // 파일명 지정
+	            // 응답을 JSON 형식으로 클라이언트에게 반환 (여러 이미지 포함)
+	            resp.setContentType("application/json");
+	            resp.setCharacterEncoding("UTF-8");
+	            resp.getWriter().write(new JSONObject().put("images", base64ImageList).toString());
+	            
+	        } else {
+	            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            resp.getWriter().write("Failed to generate images");
+	        }
 
-                // 이미지 저장 폴더가 존재하는지 확인하고, 없으면 생성
-                File saveFolder = new File(IMAGE_SAVE_FOLDER);
-                if (!saveFolder.exists()) {
-                    saveFolder.mkdirs(); // 경로 생성
-                }
-
-                // 서버에 이미지를 파일로 저장
-                try (FileOutputStream fos = new FileOutputStream(imagePath)) {
-                    fos.write(imageBytes);
-                }
-                
-                // 메타데이터 JSON 객체 생성
-                JSONObject metadata = apiResponseJson.getJSONObject("parameters");
-                
-                String metadataPath = Paths.get(IMAGE_SAVE_FOLDER, "metadata_" + timestamp + ".json").toString();
-                
-                // 메타데이터 파일로 저장
-                try (FileWriter file = new FileWriter(metadataPath)) {
-                    file.write(metadata.toString(4)); // Pretty print with 4 spaces
-                }
-
-
-                System.out.println("Image saved to: " + imagePath);
-                
-                // 응답을 JSON 형식으로 클라이언트에게 반환
-                resp.setContentType("application/json");
-                resp.setCharacterEncoding("UTF-8");
-                resp.getWriter().write(new JSONObject().put("image", base64Image).toString());
-            } else {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().write("Failed to generate image");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public List<String> getCheckpointModels() throws IOException {

@@ -47,6 +47,7 @@
 		ON igd.creation_id = c.creation_id
 		WHERE c.user_id = #{userId} AND
 		c.art_form = 2
+		order by igd.created_at desc
     </select>
     
     <!-- 성민 -->

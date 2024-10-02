@@ -1,4 +1,4 @@
-package com.team3webnovel.controllers;
+package com.team3webnovel.controllers.gije_test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
@@ -21,41 +21,42 @@ import com.team3webnovel.vo.resultVo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/images")
-public class ImageGenerationController {
+public class TestImageController {
+
+	@Autowired
+	private ImageService imageService;
 	
-    @Autowired
-    private ImageService imageService;
-
-    private final ComfyUIImageGenerator comfyUIImageGenerator;
-
-    public ImageGenerationController() {
+	private final ComfyUIImageGenerator comfyUIImageGenerator;
+	
+	public TestImageController() {
         this.comfyUIImageGenerator = new ComfyUIImageGenerator();
     }
-
-    // GET 요청으로 JSP 페이지 렌더링
-    @GetMapping("/generate")
-    public String showGeneratePage(HttpSession session) {
-    	int clientId = (int) session.getAttribute("clientId");
+	
+	@GetMapping("/gije/test")
+	public String form(HttpSession session) {
+		int clientId = (int) session.getAttribute("clientId");
     	comfyUIImageGenerator.connectWebSocket(clientId);
-        return "sungmin/generate"; // generate.jsp 페이지로 이동
-    }
-
-    // POST 요청으로 프롬프트를 받아 이미지 생성 요청
-    @PostMapping("/generate")
-    public String generateImage(
-            @RequestParam("prompt") String prompt,
-            @RequestParam("negative_prompt") String negativePrompt,
-            @RequestParam("sampler_index") String samplerIndex,
-            @RequestParam("steps") int steps,
-            @RequestParam("width") int width,
-            @RequestParam("height") int height,
-            @RequestParam("cfg_scale") int cfgScale,
-            @RequestParam("seed") int seed,
-            @RequestParam("checkpoint") String checkpoint,
-            Model model, HttpSession session) {
-    	int clientId = (int)session.getAttribute("clientId");
-        try {
+    	return "gijeTest/new_gen";
+	}
+	
+	@RequestMapping(value="/gije/test", method=RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Map <String, Object> genet(@RequestBody Map<String, Object> requestData, Model model, HttpSession session) {
+		int clientId = (int)session.getAttribute("clientId");
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		String prompt = (String) requestData.get("prompt");
+	    String negativePrompt = (String) requestData.get("negative_prompt");
+	    String samplerIndex = (String) requestData.get("sampler_index");
+	    int steps = (int) requestData.get("steps");
+	    int width = (int) requestData.get("width");
+	    int height = (int) requestData.get("height");
+	    int cfgScale = (int) requestData.get("cfg_scale");
+	    int seed = (int) requestData.get("seed");
+	    String checkpoint = (String) requestData.get("checkpoint");
+	    
+	    try {
             if (comfyUIImageGenerator.isConnected()) {
                 // ComfyUIImageGenerator에 필요한 파라미터를 모두 넘겨서 처리
                 CompletableFuture<resultVo> resultVoFuture = comfyUIImageGenerator.queuePrompt(
@@ -112,52 +113,16 @@ public class ImageGenerationController {
                 session.setAttribute("imageGenerated", true);  // 세션에 완료 상태 저장
                 session.setAttribute("imageUrl", imageUrl);    // 세션에 URL 저장
                 
-                
+                response.put("success", true);
             } else {
                 model.addAttribute("message", "WebSocket is not connected.");
             }
         } catch (Exception e) {
             // 예외 처리: 이미지 생성 중 오류가 발생했을 때
             model.addAttribute("message", "Error generating image: " + e.getMessage());
+            response.put("success", false);
         }
 
-        return "sungmin/result";  // 결과 페이지로 이동
-    }
-    
- // 작업 상태를 확인하는 API
-    @GetMapping("/checkStatus")
-    @ResponseBody
-    public Map<String, Object> checkStatus(HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        
-        Boolean imageGenerated = (Boolean) session.getAttribute("imageGenerated");
-        if (imageGenerated != null && imageGenerated) {
-            response.put("status", "completed");
-            response.put("imageUrl", session.getAttribute("imageUrl"));
-            session.removeAttribute("imageGenerated");  // 상태 체크 후 세션에서 제거
-        } else {
-            response.put("status", "in_progress");
-        }
-
-        return response;
-    }    
-    
-    @GetMapping("/alert")
-    public String alert(Model model, HttpSession session) {
-
-        int clientId = (int) session.getAttribute("clientId");
-        model.addAttribute("clientId", clientId);  // 클라이언트 ID를 JSP로 전달
-
-        return "sungmin/alert";  // 알림 JSP로 이동
-    }
-    
-    @GetMapping("/getClientId")
-    @ResponseBody
-    public Map<String, Object> getClientId(HttpSession session) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("clientId", session.getAttribute("clientId"));
-        return response;
-    }
-	
-
+        return response;  // 결과 페이지로 이동
+	}
 }

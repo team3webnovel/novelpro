@@ -8,4 +8,5 @@ public interface ImageBoardService {
 	public List <ImageBoardVo> list();
 	
 	public void writeImageBoard(ImageBoardVo boardVo);
+	
 }

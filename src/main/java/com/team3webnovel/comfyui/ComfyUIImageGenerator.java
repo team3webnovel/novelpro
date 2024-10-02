@@ -105,7 +105,7 @@ public class ComfyUIImageGenerator {
                             0
                         ],
                         "sampler_name": "%s",
-                        "scheduler": "normal",
+                        "scheduler": "karras",
                         "seed": %d,
                         "steps": %d
                     }

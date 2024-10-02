@@ -9,47 +9,7 @@
     <title>내 보관함</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
-    <script src="<%= request.getContextPath()%>/static/js/storage.js"></script>
-    <style>
-   .modal {
-       display: none; /* 기본적으로 숨김 */
-       position: fixed;
-       z-index: 1;
-       left: 0;
-       top: 0;
-       width: 100%;
-       height: 100%;
-       overflow: auto;
-       background-color: rgb(0, 0, 0);
-       background-color: rgba(0, 0, 0, 0.4);
-   }
-   
-   .close {
-       color: #aaa;
-       float: right;
-       font-size: 28px;
-       font-weight: bold;
-   }
-   
-   .close:hover,
-   .close:focus {
-       color: black;
-       text-decoration: none;
-       cursor: pointer;
-   }
-   
-   .modal-content {
-       background-color: #fefefe;
-       margin: 15% auto;
-       padding: 20px;
-       border: 1px solid #888;
-       width: 80%;
-       border-radius: 8px; /* 테두리 둥글게 */
-       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-       max-height: 90vh; /* 화면 높이의 90%로 최대 높이를 설정하여 화면 밖으로 넘치지 않도록 함 */
-        overflow-y: auto; /* 세로로 스크롤 가능 */
-   }
-    </style>
+    <script src="static/js/storage.js"></script>
     
 </head>
 <body>
@@ -127,33 +87,42 @@
 
     </div>
 </div>
-<div id="myModal" class="modal">
+<!-- 모달 창 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">이미지 정보</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <!-- 이미지 출력 -->
-        <img id="modalImage" src="" alt="이미지" style="max-width: 100%; height: auto;"/>
+        <img id="modalImage" src="" alt="이미지" class="img-fluid" />
         <input type="hidden" id="creationIdField" value="">
-        
+
         <!-- 공개 여부 선택 -->
-        <div>
-            <label for="publicOption">생성 정보 공개 여부:</label>
-            <select id="publicOption">
-                <option value="public">공개</option>
-                <option value="private">비공개</option>
-            </select>
+        <div class="form-group">
+          <label for="publicOption">생성 정보 공개 여부:</label>
+          <select id="publicOption" class="form-control">
+            <option value="public">공개</option>
+            <option value="private">비공개</option>
+          </select>
         </div>
 
         <!-- 코멘트 입력 -->
-        <div>
-            <label for="comment">작성자 코멘트:</label>
-            <textarea id="comment" rows="4" style="width: 100%;"></textarea>
+        <div class="form-group">
+          <label for="comment">작성자 코멘트:</label>
+          <textarea id="comment" class="form-control" rows="4"></textarea>
         </div>
-
-        <!-- 전송 버튼 -->
-        <button onclick="submitData()">전송</button>
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" onclick="submitData()">전송</button>
+      </div>
     </div>
+  </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -24,4 +24,9 @@ public class ImageBoardDaoImpl implements ImageBoardDao {
 		imageBoardMapper.writeImageBoard(boardVo);
 	}
 
+	@Override
+	public int publicCheck(int boardId) {
+		return imageBoardMapper.publicCheck(boardId);
+	}
+
 }

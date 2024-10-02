@@ -51,7 +51,7 @@
 
 	<!-- 폰트 크기 슬라이더 -->
 	<label for="fontSizeSlider">Font Size (pt):</label>
-	<input type="range" id="fontSizeSlider" min="10" max="70" value="10" step="1">
+	<input type="range" id="fontSizeSlider" min="10" max="150" value="10" step="1">
 
     
     <!-- 텍스트 박스 추가 버튼 -->

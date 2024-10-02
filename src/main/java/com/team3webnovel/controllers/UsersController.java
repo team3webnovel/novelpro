@@ -305,8 +305,11 @@ public class UsersController {
 
             // DB에서 해당 이메일로 사용자가 있는지 확인
             UserVo existingUser = userService.findUserByEmail(googleUser.getEmail());
+            // 로그인 성공 시 세션에 사용자 정보 저장
 
             if (existingUser != null) {
+            	int clientId = googleUser.getUserId();
+            	session.setAttribute("clientId", clientId);
                 // 사용자가 이미 DB에 있는 경우 세션에 기존 사용자 정보 저장
                 session.setAttribute("user", existingUser);
                 logger.debug("기존 사용자 세션에 저장: {}", existingUser);

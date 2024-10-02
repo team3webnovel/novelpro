@@ -18,7 +18,7 @@ public class MainController {
 	@Autowired
 	private NovelService novelService;
 	
-    @RequestMapping("/")
+    @RequestMapping({"/", "/main", ""})
     public String showIndexPage(Model model) {
     	// 장르 리스트를 생성
         List<GenreVo> genres = new ArrayList<>();
@@ -30,11 +30,8 @@ public class MainController {
 
         // 모델에 장르 리스트 추가
         model.addAttribute("genres", genres);
-        System.out.println("genres" + genres);
         List<NovelVo> vo = novelService.getMainNovelList();
-        System.err.println("novelList" + vo);
         model.addAttribute("novelList", vo);
-        System.err.println("되면 찍힌다 제발 좀!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         
         return "index";  // index.jsp로 이동
     }

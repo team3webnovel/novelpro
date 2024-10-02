@@ -56,37 +56,33 @@ document.addEventListener("DOMContentLoaded", function() {
 						width: 896,
 						height: 1152,
 						cfg_scale: 5,
-						negative_prompt:"realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands"
+						batch_size: 4,
+						negative_prompt:"realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",
+						save_images: true
 					 })
                 });
 
 				// 서버에 이미지를 POST 방식으로 전송
 				if (response.ok) {
-				    const result = await response.json();
-				    const imageData = result.image;
+			        const result = await response.json();
+			        const imagesData = result.images;  // 여러 이미지 데이터 받음
+			        
+			        await fetch('/team3webnovel/image/result', {
+			            method: 'POST',
+			            headers: {
+			                'Content-Type': 'application/json'
+			            },
+			            body: JSON.stringify({ images: imagesData, prompt: prompt }) // 여러 이미지 전송
+			        });
 
-				    // POST 요청으로 이미지 데이터 전송
-				    await fetch('/team3webnovel/image/result', {
-				        method: 'POST',
-				        headers: {
-				            'Content-Type': 'application/json'
-				        },
-				        body: JSON.stringify({ image: imageData, prompt: prompt }) // 이미지 데이터를 JSON 형태로 전송
-				    }).then(() => {
-				        // 요청이 성공하면 리다이렉트
-				        window.location.href = '/team3webnovel/image/result';
-				    }).catch(error => {
-				        console.error('Error:', error);
-				        alert('이미지 데이터 전송에 실패했습니다.');
-				    });
-				}
-            } catch (error) {
-                console.error('Error:', error);
-                alert('서버와의 연결에 문제가 발생했습니다.');
-            } finally {
-                // 스피너 숨김
-                document.getElementById("spinner").style.display = "none";
-            }
+			        window.location.href = '/team3webnovel/image/result'; // 결과 페이지로 리다이렉트
+			    }
+			} catch (error) {
+			    console.error('Error:', error);
+			    alert('서버와의 연결에 문제가 발생했습니다.');
+			} finally {
+			    document.getElementById("spinner").style.display = "none";
+			}
         };
     } else {
         console.error("Form with id 'modelForm' not found.");
