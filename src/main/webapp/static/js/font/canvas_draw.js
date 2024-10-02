@@ -128,20 +128,45 @@ document.getElementById('imageUpload').addEventListener('change', function () {
 // 텍스트 박스 생성 버튼 클릭 시 새로운 텍스트 박스 추가
 document.getElementById('addTextBoxBtn').addEventListener('click', function () {
     const newTextBox = {
-        text: '여기에 텍스트를 입력하세요',
-        x: 150,
-        y: 150,
-        fontSize: 30,
-        font: 'Arial',
-        color: '#000000',
-        outlineColor: '#FFFFFF',
-        bold: false,
-        italic: false,
-        underline: false,
-        strikethrough: false,
-        useGradient: false,
-        gradientStart: '#ff0000',
-        gradientEnd: '#0000ff',
+		text: '여기에 텍스트를 입력하세요',
+		x: 150,
+		y: 150,
+		fontSize: 30,
+		font: 'Arial',
+		color: '#000000',
+		orientation: 'horizontal',  // 가로 텍스트
+		outlineColor: '#FFFFFF',
+		bold: false,
+		italic: false,
+		underline: false,
+		strikethrough: false,
+		useGradient: false,
+		gradientStart: '#ff0000',
+		gradientEnd: '#0000ff',
+    };
+    textBoxes.push(newTextBox);
+    focusedTextBoxIndex = textBoxes.length - 1;  // 새로 생성된 텍스트 박스를 포커스
+    textBox = textBoxes[focusedTextBoxIndex];  // 전역 변수에 포커스된 텍스트 박스 할당
+    drawCanvas();  // 캔버스 업데이트
+});
+// 텍스트 박스 생성 버튼 클릭 시 새로운 텍스트 박스 추가
+document.getElementById('addVerticalTextBoxBtn').addEventListener('click', function () {
+    const newTextBox = {
+		text: '여기에 텍스트를 입력하세요',
+		x: 150,
+		y: 150,
+		fontSize: 30,
+		font: 'Arial',
+		color: '#000000',
+		orientation: 'vertical',  // 세로 텍스트
+		outlineColor: '#FFFFFF',
+		bold: false,
+		italic: false,
+		underline: false,
+		strikethrough: false,
+		useGradient: false,
+		gradientStart: '#ff0000',
+		gradientEnd: '#0000ff',
     };
     textBoxes.push(newTextBox);
     focusedTextBoxIndex = textBoxes.length - 1;  // 새로 생성된 텍스트 박스를 포커스
@@ -154,91 +179,133 @@ function drawCanvas() {
     // 캔버스 초기화
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	// 이미지가 있는 경우 먼저 이미지 그리기
-	if (img) {
-	    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // 업로드된 이미지 그리기
-	}
-	if (img.src) {
-		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-	}
-    // 모든 텍스트 박스를 그리기 위해 textBoxes 배열을 순회
+    // 이미지가 있는 경우 먼저 이미지 그리기
+    if (img && img.src) {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+
+    // 모든 텍스트 박스를 순회하면서 그리기
     textBoxes.forEach((textBox, index) => {
         // 폰트 설정
         ctx.font = `${textBox.bold ? 'bold ' : ''}${textBox.italic ? 'italic ' : ''}${textBox.fontSize}px ${textBox.font}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // 텍스트를 여러 줄로 나누기
-        const lines = textBox.text.split('\n');
-        const lineHeight = textBox.fontSize * 1.2;
+        // 그라데이션 적용 여부 확인
+        if (textBox.useGradient) {
+            let gradient;
 
-        // 각 줄마다 그리기
-        lines.forEach((line, i) => {
-            const y = textBox.y + i * lineHeight - (lines.length - 1) * lineHeight / 2;
+            const lines = textBox.text.split('\n');
+            const lineHeight = textBox.fontSize * 1.2;  // 줄 간격
+            const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
+            const textHeight = lineHeight * lines.length;  // 전체 텍스트의 높이
 
-            // 그라데이션 적용 여부 확인
-            if (textBox.useGradient) {
-                const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0); // 가로 방향 그라데이션
-                gradient.addColorStop(0, textBox.gradientStart);  // 그라데이션 시작 색상
-                gradient.addColorStop(1, textBox.gradientEnd);    // 그라데이션 끝 색상
-                ctx.fillStyle = gradient;  // 그라데이션을 fillStyle로 설정
+            if (textBox.gradientDirection === 'vertical') {
+                // 세로 방향 그라데이션
+                gradient = ctx.createLinearGradient(
+                    0,
+                    textBox.y - textHeight / 2,
+                    0,
+                    textBox.y + textHeight / 2
+                );
             } else {
-                ctx.fillStyle = textBox.color;  // 그라데이션이 없을 경우 일반 색상 적용
+                // 가로 방향 그라데이션 (기본값)
+                gradient = ctx.createLinearGradient(
+                    textBox.x - textWidth / 2,
+                    0,
+                    textBox.x + textWidth / 2,
+                    0
+                );
             }
-
-            // 글자 외곽선 그리기 (외곽선이 있는 경우)
-            if (textBox.outlineColor) {
-                ctx.strokeStyle = textBox.outlineColor;  // 외곽선 색상 설정
-                ctx.lineWidth = 2;  // 외곽선 두께 설정
-                ctx.strokeText(line, textBox.x, y);  // 외곽선 그리기
-            }
-
-            // 텍스트 그리기 (채우기)
-            ctx.fillText(line, textBox.x, y);
-
-            // 밑줄 추가 (밑줄은 항상 검은색으로 설정)
-            if (textBox.underline) {
-                ctx.strokeStyle = '#000';  // 밑줄은 검은색으로 고정
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(textBox.x - ctx.measureText(line).width / 2, y + textBox.fontSize / 4);
-                ctx.lineTo(textBox.x + ctx.measureText(line).width / 2, y + textBox.fontSize / 4);
-                ctx.stroke();
-            }
-
-            // 취소선 추가 (항상 검은색)
-            if (textBox.strikethrough) {
-                ctx.strokeStyle = '#000';  // 취소선은 검은색으로 고정
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(textBox.x - ctx.measureText(line).width / 2, y);
-                ctx.lineTo(textBox.x + ctx.measureText(line).width / 2, y);
-                ctx.stroke();
-            }
-        });
-
-        const textWidth = Math.max(...lines.map(line => ctx.measureText(line).width));  // 가장 긴 줄의 너비 계산
-        const textHeight = textBox.fontSize * 1.2 * lines.length;  // 텍스트 박스의 전체 높이 계산
-
-        // 포커스된 텍스트 박스에 점선 테두리 그리기 (클릭으로 포커스된 경우)
-        if (index === focusedTextBoxIndex) {
-            ctx.setLineDash([5, 5]);  // 점선 설정 (5px 선, 5px 간격)
-            ctx.strokeStyle = '#000';  // 테두리 색상을 검은색으로 설정
-            ctx.lineWidth = 1;  // 테두리 두께 설정
-            ctx.strokeRect(textBox.x - textWidth / 2 - 5, textBox.y - textHeight / 2 - 5, textWidth + 10, textHeight + 10);
-            ctx.setLineDash([]);  // 점선 해제 (다른 도형에 영향을 주지 않도록)
+            gradient.addColorStop(0, textBox.gradientStart);
+            gradient.addColorStop(1, textBox.gradientEnd);
+            ctx.fillStyle = gradient;
+        } else {
+            ctx.fillStyle = textBox.color;
         }
 
-        // 드래그된 범위 내 텍스트 박스에 점선 테두리 그리기
+        // 텍스트 그리기
+        if (textBox.orientation === 'horizontal' || !textBox.orientation) {
+            // 가로 텍스트 처리
+            const lines = textBox.text.split('\n');
+            const lineHeight = textBox.fontSize * 1.2;
+
+            lines.forEach((line, i) => {
+                const y = textBox.y + i * lineHeight - (lines.length - 1) * lineHeight / 2;
+
+                // 글자 외곽선 그리기
+                if (textBox.outlineColor) {
+                    ctx.strokeStyle = textBox.outlineColor;
+                    ctx.lineWidth = 2;
+                    ctx.strokeText(line, textBox.x, y);
+                }
+
+                // 텍스트 그리기
+                ctx.fillText(line, textBox.x, y);
+            });
+        } else if (textBox.orientation === 'vertical') {
+            // 세로 텍스트 처리
+            const characters = textBox.text.split(''); // 글자를 개별적으로 처리
+            let maxCharWidth = 0;
+            let totalHeight = characters.length * textBox.fontSize; // 총 높이 계산
+
+            characters.forEach((char) => {
+                const charWidth = ctx.measureText(char).width; // 각 글자의 너비 계산
+                maxCharWidth = Math.max(maxCharWidth, charWidth); // 가장 넓은 글자 찾기
+            });
+
+            let y = textBox.y - totalHeight / 2; // 세로로 중앙 정렬
+
+            characters.forEach((char) => {
+                // 글자 외곽선 그리기
+                if (textBox.outlineColor) {
+                    ctx.strokeStyle = textBox.outlineColor;
+                    ctx.lineWidth = 2;
+                    ctx.strokeText(char, textBox.x, y);
+                }
+
+                // 텍스트 그리기
+                ctx.fillText(char, textBox.x, y);
+
+                y += textBox.fontSize; // 다음 글자를 아래에 배치
+            });
+
+            // 텍스트 박스의 너비와 높이 설정
+            textWidth = maxCharWidth;
+            textHeight = totalHeight;
+        }
+
+        // 포커스된 텍스트 박스에 점선 테두리 그리기
+        if (index === focusedTextBoxIndex) {
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(
+                textBox.x - textWidth / 2 - 5,
+                textBox.y - textHeight / 2 - 5,
+                textWidth + 10,
+                textHeight + 10
+            );
+            ctx.setLineDash([]);
+        }
+
+        // 선택된 텍스트 박스들에 점선 테두리 그리기
         if (selectedTextBoxes.includes(index)) {
-            ctx.setLineDash([5, 5]);  // 점선 설정 (5px 선, 5px 간격)
-            ctx.strokeStyle = '#000';  // 테두리 색상을 검은색으로 설정
-            ctx.lineWidth = 1;  // 테두리 두께 설정
-            ctx.strokeRect(textBox.x - textWidth / 2 - 5, textBox.y - textHeight / 2 - 5, textWidth + 10, textHeight + 10);
-            ctx.setLineDash([]);  // 점선 해제 (다른 도형에 영향을 주지 않도록)
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(
+                textBox.x - textWidth / 2 - 5,
+                textBox.y - textHeight / 2 - 5,
+                textWidth + 10,
+                textHeight + 10
+            );
+            ctx.setLineDash([]);
         }
     });
 }
+
+
 
 
 

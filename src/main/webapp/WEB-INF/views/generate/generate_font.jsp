@@ -55,7 +55,8 @@
 
     
     <!-- 텍스트 박스 추가 버튼 -->
-    <button id="addTextBoxBtn" class="toolbar-btn">TXT</button>
+    <button id="addTextBoxBtn" class="toolbar-btn">가로TXT</button>
+    <button id="addVerticalTextBoxBtn" class="toolbar-btn">세로TXT</button>
 
     <!-- 텍스트 스타일 버튼들 -->
     <button id="boldBtn" class="toolbar-btn"><b>B</b></button>
@@ -67,9 +68,16 @@
     <input type="color" id="textColor" title="글자색 선택">
     <input type="color" id="outlineColorInput" value="#FFFFFF" title="외곽선 색상 선택">
 
-    <!-- 그라데이션 적용 여부 -->
-    <label for="gradientInput">그라데이션 사용:</label>
-    <input type="checkbox" id="gradientInput">
+<!-- 그라데이션 적용 여부 -->
+<label for="gradientInput">그라데이션 사용:</label>
+<input type="checkbox" id="gradientInput">
+
+<!-- 그라데이션 방향 선택 -->
+<label for="gradientDirection">그라데이션 방향:</label>
+<select id="gradientDirection" disabled>
+    <option value="horizontal">가로</option>
+    <option value="vertical">세로</option>
+</select>
 
     <!-- 그라데이션 색상 설정 -->
     <input type="color" id="gradientStartInput" value="#ff0000" title="그라데이션 시작 색상" disabled>
@@ -86,36 +94,7 @@
 <script src="static/js/font/keyboard_controls.js"></script>
 <script src="static/js/font/drag_controls.js"></script>
 <script src="static/js/font/modal.js"></script>
-<script>
-// 이미지가 클릭되었을 때 canvas에 이미지를 그리는 함수
-function selectImageAndDraw(imageUrl) {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var img = new Image();
 
-    img.onload = function () {
-        // 이미지가 로드되면 캔버스 크기를 이미지 크기에 맞게 조정
-        canvas.width = img.width;
-        canvas.height = img.height;
-        // 이미지 그리기
-        ctx.drawImage(img, 0, 0);
-        drawCanvas();  // 필요하다면 추가 작업 (예: 텍스트 추가 등)
-    };
-
-    img.src = imageUrl; // 이미지 URL 설정
-}
-
-// 클릭 이벤트 리스너 추가
-document.querySelectorAll('.image-item').forEach(function (imgElement) {
-    imgElement.addEventListener('click', function () {
-        // 이미지 URL 가져오기
-        var imageUrl = imgElement.getAttribute('src');
-        // 선택한 이미지를 캔버스에 그리기
-        selectImageAndDraw(imageUrl);
-    });
-});
-
-</script>
 
 </body>
 </html>
