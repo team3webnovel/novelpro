@@ -7,6 +7,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
+    
+    <!-- Bootstrap CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,108 +26,73 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
         .grid {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
-        .image-card {
-            width: 200px;
+        .card {
             padding: 20px;
             background-color: #f9f9f9;
-            border: 1px solid #ddd;
             border-radius: 8px;
-            text-align: center;
             transition: transform 0.3s ease;
         }
-        .image-card:hover {
+        .card:hover {
             transform: translateY(-10px);
         }
-        .image-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .image-card h2 {
-            font-size: 1.2em;
-            margin: 10px 0;
-            color: #555;
-        }
-        .image-card button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .image-card button:hover {
-            background-color: #218838;
-        }
         
-        .modal {
-		    display: none; /* 기본적으로 숨김 */
-		    position: fixed;
-		    z-index: 1;
-		    left: 0;
-		    top: 0;
-		    width: 100%;
-		    height: 100%;
-		    overflow: auto;
-		    background-color: rgb(0, 0, 0);
-		    background-color: rgba(0, 0, 0, 0.4);
-		}
-		
-		.close {
-		    color: #aaa;
-		    float: right;
-		    font-size: 28px;
-		    font-weight: bold;
-		}
-		
-		.close:hover,
-		.close:focus {
-		    color: black;
-		    text-decoration: none;
-		    cursor: pointer;
-		}
-		
-		.modal-content {
-		    background-color: #fefefe;
-		    margin: 15% auto;
-		    padding: 20px;
-		    border: 1px solid #888;
-		    width: 80%;
-		    border-radius: 8px; /* 테두리 둥글게 */
-		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-		    max-height: 90vh; /* 화면 높이의 90%로 최대 높이를 설정하여 화면 밖으로 넘치지 않도록 함 */
-    		overflow-y: auto; /* 세로로 스크롤 가능 */
-		}
-	</style>
-	<script src="<%= request.getContextPath()%>/static/js/image_board.js"></script>
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+
+    <!-- JS 파일 추가 -->
+    <script src="<%= request.getContextPath()%>/static/js/image_board.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>게시판</h1>
-        <div class="grid">
+        <h1 class="text-center mb-4">게시판</h1>
+        <div class="row">
             <c:forEach var="image" items="${list}">
-                <div class="image-card" onclick="openModal('${image.imageUrl}', ${image.creationId})">
-                    <img src="${image.imageUrl }" alt="이미지">
+                <div class="col-md-3">
+                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId})">
+                        <img src="${image.imageUrl}" alt="이미지" class="card-img-top">
+                    </div>
                 </div>
             </c:forEach>
         </div>
     </div>
-    <div id="myModal" class="modal">
-    	<div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img id="modalImage" src="" alt="이미지" style="max-width: 100%; height: auto;"/>
-        <p id="modalContent"></p>
-		</div>
-	</div>
+
+    <!-- 모달 -->
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">이미지 정보</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="이미지" class="img-fluid"/>
+                    <p id="modalContent"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS 및 jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

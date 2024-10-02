@@ -30,5 +30,5 @@ public interface ImageService {
     
     List<ImageVo> getImageDataByUserId(CreationVo vo);
     
-    ImageVo getAllInformation(int creationId);
+    ImageVo getAllInformation(int boardId, int creationId);
 }

@@ -2,7 +2,7 @@ function writeBoard(creationId, imageUrl) {
 	document.getElementById("creationIdField").value = creationId;
 	
     // 모달 창 열기
-    document.getElementById("myModal").style.display = "block";
+    $('#myModal').modal('show');
 
     // 이미지 URL을 모달에 있는 img 태그에 적용
     document.getElementById("modalImage").src = imageUrl;
@@ -10,7 +10,7 @@ function writeBoard(creationId, imageUrl) {
 
 function closeModal() {
     // 모달 창 닫기
-    document.getElementById("myModal").style.display = "none";
+    $('#myModal').modal('hide');
     
     // 모달이 닫힐 때 이미지를 비워줍니다 (선택 사항)
     document.getElementById("modalImage").src = "";
