@@ -84,8 +84,6 @@ public class ImageGenerationController {
                 
                 // UserVo 세션에서 가져오기
                 UserVo vo = (UserVo) session.getAttribute("user");
-                int userId = vo.getUserId();
-                int artForm = 1;
                 Map<String, Object> paramMap = new HashMap<>();
                 paramMap.put("userId", vo.getUserId());
                 paramMap.put("artForm", 2);  // artForm은 2로 지정
