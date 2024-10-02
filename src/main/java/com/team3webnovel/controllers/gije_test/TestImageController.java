@@ -34,7 +34,8 @@ public class TestImageController {
 	
 	@GetMapping("/gije/test")
 	public String form(HttpSession session) {
-		int clientId = (int) session.getAttribute("clientId");
+		UserVo userVo = (UserVo) session.getAttribute("user");
+		int clientId = userVo.getUserId();
     	comfyUIImageGenerator.connectWebSocket(clientId);
     	return "gijeTest/new_gen";
 	}

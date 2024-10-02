@@ -1,11 +1,14 @@
 function openModal() {
-    document.getElementById("myModal").style.display = "block";
+    $('#myModal').modal('show');
 	console.log(checkpoint);
 	console.log(seed);
 }
+function openModalVer2(){
+	$('#myModal2').modal('show');
+}
 
 function closeModal() {
-    document.getElementById("myModal").style.display = "none";
+    $('#myModal').modal('hide');
 }
 
 var checkpoint = '';
@@ -14,6 +17,11 @@ var seed = 0;
 function changeModel(model){
 	checkpoint = model;
 	openModal();
+}
+
+function changeModelVer2(model){
+	checkpoint = model;
+	openModalVer2();
 }
 
 function setRandomSeed() {
@@ -89,4 +97,71 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		}
 	}
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+	const modelForm = document.getElementById("create-with-ai");
+	
+	if (modelForm){
+			modelForm.onsubmit = async function(event){
+				event.preventDefault();
+				document.getElementById("spinner").style.display = "block";
+				const inputPrompt = document.getElementById("comment").value;
+				
+				fetch('/team3webnovel/gije/ai', {
+					method: 'POST',
+			        headers: {
+			            'Content-Type': 'application/json'
+			        },
+					body: JSON.stringify({
+			            input: inputPrompt
+			        })
+				})
+				.then(response => response.json())
+				.then(data => {
+				    
+				    // 서버에서 받은 데이터를 기반으로 imageData 구성
+				    const imageData = {
+				        prompt: data.prompt,  // 서버에서 받은 prompt 값
+				        negative_prompt: data.negative_prompt || "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",  // 서버에서 받은 negative_prompt 값 또는 기본값
+				        sampler_index: "dpmpp_2m",
+				        steps: 25,
+				        width: 896,
+				        height: 1152,
+				        cfg_scale: 5,
+				        checkpoint: checkpoint,
+				        seed: seed
+				    };
+				    
+					fetch('/team3webnovel/gije/test', {
+						method: 'POST',
+						headers: {
+				            'Content-Type': 'application/json', // JSON 형식으로 전송
+				        },
+				        body: JSON.stringify(imageData) // 데이터를 JSON으로 변환
+					})
+					.then(response => {
+					    if (response.ok) {
+					        return response.json(); // 응답을 JSON 형식으로 파싱
+					    } else {
+					        throw new Error('Network response was not ok');
+					    }
+					})
+					.then(result => {
+					    console.log(result);  // 서버에서 받은 JSON 응답 출력
+					    document.getElementById("spinner").style.display = "none";
+					    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
+					})
+					.catch(error => {
+					    console.error('Error:', error);
+					    alert('이미지 생성에 실패했습니다.');
+					});
+				    
+				})
+				.catch(error => {
+				    console.error('Error:', error);
+				});
+				
+			}
+		}
 });
