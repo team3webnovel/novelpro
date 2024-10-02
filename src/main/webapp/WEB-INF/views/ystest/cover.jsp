@@ -14,7 +14,7 @@
 <div class="container mt-5">
     <h2>소설 쓰기</h2>
     
-    <form action="${pageContext.request.contextPath}/write" method="POST">
+    <form action="${pageContext.request.contextPath}/cover" method="POST">
     
 	    <!-- 이미지 선택 드롭다운 -->
 	    <div class="form-group">
