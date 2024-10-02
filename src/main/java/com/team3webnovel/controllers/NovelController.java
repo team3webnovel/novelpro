@@ -110,10 +110,11 @@ public class NovelController {
         vo.setEpisodeNo(episode);
         vo.setContents(content);
 
-        // 생성일을 현재 시간으로 설정 (Timestamp로 변경)
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        vo.setCreatedAt(currentTime);   // 생성일 설정
-
+		/*
+		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
+		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
+		 * 설정
+		 */
         // 디버깅용 출력
         System.err.println(vo.toString());
 
@@ -217,6 +218,84 @@ public class NovelController {
             // 오류 발생 시에도 아무런 응답을 보내지 않음
         }
     }
+    
+    @GetMapping("/novel/episode/{novelId}/{episodeNo}")
+    public String episodeUpdate(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model, HttpSession session) {
+    	NovelVo novelVo = new NovelVo();
+    	novelVo.setNovelId(novelId);
+    	novelVo.setEpisodeNo(episodeNo);
+    	novelVo = novelService.getNovelDetail(novelVo);
+    	System.err.println(novelVo);
+    	model.addAttribute("episode", novelVo);
+    	
+    	UserVo user = (UserVo)session.getAttribute("user");
+    	int userId = user.getUserId();
+    	CreationVo vo = new CreationVo();
+    	vo.setUserId(userId);
+    	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
+    	System.err.println("write" + imageList);
+    	model.addAttribute("imageList", imageList);
+    	
+        // userId와 artForm = 1인 음악들을 가져오기
+        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
 
+        // 가져온 음악 데이터를 모델에 추가
+        model.addAttribute("musicList", musicList);
+    	
+    	return "ystest/episode";
+    }
+    
+    @PostMapping("/episode/update/{novelId}/{episodeNo}")
+    public String episodeUpdateString(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model, HttpSession session,
+            @RequestParam("illust") int illust,
+			@RequestParam("bgm") int bgm,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content) {
+    	
+    	NovelVo vo = new NovelVo();
+    	vo.setNovelId(novelId);
+        vo.setTitle(title);             // 소설 제목 설정
+        vo.setImageId(illust);		// 소설 표지 설정
+        vo.setBgmId(bgm);
+        vo.setEpisodeNo(episodeNo);
+        vo.setContents(content);
+
+		/*
+		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
+		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
+		 * 설정
+		 */
+        // 디버깅용 출력
+        System.err.println(vo.toString());
+
+        // NovelService를 통해 소설 삽입
+        novelService.updateNovelDetail(vo);
+    	
+    	return "redirect:/novel_detail/" + novelId;
+    	
+    }
+    
+    // 에피소드 공개/비공개 상태 업데이트
+    @PostMapping("/updateVisibility")
+    public void updateVisibility(
+            @RequestParam int novelId,
+            @RequestParam int episodeNo,
+            @RequestParam String visibility) {
+        
+        NovelVo vo = new NovelVo();
+        vo.setNovelId(novelId);
+        vo.setEpisodeNo(episodeNo);
+        vo.setVisibility(visibility);
+
+        // 서비스 호출하여 에피소드 공개/비공개 상태 업데이트
+        novelService.updateEpisodeVisibility(vo);
+    }
+    
 
 }

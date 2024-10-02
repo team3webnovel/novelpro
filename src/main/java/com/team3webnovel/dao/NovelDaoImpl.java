@@ -78,12 +78,21 @@ public class NovelDaoImpl implements NovelDao {
 	public List<NovelVo> getMainNovelList() {
 		return novelMapper.getMainNovelList();
 	}
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelMapper.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelMapper.updateNovelDetail(vo);
+	}
 	
-	
-	
-	
-	
-	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelMapper.updateEpisodeVisibility(vo);
+	}
 	
 	
 

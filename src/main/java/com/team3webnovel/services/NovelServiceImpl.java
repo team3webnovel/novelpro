@@ -79,6 +79,24 @@ public class NovelServiceImpl implements NovelService {
 	public List<NovelVo> getMainNovelList() {
 		return novelDao.getMainNovelList();
 	}
+
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelDao.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelDao.updateNovelDetail(vo);
+	}
+	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelDao.updateEpisodeVisibility(vo);
+	}
+	
+	
 	
 	
 	

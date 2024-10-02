@@ -23,6 +23,7 @@ public class NovelVo {
     private String imageUrl;
     private int imageId;
     private int bgmId;
+    private String visibility;
 
     // 기본 생성자
     public NovelVo() {
@@ -159,6 +160,14 @@ public class NovelVo {
 	public void setBgmId(int bgmId) {
 		this.bgmId = bgmId;
 	}
+	
+	public String getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
+	}
 
 	@Override
 	public String toString() {
@@ -166,7 +175,7 @@ public class NovelVo {
 				+ ", creationId=" + creationId + ", intro=" + intro + ", createdAt=" + createdAt + ", novelId="
 				+ novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
 				+ creationIdDetail + ", titleDetail=" + titleDetail + ", imageUrl=" + imageUrl + ", imageId=" + imageId
-				+ ", bgmId=" + bgmId + "]";
+				+ ", bgmId=" + bgmId + ", visibility=" + visibility + "]";
 	}
 
 

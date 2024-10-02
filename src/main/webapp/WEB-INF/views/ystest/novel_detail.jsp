@@ -54,9 +54,15 @@
             <ul class="list-group">
                 <c:forEach var="episode" items="${detailList}">
                     <li class="list-group-item">
-                        <a href="/novel/episode/${episode.episodeNo}">
+                        <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}">
                             에피소드 ${episode.episodeNo}화: ${episode.title}
                         </a>
+                        
+                        <!-- 공개/비공개 선택 드롭다운 -->
+                        <select class="float-right" id="visibilitySelect_${episode.episodeNo}" onchange="updateVisibility(${episode.episodeNo})">
+                            <option value="public" ${episode.visibility == 'public' ? 'selected' : ''}>공개</option>
+                            <option value="private" ${episode.visibility == 'private' ? 'selected' : ''}>비공개</option>
+                        </select>
                         <span class="float-right">작성일: ${episode.createdAt}</span>
                     </li>
                 </c:forEach>
@@ -68,18 +74,32 @@
 <!-- JavaScript 부분 -->
 <script>
     // 상태 변경시 서버로 AJAX 요청을 보내는 함수
-	function updateStatus() {
-	    var selectedStatus = document.getElementById('statusSelect').value;
-	    var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
-	
-	    // AJAX 요청으로 상태 변경
-	    var xhr = new XMLHttpRequest();
-	    xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
-	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	
-	    // 데이터 전송 (응답 처리는 생략)
-	    xhr.send("novelId=" + novelId + "&status=" + selectedStatus);
-	}
+    function updateStatus() {
+        var selectedStatus = document.getElementById('statusSelect').value;
+        var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
+    
+        // AJAX 요청으로 상태 변경
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+        // 데이터 전송 (응답 처리는 생략)
+        xhr.send("novelId=" + novelId + "&status=" + selectedStatus);
+    }
+
+    // 에피소드 공개/비공개 상태 변경시 서버로 AJAX 요청을 보내는 함수
+    function updateVisibility(episodeNo) {
+        var selectedVisibility = document.getElementById('visibilitySelect_' + episodeNo).value;
+        var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
+
+        // AJAX 요청으로 상태 변경
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%=request.getContextPath()%>/updateVisibility", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // 데이터 전송
+        xhr.send("novelId=" + novelId + "&episodeNo=" + episodeNo + "&visibility=" + selectedVisibility);
+    }
 </script>
 
 <!-- jQuery와 Bootstrap JavaScript -->

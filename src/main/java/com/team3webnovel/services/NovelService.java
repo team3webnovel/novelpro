@@ -32,4 +32,10 @@ public interface NovelService {
     void updateStatus(NovelVo vo);
 
     List<NovelVo> getMainNovelList();
+    
+    NovelVo getNovelDetail(NovelVo vo);
+    
+    void updateNovelDetail(NovelVo vo);
+    
+    void updateEpisodeVisibility(NovelVo vo);
 }
