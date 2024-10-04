@@ -159,7 +159,7 @@
             
             <div class="col-md-4">
                 <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/ComfyUI_00403_.png" class="card-img-top" alt="모델 예시 이미지">
+                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="card-img-top" alt="모델 예시 이미지" onclick="showImageInModal(this)">
                     <div class="card-body">
                         <h5 class="card-title">romanticprism_v10</h5>
                         <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')">모델 선택</button>

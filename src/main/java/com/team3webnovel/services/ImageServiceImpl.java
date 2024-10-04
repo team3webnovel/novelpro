@@ -107,7 +107,7 @@ public class ImageServiceImpl implements ImageService {
 		ImageVo imageVo = new ImageVo();
 		int publicCheck = imageBoardDao.publicCheck(boardId);
 		if (publicCheck == 1) {
-			return imageVo;
+			return null;
 		} else {
 			imageVo = imageDao.getAllInformation(creationId);
 			return imageVo;

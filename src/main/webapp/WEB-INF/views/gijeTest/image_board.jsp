@@ -83,8 +83,7 @@
 	                    <div class="col-md-6"> <!-- 이미지 영역 -->
 	                        <img id="modalImage" src="" alt="이미지" class="img-fluid"/>
 	                    </div>
-	                    <div id="image-detail" class="col-md-6"> <!-- 내용 영역 -->
-	                        <p id="modalContent"></p>
+	                    <div id="modal-content" class="col-md-6"> <!-- 내용 영역 -->
 	                    </div>
 	                </div>
 	            </div>
