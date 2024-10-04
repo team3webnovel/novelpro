@@ -18,6 +18,9 @@
     <div class="d-flex justify-content-between">
         <h2>내 보관함</h2>
         <!-- 글쓰기 버튼 -->
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">음악</a>
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">이미지</a>
+        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">트랙</a>
         <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">소설 쓰기</a>
     </div>
     

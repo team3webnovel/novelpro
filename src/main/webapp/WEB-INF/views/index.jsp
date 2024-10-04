@@ -82,7 +82,7 @@
                 <!-- 동적으로 소설 목록 렌더링 -->
                 <c:forEach var="novel" items="${novelList}">
                     <div class="col-md-4 novel" data-genre="${novel.genre}">
-                        <a href="${pageContext.request.contextPath}/${novel.genre}/${novel.novelId}" style="text-decoration: none; color: inherit;">
+                        <a href="${pageContext.request.contextPath}/novel_detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                             <div class="card mb-4">
                                 <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}">
                                 <div class="card-body">
