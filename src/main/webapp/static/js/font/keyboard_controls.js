@@ -150,3 +150,21 @@ function deleteFocusedTextBox() {
         drawCanvas();
     }
 }
+// Esc 키를 눌렀을 때 포커스를 해제하는 로직
+document.addEventListener('keydown', function (e) {
+    // Esc 키가 눌렸을 때
+    if (e.key === 'Escape') {
+        // 텍스트 수정 중인 경우, 텍스트 영역에 포커스된 상태를 해제
+        if (document.activeElement.tagName.toLowerCase() === 'textarea') {
+            document.activeElement.blur();  // 텍스트 수정 중일 때, 포커스를 해제
+        }
+        
+        // 텍스트 박스에 포커스가 있는 경우, 포커스를 해제
+        if (focusedTextBoxIndex !== -1) {
+            focusedTextBoxIndex = -1;
+            textBox = null;  // 현재 포커스된 텍스트 박스 해제
+            selectedTextBoxes = [];  // 선택된 텍스트 박스도 해제
+            drawCanvas();  // 캔버스 다시 그리기
+        }
+    }
+});

@@ -19,7 +19,7 @@
 	<context:component-scan base-package="com.team3webnovel.services" />		
 	<context:component-scan base-package="com.team3webnovel.vo" />	
 	<context:component-scan base-package="com.team3webnovel.config" />
-		
+	
     <!-- JSP 뷰 리졸버 설정 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
