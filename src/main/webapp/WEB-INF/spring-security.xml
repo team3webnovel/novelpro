@@ -6,46 +6,10 @@
            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!-- CustomUserDetailsService를 빈으로 등록 -->
-    <bean id="customUserDetailsService" class="com.team3webnovel.services.CustomUserDetailsService"/>
-
     <!-- PasswordEncoder 빈 정의 -->
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
     <!-- Google OAuth 서비스 설정 -->
     <bean id="googleOAuthService" class="com.team3webnovel.services.GoogleOAuthService"/>
     
-    <!-- mvcHandlerMappingIntrospector 빈 정의 추가 -->
-    <bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector"/>
-
-    <!-- 스프링 시큐리티 설정 -->
-    <security:http auto-config="true" use-expressions="true">
-        <!-- 인증이 필요한 URL 패턴 설정 -->
-        <security:intercept-url pattern="/generate-font" access="isAuthenticated()" />
-        <security:intercept-url pattern="/image" access="isAuthenticated()" />
-        <security:intercept-url pattern="/generate-image" access="isAuthenticated()" />
-        <security:intercept-url pattern="/images" access="isAuthenticated()" />
-        <security:intercept-url pattern="/generate-music" access="isAuthenticated()" />
-        <security:intercept-url pattern="/my_storage" access="isAuthenticated()" />
-        <security:intercept-url pattern="/mypage" access="isAuthenticated()" />
-        <security:intercept-url pattern="/change-password" access="isAuthenticated()" />
-
-        <!-- 모든 사용자에게 허용되는 URL -->
-        <security:intercept-url pattern="/**" access="permitAll()" />
-
-        <!-- 로그인 및 로그아웃 설정 -->
-        <security:form-login login-page="/login" default-target-url="/" authentication-failure-url="/login?error=true"/>
-        <security:logout logout-success-url="/login?logout=true"/>
-
-        <!-- Remember Me 기능 추가 (로그인 상태 유지) -->
-        <security:remember-me key="uniqueAndSecret" token-validity-seconds="86400"/>
-    </security:http>
-
-    <!-- 인증 관리자 설정 -->
-    <security:authentication-manager>
-        <security:authentication-provider user-service-ref="customUserDetailsService">
-            <security:password-encoder ref="passwordEncoder"/>
-        </security:authentication-provider>
-    </security:authentication-manager>
-
 </beans>
