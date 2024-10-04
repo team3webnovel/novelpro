@@ -1,4 +1,5 @@
 function openModal(boardId, imageUrl, creationId) {
+	document.getElementById('modalContent').textContent = "";
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
 	
