@@ -249,6 +249,7 @@ public class NovelController {
     	novelVo = novelService.getNovelDetail(novelVo);
     	model.addAttribute("episode", novelVo);
     	System.err.println(novelVo);
+    	model.addAttribute("maxEpisode", 3);
     	
     	if (user == null) {
     		return "ystest/episodeView";
@@ -256,7 +257,6 @@ public class NovelController {
     		return "ystest/episodeView";
     	}
 
-    	
     	CreationVo vo = new CreationVo();
     	vo.setUserId(novelVo.getUserId());
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);

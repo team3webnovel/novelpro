@@ -1,7 +1,10 @@
 package com.team3webnovel.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,16 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
-import com.team3webnovel.comfyui.SimpleImageDownloadUpload;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.vo.UserVo;
 import com.team3webnovel.vo.resultVo;
 
 import jakarta.servlet.http.HttpSession;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Controller
 @RequestMapping("/images")
@@ -163,17 +161,4 @@ public class ImageGenerationController {
         return response;
     }
 
-    // 이미지 다운로드 및 업로드 요청 처리
-    @GetMapping("/download-upload")
-    public ResponseEntity<String> downloadAndUploadImage() {
-        try {
-            // SimpleImageDownloadUpload 클래스의 메서드를 호출하고, 리턴 값은 받지 않음
-            SimpleImageDownloadUpload.downloadAndUpload();  // 단순 호출
-
-            return ResponseEntity.ok("Image downloaded and uploaded successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Failed to download or upload image. Error: " + e.getMessage());
-        }
-    }
 }

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,42 +21,52 @@
             <!-- 작성자 정보와 회차 정보 -->
             <p class="card-text text-center text-muted">${episode.episodeNo}화</p>
 
-            <!-- 소설 이미지 -->
+            <!-- 소설 이미지 (이미지에 상단 마진 추가) -->
             <c:if test="${episode.imageUrl != null}">
                 <div class="text-center my-4">
-                    <img src="${episode.imageUrl}" alt="소설 이미지" class="img-fluid rounded">
-                </div>
-            </c:if>
-            
-            <!-- BGM 플레이어 -->
-            <c:if test="${episode.bgmUrl != null}">
-                <div class="bg-light p-3 rounded mt-4 text-center">
-                    <h5>배경 음악</h5>
-                    <audio controls class="w-100">
-                        <source src="https://cdn1.suno.ai/${episode.bgmUrl.split('=')[1]}.mp4" type="audio/mp4">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <img src="${episode.imageUrl}" alt="소설 이미지" class="img-fluid rounded" style="margin-bottom: 20px;">
                 </div>
             </c:if>
 
             <!-- 소설 내용 -->
-            <div class="mt-4 text-center">
-                <p>${episode.contents}</p>
+            <div class="mt-4 text-left" style="white-space: pre-wrap; line-height: 1.6; font-size: 1.25rem;">
+                <c:out value="${episode.contents}" escapeXml="false" />
             </div>
 
-            <!-- 다시보기 버튼 -->
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-primary" onclick="goBack()">목록으로 돌아가기</button>
+            <!-- 이전/다음 화 버튼 -->
+            <div class="d-flex justify-content-between mt-4">
+                <!-- 이전 화 버튼 -->
+                <button id="prevBtn" type="button" class="btn btn-secondary" style="visibility: hidden;">이전 화</button>
+                
+                <!-- 다음 화 버튼 -->
+                <button id="nextBtn" type="button" class="btn btn-secondary" style="visibility: hidden;">다음 화</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // 목록으로 돌아가기 함수
-    function goBack() {
-        var contextPath = "<%= request.getContextPath() %>";
-        window.location.href = contextPath + "/novel_detail/${episode.novelId}"; // 소설 목록 페이지로 이동
+    const currentEpisode = ${episode.episodeNo};
+    const maxEpisode = ${maxEpisode};
+    const novelId = ${episode.novelId};
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // 이전 화 버튼 제어
+    if (currentEpisode > 1) {
+        prevBtn.style.visibility = 'visible';
+        prevBtn.onclick = function() {
+            window.location.href = `<%= request.getContextPath() %>/novel/episode/${novelId}/${episode.episodeNo - 1}`;
+        };
+    }
+
+    // 다음 화 버튼 제어
+    if (currentEpisode < maxEpisode) {
+        nextBtn.style.visibility = 'visible';
+        nextBtn.onclick = function() {
+            window.location.href = `<%= request.getContextPath() %>/novel/episode/${novelId}/${episode.episodeNo + 1}`;
+        };
     }
 </script>
 
