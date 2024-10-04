@@ -15,7 +15,7 @@ import java.net.URL;
 public class GenerativeAIService {
 
     public String generateContent(String inputText) {
-        String apiUrl = "http://192.168.0.240:4444/generate";
+        String apiUrl = "http://192.168.0.240:4444/translate";
         String jsonInputString = "{\"text\": \"" + inputText + "\"}";
 
         try {

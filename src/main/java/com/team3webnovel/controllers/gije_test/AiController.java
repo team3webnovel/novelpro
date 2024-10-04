@@ -27,16 +27,16 @@ public class AiController {
 	
 	@RequestMapping(value="/gije/ai", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> test2(@RequestBody Map<String, String> input) {
-		String str = input.get("input");
-		String output = aiService.generateContent(str);
+	public Map<String, Object> getPrompt(@RequestBody Map<String, String> input) {
+		String inputStr = input.get("input");
+		String translateStr = aiService.generateContent(inputStr);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 	    Map<String, Object> resultMap = null;
 	    
 	    try {
 	        // JSON 문자열을 Map으로 변환
-	        resultMap = objectMapper.readValue(output, Map.class);
+	        resultMap = objectMapper.readValue(translateStr, Map.class);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
