@@ -35,6 +35,27 @@
 		ORDER BY 
 		    n.created_at DESC
     </select>
+    
+    <select id="getNovelByNovelId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
+	    SELECT 
+	        n.NOVEL_ID AS novelId,
+	        n.GENRE,
+	        n.STATUS,
+	        n.USER_ID AS userId,
+	        n.TITLE,
+	        n.CREATION_ID AS creationId,
+	        n.INTRO,
+	        n.CREATED_AT AS createdAt,
+	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
+	    FROM 
+	        novel n
+	    LEFT JOIN 
+	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
+	    WHERE 
+	        n.Novel_ID = #{novelId}
+    </select>
+    
+    
 
     <!-- 새 소설 추가 -->
     <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
@@ -102,17 +123,26 @@
     
 	<select id="getNovelDetail" parameterType="com.team3webnovel.vo.NovelVo" resultType="com.team3webnovel.vo.NovelVo">
 		SELECT 
-		    NOVEL_ID as novelId,
-		    EPISODE_NO as episodeNo,
-		    CONTENTS,
-		    CREATED_AT as createdAt,
-		    IMAGE_ID as imageId,
-		    TITLE,
-		    BGM_ID as bgmId
+		    nd.NOVEL_ID as novelId,
+		    nd.EPISODE_NO as episodeNo,
+		    nd.CONTENTS,
+		    nd.CREATED_AT as createdAt,
+		    nd.IMAGE_ID as imageId,
+            igd.image_url as imageUrl,
+		    nd.TITLE,
+		    nd.BGM_ID as bgmId,
+            md.audio_url as bgmUrl,
+            n.USER_ID as userId
 		FROM 
-		    NOVEL_DETAIL
-		WHERE 
-		    NOVEL_ID = #{novelId} AND EPISODE_NO = #{episodeNo}
+		    NOVEL_DETAIL nd
+        LEFT JOIN NOVEL n
+        ON nd.novel_id = n.novel_id
+        LEFT JOIN IMAGE_GENERATION_DATA igd
+        ON nd.image_id = igd.creation_id
+        LEFT JOIN MUSIC_DATA md
+        ON nd.bgm_id = md.creation_id
+		WHERE  
+		    nd.NOVEL_ID = #{novelId} AND nd.EPISODE_NO = #{episodeNo}
 	</select>
 	
 	<update id="updateNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">

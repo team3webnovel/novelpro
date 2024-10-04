@@ -29,6 +29,8 @@ public interface NovelService {
 
     List<NovelVo> getNovelDetailByNovelId(int novelId);
     
+    NovelVo getNovelByNovelId(int novelId);
+    
     void updateStatus(NovelVo vo);
 
     List<NovelVo> getMainNovelList();
