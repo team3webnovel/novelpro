@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>소설 쓰기</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- CKEditor CDN 추가 -->
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 </head>
 <body>
 
@@ -76,7 +78,7 @@
             <p id="episodeDisplay" class="form-control-plaintext">${episode.episodeNo}화</p>
         </div>
 
-        <!-- 내용 -->
+        <!-- 내용 (CKEditor 적용) -->
         <div class="form-group">
             <label for="content">내용</label>
             <textarea class="form-control" id="content" name="content" rows="10" placeholder="소설 내용을 입력하세요" required>${episode.contents}</textarea>
@@ -157,6 +159,9 @@
             bgmPlayerContainer.style.display = 'none';
         }
     }
+
+    // CKEditor 적용
+    CKEDITOR.replace('content'); // textarea 요소에 CKEditor 적용
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
