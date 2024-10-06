@@ -8,22 +8,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 보관함</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <script src="static/js/storage.js"></script>
-    
+    <link rel="stylesheet" href="static/css/my_storage.css">
+    <!-- jQuery 전체 버전 로드 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/js/my_storage.js"></script>
 </head>
 <body>
 
 <div class="container mt-5">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
         <h2>내 보관함</h2>
-        <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">음악</a>
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">이미지</a>
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">트랙</a>
-        <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">소설 쓰기</a>
+        <div class="btn-group">
+            <a class="btn btn-studio" id="aiStudioButton">AI 창작 스튜디오</a>
+            	<div id="overlay" class="overlay" style="display: none;">
+    				<div id="messageBox" class="message-box">
+        				<p>당신의 창작을 도와드리겠습니다.</p>
+        				<button id="confirmButton">확인</button>
+    				</div>
+				</div>
+            <a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary">BGM 만들기</a>
+            <a href="<%=request.getContextPath()%>/gije/test" class="btn btn-primary">표지 제작</a>
+            <a href="<%=request.getContextPath()%>/generate-font" class="btn btn-primary">표지 폰트</a>
+            <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
+        </div>
     </div>
-    
+
     <!-- 탭 메뉴 -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -75,7 +86,6 @@
                                 <p class="card-text">샘플러: ${image.sampler}</p>
                                 <p class="card-text">프롬프트: ${image.prompt}</p>
                                 <p class="card-text">모델 체크: ${image.modelCheck}</p>
-                                
                             </div>
                         </div>
                     </div>
@@ -83,13 +93,12 @@
             </div>
         </div>
 
-
         <!-- 내 음악 탭 -->
         <div class="tab-pane fade" id="music">
         </div>
-
     </div>
 </div>
+
 <!-- 모달 창 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -127,9 +136,11 @@
     </div>
   </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    // JSP에서 request.getContextPath()로 컨텍스트 경로 가져와서 JavaScript 변수로 할당
+    var contextPath = "<%= request.getContextPath() %>";
+</script>
 
 </body>
 </html>

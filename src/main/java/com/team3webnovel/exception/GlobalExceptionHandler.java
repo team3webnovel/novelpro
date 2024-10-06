@@ -73,12 +73,21 @@ public class GlobalExceptionHandler {
         return handleException(request, ex, "400", "데이터 바인딩 오류가 발생했습니다.");
     }
 
-    // NullPointerException 처리
+ // NullPointerException 처리
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView handleNullPointerException(HttpServletRequest request, NullPointerException ex) {
+        if (ex.getMessage() != null && ex.getMessage().contains("user")) {
+            // 로그인 페이지로 리다이렉트
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("redirect:/login"); // 리다이렉트 URL 설정
+            modelAndView.setStatus(HttpStatus.FOUND); // 302 리다이렉트 상태 설정
+            return modelAndView;
+        }
+        // 일반적인 NullPointerException 처리
         return handleException(request, ex, "500", "NullPointerException이 발생했습니다. 로그인 여부를 확인해주세요.");
     }
+
 
     // 파일을 찾을 수 없는 경우
     @ExceptionHandler(FileNotFoundException.class)
