@@ -68,6 +68,11 @@ public class NovelDaoImpl implements NovelDao {
 	public List<NovelVo> getNovelDetailByNovelId(int novelId) {
 		return novelMapper.getNovelDetailByNovelId(novelId);
 	}
+	
+	@Override
+	public NovelVo getNovelByNovelId(int novelId) {
+		return novelMapper.getNovelByNovelId(novelId);
+	}
 
 	@Override
 	public void updateStatus(NovelVo vo) {
@@ -78,12 +83,21 @@ public class NovelDaoImpl implements NovelDao {
 	public List<NovelVo> getMainNovelList() {
 		return novelMapper.getMainNovelList();
 	}
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelMapper.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelMapper.updateNovelDetail(vo);
+	}
 	
-	
-	
-	
-	
-	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelMapper.updateEpisodeVisibility(vo);
+	}
 	
 	
 

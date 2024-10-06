@@ -2,10 +2,9 @@ package com.team3webnovel.controllers;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,10 +109,11 @@ public class NovelController {
         vo.setEpisodeNo(episode);
         vo.setContents(content);
 
-        // 생성일을 현재 시간으로 설정 (Timestamp로 변경)
-        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        vo.setCreatedAt(currentTime);   // 생성일 설정
-
+		/*
+		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
+		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
+		 * 설정
+		 */
         // 디버깅용 출력
         System.err.println(vo.toString());
 
@@ -174,8 +174,8 @@ public class NovelController {
  // 소설 상세페이지로 이동
     @GetMapping("/novel_detail/{novelId}")
     public String detailPage(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
-        UserVo user = (UserVo) session.getAttribute("user");
         
+/*      수정해야할듯
         // 사용자 ID로 소설 리스트 가져오기
         List<NovelVo> novelList = novelService.getNovelListByUserId(user.getUserId());
         model.addAttribute("novelList", novelList);  // 전체 소설 리스트를 모델에 추가 (만약 필요하다면)
@@ -186,23 +186,41 @@ public class NovelController {
                                  .filter(n -> n.getNovelId() == novelId)
                                  .findFirst()
                                  .orElse(null);  // 만약 찾지 못하면 null 반환
-        
-        if (novelCover == null) {
-            // 만약 해당 novelId의 소설이 없다면 404 페이지로 리다이렉트하거나 오류 처리
-            return "redirect:/404";  // 404 페이지로 리다이렉트 예시
+
+        // 조회한 소설 데이터를 모델에 추가 (novelCover가 null이 아닐 경우만 추가)
+        if (novelCover != null) {
+            model.addAttribute("novelCover", novelCover);
         }
-        System.err.println(novelCover);
-        // 조회한 소설 데이터를 모델에 추가
-        model.addAttribute("novelCover", novelCover);
-        
-        System.err.println(novelService.getNovelDetailByNovelId(novelId));
-        
-        model.addAttribute("detailList", novelService.getNovelDetailByNovelId(novelId));
-        
-        
-        // 소설 상세페이지로 이동
-        return "ystest/novel_detail";
+*/        
+    	// novelId 기반 커버 찾기
+    	NovelVo novelVo = novelService.getNovelByNovelId(novelId);
+    	List<NovelVo> detailList = novelService.getNovelDetailByNovelId(novelId);
+
+    	// novelCover를 모델에 추가
+    	model.addAttribute("novelCover", novelVo);
+
+    	UserVo user = (UserVo) session.getAttribute("user");
+
+    	// 사용자 로그인 상태 확인 및 소설 작성자와 비교
+    	if (user == null || novelVo.getUserId() != user.getUserId()) {
+    	    // 로그인되지 않았거나 작성자가 아닐 경우
+    	    // 원래 리스트에서 status가 "public"인 항목들만 필터링
+    	    detailList = detailList.stream()
+    	        .filter(novel -> "public".equals(novel.getVisibility()))
+    	        .collect(Collectors.toList());
+    	}
+
+    	// 필터링된 혹은 원래의 detailList를 모델에 추가
+    	model.addAttribute("detailList", detailList);
+
+    	// 로그인 상태 및 작성자 여부에 따라 다른 뷰를 반환
+    	if (user == null || novelVo.getUserId() != user.getUserId()) {
+    	    return "ystest/detailView";
+    	} else {
+    	    return "ystest/novel_detail";
+    	}
     }
+
     
     @PostMapping("/updateStatus")
     public void updateStatus(@RequestParam("novelId") int novelId, @RequestParam("status") String status) {
@@ -217,6 +235,92 @@ public class NovelController {
             // 오류 발생 시에도 아무런 응답을 보내지 않음
         }
     }
+    
+    @GetMapping("/novel/episode/{novelId}/{episodeNo}")
+    public String episodeUpdate(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model, HttpSession session) {
+    	UserVo user = (UserVo)session.getAttribute("user");
+    	
+    	NovelVo novelVo = new NovelVo();
+    	novelVo.setNovelId(novelId);
+    	novelVo.setEpisodeNo(episodeNo);
+    	novelVo = novelService.getNovelDetail(novelVo);
+    	model.addAttribute("episode", novelVo);
+    	System.err.println(novelVo);
+    	model.addAttribute("maxEpisode", 3);
+    	
+    	if (user == null) {
+    		return "ystest/episodeView";
+    	} else if (user.getUserId() != novelVo.getUserId()) {
+    		return "ystest/episodeView";
+    	}
 
+    	CreationVo vo = new CreationVo();
+    	vo.setUserId(novelVo.getUserId());
+    	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
+    	System.err.println("write" + imageList);
+    	model.addAttribute("imageList", imageList);
+    	
+        // userId와 artForm = 1인 음악들을 가져오기
+        List<MusicVo> musicList = musicService.getStoredMusicByUserId(novelVo.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
+
+        // 가져온 음악 데이터를 모델에 추가
+        model.addAttribute("musicList", musicList);
+        
+    	
+    	return "ystest/episode";
+    }
+    
+    @PostMapping("/episode/update/{novelId}/{episodeNo}")
+    public String episodeUpdateString(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model, HttpSession session,
+            @RequestParam("illust") int illust,
+			@RequestParam("bgm") int bgm,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content) {
+    	
+    	NovelVo vo = new NovelVo();
+    	vo.setNovelId(novelId);
+        vo.setTitle(title);             // 소설 제목 설정
+        vo.setImageId(illust);		// 소설 표지 설정
+        vo.setBgmId(bgm);
+        vo.setEpisodeNo(episodeNo);
+        vo.setContents(content);
+
+		/*
+		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
+		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
+		 * 설정
+		 */
+        // 디버깅용 출력
+        System.err.println(vo.toString());
+
+        // NovelService를 통해 소설 삽입
+        novelService.updateNovelDetail(vo);
+    	
+    	return "redirect:/novel_detail/" + novelId;
+    	
+    }
+    
+    // 에피소드 공개/비공개 상태 업데이트
+    @PostMapping("/updateVisibility")
+    public void updateVisibility(
+            @RequestParam int novelId,
+            @RequestParam int episodeNo,
+            @RequestParam String visibility) {
+        
+        NovelVo vo = new NovelVo();
+        vo.setNovelId(novelId);
+        vo.setEpisodeNo(episodeNo);
+        vo.setVisibility(visibility);
+
+        // 서비스 호출하여 에피소드 공개/비공개 상태 업데이트
+        novelService.updateEpisodeVisibility(vo);
+    }
+    
 
 }

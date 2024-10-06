@@ -27,6 +27,8 @@
         <!-- 왼쪽: 커버 이미지 -->
         <div class="col-md-4">
             <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid">
+            <h2>인트로</h2>
+            <p>${novelCover.intro}</p>
         </div>
 
         <!-- 오른쪽: 소설 정보 -->
@@ -38,7 +40,7 @@
             <!-- 상태 표시 및 변경 -->
             <p>상태:
                 <!-- 상태 선택 드롭다운 -->
-                <select id="statusSelect" onchange="updateStatus()">
+                <select id="statusSelect" onchange="updateStatus()" class="form-control d-inline-block w-auto">
                     <option value="ongoing" ${novelCover.status == 'ongoing' ? 'selected' : ''}>연재중</option>
                     <option value="paused" ${novelCover.status == 'paused' ? 'selected' : ''}>휴재중</option>
                     <option value="completed" ${novelCover.status == 'completed' ? 'selected' : ''}>완결</option>
@@ -53,11 +55,26 @@
             <h3>에피소드 목록</h3>
             <ul class="list-group">
                 <c:forEach var="episode" items="${detailList}">
-                    <li class="list-group-item">
-                        <a href="/novel/episode/${episode.episodeNo}">
-                            에피소드 ${episode.episodeNo}화: ${episode.title}
-                        </a>
-                        <span class="float-right">작성일: ${episode.createdAt}</span>
+                    <li class="list-group-item d-flex align-items-center">
+                        <!-- 에피소드 이미지 -->
+                        <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
+
+                        <!-- 에피소드 제목 및 링크 -->
+                        <div class="flex-grow-1 ml-3">
+                            <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}">
+                                에피소드 ${episode.episodeNo}화: ${episode.title}
+                            </a>
+                        </div>
+
+                        <!-- 드롭다운 및 작성일 -->
+                        <div class="ml-auto text-right">
+                            <!-- 공개/비공개 선택 드롭다운 -->
+                            <select id="visibilitySelect_${episode.episodeNo}" onchange="updateVisibility(${episode.episodeNo})" class="form-control d-inline-block w-auto">
+                                <option value="public" ${episode.visibility == 'public' ? 'selected' : ''}>공개</option>
+                                <option value="private" ${episode.visibility == 'private' ? 'selected' : ''}>비공개</option>
+                            </select>
+                            <small class="d-block mt-2">작성일: ${episode.createdAt}</small>
+                        </div>
                     </li>
                 </c:forEach>
             </ul>
@@ -68,18 +85,32 @@
 <!-- JavaScript 부분 -->
 <script>
     // 상태 변경시 서버로 AJAX 요청을 보내는 함수
-	function updateStatus() {
-	    var selectedStatus = document.getElementById('statusSelect').value;
-	    var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
-	
-	    // AJAX 요청으로 상태 변경
-	    var xhr = new XMLHttpRequest();
-	    xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
-	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	
-	    // 데이터 전송 (응답 처리는 생략)
-	    xhr.send("novelId=" + novelId + "&status=" + selectedStatus);
-	}
+    function updateStatus() {
+        var selectedStatus = document.getElementById('statusSelect').value;
+        var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
+    
+        // AJAX 요청으로 상태 변경
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+        // 데이터 전송 (응답 처리는 생략)
+        xhr.send("novelId=" + novelId + "&status=" + selectedStatus);
+    }
+
+    // 에피소드 공개/비공개 상태 변경시 서버로 AJAX 요청을 보내는 함수
+    function updateVisibility(episodeNo) {
+        var selectedVisibility = document.getElementById('visibilitySelect_' + episodeNo).value;
+        var novelId = "${novelCover.novelId}";  // 소설 ID 가져오기
+
+        // AJAX 요청으로 상태 변경
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%=request.getContextPath()%>/updateVisibility", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // 데이터 전송
+        xhr.send("novelId=" + novelId + "&episodeNo=" + episodeNo + "&visibility=" + selectedVisibility);
+    }
 </script>
 
 <!-- jQuery와 Bootstrap JavaScript -->
