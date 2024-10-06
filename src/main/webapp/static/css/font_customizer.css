@@ -172,6 +172,23 @@ input:disabled {
 #addTextBoxBtn:hover {
     background-color: #45a049; /* 호버 시 어두운 초록색 */
 }
+/* 텍스트 박스 추가 버튼 스타일 */
+#addVerticalTextBoxBtn {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; /* 초록색 버튼 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    height: 40px;
+    text-align: center;
+}
+
+#addVerticalTextBoxBtn:hover {
+    background-color: #45a049; /* 호버 시 어두운 초록색 */
+}
 
 /* 텍스트 스타일 버튼 활성화 상태 */
 .toolbar-btn.active {

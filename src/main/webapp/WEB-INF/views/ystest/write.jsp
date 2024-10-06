@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>소설 쓰기</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- CKEditor CDN -->
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 </head>
 <body>
 
@@ -16,11 +18,11 @@
     <!-- 폼 시작 -->
     <form action="<%=request.getContextPath()%>/write/${novelId}" method="POST">
         
-        <!-- 이미지 선택 드롭다운 -->
+        <!-- 표지 이미지 선택 드롭다운 -->
         <div class="form-group">
-            <label for="imageSelect">이미지를 선택하세요</label>
+            <label for="imageSelect">표지 이미지를 선택하세요</label>
             <select id="imageSelect" class="form-control" name="illust" onchange="displaySelectedImage()">
-                <option value="">이미지를 선택하세요</option>
+                <option value="">표지 이미지를 선택하세요</option>
                 <c:forEach var="image" items="${imageList}">
                     <option value="${image.creationId}" data-image-url="${image.imageUrl}">
                         ${image.filename != null ? image.filename : image.imageUrl}
@@ -73,14 +75,46 @@
             <input type="number" class="form-control" id="episode" name="episode" placeholder="몇 화인지 입력하세요" required>
         </div>
 
-        <!-- 내용 -->
+        <!-- 내용 (CKEditor 적용) -->
         <div class="form-group">
             <label for="content">내용</label>
             <textarea class="form-control" id="content" name="content" rows="10" placeholder="소설 내용을 입력하세요" required></textarea>
         </div>
 
+        <!-- 이미지 삽입 버튼 -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#imageModal">
+            텍스트에 이미지 삽입
+        </button>
+
+        <!-- 이미지 선택 모달 -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <c:forEach var="image" items="${imageList}">
+                                <div class="col-md-4 text-center mb-3">
+                                    <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
+                                    <p>${image.filename != null ? image.filename : '이미지'}</p>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 버튼들 -->
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-3">
             <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
             <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
 
@@ -105,7 +139,7 @@
         window.location.href = contextPath + "/cover";
     }
 
-    // 이미지 미리보기
+    // 표지 이미지 미리보기
     function displaySelectedImage() {
         var select = document.getElementById('imageSelect');
         var fileName = select.options[select.selectedIndex].text;
@@ -145,6 +179,16 @@
         } else {
             bgmPlayerContainer.style.display = 'none';
         }
+    }
+
+    // CKEditor 적용
+    CKEDITOR.replace('content');
+
+    // CKEditor에 이미지 삽입
+    function insertImageToEditor(imageUrl) {
+        var editor = CKEDITOR.instances.content;
+        editor.insertHtml('<img src="' + imageUrl + '" alt="이미지" style="max-width:100%;">');
+        $('#imageModal').modal('hide'); // 모달 닫기
     }
 </script>
 

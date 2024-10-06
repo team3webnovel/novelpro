@@ -32,6 +32,7 @@
         <mapper resource="com/team3webnovel/mappers/ImageMapper.xml"/>
         <mapper resource="com/team3webnovel/mappers/PwMapper.xml"/>
         <mapper resource="com/team3webnovel/mappers/NovelMapper.xml"/>
+        <mapper resource="com/team3webnovel/mappers/BoardCommentMapper.xml"/>
         <!-- 다른 매퍼 파일이 있을 경우 추가 -->
     </mappers>
 
