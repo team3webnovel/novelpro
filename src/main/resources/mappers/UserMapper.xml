@@ -15,7 +15,7 @@
     <!-- email로 사용자 찾기 쿼리 -->
     <select id="findUserByEmail" parameterType="String" resultType="com.team3webnovel.vo.UserVo">
         SELECT USER_ID as userId, USERNAME, EMAIL, PASSWORD, CREATED_AT as createdAt
-        FROM USERS
+        FROM users
         WHERE EMAIL = #{email}
     </select>
 
