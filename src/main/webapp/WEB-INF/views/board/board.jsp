@@ -167,7 +167,7 @@
 		</table>
 		
 		<!-- 게시글 작성 버튼 -->
-		<a href="/team3webnovel/gije/write" class="create-btn">게시글 작성</a>
+		<a href="/team3webnovel/board/write" class="create-btn">게시글 작성</a>
 		
 		<div class="pagination">
 		    <c:if test="${totalPages > 1}">
@@ -177,7 +177,7 @@
 		                    <span class="page-link active">${i}</span> <!-- 현재 페이지 강조 -->
 		                </c:when>
 		                <c:otherwise>
-		                    <a href="/team3webnovel/gije/board?page=${i}" class="page-link">${i}</a>
+		                    <a href="/team3webnovel/board?page=${i}" class="page-link">${i}</a>
 		                </c:otherwise>
 		            </c:choose>
 		        </c:forEach>

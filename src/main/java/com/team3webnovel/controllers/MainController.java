@@ -31,7 +31,6 @@ public class MainController {
         // 모델에 장르 리스트 추가
         model.addAttribute("genres", genres);
         List<NovelVo> vo = novelService.getMainNovelList();
-        System.err.println(vo);
         model.addAttribute("novelList", vo);
         
         return "index";  // index.jsp로 이동
