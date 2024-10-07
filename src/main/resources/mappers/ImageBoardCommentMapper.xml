@@ -6,14 +6,14 @@
 
 	<select id="getComments" parameterType="int" resultType="com.team3webnovel.vo.BoardCommentVo">
 		select comment_id as commentId, board_id as boardId, user_id as userId, content as content, created_at as createdAt
-		from board_comments where board_id = #{boardId} order by created_at desc
+		from image_board_comments where board_id = #{boardId} order by created_at desc
 	</select>
 
 	<insert id="writeComment" parameterType="com.team3webnovel.vo.BoardCommentVo">
-		insert into board_comments (board_id, user_id, content) values (#{boardId}, #{userId}, #{content})
+		insert into image_board_comments (board_id, user_id, content) values (#{boardId}, #{userId}, #{content})
 	</insert>
 	
 	<delete id="deleteComment" parameterType="map">
-		delete from board_comments where comment_id = #{commentId} and user_id = #{userId}
+		delete from Image_board_comments where comment_id = #{commentId} and user_id = #{userId}
 	</delete>
 </mapper>
