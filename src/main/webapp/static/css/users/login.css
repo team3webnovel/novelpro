@@ -7,11 +7,13 @@
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center; /* 수평 중앙 배치 */
+    align-items: center; /* 수직 중앙 배치 대신 위쪽 정렬 */
+    height: 100vh; /* 뷰포트 전체 높이 사용 */
     background-color: #f7f7f7;
+    padding: 20px;
 }
+
 
 .login-container {
     width: 400px;
@@ -20,6 +22,9 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
+    display: flex;
+    flex-direction: column; /* 수직으로 내용 정렬 */
+    margin-bottom: 100px;
 }
 
 .login-header img {
@@ -94,4 +99,12 @@ body {
 .social-login img {
     width: 35px;
     height: 35px;
+}
+
+/* 작은 화면을 위한 미디어 쿼리 */
+@media (max-width: 500px) {
+    .login-container {
+        width: 100%; /* 작은 화면에서 컨테이너 너비를 전체로 조정 */
+        padding: 20px;
+    }
 }

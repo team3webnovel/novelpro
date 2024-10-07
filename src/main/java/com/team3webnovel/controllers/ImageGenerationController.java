@@ -36,7 +36,8 @@ public class ImageGenerationController {
     // GET 요청으로 JSP 페이지 렌더링
     @GetMapping("/generate")
     public String showGeneratePage(HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+        UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         comfyUIImageGenerator.connectWebSocket(clientId);
         return "sungmin/generate"; // generate.jsp 페이지로 이동
     }

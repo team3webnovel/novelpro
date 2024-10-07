@@ -5,30 +5,30 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet"
-          href="<%=request.getContextPath()%>/static/css/header.css">
+          href="<%=request.getContextPath()%>/static/css/includes/header.css">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script>
         window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
+            const ultraUniqueHeader = document.querySelector('.ultra-unique-header');
             if (window.scrollY > 0) {
-                header.classList.add('scrolled');
+                ultraUniqueHeader.classList.add('ultra-unique-header-scrolled');
             } else {
-                header.classList.remove('scrolled');
+                ultraUniqueHeader.classList.remove('ultra-unique-header-scrolled');
             }
         });
     </script>
 </head>
 
-<header>
-    <div class="header-container container d-flex justify-content-between align-items-center py-2">
-        <div class="header-title">
+<header class="ultra-unique-header">
+    <div class="ultra-unique-header-container container d-flex justify-content-between align-items-center py-2">
+        <div class="ultra-unique-header-title">
             <a href="<%=request.getContextPath()%>/" style="text-decoration: none; color: inherit;"> 노벨미디어 </a>
         </div>
-        <div class="board">
+        <div class="ultra-unique-board">
             <a href="<%=request.getContextPath()%>/board" style="text-decoration: none; color: inherit;"> 리뷰/홍보 </a>
         </div>
-        <div class="top-right-links">
+        <div class="ultra-unique-top-right-links">
             <a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary btn-sm">
                 <i class="bi bi-music-note"></i> <!-- 음악 생성 -->
             </a>
