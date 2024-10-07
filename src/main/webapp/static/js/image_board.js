@@ -3,7 +3,7 @@ function openModal(boardId, imageUrl, creationId, comment) {
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
 	
-	fetch('/team3webnovel/gije/image/board/detail/' + creationId, {
+	fetch('/team3webnovel/image/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

@@ -24,7 +24,7 @@ import com.team3webnovel.vo.UserVo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/gije/image")
+@RequestMapping("/image/board")
 public class ImageBoardController {
 
 	@Autowired
@@ -33,13 +33,13 @@ public class ImageBoardController {
 	@Autowired
 	private ImageService imageService;
 	
-	@GetMapping("/board")
+	@GetMapping({"", "/", "list"})
 	public String imageBoard(Model model) {
 		model.addAttribute("list", imageBoardService.list());
-		return "gijeTest/image_board";
+		return "board/image_board";
 	}
 	
-	@RequestMapping(value="/board/write", method=RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value="/write", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map <String, Object> writeImageBoard(HttpSession session, @RequestBody Map<String, String> params){
 		String publicOption = params.get("publicOption");
@@ -66,7 +66,7 @@ public class ImageBoardController {
 		return response;
 	}
 	
-	@PostMapping("/board/detail/{creationId}")
+	@PostMapping("/detail/{creationId}")
 	@ResponseBody
 	public ImageVo getImageDetail(@PathVariable("creationId") int creationId, @RequestParam("boardId") int boardId ) {
 		
