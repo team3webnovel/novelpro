@@ -37,6 +37,7 @@ public class TestImageController {
 		UserVo userVo = (UserVo) session.getAttribute("user");
 		int clientId = userVo.getUserId();
     	comfyUIImageGenerator.connectWebSocket(clientId);
+    	session.setAttribute("clientId", clientId);
     	return "gijeTest/new_gen";
 	}
 	

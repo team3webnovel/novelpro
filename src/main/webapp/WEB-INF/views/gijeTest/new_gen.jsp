@@ -347,7 +347,7 @@
 	          </div>
 	          
 	          <div class="hidden mt-1">
-	          	<label><input type="checkbox" value="cherry blossoms"> 벚꽃</label>
+	          	<label><input type="checkbox" value="cherry blossoms"><span> 벚꽃</span></label>
 	            <label><input type="checkbox" value="animal ears"><span> 동물귀</span></label>
 		    	<label><input type="checkbox" value="thighhighs"><span> 사이하이</span></label>
 		    	<label><input type="checkbox" value="thighs"><span> 허벅지</span></label>
