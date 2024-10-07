@@ -89,7 +89,31 @@
         </button>
 
         <!-- 이미지 선택 모달 -->
-        <!-- ... 기존 코드 유지 ... -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <c:forEach var="image" items="${imageList}">
+                                <div class="col-md-4 text-center mb-3">
+                                    <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
+                                    <p>${image.filename != null ? image.filename : '이미지'}</p>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- 버튼들 -->
         <div class="d-flex justify-content-between mt-3">
@@ -162,8 +186,9 @@
     }
 
     // CKEditor 적용
-    CKEDITOR.replace('content');
-
+    CKEDITOR.replace('content', {
+        height: 1000 // 여기서 높이를 픽셀 단위로 설정할 수 있습니다.
+    }); 
     // CKEditor에 이미지 삽입
     function insertImageToEditor(imageUrl) {
         var editor = CKEDITOR.instances.content;
