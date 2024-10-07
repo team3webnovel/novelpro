@@ -1,4 +1,4 @@
-package com.team3webnovel.controllers.gije_test;
+package com.team3webnovel.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,27 +21,27 @@ import com.team3webnovel.vo.resultVo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class TestImageController {
+public class SimpleImageController {
 
 	@Autowired
 	private ImageService imageService;
 	
 	private final ComfyUIImageGenerator comfyUIImageGenerator;
 	
-	public TestImageController() {
+	public SimpleImageController() {
         this.comfyUIImageGenerator = new ComfyUIImageGenerator();
     }
 	
-	@GetMapping("/gije/test")
+	@GetMapping("/images")
 	public String form(HttpSession session) {
 		UserVo userVo = (UserVo) session.getAttribute("user");
 		int clientId = userVo.getUserId();
     	comfyUIImageGenerator.connectWebSocket(clientId);
     	session.setAttribute("clientId", clientId);
-    	return "gijeTest/new_gen";
+    	return "generate/image_simple_form";
 	}
 	
-	@RequestMapping(value="/gije/test", method=RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value="/images", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map <String, Object> genet(@RequestBody Map<String, Object> requestData, Model model, HttpSession session) {
 		int clientId = (int)session.getAttribute("clientId");

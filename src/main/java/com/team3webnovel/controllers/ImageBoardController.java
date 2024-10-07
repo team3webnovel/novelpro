@@ -1,4 +1,4 @@
-package com.team3webnovel.controllers.gije_test;
+package com.team3webnovel.controllers;
 
 import java.util.HashMap;
 import java.util.Map;

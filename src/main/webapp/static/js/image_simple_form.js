@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				seed: seed
 			};
 			
-			fetch('/team3webnovel/gije/test', {
+			fetch('/team3webnovel/images', {
 				method: 'POST',
 				headers: {
 		            'Content-Type': 'application/json', // JSON 형식으로 전송
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				document.getElementById("spinner2").style.display = "block";
 				const inputPrompt = document.getElementById("comment").value;
 				
-				fetch('/team3webnovel/gije/ai', {
+				fetch('/team3webnovel/translate', {
 					method: 'POST',
 			        headers: {
 			            'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				        seed: seed
 				    };
 				    
-					fetch('/team3webnovel/gije/test', {
+					fetch('/team3webnovel/images', {
 						method: 'POST',
 						headers: {
 				            'Content-Type': 'application/json', // JSON 형식으로 전송
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					.then(result => {
 					    console.log(result);  // 서버에서 받은 JSON 응답 출력
 					    document.getElementById("spinner2").style.display = "none";
-					    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
+					    window.location.href = "/team3webnovel/storage"; // 페이지 이동
 					})
 					.catch(error => {
 					    console.error('Error:', error);

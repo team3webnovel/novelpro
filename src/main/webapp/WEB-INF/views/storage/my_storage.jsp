@@ -29,7 +29,7 @@
     				</div>
 				</div>
             <a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary">BGM 만들기</a>
-            <a href="<%=request.getContextPath()%>/gije/test" class="btn btn-primary">표지 제작</a>
+            <a href="<%=request.getContextPath()%>/images" class="btn btn-primary">표지 제작</a>
             <a href="<%=request.getContextPath()%>/generate-font" class="btn btn-primary">표지 폰트</a>
             <a href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
         </div>
