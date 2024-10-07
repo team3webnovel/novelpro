@@ -24,7 +24,7 @@ body {
     text-align: center;
     display: flex;
     flex-direction: column; /* 수직으로 내용 정렬 */
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .login-header img {
