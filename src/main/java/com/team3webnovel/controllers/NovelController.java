@@ -59,9 +59,15 @@ public class NovelController {
         List<NovelVo> novelList = novelService.getNovelListByUserId(user.getUserId());
         model.addAttribute("novelList", novelList);
         System.err.println("Novel List: " + novelList);  // 소설 리스트 로그 출력
+        
+        // userId와 artForm = 1인 음악들을 가져오기
+        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
+
+        // 가져온 음악 데이터를 모델에 추가
+        model.addAttribute("musicList", musicList);
 
         // 마이 스토리지 페이지로 이동
-        return "ystest/my_storage"; // JSP 파일 경로
+        return "storage/my_storage"; // JSP 파일 경로
     }
 
     // 글쓰기 페이지로 이동
@@ -82,7 +88,7 @@ public class NovelController {
         // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
     	
-    	return "ystest/write";
+    	return "storage/new_episode";
     }
 
     // 글쓰기 처리
@@ -133,7 +139,7 @@ public class NovelController {
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
     	System.err.println(imageList);
     	model.addAttribute("imageList", imageList);
-        return "ystest/cover";
+        return "storage/new_novel";
     }
 
     // 소설 생성
@@ -215,9 +221,9 @@ public class NovelController {
 
     	// 로그인 상태 및 작성자 여부에 따라 다른 뷰를 반환
     	if (user == null || novelVo.getUserId() != user.getUserId()) {
-    	    return "ystest/detailView";
+    	    return "storage/detail_user";
     	} else {
-    	    return "ystest/novel_detail";
+    	    return "storage/novel_detail";
     	}
     }
 
@@ -252,9 +258,9 @@ public class NovelController {
     	model.addAttribute("maxEpisode", 3);
     	
     	if (user == null) {
-    		return "ystest/episodeView";
+    		return "storage/episode_user";
     	} else if (user.getUserId() != novelVo.getUserId()) {
-    		return "ystest/episodeView";
+    		return "storage/episode_user";
     	}
 
     	CreationVo vo = new CreationVo();
@@ -270,7 +276,7 @@ public class NovelController {
         model.addAttribute("musicList", musicList);
         
     	
-    	return "ystest/episode";
+    	return "storage/update_episode";
     }
     
     @PostMapping("/episode/update/{novelId}/{episodeNo}")

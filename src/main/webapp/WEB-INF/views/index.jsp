@@ -84,7 +84,7 @@
                     <div class="col-md-4 novel" data-genre="${novel.genre}">
                         <a href="${pageContext.request.contextPath}/novel_detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                             <div class="card mb-4">
-                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}">
+                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
                                 <div class="card-body">
                                     <h5 class="card-title">${novel.title}</h5>
                                 </div>

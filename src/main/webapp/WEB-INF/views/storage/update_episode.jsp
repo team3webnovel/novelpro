@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>소설 쓰기</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- CKEditor CDN 추가 -->
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 </head>
 <body>
 
@@ -70,16 +72,48 @@
                 value="${episode.title}" required>
         </div>
 
-        <!-- 회차 표시 -->
+        <!-- 몇화인지 -->
         <div class="form-group">
             <label for="episode">몇 화인지</label>
-            <p id="episodeDisplay" class="form-control-plaintext">${episode.episodeNo}화</p>
+            <input type="number" class="form-control" id="episode" name="episode" placeholder="몇 화인지 입력하세요" value="${episode.episodeNo}" required>
         </div>
 
-        <!-- 내용 -->
+        <!-- 내용 (CKEditor 적용) -->
         <div class="form-group">
             <label for="content">내용</label>
             <textarea class="form-control" id="content" name="content" rows="10" placeholder="소설 내용을 입력하세요" required>${episode.contents}</textarea>
+        </div>
+        
+                <!-- 이미지 삽입 버튼 -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#imageModal">
+            텍스트에 이미지 삽입
+        </button>
+
+        <!-- 이미지 선택 모달 -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <c:forEach var="image" items="${imageList}">
+                                <div class="col-md-4 text-center mb-3">
+                                    <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
+                                    <p>${image.filename != null ? image.filename : '이미지'}</p>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 버튼들 -->
@@ -156,6 +190,17 @@
         } else {
             bgmPlayerContainer.style.display = 'none';
         }
+    }
+
+    // CKEditor 적용
+    CKEDITOR.replace('content', {
+        height: 1000 // 여기서 높이를 픽셀 단위로 설정할 수 있습니다.
+    });
+    // CKEditor에 이미지 삽입
+    function insertImageToEditor(imageUrl) {
+        var editor = CKEDITOR.instances.content;
+        editor.insertHtml('<img src="' + imageUrl + '" alt="이미지" style="max-width:100%;">');
+        $('#imageModal').modal('hide');
     }
 </script>
 

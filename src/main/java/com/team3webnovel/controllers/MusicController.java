@@ -1,23 +1,27 @@
 package com.team3webnovel.controllers;
 
-import com.team3webnovel.services.MusicService;
-import com.team3webnovel.vo.MusicVo;
-import com.team3webnovel.vo.UserVo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.team3webnovel.services.MusicService;
+import com.team3webnovel.vo.MusicVo;
+import com.team3webnovel.vo.UserVo;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MusicController {
@@ -71,7 +75,6 @@ public class MusicController {
         // userId와 artForm = 1인 음악들을 가져오기
         List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
 
-        // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
         return "storage/music_storage"; // 저장된 음악 페이지로 이동
     }
@@ -90,6 +93,26 @@ public class MusicController {
         model.addAttribute("music", music);
         return "storage/music_detail"; // 상세 정보 페이지로 이동
     }
+    
+    @GetMapping("/api/music_detail/{creationId}")
+    @ResponseBody
+    public ResponseEntity<MusicVo> getMusicDetailsApi(@PathVariable("creationId") int creationId) {
+        MusicVo music = musicService.getMusicDetailsByCreationId(creationId);
+        if (music != null) {
+            return ResponseEntity.ok(music);  // JSON 데이터 반환
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @RequestMapping(value = "/music_detail/{creationId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<MusicVo> getMusicDetail(@PathVariable("creationId") int creationId) {
+        MusicVo musicDetail = musicService.getMusicDetailsByCreationId(creationId);
+        return ResponseEntity.ok(musicDetail);
+    }
+
+
     
     // 세션 유효성 확인
     private boolean isLoggedIn(HttpSession session) {

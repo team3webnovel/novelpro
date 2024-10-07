@@ -95,7 +95,25 @@
 
         <!-- 내 음악 탭 -->
         <div class="tab-pane fade" id="music">
-        </div>
+    <!-- 음악 리스트를 반복해서 표시 -->
+		    <div class="row">
+		        <c:forEach var="music" items="${musicList}">
+		            <div class="col-md-4 mb-4">
+		                <div class="card h-100 text-center">
+		                    <img src="${music.imageUrl}" alt="Cover Image" class="card-img-top" style="max-height: 200px; object-fit: cover;" onclick="playMusic('${music.creationId}', '${music.audioUrl}')">
+		                    <div class="card-body">
+		                        <h5 class="card-title text-dark"><a href="${pageContext.request.contextPath}/music_detail/${music.creationId}" class="text-dark">${music.title}</a></h5>
+		                        <audio id="audioPlayer${music.creationId}" controls class="w-100 mt-2">
+		                            <source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
+		                            Your browser does not support the audio element.
+		                        </audio>
+		                    </div>
+		                </div>
+		            </div>
+		        </c:forEach>
+		    </div>
+		</div>
+
     </div>
 </div>
 
@@ -137,9 +155,71 @@
   </div>
 </div>
 
+<!-- 음악 정보 모달 -->
+<div class="modal fade" id="musicModal" tabindex="-1" role="dialog" aria-labelledby="musicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="musicModalLabel">음악 정보</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 음악 정보를 여기서 표시 -->
+                <img id="modalMusicImage" src="" alt="Cover Image" class="img-fluid" />
+                <h5 id="modalMusicTitle" class="mt-3"></h5>
+                <p id="modalMusicPrompt"></p>
+                <audio id="modalMusicAudio" controls class="w-100 mt-3">
+                    <source id="modalAudioSource" src="" type="audio/mp4">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript">
     // JSP에서 request.getContextPath()로 컨텍스트 경로 가져와서 JavaScript 변수로 할당
     var contextPath = "<%= request.getContextPath() %>";
+
+    var currentPlayingItem = null;
+
+    function playMusic(itemId, audioUrl) {
+        var audioPlayer = document.getElementById('audioPlayer' + itemId);
+        var audioSource = document.getElementById('audioSource' + itemId);
+        var playButton = document.getElementById('playButton' + itemId);
+
+        // 오디오가 이미 로드된 상태라면 다른 음악 재생 중지
+        if (currentPlayingItem && currentPlayingItem !== itemId) {
+            var currentAudioPlayer = document.getElementById('audioPlayer' + currentPlayingItem);
+            currentAudioPlayer.pause();
+            document.getElementById('musicItem' + currentPlayingItem).classList.remove('playing');
+        }
+
+        // 음악 재생 및 일시정지 기능
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            document.getElementById('musicItem' + itemId).classList.add('playing');
+            currentPlayingItem = itemId;
+        } else {
+            audioPlayer.pause();
+            document.getElementById('musicItem' + itemId).classList.remove('playing');
+            currentPlayingItem = null;
+        }
+
+        // 음악이 끝나면 재생 중 표시 제거
+        audioPlayer.onended = function() {
+            document.getElementById('musicItem' + itemId).classList.remove('playing');
+            currentPlayingItem = null;
+        };
+    }
+    
+    
 </script>
 
 </body>

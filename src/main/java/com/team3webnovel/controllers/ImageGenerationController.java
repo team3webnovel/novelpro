@@ -36,7 +36,7 @@ public class ImageGenerationController {
     // GET 요청으로 JSP 페이지 렌더링
     @GetMapping("/generate")
     public String showGeneratePage(HttpSession session) {
-        UserVo vo = (UserVo)session.getAttribute("user");
+    	UserVo vo = (UserVo)session.getAttribute("user");
         int clientId = vo.getUserId();
         comfyUIImageGenerator.connectWebSocket(clientId);
         return "sungmin/generate"; // generate.jsp 페이지로 이동
@@ -60,7 +60,8 @@ public class ImageGenerationController {
             @RequestParam("seed") int seed,
             @RequestParam("checkpoint") String checkpoint,
             Model model, HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+    	UserVo userVo = (UserVo)session.getAttribute("user");
+        int clientId = userVo.getUserId();
         try {
             if (comfyUIImageGenerator.isConnected()) {
                 // ComfyUIImageGenerator에 필요한 파라미터를 모두 넘겨서 처리
@@ -148,7 +149,8 @@ public class ImageGenerationController {
 
     @GetMapping("/alert")
     public String alert(Model model, HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         model.addAttribute("clientId", clientId);  // 클라이언트 ID를 JSP로 전달
 
         return "sungmin/alert";  // 알림 JSP로 이동
@@ -157,8 +159,10 @@ public class ImageGenerationController {
     @GetMapping("/getClientId")
     @ResponseBody
     public Map<String, Object> getClientId(HttpSession session) {
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         Map<String, Object> response = new HashMap<>();
-        response.put("clientId", session.getAttribute("clientId"));
+        response.put("clientId", clientId);
         return response;
     }
 
