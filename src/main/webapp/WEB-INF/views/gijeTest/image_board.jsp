@@ -60,7 +60,7 @@
         <div class="row">
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
-                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId})">
+                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }')">
                         <img src="${image.imageUrl}" alt="이미지" class="card-img-top">
                     </div>
                 </div>

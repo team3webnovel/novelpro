@@ -1,4 +1,4 @@
-function openModal(boardId, imageUrl, creationId) {
+function openModal(boardId, imageUrl, creationId, comment) {
 	document.getElementById('modal-content').textContent = "";
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
@@ -14,7 +14,7 @@ function openModal(boardId, imageUrl, creationId) {
 	})
 		.then(response => response.json())
 		.then(data => {
-			document.getElementById('modal-content').innerHTML = 			`
+			document.getElementById('modal-content').innerHTML = `
 	            <table class="table">
 	                <thead>
 	                    <tr>
@@ -39,11 +39,37 @@ function openModal(boardId, imageUrl, creationId) {
 	                        <td>모델</td>
 	                        <td>${data.modelCheck}</td>
 	                    </tr>
+						<tr>
+							<td>seed</td>
+							<td>${data.seed}</td>
+						</tr>
+						<tr>
+							<td>코멘트</td>
+							<td>${comment}</td>
+						</tr>
 	                </tbody>
 	            </table>
 	        `;
 		})
-		.catch(error => console.error(error))
+		.catch(error => {
+			console.error(error)
+			document.getElementById('modal-content').innerHTML = `
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">속성</th>
+							<th scope="col">값</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>코멘트</td>
+							<td>${comment}</td>
+						</tr>
+					</tbody>
+				</table>
+			`;
+		})
 	
     // modal을 보이게 설정
     $('#myModal').modal('show');
@@ -63,7 +89,7 @@ function toggleContent() {
     if (fullContent.style.display === "none") {
         fullContent.style.display = "inline"; // 전체 내용 보이기
         shortContent.style.display = "none";  // 짧은 내용 숨기기
-        toggleButton.textContent = "간단히 보기"; // 버튼 텍스트 변경
+        toggleButton.textContent = "숨기기"; // 버튼 텍스트 변경
     } else {
         fullContent.style.display = "none"; // 전체 내용 숨기기
         shortContent.style.display = "inline"; // 짧은 내용 보이기

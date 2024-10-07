@@ -49,14 +49,14 @@ public class UserServiceImpl implements UserService {
     @Transactional  // 트랜잭션 활성화
     public void registerUser(UserVo user) {
     	
-        logger.info("registerUser started for username: {}", user.getUsername());
+//        logger.info("registerUser started for username: {}", user.getUsername());
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        logger.info("Password encoding completed for username: {}", user.getUsername());
+//        logger.info("Password encoding completed for username: {}", user.getUsername());
 
         user.setPassword(encodedPassword);
 
         try {
-            logger.debug("Inserting user into the database: {}", user);
+//            logger.debug("Inserting user into the database: {}", user);
             userDao.insertUser(user);  // 문제 발생 시 이 부분에서 로그를 확인
             logger.info("User successfully inserted into the database for username: {}", user.getUsername());
         } catch (Exception e) {

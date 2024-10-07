@@ -350,7 +350,7 @@
 	          	<label><input type="checkbox" value="cherry blossoms"> 벚꽃</label>
 	            <label><input type="checkbox" value="animal ears"><span> 동물귀</span></label>
 		    	<label><input type="checkbox" value="thighhighs"><span> 사이하이</span></label>
-		    	<label><input type="checkbox" value="thighs"><span> 선택 안함</span></label>
+		    	<label><input type="checkbox" value="thighs"><span> 허벅지</span></label>
 	          </div>
 	
 	          <button type="submit" class="btn btn-primary mt-3">이미지 생성</button>
