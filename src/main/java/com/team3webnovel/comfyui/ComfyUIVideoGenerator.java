@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import org.json.JSONArray;
@@ -24,7 +23,7 @@ import jakarta.websocket.WebSocketContainer;
 import oracle.jdbc.proxy.annotation.OnError;
 
 @ClientEndpoint
-public class ComfyUIImageGenerator {
+public class ComfyUIVideoGenerator {
 
     private static final String SERVER_ADDRESS = "192.168.0.237:8188"; // ComfyUI 서버 주소
     private static final String WEBSOCKET_URL = "ws://" + SERVER_ADDRESS + "/ws?clientId=";
@@ -64,131 +63,9 @@ public class ComfyUIImageGenerator {
         return resultVoFuture;
     }
 
+   
     // 프롬프트 전송 메서드
-    public CompletableFuture<resultVo> queuePrompt(
-            String promptText,
-            String negativePrompt,
-            String samplerIndex,
-            int steps,
-            int width,
-            int height,
-            int cfgScale,  // CFG Scale만 double 타입으로 유지
-            int seed,
-            String checkpoint,
-            int clientId) throws Exception {
-        resultVoFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성
-
-        String url = "http://" + SERVER_ADDRESS + "/prompt";
-
-        String jsonInputString = """
-        {
-            "prompt": {
-                "3": {
-                    "class_type": "KSampler",
-                    "inputs": {
-                        "cfg": %d,
-                        "denoise": 1,
-                        "latent_image": [
-                            "5",
-                            0
-                        ],
-                        "model": [
-                            "4",
-                            0
-                        ],
-                        "negative": [
-                            "7",
-                            0
-                        ],
-                        "positive": [
-                            "6",
-                            0
-                        ],
-                        "sampler_name": "%s",
-                        "scheduler": "karras",
-                        "seed": %d,
-                        "steps": %d
-                    }
-                },
-                "4": {
-                    "class_type": "CheckpointLoaderSimple",
-                    "inputs": {
-                        "ckpt_name": "%s"
-                    }
-                },
-                "5": {
-                    "class_type": "EmptyLatentImage",
-                    "inputs": {
-                        "batch_size": 1,
-                        "height": %d,
-                        "width": %d
-                    }
-                },
-                "6": {
-                    "class_type": "CLIPTextEncode",
-                    "inputs": {
-                        "clip": [
-                            "4",
-                            1
-                        ],
-                        "text": "%s"
-                    }
-                },
-                "7": {
-                    "class_type": "CLIPTextEncode",
-                    "inputs": {
-                        "clip": [
-                            "4",
-                            1
-                        ],
-                        "text": "%s"
-                    }
-                },
-                "8": {
-                    "class_type": "VAEDecode",
-                    "inputs": {
-                        "samples": [
-                            "3",
-                            0
-                        ],
-                        "vae": [
-                            "4",
-                            2
-                        ]
-                    }
-                },
-                "9": {
-                    "class_type": "SaveImage",
-                    "inputs": {
-                        "filename_prefix": "ComfyUI",
-                        "images": [
-                            "8",
-                            0
-                        ]
-                    }
-                }
-            },
-            "client_id": "%s"
-        }
-        """.formatted(cfgScale, samplerIndex, seed, steps, checkpoint, height, width, promptText, negativePrompt, clientId);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(jsonInputString))
-                .build();
-
-        // 프롬프트 전송
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("Prompt response: " + response.body());
-
-        // WebSocket으로부터 이미지 URL을 받을 때까지 무제한 대기
-        return resultVoFuture;  // 타임아웃 없이 무제한 대기
-    }
-    
-    
-    // 프롬프트 전송 메서드
-    public CompletableFuture<resultVo> vidQueuePrompt(
+    public CompletableFuture<resultVo> vidqueuePrompt(
             String samplerIndex,
             int steps,
             int width,
@@ -341,7 +218,7 @@ public class ComfyUIImageGenerator {
         // WebSocket으로부터 이미지 URL을 받을 때까지 무제한 대기
         return resultVoFuture;  // 타임아웃 없이 무제한 대기
     }
-    
+
 
     // WebSocket 메시지 처리 (이미지 생성 완료 시)
     @OnMessage

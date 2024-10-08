@@ -14,7 +14,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     <!-- Spring DispatcherServlet 설정 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -23,9 +22,18 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
 
+        <!-- load-on-startup은 여기서 설정되어야 합니다 -->
+        <load-on-startup>1</load-on-startup>
+        
+        <!-- multipart-config 설정 -->
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- 10MB -->
+            <max-request-size>20971520</max-request-size> <!-- 20MB -->
+            <file-size-threshold>5242880</file-size-threshold> <!-- 5MB -->
+        </multipart-config>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
