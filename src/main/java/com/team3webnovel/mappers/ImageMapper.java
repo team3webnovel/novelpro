@@ -30,4 +30,10 @@ public interface ImageMapper {
     
 
     ImageVo getAllInformation(int creationId);
+    
+    void updateImageTitle(ImageVo vo);
+    
+    void deleteImageById(int creationId);
+    
+    void deleteCreationById(int creationId);
 }

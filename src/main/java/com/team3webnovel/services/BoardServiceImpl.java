@@ -8,19 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3webnovel.dao.BoardCommentDaoImpl;
-import com.team3webnovel.dao.GijeBoardDaoImpl;
+import com.team3webnovel.dao.BoardDaoImpl;
 import com.team3webnovel.dao.UserDao;
 import com.team3webnovel.dto.BoardPageDto;
 import com.team3webnovel.dto.BoardViewDto;
 import com.team3webnovel.vo.BoardCommentVo;
-import com.team3webnovel.vo.GijeBoardVo;
+import com.team3webnovel.vo.BoardVo;
 import com.team3webnovel.vo.UserVo;
 
 @Service
-public class GijeBoardServiceImpl implements GijeBoardService {
+public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
-	private GijeBoardDaoImpl boardDao;
+	private BoardDaoImpl boardDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -29,7 +29,7 @@ public class GijeBoardServiceImpl implements GijeBoardService {
 	private BoardCommentDaoImpl commentDao;
 	
 	@Override
-	public void write(GijeBoardVo vo) {
+	public void write(BoardVo vo) {
 		boardDao.insert(vo);
 	}
 	
@@ -44,7 +44,7 @@ public class GijeBoardServiceImpl implements GijeBoardService {
 	        userIdToNameMap.put(user.getUserId(), user.getUsername());
 	    }
 
-	    GijeBoardVo boardVo = boardDao.select(boardId);
+	    BoardVo boardVo = boardDao.select(boardId);
 
 	    boardVo.setUserName(userIdToNameMap.get(boardVo.getUserId()));
 
@@ -70,10 +70,10 @@ public class GijeBoardServiceImpl implements GijeBoardService {
 		map.put("endRow", endRow);
 		map.put("pageSize", pageSize);
 		
-		List <GijeBoardVo> boardList = boardDao.boardPaging(map);
+		List <BoardVo> boardList = boardDao.boardPaging(map);
 		List <UserVo> userList = userDao.getUserName();
 		
-		for (GijeBoardVo boardVo : boardList) {
+		for (BoardVo boardVo : boardList) {
 			for (UserVo user : userList) {
 				if (boardVo.getUserId() == user.getUserId()) {
 					boardVo.setUserName(user.getUsername());

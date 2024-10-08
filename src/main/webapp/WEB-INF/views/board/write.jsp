@@ -103,7 +103,7 @@
     <div class="container">
         <h2>게시글 작성</h2>
         
-        <form action="/team3webnovel/gije/write" method="POST">
+        <form action="/team3webnovel/board/write" method="POST">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" required>
@@ -118,7 +118,7 @@
         </form>
 
         <!-- 글 목록으로 돌아가기 버튼 -->
-        <a href="/team3webnovel/gije/board" class="back-button">글 목록으로 돌아가기</a>
+        <a href="/team3webnovel/board" class="back-button">글 목록으로 돌아가기</a>
     </div>
 </body>
 </html>

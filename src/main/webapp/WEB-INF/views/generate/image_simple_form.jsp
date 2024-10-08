@@ -137,6 +137,9 @@
 			                <div class="carousel-item">
 			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(7).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(8).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
 			            </div>
 			            <!-- Carousel controls -->
 			            <a class="carousel-control-prev" href="#modelCarouselPony" role="button" data-slide="prev">

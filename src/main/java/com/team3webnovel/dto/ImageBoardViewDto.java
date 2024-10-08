@@ -3,22 +3,22 @@ package com.team3webnovel.dto;
 import java.util.List;
 
 import com.team3webnovel.vo.BoardCommentVo;
-import com.team3webnovel.vo.BoardVo;
+import com.team3webnovel.vo.ImageVo;
 
-public class BoardViewDto {
-	private BoardVo boardVo;
+public class ImageBoardViewDto {
+	private ImageVo imageVo;
 	private List <BoardCommentVo> comments;
 	
-	public BoardViewDto(BoardVo boardVo, List <BoardCommentVo> comments){
-		this.boardVo = boardVo;
+	public ImageBoardViewDto(ImageVo imageVo, List <BoardCommentVo> comments){
+		this.imageVo = imageVo;
 		this.comments = comments;
 	}
 	
-	public BoardVo getBoardVo() {
-		return boardVo;
+	public ImageVo getImageVo() {
+		return imageVo;
 	}
-	public void setBoardVo(BoardVo boardVo) {
-		this.boardVo = boardVo;
+	public void setImageVo(ImageVo boardVo) {
+		this.imageVo = boardVo;
 	}
 	public List<BoardCommentVo> getComments() {
 		return comments;

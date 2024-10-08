@@ -1,38 +1,49 @@
 package com.team3webnovel.dao;
 
-import com.team3webnovel.vo.BoardVo;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.team3webnovel.mappers.BoardMapper;
+import com.team3webnovel.vo.BoardVo;
 
 @Repository
 public class BoardDaoImpl implements BoardDao {
 
-    // 게시글 목록을 저장하는 임시 리스트
-    private List<BoardVo> posts = new ArrayList<>();
-
-    public BoardDaoImpl() {
-        // 초기 데이터
-        posts.add(new BoardVo(1, "첫 번째 게시글", "관리자", "2024-09-24"));
-        posts.add(new BoardVo(2, "두 번째 게시글", "사용자1", "2024-09-23"));
-    }
+    @Autowired
+    private BoardMapper BoardMapper;
 
     @Override
-    public List<BoardVo> getAllPosts() {
-        return posts;
+    public void insert(BoardVo board) {
+    	BoardMapper.write (board);
+    }
+    
+    @Override
+    public BoardVo select(int boardId) {
+    	return BoardMapper.view (boardId);
+    }
+    
+    @Override
+    public int getTotal() {
+    	return BoardMapper.getTotalCount();
+    }
+    
+    @Override
+    public List <BoardVo> boardPaging(Map <String, Integer> map) {
+    	return BoardMapper.pagingBoardList(map);
+    }
+    
+    @Override
+    public int delete(Map <String, Integer> map) {
+    	return BoardMapper.deleteBoard(map);
+    }
+    
+    @Override
+    public void viewCount(int boardId) {
+    	BoardMapper.viewCount(boardId);
     }
 
-    @Override
-    public BoardVo getPostById(int id) {
-        return posts.stream()
-                .filter(post -> post.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public void addPost(BoardVo post) {
-        posts.add(post);
-    }
 }

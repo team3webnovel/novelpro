@@ -50,6 +50,22 @@
 		order by igd.created_at desc
     </select>
     
+    <update id="updateImageTitle" parameterType="com.team3webnovel.vo.ImageVo">
+    	UPDATE IMAGE_GENERATION_DATA
+	    SET title = #{title}
+	    WHERE creation_id = #{creationId}
+    </update>
+    
+    <delete id="deleteImageById" parameterType="int">
+        DELETE FROM IMAGE_GENERATION_DATA
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+    <delete id="deleteCreationById" parameterType="int">
+        DELETE FROM creation
+        WHERE creation_id = #{creationId}
+    </delete>
+    
     <!-- 성민 -->
 
     <!-- 기본적인 이미지 정보에 대한 resultMap -->
