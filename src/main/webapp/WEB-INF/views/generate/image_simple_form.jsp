@@ -99,6 +99,22 @@
 		        flex-direction: column;
 		    }
 		}
+		#detailModal-dialog {
+		  max-width: 100%;
+		  height: 100%;
+		  margin: 0;
+		  padding: 0;
+		}
+		
+		#detailModal-content {
+		  height: 100%;
+		  border: none;
+		  border-radius: 0;
+		}
+		.modal-open {
+		  overflow-y: hidden;
+		  padding-right: 0; /* 스크롤바 공간 제거 */
+		}
 
     </style>
     <!-- Bootstrap JS and dependencies -->
@@ -110,6 +126,9 @@
 <body>
     <div class="container">
         <h1>모델 선택</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailModal">
+ 			Open Full Screen Modal
+		</button>
         <div class="row">
             <div class="col-md-4">
 			    <div class="card">
@@ -401,6 +420,25 @@
 	            </div>
 	        </div>
 	    </div>
+	</div>
+	
+	<div class="modal fade" id="detailModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" id="detailModal-dialog" role="document" style="max-width: 100%; height: 100%; margin:0;">
+	    <div class="modal-content" id="detailModal-content" style="height:100%;">
+	      <div class="modal-header">
+	        <h5 class="modal-title">디테일 설정</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+	      </div>
+	      <div class="modal-body">
+	      </div>
+	      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-primary">생성</button>
+          </div>
+	    </div>
+	  </div>
 	</div>
 </body>
 </html>

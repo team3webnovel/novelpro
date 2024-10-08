@@ -158,7 +158,7 @@
 		    <c:forEach items="${list}" var="board">
 		        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
 		            <td>${board.boardId}</td>
-		            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
+		            <td><a href="board/view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 		            <td>${board.userName}</td>
 		            <td>${board.formattedCreatedAt}</td>
 		            <td>${board.viewCount}</td>
