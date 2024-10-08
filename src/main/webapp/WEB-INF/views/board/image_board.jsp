@@ -86,6 +86,12 @@
 	                    <div id="modal-content" class="col-md-6"> <!-- 내용 영역 -->
 	                    </div>
 	                </div>
+	                <div class="row">
+	                	<div class="col-md-12">
+	                		<div id="comment-content">
+	                		</div>
+	                	</div>
+	                </div>
 	            </div>
 	        </div>
 	    </div>
