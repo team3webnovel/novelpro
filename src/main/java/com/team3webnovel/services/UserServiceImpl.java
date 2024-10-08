@@ -1,12 +1,8 @@
 package com.team3webnovel.services;
 
-import com.team3webnovel.mappers.PwMapper;
-import com.team3webnovel.mappers.UserMapper;
-import com.team3webnovel.vo.UserVo;
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-
+import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -14,15 +10,18 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.commons.validator.routines.EmailValidator;
+
+import com.team3webnovel.dao.UserDao;
+import com.team3webnovel.vo.UserVo;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+	@Autowired
+	private UserDao userDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,12 +37,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo findUserByUsername(String username) {
         logger.debug("findUserByUsername called with username: {}", username);
-        return userMapper.findUserByUsername(username);
+        return userDao.findUserByUsername(username);
     }
 
     @Override
     public UserVo findUserByEmail(String email) {
-        return userMapper.findUserByEmail(email);
+        return userDao.findUserByEmail(email);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
         try {
             logger.debug("Inserting user into the database: {}", user);
-            userMapper.insertUser(user);  // 문제 발생 시 이 부분에서 로그를 확인
+            userDao.insertUser(user);  // 문제 발생 시 이 부분에서 로그를 확인
             logger.info("User successfully inserted into the database for username: {}", user.getUsername());
         } catch (Exception e) {
             logger.error("Error occurred while inserting user: ", e);
@@ -105,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean resetPassword(String email, String newPassword) {
-        UserVo user = userMapper.findUserByEmail(email);
+        UserVo user = userDao.findUserByEmail(email);
 
         if (user == null) {
             return false;
@@ -116,7 +115,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
 
         // DB에 업데이트
-        userMapper.updateUserPassword(user);
+        userDao.updatePassword(user);
         return true;
     }
     
@@ -125,7 +124,7 @@ public class UserServiceImpl implements UserService {
     public void updateUserPassword(UserVo user) {
         try {
             logger.debug("DB에 사용자 비밀번호 업데이트: {}", user.getEmail());
-            userMapper.updatePassword(user);
+            userDao.updatePassword(user);
         } catch (Exception e) {
             logger.error("비밀번호 업데이트 중 오류 발생", e);
             throw new RuntimeException("비밀번호 업데이트 중 오류 발생", e);

@@ -56,6 +56,57 @@ public class NovelServiceImpl implements NovelService {
         return novelDao.getNovelListByUserId(userId);
     }
 
+//  성민
+	@Override
+	public void insertNovelDetail(NovelVo vo) {
+		novelDao.insertNovelDetail(vo);
+	}
 
+
+	@Override
+	public List<NovelVo> getNovelDetailByNovelId(int novelId) {
+		return novelDao.getNovelDetailByNovelId(novelId);
+	}
+
+	@Override
+	public NovelVo getNovelByNovelId(int novelId) {
+		return novelDao.getNovelByNovelId(novelId);
+	}
+
+
+	@Override
+	public void updateStatus(NovelVo vo) {
+		novelDao.updateStatus(vo);
+	}
+
+
+	@Override
+	public List<NovelVo> getMainNovelList() {
+		return novelDao.getMainNovelList();
+	}
+
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelDao.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelDao.updateNovelDetail(vo);
+	}
+	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelDao.updateEpisodeVisibility(vo);
+	}
+	
+	
+	
+	
+	
+	
+
+    
     
 }

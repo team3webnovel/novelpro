@@ -19,6 +19,12 @@ public class NovelVo {
     private String contents;     // CONTENTS
     private int creationIdDetail;  // CREATION_ID (novel_detail 테이블의 생성자 ID)
     private String titleDetail;    // TITLE (novel_detail의 제목)
+    
+    private String imageUrl;
+    private int imageId;
+    private int bgmId;
+    private String bgmUrl;
+    private String visibility;
 
     // 기본 생성자
     public NovelVo() {
@@ -129,15 +135,57 @@ public class NovelVo {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+    
 
-    // toString 메서드
-    @Override
-    public String toString() {
-        return "NovelVo [genre=" + genre + ", status=" + status + ", userId=" + userId + ", title=" + title
-                + ", creationId=" + creationId + ", intro=" + intro + ", createdAt=" + createdAt + ", novelId="
-                + novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
-                + creationIdDetail + ", titleDetail=" + titleDetail + "]";
-    }
+    public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	
+
+	public int getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(int imageId) {
+		this.imageId = imageId;
+	}
+
+	public int getBgmId() {
+		return bgmId;
+	}
+
+	public void setBgmId(int bgmId) {
+		this.bgmId = bgmId;
+	}
+	
+	public String getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
+	}
+	
+	public String getBgmUrl() {
+		return bgmUrl;
+	}
+
+	public void setBgmUrl(String bgmUrl) {
+		this.bgmUrl = bgmUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "NovelVo [genre=" + genre + ", status=" + status + ", userId=" + userId + ", title=" + title
+				+ ", creationId=" + creationId + ", intro=" + intro + ", createdAt=" + createdAt + ", novelId="
+				+ novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
+				+ creationIdDetail + ", titleDetail=" + titleDetail + ", imageUrl=" + imageUrl + ", imageId=" + imageId
+				+ ", bgmId=" + bgmId + ", bgmUrl=" + bgmUrl + ", visibility=" + visibility + "]";
+	}
 
 
 }

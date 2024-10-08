@@ -8,12 +8,21 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <style>
+	
 	body {
 	    font-family: Arial, sans-serif;
 	    background-color: #f4f4f9;
 	    margin: 0;
 	    padding: 0;
 	}
+	.container {
+		max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
 	h1 {
 	    text-align: center;
@@ -129,74 +138,51 @@
 	    text-align: center;
 	    border-radius: 5px;
 	}
-
-	/* 반응형 디자인 */
-	@media (max-width: 768px) {
-	    body {
-	        font-size: 18px;
-	    }
-	
-	    table {
-	        width: 100%;
-	        font-size: 16px;
-	    }
-	
-	    th, td {
-	        padding: 12px;
-	    }
-	
-	    h1 {
-	        font-size: 24px;
-	    }
-
-	    .create-btn {
-	        width: 100px;
-	        font-size: 14px;
-	    }
-	}
 </style>
 <script src="<%= request.getContextPath()%>/static/js/board.js"></script>
 </head>
 <body>
-	<c:if test="${not empty message}">
-        <div class="alert">${message}</div>
-    </c:if>
-	<h1>게시판</h1>
-	<table>
-	    <tr>
-	        <th>번호</th>
-	        <th>제목</th>
-	        <th>작성자</th>
-	        <th>작성일</th>
-	        <th>조회수</th>
-	    </tr>
-	    <c:forEach items="${list}" var="board">
-	        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
-	            <td>${board.boardId}</td>
-	            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
-	            <td>${board.userName}</td>
-	            <td>${board.formattedCreatedAt}</td>
-	            <td>${board.viewCount}</td>
-	        </tr>
-	    </c:forEach>
-	</table>
-	
-	<!-- 게시글 작성 버튼 -->
-	<a href="/team3webnovel/gije/write" class="create-btn">게시글 작성</a>
-	
-	<div class="pagination">
-	    <c:if test="${totalPages > 1}">
-	        <c:forEach var="i" begin="1" end="${totalPages}">
-	            <c:choose>
-	                <c:when test="${i == currentPage}">
-	                    <span class="page-link active">${i}</span> <!-- 현재 페이지 강조 -->
-	                </c:when>
-	                <c:otherwise>
-	                    <a href="/team3webnovel/gije/board?page=${i}" class="page-link">${i}</a>
-	                </c:otherwise>
-	            </c:choose>
-	        </c:forEach>
+	<div class ="container">
+		<c:if test="${not empty message}">
+	        <div class="alert">${message}</div>
 	    </c:if>
+		<h1>게시판</h1>
+		<table>
+		    <tr>
+		        <th>번호</th>
+		        <th>제목</th>
+		        <th>작성자</th>
+		        <th>작성일</th>
+		        <th>조회수</th>
+		    </tr>
+		    <c:forEach items="${list}" var="board">
+		        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
+		            <td>${board.boardId}</td>
+		            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
+		            <td>${board.userName}</td>
+		            <td>${board.formattedCreatedAt}</td>
+		            <td>${board.viewCount}</td>
+		        </tr>
+		    </c:forEach>
+		</table>
+		
+		<!-- 게시글 작성 버튼 -->
+		<a href="/team3webnovel/gije/write" class="create-btn">게시글 작성</a>
+		
+		<div class="pagination">
+		    <c:if test="${totalPages > 1}">
+		        <c:forEach var="i" begin="1" end="${totalPages}">
+		            <c:choose>
+		                <c:when test="${i == currentPage}">
+		                    <span class="page-link active">${i}</span> <!-- 현재 페이지 강조 -->
+		                </c:when>
+		                <c:otherwise>
+		                    <a href="/team3webnovel/gije/board?page=${i}" class="page-link">${i}</a>
+		                </c:otherwise>
+		            </c:choose>
+		        </c:forEach>
+		    </c:if>
+		</div>
 	</div>
 </body>
 </html>

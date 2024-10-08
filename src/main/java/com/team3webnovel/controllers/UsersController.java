@@ -4,8 +4,12 @@ import com.team3webnovel.services.GoogleOAuthService;
 import com.team3webnovel.services.UserService;
 import com.team3webnovel.vo.UserVo;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
@@ -16,11 +20,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsersController {
 
+    private static final String CLIENT_ID = "79063217086-lsnrlcthi1q4tkqg9cd713qa3eg6qodc.apps.googleusercontent.com";
+    private static final String REDIRECT_URI = "http://localhost:8080/team3webnovel/callback";
+	
     @Autowired
     private UserService userService;
 
@@ -175,6 +185,7 @@ public class UsersController {
                             @RequestParam("password") String password,
                             HttpSession session, Model model) {
         UserVo user = userService.findUserByUsername(username);
+        System.err.println(user);
         
         // 사용자가 존재하지 않는 경우
         if (user == null) {
@@ -190,8 +201,6 @@ public class UsersController {
 
         // 로그인 성공 시 세션에 사용자 정보 저장
         session.setAttribute("user", user);
-    	int clientId = user.getUserId();
-    	session.setAttribute("clientId", clientId);
 
         // 각 필드별로 로그 출력
         logger.debug("로그인 성공: user_id = {}", user.getUserId());
@@ -203,13 +212,43 @@ public class UsersController {
         return "redirect:/"; // 로그인 성공 시 홈페이지로 리다이렉트
     }
 
-    // 로그아웃 처리
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         logger.debug("로그아웃 요청: 세션 ID = {}", session.getId());
-        session.invalidate(); // 세션 무효화
-        return "redirect:/login?logout=true"; // 로그아웃 후 로그인 페이지로 리다이렉트
+
+        // 세션에 저장된 모든 속성 출력
+        Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String attributeName = attributeNames.nextElement();
+            Object attributeValue = session.getAttribute(attributeName);
+            logger.debug("세션 속성: 이름 = {}, 값 = {}", attributeName, attributeValue);
+        }
+
+        // 모든 쿠키 출력 및 삭제
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                logger.debug("쿠키 이름: {}, 값: {}", cookie.getName(), cookie.getValue());
+
+                // 쿠키 삭제 (쿠키의 유효 기간을 0으로 설정하고 경로를 지정)
+                cookie.setMaxAge(0);
+                cookie.setPath("/");  // 애플리케이션의 모든 경로에서 쿠키가 삭제되도록 설정
+                response.addCookie(cookie);
+                logger.debug("쿠키 삭제됨: {}", cookie.getName());
+            }
+        }
+
+        // 세션 무효화
+        session.invalidate();
+        logger.debug("세션 무효화 완료");
+
+        return "redirect:/login?logout=true";  // 로그아웃 후 로그인 페이지로 리다이렉트
     }
+
+
+
+
+
 
     // 마이페이지 보여주기
     @GetMapping("/mypage")
@@ -221,34 +260,61 @@ public class UsersController {
         return "users/mypage";  // users/mypage.jsp로 이동
     }
 
-    // Google OAuth 로그인 페이지로 이동
+ // Google OAuth 로그인 페이지로 이동
     @GetMapping("/google-login")
-    public String googleLogin() {
+    public String googleLogin(HttpSession session) {
         logger.debug("Google 로그인 요청.");
-        String authorizationUrl = googleOAuthService.getAuthorizationUrl();
-        logger.debug("Authorization URL: {}", authorizationUrl);
-        return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+
+        try {
+            // 세션에 저장된 사용자 정보 확인
+            UserVo loggedInUser = (UserVo) session.getAttribute("user");
+            System.err.println(loggedInUser);
+
+            if (loggedInUser != null) {
+                logger.debug("이미 로그인된 사용자: {}", loggedInUser.getEmail());
+                return "redirect:/";  // 이미 로그인된 사용자는 홈으로 리다이렉트
+            }
+
+            // Google Authorization URL 가져오기
+            String authorizationUrl = googleOAuthService.getAuthorizationUrl();
+
+            // prompt=select_account 파라미터를 추가하여 구글 계정 선택을 강제
+            authorizationUrl += "&prompt=select_account";
+
+            logger.debug("Authorization URL: {}", authorizationUrl);
+            return "redirect:" + authorizationUrl;  // 구글 로그인 페이지로 리다이렉트
+
+        } catch (Exception e) {
+            logger.error("Google OAuth 로그인 중 오류 발생: ", e);
+            // 오류 발생 시 처리할 페이지로 리다이렉트, 예: 에러 페이지
+            return "redirect:/error";
+        }
     }
 
- // Google OAuth 콜백 처리
+
+
     @GetMapping("/callback")
     public String googleCallback(@RequestParam("code") String code, HttpSession session, Model model) {
         try {
             // Google OAuth 서비스에서 사용자 정보 가져오기
             UserVo googleUser = googleOAuthService.getUserInfo(code);  // 이 시점에서 사용자 이메일과 이름을 가져옴
-            logger.debug("Google OAuth에서 사용자 정보 가져옴: username = {}, email = {}", 
-                         googleUser.getUsername(), googleUser.getEmail());
+            logger.debug("Google OAuth에서 사용자 정보 가져옴: user_id = {}, username = {}, email = {}", 
+                         googleUser.getUserId(), googleUser.getUsername(), googleUser.getEmail());
 
             // DB에서 해당 이메일로 사용자가 있는지 확인
             UserVo existingUser = userService.findUserByEmail(googleUser.getEmail());
+            // 로그인 성공 시 세션에 사용자 정보 저장
 
             if (existingUser != null) {
+            	int clientId = googleUser.getUserId();
+            	session.setAttribute("clientId", clientId);
                 // 사용자가 이미 DB에 있는 경우 세션에 기존 사용자 정보 저장
                 session.setAttribute("user", existingUser);
                 logger.debug("기존 사용자 세션에 저장: {}", existingUser);
             } else {
-                // 사용자가 DB에 없는 경우 새로 등록 (패스워드는 null로 설정)
-                googleUser.setPassword(null);  // 구글 로그인 시 패스워드는 사용하지 않음
+                // 사용자가 DB에 없는 경우 새로 등록 (랜덤 패스워드 설정)
+                String randomPassword = UUID.randomUUID().toString();  // 임의의 패스워드 생성
+                googleUser.setPassword(randomPassword);  // 임의로 생성된 패스워드 설정
                 userService.registerUser(googleUser);  // DB에 사용자 정보 저장
                 session.setAttribute("user", googleUser);
                 logger.debug("새로운 사용자 등록 후 세션에 저장: {}", googleUser);

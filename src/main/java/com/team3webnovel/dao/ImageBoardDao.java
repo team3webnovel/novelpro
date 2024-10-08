@@ -8,4 +8,6 @@ public interface ImageBoardDao {
 	public List <ImageBoardVo> list();
 	
 	public void writeImageBoard(ImageBoardVo boardVo);
+	
+	public int publicCheck(int boardId);
 }

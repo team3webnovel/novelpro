@@ -57,6 +57,50 @@ public class NovelDaoImpl implements NovelDao {
 		return null;
 	}
 
+	
+//	성민
+	@Override
+	public void insertNovelDetail(NovelVo vo) {
+		novelMapper.insertNovelDetail(vo);
+	}
+
+	@Override
+	public List<NovelVo> getNovelDetailByNovelId(int novelId) {
+		return novelMapper.getNovelDetailByNovelId(novelId);
+	}
+	
+	@Override
+	public NovelVo getNovelByNovelId(int novelId) {
+		return novelMapper.getNovelByNovelId(novelId);
+	}
+
+	@Override
+	public void updateStatus(NovelVo vo) {
+		novelMapper.updateStatus(vo);
+	}
+
+	@Override
+	public List<NovelVo> getMainNovelList() {
+		return novelMapper.getMainNovelList();
+	}
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelMapper.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelMapper.updateNovelDetail(vo);
+	}
+	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelMapper.updateEpisodeVisibility(vo);
+	}
+	
+	
+
     // 소설 ID로 소설 조회
 //    @Override
 //    public NovelVo getNovelById(UserVo novelId) {

@@ -1,8 +1,17 @@
-function openModal(imageUrl, creationId) {
+function openModal(boardId, imageUrl, creationId) {
+	document.getElementById('modalContent').textContent = "";
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
 	
-	fetch('/team3webnovel/gije/image/board/detail/' + creationId)
+	fetch('/team3webnovel/gije/image/board/detail/' + creationId, {
+		method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+		body: new URLSearchParams({
+            'boardId': boardId
+        })
+	})
 		.then(response => response.json())
 		.then(data => {
 			document.getElementById('modalContent').textContent = data.prompt;
@@ -10,10 +19,11 @@ function openModal(imageUrl, creationId) {
 		.catch(error => console.error('실패'))
 	
     // modal을 보이게 설정
-    document.getElementById('myModal').style.display = 'block';
+    $('#myModal').modal('show');
 }
 
 // modal을 닫는 함수
 function closeModal() {
-    document.getElementById('myModal').style.display = 'none';
+	document.getElementById('modalContent').textContent = "";
+    $('#myModal').modal('hide');
 }

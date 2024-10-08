@@ -25,7 +25,10 @@ public interface ImageService {
     // 이미지 생성 프롬프트 db 저장
     void imageGenerate(Map<String, Object> imageData);
     
+    // 이미지 생성 프롬프트 db 저장
+    void fontGenerate(Map<String, Object> imageData);
+    
     List<ImageVo> getImageDataByUserId(CreationVo vo);
     
-    ImageVo getAllInformation(int creationId);
+    ImageVo getAllInformation(int boardId, int creationId);
 }
