@@ -63,6 +63,7 @@
     <div class="container">
         <h1 class="text-center mb-3">게시판</h1>
         <div class="row">
+        	<input type="hidden" id="userId" value="${userId }">
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
                     <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }')">

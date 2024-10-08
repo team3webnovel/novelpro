@@ -32,8 +32,10 @@ public class ImageBoardController {
 	private ImageBoardServiceImpl imageBoardService;
 	
 	@GetMapping({"", "/", "list"})
-	public String imageBoard(Model model) {
+	public String imageBoard(Model model, HttpSession session) {
 		model.addAttribute("list", imageBoardService.list());
+		UserVo user = (UserVo) session.getAttribute("user");
+		model.addAttribute("userId", user.getUserId());
 		return "board/image_board";
 	}
 	

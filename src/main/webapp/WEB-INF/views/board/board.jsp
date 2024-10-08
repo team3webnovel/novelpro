@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <style>
-	
 	body {
 	    font-family: Arial, sans-serif;
 	    background-color: #f4f4f9;
