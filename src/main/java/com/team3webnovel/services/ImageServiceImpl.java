@@ -75,6 +75,12 @@ public class ImageServiceImpl implements ImageService {
 		imageDao.deleteCreationById(creationId);
 		
 	}
+	
+	@Override
+	public void updateCreationId(int creationId) {
+		imageDao.updateCreationId(creationId);
+		
+	}
     
     
 	

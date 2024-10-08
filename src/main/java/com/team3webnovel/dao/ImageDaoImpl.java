@@ -64,6 +64,12 @@ public class ImageDaoImpl implements ImageDao {
 		
 	}
 	
+	@Override
+	public void updateCreationId(int creationId) {
+		imageMapper.updateCreationId(creationId);
+		
+	}
+	
 	
 	
 	

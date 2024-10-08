@@ -368,8 +368,7 @@ public class NovelController {
             int creationId = (int) requestData.get("creationId");
 
             // 이미지 삭제 서비스 호출
-            imageService.deleteImageById(creationId);
-            imageService.deleteCreationById(creationId);
+            imageService.updateCreationId(creationId);
 
             response.put("success", true);  // 성공 응답
         } catch (Exception e) {

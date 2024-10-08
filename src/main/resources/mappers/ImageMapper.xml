@@ -66,6 +66,13 @@
         WHERE creation_id = #{creationId}
     </delete>
     
+	<update id="updateCreationId" parameterType="int">
+	    UPDATE creation
+	    SET creation_id = 0
+	    WHERE creation_id = #{creationId}
+	</update>
+
+    
     <!-- 성민 -->
 
     <!-- 기본적인 이미지 정보에 대한 resultMap -->

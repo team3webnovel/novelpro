@@ -29,5 +29,7 @@ public interface ImageService {
     void deleteImageById(int creationId);
     
     void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
 
 }
