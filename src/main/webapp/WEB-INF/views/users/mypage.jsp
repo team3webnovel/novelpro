@@ -31,9 +31,5 @@
         </div>
     </div>
 
-    <!-- 푸터 포함 -->
-    <footer>
-        <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
-    </footer>
 </body>
 </html>

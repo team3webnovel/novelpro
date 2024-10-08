@@ -1,9 +1,6 @@
 package com.team3webnovel.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -60,7 +57,7 @@ public class MusicController {
         } catch (Exception e) {
             // 예외 메시지를 출력하여 디버깅할 수 있도록 수정
             e.printStackTrace();  // 예외의 스택 트레이스를 출력
-            model.addAttribute("errorMessage", "음악 생성 중 오류가 발생했습니다. 에러 메시지: " + e.getMessage());
+            model.addAttribute("error", "음악 생성 중 오류가 발생했습니다. 에러 메시지: " + e.getMessage());
             return "generate/generate_music"; // 다시 음악 생성 페이지로 이동
         }
     }

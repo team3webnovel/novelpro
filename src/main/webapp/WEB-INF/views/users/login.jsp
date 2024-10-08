@@ -45,6 +45,5 @@
             <div class="error-message" style="color: red;">${message}</div>
         </c:if>
     </div>
-        <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 </body>
 </html>

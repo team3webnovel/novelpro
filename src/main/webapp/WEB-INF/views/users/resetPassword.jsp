@@ -29,5 +29,4 @@
         </c:if>
     </div>
 </body>
-<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 </html>

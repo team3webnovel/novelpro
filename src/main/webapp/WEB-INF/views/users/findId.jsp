@@ -27,6 +27,5 @@
 
         <a href="<%= request.getContextPath() %>/login">로그인 페이지로 돌아가기</a>
     </div>
-        <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 </body>
 </html>
