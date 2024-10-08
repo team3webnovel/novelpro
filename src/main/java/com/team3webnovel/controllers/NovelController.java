@@ -255,7 +255,8 @@ public class NovelController {
     	novelVo = novelService.getNovelDetail(novelVo);
     	model.addAttribute("episode", novelVo);
     	System.err.println(novelVo);
-    	model.addAttribute("maxEpisode", 3);
+    	NovelVo maxNovelVo = novelService.getNovelByNovelId(novelId);
+    	model.addAttribute("maxEpisode", maxNovelVo.getEpisodeNo());
     	
     	if (user == null) {
     		return "storage/episode_user";
@@ -275,8 +276,20 @@ public class NovelController {
         // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
         
-    	
     	return "storage/update_episode";
+    }
+    @GetMapping("/novel/episodeview/{novelId}/{episodeNo}")
+    public String episodeView(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model) {
+    	NovelVo novelVo = new NovelVo();
+    	novelVo.setNovelId(novelId);
+    	novelVo.setEpisodeNo(episodeNo);
+    	novelVo = novelService.getNovelDetail(novelVo);
+    	model.addAttribute("episode", novelVo);
+    	return "storage/episode_user";
+    	
     }
     
     @PostMapping("/episode/update/{novelId}/{episodeNo}")

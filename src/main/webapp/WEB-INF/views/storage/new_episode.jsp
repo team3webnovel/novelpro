@@ -89,31 +89,33 @@
         </button>
 
         <!-- 이미지 선택 모달 -->
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <c:forEach var="image" items="${imageList}">
-                                <div class="col-md-4 text-center mb-3">
-                                    <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
-                                    <p>${image.filename != null ? image.filename : '이미지'}</p>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+		<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-lg" role="document"> <!-- modal-lg 클래스를 추가하여 큰 모달로 설정 -->
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                    <span aria-hidden="true">&times;</span>
+		                </button>
+		            </div>
+		            <div class="modal-body">
+		                <div class="row">
+		                    <!-- 각 이미지를 5개씩 배치하기 위해 col-md-2 사용 -->
+		                    <c:forEach var="image" items="${imageList}">
+		                        <div class="col-md-2 text-center mb-3">
+		                            <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
+		                            <p>${image.filename != null ? image.filename : '이미지'}</p>
+		                        </div>
+		                    </c:forEach>
+		                </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
 
         <!-- 버튼들 -->
         <div class="d-flex justify-content-between mt-3">

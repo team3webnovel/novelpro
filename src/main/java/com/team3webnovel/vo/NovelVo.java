@@ -19,6 +19,7 @@ public class NovelVo {
     private String contents;     // CONTENTS
     private int creationIdDetail;  // CREATION_ID (novel_detail 테이블의 생성자 ID)
     private String titleDetail;    // TITLE (novel_detail의 제목)
+    private String userName;
     
     private String imageUrl;
     private int imageId;
@@ -178,13 +179,22 @@ public class NovelVo {
 		this.bgmUrl = bgmUrl;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "NovelVo [genre=" + genre + ", status=" + status + ", userId=" + userId + ", title=" + title
 				+ ", creationId=" + creationId + ", intro=" + intro + ", createdAt=" + createdAt + ", novelId="
 				+ novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
-				+ creationIdDetail + ", titleDetail=" + titleDetail + ", imageUrl=" + imageUrl + ", imageId=" + imageId
-				+ ", bgmId=" + bgmId + ", bgmUrl=" + bgmUrl + ", visibility=" + visibility + "]";
+				+ creationIdDetail + ", titleDetail=" + titleDetail + ", userName=" + userName + ", imageUrl="
+				+ imageUrl + ", imageId=" + imageId + ", bgmId=" + bgmId + ", bgmUrl=" + bgmUrl + ", visibility="
+				+ visibility + "]";
 	}
 
 

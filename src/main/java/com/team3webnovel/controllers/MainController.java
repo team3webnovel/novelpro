@@ -22,11 +22,12 @@ public class MainController {
     public String showIndexPage(Model model) {
     	// 장르 리스트를 생성
         List<GenreVo> genres = new ArrayList<>();
-        genres.add(new GenreVo("로판", "로맨스판타지"));
-        genres.add(new GenreVo("현판", "현대판타지"));
+        genres.add(new GenreVo("로판", "로판"));
+        genres.add(new GenreVo("현판", "현판"));
         genres.add(new GenreVo("판타지", "판타지"));
         genres.add(new GenreVo("무협", "무협"));
         genres.add(new GenreVo("로맨스", "로맨스"));
+        genres.add(new GenreVo("일반", "일반"));
 
         // 모델에 장르 리스트 추가
         model.addAttribute("genres", genres);
