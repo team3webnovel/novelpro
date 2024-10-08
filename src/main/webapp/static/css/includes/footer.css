@@ -1,15 +1,3 @@
-/* 전체 페이지 높이와 레이아웃 설정 */
-html, body {
-    height: 100%; /* 페이지 전체 높이 */
-    margin: 0;
-    display: flex;
-    flex-direction: column; /* Flexbox로 수직 레이아웃 */
-}
-
-.container {
-    flex: 1; /* 본문이 화면 전체를 채울 수 있도록 설정 */
-}
-
 /* 기본 푸터 스타일 */
 footer {
     background-color: #343a40; /* 어두운 배경 색상 */
@@ -17,7 +5,9 @@ footer {
     padding: 10px 0; /* 패딩 추가 */
     width: 100%; /* 너비 100% */
     text-align: center; /* 중앙 정렬 */
-    position: relative; /* 푸터를 상대적으로 위치 */
+    position: relative; /* 푸터를 화면 하단에 고정 */
+    bottom: 0; /* 화면 하단에 위치 */
+    left: 0; /* 왼쪽에 맞춤 */
 }
 
 /* 푸터 텍스트 스타일 */

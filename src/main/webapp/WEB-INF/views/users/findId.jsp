@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이디 찾기</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/users/findId.css">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <div class="find-id-container">
@@ -18,10 +19,10 @@
         </form>
 
         <c:if test="${not empty message}">
-            <div class="message" style="color: green;">${message}</div>
+            <div class="message">${message}</div>
         </c:if>
         <c:if test="${not empty errorMessage}">
-            <div class="error-message" style="color: red;">${errorMessage}</div>
+            <div class="error-message">${errorMessage}</div>
         </c:if>
 
         <a href="<%= request.getContextPath() %>/login">로그인 페이지로 돌아가기</a>

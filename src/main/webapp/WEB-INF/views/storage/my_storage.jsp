@@ -14,9 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="static/js/my_storage.js"></script>
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 
 <body>
+    <div class="main-content">
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
         <h2>내 보관함</h2>
@@ -221,6 +223,6 @@
     
     
 </script>
-
+</div>
 </body>
 </html>
