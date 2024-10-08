@@ -1,27 +1,29 @@
-function openModal() {
-    $('#myModal').modal('show');
+function openChoiceModal() {
+    $('#choiceModal').modal('show');
 	console.log(checkpoint);
 	console.log(seed);
 }
-function openModalVer2(){
-	$('#myModal2').modal('show');
-}
-
-function closeModal() {
-    $('#myModal').modal('hide');
+function openAIModal(){
+	$('#AIModal').modal('show');
 }
 
 var checkpoint = '';
 var seed = 0;
 
-function changeModel(model){
+function changeModelChoiceModal(model){
 	checkpoint = model;
-	openModal();
+	openChoiceModal();
 }
 
-function changeModelVer2(model){
+function changeModelAIModal(model){
 	checkpoint = model;
-	openModalVer2();
+	openAIModal();
+}
+
+function showImageInModal(imageElement) {
+    var imageSrc = imageElement.src;
+    document.getElementById("modalImage").src = imageSrc;
+    $('#imageModal').modal('show');
 }
 
 function setRandomSeed() {
@@ -29,6 +31,7 @@ function setRandomSeed() {
     seed = Math.floor(Math.random() * 9999999) + 1;
 }
 
+//	안 보이는 checkbox 요소 보이게 하는 함수
 document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     
@@ -58,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			setRandomSeed();
 			
-			document.getElementById("spinner").style.display = "block";
+			document.getElementById("spinner1").style.display = "block";
 			
 			const imageData = {
 				prompt: prompt,
@@ -72,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				seed: seed
 			};
 			
-			fetch('/team3webnovel/gije/test', {
+			fetch('/team3webnovel/images', {
 				method: 'POST',
 				headers: {
 		            'Content-Type': 'application/json', // JSON 형식으로 전송
@@ -88,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			})
 			.then(result => {
 			    console.log(result);  // 서버에서 받은 JSON 응답 출력
-			    document.getElementById("spinner").style.display = "none";
+			    document.getElementById("spinner1").style.display = "none";
 			    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
 			})
 			.catch(error => {
@@ -105,10 +108,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	if (modelForm){
 			modelForm.onsubmit = async function(event){
 				event.preventDefault();
-				document.getElementById("spinner").style.display = "block";
+				document.getElementById("spinner2").style.display = "block";
 				const inputPrompt = document.getElementById("comment").value;
 				
-				fetch('/team3webnovel/gije/ai', {
+				fetch('/team3webnovel/translate', {
 					method: 'POST',
 			        headers: {
 			            'Content-Type': 'application/json'
@@ -117,8 +120,20 @@ document.addEventListener("DOMContentLoaded", function() {
 			            input: inputPrompt
 			        })
 				})
-				.then(response => response.json())
+				.then(response => {
+					if (response.ok){
+						const contentLength = response.headers.get('Content-Length');
+						if (contentLength && contentLength === '0') {
+				            alert('입력 변환에 실패했습니다.')
+				        }
+						return response.json();
+					} else {
+						alert('입력 변환에 실패했습니다.')
+					}
+				})
 				.then(data => {
+					
+					setRandomSeed();
 				    
 				    // 서버에서 받은 데이터를 기반으로 imageData 구성
 				    const imageData = {
@@ -128,12 +143,12 @@ document.addEventListener("DOMContentLoaded", function() {
 				        steps: 25,
 				        width: 896,
 				        height: 1152,
-				        cfg_scale: 5,
+				        cfg_scale: 6,
 				        checkpoint: checkpoint,
 				        seed: seed
 				    };
 				    
-					fetch('/team3webnovel/gije/test', {
+					fetch('/team3webnovel/images', {
 						method: 'POST',
 						headers: {
 				            'Content-Type': 'application/json', // JSON 형식으로 전송
@@ -149,8 +164,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					})
 					.then(result => {
 					    console.log(result);  // 서버에서 받은 JSON 응답 출력
-					    document.getElementById("spinner").style.display = "none";
-					    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
+					    document.getElementById("spinner2").style.display = "none";
+					    window.location.href = "/team3webnovel/storage"; // 페이지 이동
 					})
 					.catch(error => {
 					    console.error('Error:', error);

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 		
-		fetch('/team3webnovel/gije/comment/write', {
+		fetch('/team3webnovel/board/comment/write', {
 			method: 'post',
 			headers:{
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -35,16 +35,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	document.querySelectorAll('.comment-delete').forEach(button => {
 	    button.addEventListener('click', function(event) {
 	        event.preventDefault();
-	        let commentId = this.getAttribute('data-comment-id'); // 버튼의 data-comment-id 속성에서 ID를 가져옵니다.
+	        let commentId = this.getAttribute('data-comment-id'); // 버튼의 data-comment-id 속성에서 ID를 가져옴
 
-	        fetch('/team3webnovel/gije/comment/delete', {
-	            method: 'post',
+	        fetch(`/team3webnovel/board/comment/delete?commentId=${commentId}`, {
+	            method: 'DELETE',
 	            headers: {
 	                'Content-Type': 'application/x-www-form-urlencoded'
-	            },
-	            body: new URLSearchParams({
-	                'commentId': commentId, // 댓글 ID
-	            })
+	            }
 	        })
 	        .then(response => response.json()) // 서버로부터 JSON 응답을 받음
 	        .then(data => {
@@ -59,5 +56,27 @@ document.addEventListener("DOMContentLoaded", function() {
 	            alert('댓글 삭제 중 오류가 발생했습니다.');
 	        });
 	    });
+	});
+	
+	document.querySelector('.delete-button').addEventListener('click', function() {
+	    let boardId = document.getElementById('boardId').value;
+	    if (confirm("정말 게시글을 삭제하시겠습니까?")) {
+	        fetch(`/team3webnovel/board/delete/${boardId}`, {
+	            method: 'DELETE'
+	        })
+	        .then(response => response.json()) // JSON 응답을 받음
+	        .then(data => {
+	            if (data.success) {
+	                alert(data.message); // 서버에서 전달한 성공 메시지 출력
+	                window.location.href = '/team3webnovel/board';
+	            } else {
+	                alert(data.message); // 서버에서 전달한 실패 메시지 출력
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert('게시글 삭제 중 오류가 발생했습니다.');
+	        });
+	    }
 	});
 });

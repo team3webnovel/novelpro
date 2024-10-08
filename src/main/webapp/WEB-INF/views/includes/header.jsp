@@ -32,7 +32,7 @@
             <a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary btn-sm">
                 <i class="bi bi-music-note"></i> <!-- 음악 생성 -->
             </a>
-            <a href="<%=request.getContextPath()%>/generate-image" class="btn btn-primary btn-sm">
+            <a href="<%=request.getContextPath()%>/images" class="btn btn-primary btn-sm">
                 <i class="bi bi-image"></i> <!-- 이미지 생성 -->
             </a>
             <a href="<%=request.getContextPath()%>/generate-search" class="btn btn-primary btn-sm">
@@ -48,7 +48,7 @@
                         <i class="bi bi-box-arrow-right"></i> <!-- 로그아웃 -->
                     </a>
                     <!-- 보관함 버튼 추가 (로그인한 사용자에게만 표시됨) -->
-                    <a href="<%=request.getContextPath()%>/my_storage" class="btn btn-primary btn-sm">
+                    <a href="<%=request.getContextPath()%>/storage" class="btn btn-primary btn-sm">
                         <i class="bi bi-box"></i> <!-- 보관함 -->
                     </a>
                 </c:when>

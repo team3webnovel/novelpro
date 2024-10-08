@@ -235,11 +235,12 @@
 	    <!-- 버튼 컨테이너 -->
 	    <div class="button-container">
 	        <c:if test="${user.userId == board.userId}">
-	            <form action="/team3webnovel/gije/delete/${board.boardId}" method="post" style="display:inline;">
-	                <button type="submit" class="delete-button">게시글 삭제</button>
-	            </form>
+	            <form id="deleteForm" style="display:inline;">
+	            	<input type="hidden" id="boardId" name="boardId" value="${board.boardId}" />
+				    <button type="button" class="delete-button">게시글 삭제</button>
+				</form>
 	        </c:if>
-	        <a href="/team3webnovel/gije/board?page=${currentPage}" class="back-button">글 목록으로 돌아가기</a>
+	        <a href="/team3webnovel/board?page=${currentPage}" class="back-button">글 목록으로 돌아가기</a>
 	    </div>
 	</div>
 </body>

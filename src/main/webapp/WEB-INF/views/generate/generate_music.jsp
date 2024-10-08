@@ -13,17 +13,17 @@
 
 <!-- Music Creator Container -->
 <div id="musicCreatorContainer" class="mt-5">
-    <form action="<%= request.getContextPath() %>/create-music" method="post">
+    <form action="<%= request.getContextPath() %>/generate-music" method="post">
         <h1 id="musicCreatorTitle" class="text-center">Create Your Music</h1>
 
         <div id="formInputGroup">
-            <label for="songPrompt">Enter a prompt for your music:</label>
-            <input type="text" class="form-control" id="songPrompt" name="songPrompt" required>
+            <label for="prompt">Enter a prompt for your music:</label>
+            <input type="text" class="form-control" id="prompt" name="prompt" required>
         </div>
 
         <div id="instrumentalOption" class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="createInstrumental" name="createInstrumental">
-            <label class="form-check-label" for="createInstrumental">Instrumental?</label>
+            <input type="checkbox" class="form-check-input" id="make_instrumental" name="make_instrumental">
+            <label class="form-check-label" for="make_instrumental">Instrumental?</label>
         </div>
 
         <button id="submitMusic" type="submit" class="btn btn-primary btn-block">Create Music</button>
@@ -35,33 +35,57 @@
 
         <!-- 에러 메시지 표시 -->
         <div id="errorAlert" style="display: none;" class="alert alert-danger mt-3">
-            <strong>Error:</strong> ${errorAlert}
+            <strong>Error:</strong> ${errorMessage}
         </div>
 
         <!-- 경고 메시지 표시 -->
         <div id="warningAlert" style="display: none;" class="alert alert-warning mt-3">
-            <strong>Warning:</strong> ${warningAlert}
+            <strong>Warning:</strong> ${warningMessage}
         </div>
     </form>
 
     <!-- 음악 보관함으로 이동하는 링크 추가 -->
     <p id="musicStorageLink" class="text-center mt-3">
-        <a href="<%= request.getContextPath() %>/music-storage">Go to Music Storage</a>
+        <a href="<%= request.getContextPath() %>/storage-music">Go to Music Storage</a>
     </p>
 </div>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function() {
-        document.getElementById('loadingIndicator').style.display = 'block';
-    });
+	document.querySelector('form').addEventListener('submit', function() {
+	    document.getElementById('loadingIndicator').style.display = 'block';
+	});
+	
+	// 에러 메시지나 경고 메시지가 있는 경우 alert로 표시
+	const errorMessage = '${errorMessage}';
+	const warningMessage = '${warningMessage}';
+	
+	if (errorMessage && errorMessage.trim() !== '') {
+	    alert("Error: " + errorMessage);
+	}
+	
+	if (warningMessage && warningMessage.trim() !== '') {
+	    alert("Warning: " + warningMessage);
+	}
+	
+	document.querySelector('form').addEventListener('submit', function() {
+	    document.getElementById('loadingIndicator').style.display = 'block';
 
-    // 에러 메시지나 경고 메시지가 있는 경우 표시
-    if ('${errorAlert}' !== '') {
-        document.getElementById('errorAlert').style.display = 'block';
-    }
-    if ('${warningAlert}' !== '') {
-        document.getElementById('warningAlert').style.display = 'block';
-    }
+	    // 로딩 중 점이 계속 증가하는 애니메이션
+	    let dots = document.getElementById("dots");
+	    let dotCount = 0;
+
+	    const dotInterval = setInterval(() => {
+	        dotCount = (dotCount + 1) % 4;  // 점 개수를 0, 1, 2, 3으로 순환
+	        dots.textContent = '.'.repeat(dotCount);  // 점을 반복해서 표시
+	    }, 500);  // 0.5초마다 점 개수 변경
+
+	    // 음악 생성이 완료되면 로딩 메시지 숨기기
+	    document.querySelector('form').addEventListener('submit', function() {
+	        clearInterval(dotInterval);  // 점 애니메이션 정지
+	        document.getElementById('loadingIndicator').style.display = 'none';
+	    });
+	});
+
 </script>
 
 <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
