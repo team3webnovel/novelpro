@@ -12,10 +12,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-public class GenerativeAIService {
+public class AITranslateService {
 
-    public String generateContent(String inputText) {
-        String apiUrl = "http://192.168.0.240:4444/generate";
+    public String translateContent(String inputText) {
+        String apiUrl = "http://192.168.0.240:4444/translate";
         String jsonInputString = "{\"text\": \"" + inputText + "\"}";
 
         try {

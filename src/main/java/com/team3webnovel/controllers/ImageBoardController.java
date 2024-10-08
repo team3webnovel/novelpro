@@ -1,4 +1,4 @@
-package com.team3webnovel.controllers.gije_test;
+package com.team3webnovel.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,31 +15,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team3webnovel.dto.ImageBoardViewDto;
 import com.team3webnovel.services.ImageBoardServiceImpl;
 import com.team3webnovel.services.ImageService;
+import com.team3webnovel.vo.BoardCommentVo;
 import com.team3webnovel.vo.ImageBoardVo;
-import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.UserVo;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/gije/image")
+@RequestMapping("/images/board")
 public class ImageBoardController {
 
 	@Autowired
 	private ImageBoardServiceImpl imageBoardService;
 	
-	@Autowired
-	private ImageService imageService;
-	
-	@GetMapping("/board")
+	@GetMapping({"", "/", "list"})
 	public String imageBoard(Model model) {
 		model.addAttribute("list", imageBoardService.list());
-		return "gijeTest/image_board";
+		return "board/image_board";
 	}
 	
-	@RequestMapping(value="/board/write", method=RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value="/write", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map <String, Object> writeImageBoard(HttpSession session, @RequestBody Map<String, String> params){
 		String publicOption = params.get("publicOption");
@@ -66,10 +64,30 @@ public class ImageBoardController {
 		return response;
 	}
 	
-	@PostMapping("/board/detail/{creationId}")
+	@PostMapping("/detail/{creationId}")
 	@ResponseBody
-	public ImageVo getImageDetail(@PathVariable("creationId") int creationId, @RequestParam("boardId") int boardId ) {
+	public ImageBoardViewDto getImageDetail(@PathVariable("creationId") int creationId, @RequestParam("boardId") int boardId ) {
+		return imageBoardService.getImageBoardDetailAndComment(boardId, creationId);
+	}
+	
+	@RequestMapping(value = "/comment/write", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> comment(HttpSession session, @RequestParam("boardId") int boardId, @RequestParam("comment") String comment) {
+		Map<String, Object> response = new HashMap<>();
 		
-		return imageService.getAllInformation(boardId, creationId);
+		try {
+			UserVo user = (UserVo) session.getAttribute("user");
+			
+			BoardCommentVo commentVo = new BoardCommentVo();
+			commentVo.setBoardId(boardId);
+			commentVo.setUserId(user.getUserId());
+			commentVo.setContent(comment);
+			
+			imageBoardService.writeComment(commentVo);
+			response.put("success", true);
+		} catch (Exception e) {
+	        response.put("success", false);
+	    }
+		return response;
 	}
 }

@@ -5,18 +5,18 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.team3webnovel.vo.GijeBoardVo;
+import com.team3webnovel.vo.BoardVo;
 
 @Mapper
-public interface GijeBoardMapper {
+public interface BoardMapper {
 
-	void write(GijeBoardVo board);
+	void write(BoardVo board);
 	
-	GijeBoardVo view(int boardId);
+	BoardVo view(int boardId);
 	
 	int getTotalCount();
 	
-	List<GijeBoardVo> pagingBoardList(Map <String, Integer> map);
+	List<BoardVo> pagingBoardList(Map <String, Integer> map);
 	
 	int deleteBoard(Map <String, Integer> map);
 	

@@ -35,7 +35,7 @@ public class NovelController {
     @Autowired
     private MusicService musicService;
 
-    @GetMapping("/my_storage")
+    @GetMapping("/storage")
     public String showMyStoragePage(HttpSession session, Model model) {
         // 세션에서 로그인한 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");

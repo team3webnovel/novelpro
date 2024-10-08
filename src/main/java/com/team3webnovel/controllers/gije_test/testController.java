@@ -1,4 +1,4 @@
-package com.team3webnovel.controllers;
+package com.team3webnovel.controllers.gije_test;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
