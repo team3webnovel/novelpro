@@ -79,11 +79,7 @@
 	        dots.textContent = '.'.repeat(dotCount);  // 점을 반복해서 표시
 	    }, 500);  // 0.5초마다 점 개수 변경
 
-	    // 음악 생성이 완료되면 로딩 메시지 숨기기
-	    document.querySelector('form').addEventListener('submit', function() {
-	        clearInterval(dotInterval);  // 점 애니메이션 정지
-	        document.getElementById('loadingIndicator').style.display = 'none';
-	    });
+
 	});
 
 </script>
