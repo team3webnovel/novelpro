@@ -66,4 +66,17 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 		return new ImageBoardViewDto(imageVo, commentList);
 	}
 
+	@Override
+	public void writeComment(BoardCommentVo vo) {
+		imageBoardDao.writeComment(vo);
+	}
+
+	@Override
+	public int deleteComment(int commentId, int userId) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("commentId", commentId);
+		map.put("userId", userId);
+		return imageBoardDao.deleteComment(map);
+	}
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team3webnovel.dto.ImageBoardViewDto;
 import com.team3webnovel.services.ImageBoardServiceImpl;
 import com.team3webnovel.services.ImageService;
+import com.team3webnovel.vo.BoardCommentVo;
 import com.team3webnovel.vo.ImageBoardVo;
 import com.team3webnovel.vo.UserVo;
 
@@ -29,9 +30,6 @@ public class ImageBoardController {
 
 	@Autowired
 	private ImageBoardServiceImpl imageBoardService;
-	
-	@Autowired
-	private ImageService imageService;
 	
 	@GetMapping({"", "/", "list"})
 	public String imageBoard(Model model) {
@@ -70,5 +68,26 @@ public class ImageBoardController {
 	@ResponseBody
 	public ImageBoardViewDto getImageDetail(@PathVariable("creationId") int creationId, @RequestParam("boardId") int boardId ) {
 		return imageBoardService.getImageBoardDetailAndComment(boardId, creationId);
+	}
+	
+	@RequestMapping(value = "/comment/write", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> comment(HttpSession session, @RequestParam("boardId") int boardId, @RequestParam("comment") String comment) {
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			UserVo user = (UserVo) session.getAttribute("user");
+			
+			BoardCommentVo commentVo = new BoardCommentVo();
+			commentVo.setBoardId(boardId);
+			commentVo.setUserId(user.getUserId());
+			commentVo.setContent(comment);
+			
+			imageBoardService.writeComment(commentVo);
+			response.put("success", true);
+		} catch (Exception e) {
+	        response.put("success", false);
+	    }
+		return response;
 	}
 }
