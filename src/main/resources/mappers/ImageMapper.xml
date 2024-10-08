@@ -31,10 +31,10 @@
     
       <insert id="insertFontData" parameterType="map">
         INSERT INTO IMAGE_GENERATION_DATA (
-		    CREATION_ID, IMAGE_URL, FILENAME
+		    CREATION_ID, IMAGE_URL, FILENAME, TITLE
 		)
         VALUES (
-            #{creationId}, #{imageUrl}, #{fileName}
+            #{creationId}, #{imageUrl}, #{fileName}, #{title}
         )
     </insert>
     
