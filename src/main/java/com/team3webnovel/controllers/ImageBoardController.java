@@ -25,7 +25,7 @@ import com.team3webnovel.vo.UserVo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/image/board")
+@RequestMapping("/images/board")
 public class ImageBoardController {
 
 	@Autowired

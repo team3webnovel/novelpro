@@ -25,7 +25,7 @@ function closeModal() {
 }
 
 function refreshModal(boardId, creationId, comment){
-	fetch('/team3webnovel/image/board/detail/' + creationId, {
+	fetch('/team3webnovel/images/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            fetch('/team3webnovel/image/board/comment/write', {
+            fetch('/team3webnovel/images/board/comment/write', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

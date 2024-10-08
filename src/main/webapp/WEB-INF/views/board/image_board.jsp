@@ -42,6 +42,11 @@
         .card:hover {
             transform: translateY(-10px);
         }
+        .comment-time {
+		    font-size: 12px;
+		    color: #999;
+		    margin-left: 10px;
+		}
         /* 모달 크기 조정 */
 		@media (min-width: 768px) { /* md 이상의 화면 크기에서 적용 */
 		    .modal-dialog {
