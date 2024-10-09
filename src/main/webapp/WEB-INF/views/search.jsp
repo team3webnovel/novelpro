@@ -9,51 +9,8 @@
     <title>검색 결과</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .search-bar {
-            border: 2px solid #ccc;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .novel-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        .novel-card img {
-            max-height: 180px;
-            object-fit: cover;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-        .novel-card:hover {
-            transform: scale(1.05);
-        }
-        .novel-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .novel-intro {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .search-results-header {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .no-results {
-            text-align: center;
-            padding: 30px 0;
-            font-size: 1.25rem;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
+    <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>
 </head>
 <body>
 
@@ -61,6 +18,29 @@
 <header>
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </header>
+
+    <!-- 슬라이드 배너 -->
+    <section id="banner" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active type1">
+                <img src="<%=request.getContextPath()%>/static/images/banner1.png" alt="Banner 1">
+            </div>
+            <div class="carousel-item type2">
+                <img src="<%=request.getContextPath()%>/static/images/banner2.png" alt="Banner 2">
+            </div>
+            <div class="carousel-item type3">
+                <img src="<%=request.getContextPath()%>/static/images/banner3.png" alt="Banner 3">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#banner" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#banner" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </section>
 
 <div class="container mt-5">
     <!-- 검색 바 -->
