@@ -3,21 +3,21 @@ package com.team3webnovel.dto;
 import java.util.List;
 
 import com.team3webnovel.vo.BoardCommentVo;
-import com.team3webnovel.vo.GijeBoardVo;
+import com.team3webnovel.vo.BoardVo;
 
 public class BoardViewDto {
-	private GijeBoardVo boardVo;
+	private BoardVo boardVo;
 	private List <BoardCommentVo> comments;
 	
-	public BoardViewDto(GijeBoardVo boardVo, List <BoardCommentVo> comments){
+	public BoardViewDto(BoardVo boardVo, List <BoardCommentVo> comments){
 		this.boardVo = boardVo;
 		this.comments = comments;
 	}
 	
-	public GijeBoardVo getBoardVo() {
+	public BoardVo getBoardVo() {
 		return boardVo;
 	}
-	public void setBoardVo(GijeBoardVo boardVo) {
+	public void setBoardVo(BoardVo boardVo) {
 		this.boardVo = boardVo;
 	}
 	public List<BoardCommentVo> getComments() {

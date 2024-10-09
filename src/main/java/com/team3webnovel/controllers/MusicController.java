@@ -1,23 +1,27 @@
 package com.team3webnovel.controllers;
 
-import com.team3webnovel.services.MusicService;
-import com.team3webnovel.vo.MusicVo;
-import com.team3webnovel.vo.UserVo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.team3webnovel.services.MusicService;
+import com.team3webnovel.vo.MusicVo;
+import com.team3webnovel.vo.UserVo;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MusicController {
@@ -34,27 +38,25 @@ public class MusicController {
     public String generateMusic(@RequestParam("prompt") String prompt,
                                 @RequestParam(value = "make_instrumental", required = false) boolean makeInstrumental,
                                 Model model, HttpServletRequest request) {
+    	 List<MusicVo> musicList;
         try {
-            // 에러 메시지를 담을 맵 생성
-            Map<String, String> errorMap = new HashMap<>();
 
             // MusicService를 통해 Suno API로 음악 생성 요청
-            List<MusicVo> musicList = musicService.generateMusic(prompt, makeInstrumental, errorMap);
+            musicList = musicService.generateMusic(prompt, makeInstrumental, model);
 
-            // 에러가 있을 경우, 모델에 에러 메시지 추가
-            if (errorMap.containsKey("error")) {
-                model.addAttribute("errorMessage", errorMap.get("error"));
-                return "generate/generate_music";  // 다시 음악 생성 페이지로 이동
+            // 에러가 있으면 다시 생성 페이지로
+            if (model.containsAttribute("errorMessage")) {
+                return "generate/generate_music";
             }
-            
-            // 경고가 있을 경우, 모델에 경고 메시지 추가
-            if (errorMap.containsKey("warning")) {
-                model.addAttribute("warningMessage", errorMap.get("warning"));
+            // 에러가 있으면 다시 생성 페이지로
+            if (model.containsAttribute("warningMessage")) {
+                return "generate/generate_music";
             }
 
             // 생성된 음악 리스트를 모델에 추가하여 결과 페이지로 전달
             model.addAttribute("musicList", musicList);
             return "generate/music_result"; // 음악 결과 페이지로 이동
+            
         } catch (Exception e) {
             // 예외 메시지를 출력하여 디버깅할 수 있도록 수정
             e.printStackTrace();  // 예외의 스택 트레이스를 출력
@@ -71,7 +73,6 @@ public class MusicController {
         // userId와 artForm = 1인 음악들을 가져오기
         List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
 
-        // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
         return "storage/music_storage"; // 저장된 음악 페이지로 이동
     }
@@ -90,6 +91,26 @@ public class MusicController {
         model.addAttribute("music", music);
         return "storage/music_detail"; // 상세 정보 페이지로 이동
     }
+    
+    @GetMapping("/api/music_detail/{creationId}")
+    @ResponseBody
+    public ResponseEntity<MusicVo> getMusicDetailsApi(@PathVariable("creationId") int creationId) {
+        MusicVo music = musicService.getMusicDetailsByCreationId(creationId);
+        if (music != null) {
+            return ResponseEntity.ok(music);  // JSON 데이터 반환
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @RequestMapping(value = "/music_detail/{creationId}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<MusicVo> getMusicDetail(@PathVariable("creationId") int creationId) {
+        MusicVo musicDetail = musicService.getMusicDetailsByCreationId(creationId);
+        return ResponseEntity.ok(musicDetail);
+    }
+
+
     
     // 세션 유효성 확인
     private boolean isLoggedIn(HttpSession session) {

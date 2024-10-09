@@ -86,6 +86,7 @@ public class FontController {
         paramMap.put("creationId", creationId);
         paramMap.put("imageUrl", imageUrl);
         paramMap.put("fileName", fileName);
+        paramMap.put("title", fileName);
 
         // image_generation_data 테이블에 이미지 데이터를 삽입
         imageService.fontGenerate(paramMap);

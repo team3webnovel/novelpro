@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/login.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/users/login.css">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <div class="login-container">
@@ -44,5 +45,6 @@
             <div class="error-message" style="color: red;">${message}</div>
         </c:if>
     </div>
+        <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 </body>
 </html>

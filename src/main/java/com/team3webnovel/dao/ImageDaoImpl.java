@@ -47,4 +47,31 @@ public class ImageDaoImpl implements ImageDao {
 		return imageMapper.getAllInformation(creationId);
 	}
 
+	@Override
+	public void updateImageTitle(ImageVo imageVo) {
+		imageMapper.updateImageTitle(imageVo);
+	}
+
+	@Override
+	public void deleteImageById(int creationId) {
+		imageMapper.deleteImageById(creationId);
+		
+	}
+
+	@Override
+	public void deleteCreationById(int creationId) {
+		imageMapper.deleteCreationById(creationId);
+		
+	}
+	
+	@Override
+	public void updateCreationId(int creationId) {
+		imageMapper.updateCreationId(creationId);
+		
+	}
+	
+	
+	
+	
+
 }

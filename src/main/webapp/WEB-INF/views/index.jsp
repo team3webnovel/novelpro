@@ -50,30 +50,30 @@
         </a>
     </section>
 
-    <!-- 장르 섹션 -->
-    <section id="genres" class="genres-section" style="margin-top: 30px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="card text-center genre selected" data-genre="all">
-                        <div class="card-body">
-                            <h5 class="card-title">전체</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- 동적으로 장르 렌더링 -->
-                <c:forEach var="genre" items="${genres}">
-                    <div class="col-md-2">
-                        <div class="card text-center genre" data-genre="${genre.code}">
-                            <div class="card-body">
-                                <h5 class="card-title">${genre.name}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-    </section>
+	<!-- 장르 섹션 -->
+	<section id="genres" class="genres-section" style="margin-top: 30px;">
+	    <div class="container">
+	        <div class="row row-cols-7">
+	            <div class="col">
+	                <div class="card text-center genre selected" data-genre="all">
+	                    <div class="card-body">
+	                        <h5 class="card-title">전체</h5>
+	                    </div>
+	                </div>
+	            </div>
+	            <!-- 동적으로 장르 렌더링 -->
+	            <c:forEach var="genre" items="${genres}">
+	                <div class="col">
+	                    <div class="card text-center genre" data-genre="${genre.code}">
+	                        <div class="card-body">
+	                            <h5 class="card-title">${genre.name}</h5>
+	                        </div>
+	                    </div>
+	                </div>
+	            </c:forEach>
+	        </div>
+	    </div>
+	</section>
 
     <!-- 카테고리별 소설 섹션 -->
     <section id="novels" class="novel-section" style="margin-top: 10px;">
@@ -84,7 +84,7 @@
                     <div class="col-md-4 novel" data-genre="${novel.genre}">
                         <a href="${pageContext.request.contextPath}/novel_detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                             <div class="card mb-4">
-                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}">
+                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
                                 <div class="card-body">
                                     <h5 class="card-title">${novel.title}</h5>
                                 </div>

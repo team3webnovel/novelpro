@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView handleNullPointerException(HttpServletRequest request, NullPointerException ex) {
-        if (ex.getMessage() != null && ex.getMessage().contains("user")) {
+        if (ex.getMessage() != null && ex.getMessage().contains("user") || ex.getMessage().contains("User")) {
             // 로그인 페이지로 리다이렉트
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("redirect:/login"); // 리다이렉트 URL 설정

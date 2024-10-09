@@ -1,6 +1,7 @@
 package com.team3webnovel.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.comfyui.ComfyUIImageGenerator;
 import com.team3webnovel.services.ImageService;
+import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.UserVo;
 import com.team3webnovel.vo.resultVo;
 
@@ -36,7 +39,8 @@ public class ImageGenerationController {
     // GET 요청으로 JSP 페이지 렌더링
     @GetMapping("/generate")
     public String showGeneratePage(HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         comfyUIImageGenerator.connectWebSocket(clientId);
         return "sungmin/generate"; // generate.jsp 페이지로 이동
     }
@@ -59,7 +63,8 @@ public class ImageGenerationController {
             @RequestParam("seed") int seed,
             @RequestParam("checkpoint") String checkpoint,
             Model model, HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+    	UserVo userVo = (UserVo)session.getAttribute("user");
+        int clientId = userVo.getUserId();
         try {
             if (comfyUIImageGenerator.isConnected()) {
                 // ComfyUIImageGenerator에 필요한 파라미터를 모두 넘겨서 처리
@@ -147,7 +152,8 @@ public class ImageGenerationController {
 
     @GetMapping("/alert")
     public String alert(Model model, HttpSession session) {
-        int clientId = (int) session.getAttribute("clientId");
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         model.addAttribute("clientId", clientId);  // 클라이언트 ID를 JSP로 전달
 
         return "sungmin/alert";  // 알림 JSP로 이동
@@ -156,9 +162,101 @@ public class ImageGenerationController {
     @GetMapping("/getClientId")
     @ResponseBody
     public Map<String, Object> getClientId(HttpSession session) {
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
         Map<String, Object> response = new HashMap<>();
-        response.put("clientId", session.getAttribute("clientId"));
+        response.put("clientId", clientId);
         return response;
     }
+    
+    @GetMapping("/video")
+    public String asd(HttpSession session, Model model) {
+    	UserVo vo = (UserVo)session.getAttribute("user");
+        int clientId = vo.getUserId();
+        comfyUIImageGenerator.connectWebSocket(clientId);
+        
+        // 사용자의 이미지 리스트 가져오기
+        CreationVo creationVo = new CreationVo();
+        creationVo.setUserId(clientId);
+        creationVo.setArtForm(2); // 예: 소설 형식을 나타내는 코드 2
+
+        // 사용자의 이미지 목록 가져오기
+        List<ImageVo> imageList = imageService.getImageDataByUserId(creationVo);
+        model.addAttribute("imageList", imageList);
+
+        
+    	return "generate/NewFile";
+    }
+    
+    @PostMapping("/vidgenerate")
+    public String generateVideo(@RequestParam("sampler_index") String samplerIndex, 
+                                @RequestParam("steps") int steps,
+                                @RequestParam("width") int width, 
+                                @RequestParam("height") int height,
+                                @RequestParam("cfg_scale") int cfgScale, 
+                                @RequestParam("seed") int seed,
+                                @RequestParam("selectedFilename") String filenam, 
+                                @RequestParam("fps") int fps,
+                                @RequestParam("videoFrames") int videoFrames, 
+                                Model model, HttpSession session) {
+        
+        // 세션에서 클라이언트 ID 가져오기
+        UserVo userVo = (UserVo) session.getAttribute("user");
+        int clientId = userVo.getUserId();
+        System.err.println("이거 넘어오긴 함");
+        try {
+            // WebSocket 연결 확인
+            if (comfyUIImageGenerator.isConnected()) {
+                // 비디오 생성 요청 시작 로그
+                System.out.println("비디오 생성 요청 시작 - Client ID: " + clientId);
+                
+                // 비디오 생성 요청 비동기 실행
+                CompletableFuture<resultVo> resultVideoVoFuture = comfyUIImageGenerator.vidQueuePrompt(
+                    samplerIndex, 
+                    steps, 
+                    width, 
+                    height, 
+                    cfgScale, 
+                    seed, 
+                    clientId, 
+                    filenam
+                );
+                
+                System.out.println("비디오 생성 요청 전송 완료");
+                
+                // WebSocket 응답을 기다리고 처리
+                resultVo result = resultVideoVoFuture.join(); // 결과가 올 때까지 무제한 대기
+                
+                // 성공 시 비디오 URL 및 파일명을 모델에 추가 (현재는 임시 출력)
+                String videoUrl = result.getImageUrl();  // 비디오 URL을 리턴하는 구조로 설정되어 있다고 가정
+                String generatedFilename = result.getFilename();
+                
+                model.addAttribute("videoUrl", videoUrl);
+                model.addAttribute("filename", generatedFilename);
+                model.addAttribute("message", "Video generation successful.");
+                
+                // 세션에 완료 상태 저장 (이후의 작업을 위해)
+                session.setAttribute("videoGenerated", true);
+                session.setAttribute("videoUrl", videoUrl);
+                
+                System.out.println("비디오 생성 완료 - URL: " + videoUrl + ", Filename: " + generatedFilename);
+                
+            } else {
+                // WebSocket 연결 실패 시 메시지 설정
+                model.addAttribute("message", "WebSocket is not connected.");
+                System.err.println("WebSocket 연결 실패 - Client ID: " + clientId);
+            }
+        } catch (Exception e) {
+            // 예외 발생 시 로그 출력 및 에러 메시지 설정
+            model.addAttribute("message", "Error generating video: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        // 결과 페이지로 이동
+        return "jiwon/video_result";
+    }
+
+
+    
 
 }
