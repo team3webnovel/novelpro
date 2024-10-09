@@ -14,32 +14,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="static/js/my_storage.js"></script>
-    <style type="text/css">
-.card {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border: 1px solid #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* 이미지가 카드 밖으로 넘치지 않도록 */
-}
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 
-.card-img-top {
-    width: 100%;
-    height: auto; /* 이미지 비율 유지 */
-    max-height: 100%; /* 이미지가 카드 내부에 맞도록 제한 */
-}
-
-
-
-
-
-    </style>
 </head>
 
 <body>
+    <div class="main-content">
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
         <h2>내 보관함</h2>
@@ -350,10 +330,14 @@
         }
     }
 </script>
+<<<<<<< HEAD
 
 
 
 
 
+=======
+</div>
+>>>>>>> 62ea0341c90469cf1ff2785e38cc7f4408df4f57
 </body>
 </html>

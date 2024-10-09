@@ -1,19 +1,28 @@
-/* 본문이 헤더에 가리지 않도록 상단에 여백 추가 */
-body {
-    padding-top: 30px; /* 헤더의 높이만큼 본문 시작 위치 조정 */
-}
+
 
 /* 기본 헤더 스타일 */
 .ultra-unique-header {
     position: fixed; /* 헤더를 고정 */
     top: 0; /* 페이지 상단에 위치 */
     width: 100%; /* 너비 100% */
-    z-index: 1000; /* 다른 요소 위에 표시 */
-    transition: background-color 0.3s, color 0.3s, opacity 0.3s; /* 배경색, 글자색 및 투명도 전환 효과 */
-    background-color: rgba(0, 0, 0, 0.3); /* 투명한 검은색 */
-    color: #333; /* 기본 글자 색상 */
-    height: 90px; /* 헤더 높이 */
+    z-index: 1000; /* 다른 요소 위에 표시 */        
+    transition: background-color 0.3s, color 0.3s, opacity 0.3s !important; /* 배경색, 글자색 및 투명도 전환 효과 */
+    background-color: #000 !important; /* 투명한 검은색 */
+    color: #fff; /* 기본 글자 색상 */
+    height: 50px; /* 헤더 높이 */
 }
+
+/* 스크롤된 상태의 헤더 */
+.ultra-unique-header.scrolled {
+    background-color: #000; /* 스크롤 시에도 검은색 유지 */
+    color: #fff; /* 검은색 배경에서 글자 색 유지 */
+}
+
+/* 스크롤을 내리기 전의 상태에서 헤더의 불투명도 유지 */
+.ultra-unique-header:not(.scrolled) {
+    background-color: #000; /* 스크롤 전에도 불투명한 검은색 유지 */
+}
+
 
 /* 헤더 내부 컨테이너 스타일 */
 .ultra-unique-header-container {

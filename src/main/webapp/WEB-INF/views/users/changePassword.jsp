@@ -56,6 +56,5 @@
             <button type="submit" class="btn btn-primary">비밀번호 변경</button>
         </form>
     </div>
-    <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 </body>
 </html>

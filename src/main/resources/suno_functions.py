@@ -60,8 +60,17 @@ def get_audio_information_until_complete(audio_id, max_attempts=10):
                     error_message = music_data[0].get("error_message", "")
                     if error_message:
                         print(f"오류 발생: {error_message}", file=sys.stderr)
-                        return {"error_message": error_message}  # 에러 메시지를 자바로 전달
-
+                        return [{
+                            "title": "",
+                            "lyric": "",
+                            "audio_url": "",
+                            "image_url": "",
+                            "model_name": "",
+                            "gpt_description_prompt": "",
+                            "type": "",
+                            "tags": "",
+                            "error_message": error_message  # 에러 메시지만 전달, 나머지는 빈 값
+                        }]
 
                     # title, lyric, audio_url이 모두 비어 있지 않은지 확인
                     if (music_data and music_data[0]["status"] == 'streaming' and
@@ -94,7 +103,7 @@ if __name__ == "__main__":
         prompt = sys.argv[1]
         make_instrumental = sys.argv[2].lower() == 'true'
     else:
-        prompt = "그녀의 미소"
+        prompt = "praying for God, Gospel, for Mercy"
         make_instrumental = False
 
     # 음악 생성 요청
@@ -109,21 +118,15 @@ if __name__ == "__main__":
             # 각 음악이 준비될 때까지 상태 확인 (최대 시도 횟수 10회)
             music_data = get_audio_information_until_complete(audio_id, max_attempts=10)
 
-            if music_data:
-                # 오류 메시지가 있는 경우 즉시 종료
-                if "error_message" in music_data:
-                    print(json.dumps(music_data, ensure_ascii=False), file=sys.stdout)
-                    sys.exit(1)  # 프로그램 종료 (오류 상태 코드 1)
-
             if music_data and "audio_url" in music_data[0]:
-                title = music_data[0]["title", "제목 없음"]
-                lyrics = music_data[0]["lyric", "가사 없음"]
-                audio_url = music_data[0]["audio_url", "url 없음"]
+                title = music_data[0]["title"]
+                lyrics = music_data[0]["lyric"]
+                audio_url = music_data[0]["audio_url"]
                 image_url = music_data[0].get("image_url", "커버 없음")  # 커버 사진이 있을 경우 가져오기
                 model_name = music_data[0].get("model_name", "모델 없음")  # 모델 이름
                 gpt_description_prompt = music_data[0].get("gpt_description_prompt", "")  # GPT 설명
                 music_type = music_data[0].get("type", "gen")  # 타입
-                tags = music_data[0].get("tags", "없음")  # 태그
+                tags = music_data[0].get("tags", "")  # 태그
                 error_message = music_data[0].get("error_message", "")  # 오류 메시지
 
                 result.append({
@@ -137,31 +140,6 @@ if __name__ == "__main__":
                     "tags": tags,
                     "error_message": error_message
                 })
-            else:
-                # 음악이 생성되지 않았을 경우 기본 JSON 구조 반환
-                result.append({
-                    "title": "제목 없음",
-                    "lyric": "가사 없음",
-                    "audio_url": "",
-                    "image_url": "커버 없음",
-                    "model_name": "모델 없음",
-                    "gpt_description_prompt": "",
-                    "type": "gen",
-                    "tags": "",
-                    "error_message": music_data[0].get("error_message", "음악 생성에 실패했습니다.")
-                })
-    else:
-        # response_data 자체가 없을 경우 기본 구조를 가진 에러 메시지 반환
-        result.append({
-            "title": "제목 없음",
-            "lyric": "가사 없음",
-            "audio_url": "",
-            "image_url": "커버 없음",
-            "model_name": "모델 없음",
-            "gpt_description_prompt": "",
-            "type": "gen",
-            "tags": "",
-            "error_message": "음악 생성 요청 실패"
-        })
+
     # 결과를 JSON 형식으로 출력
     print(json.dumps(result, ensure_ascii=False), file=sys.stdout)  # ensure_ascii=False로 UTF-8 출력 보장
