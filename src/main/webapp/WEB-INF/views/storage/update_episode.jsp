@@ -5,11 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>소설 쓰기</title>
-=======
     <title>회차 쓰기</title>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- CKEditor CDN 추가 -->
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
@@ -17,11 +13,7 @@
 <body>
 
 <div class="container mt-5">
-<<<<<<< HEAD
-    <h2>소설 쓰기</h2>
-=======
     <h2>회차 쓰기</h2>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645
     
     <!-- 폼 시작 -->
     <form action="<%=request.getContextPath()%>/episode/update/${episode.novelId}/${episode.episodeNo}" method="POST">

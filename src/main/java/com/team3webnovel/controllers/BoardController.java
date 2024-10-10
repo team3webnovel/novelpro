@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.dto.BoardPageDto;
 import com.team3webnovel.dto.BoardViewDto;
-import com.team3webnovel.services.BoardCommentServiceImpl;
-import com.team3webnovel.services.BoardServiceImpl;
+import com.team3webnovel.services.BoardCommentService;
+import com.team3webnovel.services.BoardService;
 import com.team3webnovel.vo.BoardCommentVo;
 import com.team3webnovel.vo.BoardVo;
 import com.team3webnovel.vo.UserVo;
@@ -33,10 +33,10 @@ import jakarta.servlet.http.HttpSession;
 public class BoardController {
 	
 	@Autowired
-	private BoardServiceImpl boardService;
+	private BoardService boardService;
 	
 	@Autowired
-	private BoardCommentServiceImpl commentService;
+	private BoardCommentService commentService;
 	
 	@GetMapping("/write")
 	public String writeForm(Model model, HttpSession session) {

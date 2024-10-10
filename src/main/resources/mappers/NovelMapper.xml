@@ -18,75 +18,52 @@
     <!-- 특정 사용자 ID로 소설 목록 조회 -->
     <select id="getNovelListByUserId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
         SELECT 
-		    n.novel_id AS novelId,
-		    n.title,
-		    n.genre,
-		    n.status,
-		    n.creation_id,
-		    n.intro,
-		    n.created_at AS createdAt,
-		    i.image_url AS imageUrl,
-		    n.user_id as userId
-		FROM 
-		    novel n
-		LEFT JOIN image_generation_data i ON n.creation_id = i.creation_id
-		WHERE 
-		    n.user_id = #{userId}  
-		ORDER BY 
-		    n.created_at DESC
+            n.novel_id AS novelId,
+            n.title,
+            n.genre,
+            n.status,
+            n.creation_id,
+            n.intro,
+            n.created_at AS createdAt,
+            i.image_url AS imageUrl,
+            n.user_id AS userId
+        FROM 
+            novel n
+        LEFT JOIN image_generation_data i ON n.creation_id = i.creation_id
+        WHERE 
+            n.user_id = #{userId}  
+        ORDER BY 
+            n.created_at DESC
     </select>
     
     <select id="getNovelByNovelId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
-	    SELECT 
-	        n.NOVEL_ID AS novelId,
-	        n.GENRE,
-	        n.STATUS,
-	        n.USER_ID AS userId,
-	        n.TITLE,
-	        n.CREATION_ID AS creationId,
-	        n.INTRO,
-	        n.CREATED_AT AS createdAt,
-	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
-	    FROM 
-	        novel n
-	    LEFT JOIN 
-	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-	    WHERE 
-	        n.Novel_ID = #{novelId}
-
-		SELECT 
-		    n.NOVEL_ID AS novelId,
-		    n.GENRE,
-		    n.STATUS,
-		    n.USER_ID AS userId,
-		    n.TITLE,
-		    n.CREATION_ID AS creationId,
-		    n.INTRO,
-		    n.CREATED_AT AS createdAt,
-		    igd.IMAGE_URL AS imageUrl,
-		    u.USERNAME as userName,
-		    nd.episode_no as episodeNo
-		FROM 
-		    novel n
-		LEFT JOIN 
-		    IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-		LEFT JOIN
-		    USERS u ON u.USER_ID = n.USER_ID
-		LEFT JOIN 
-		    NOVEL_DETAIL nd ON n.NOVEL_ID = nd.NOVEL_ID
-		WHERE 
-		    n.NOVEL_ID = #{novelId}
-		    AND (nd.episode_no IS NULL OR nd.episode_no = (
-		        SELECT MAX(nd2.episode_no)
-		        FROM NOVEL_DETAIL nd2
-		        WHERE nd2.NOVEL_ID = n.NOVEL_ID
-		    ))
+        SELECT 
+            n.NOVEL_ID AS novelId,
+            n.GENRE,
+            n.STATUS,
+            n.USER_ID AS userId,
+            n.TITLE,
+            n.CREATION_ID AS creationId,
+            n.INTRO,
+            n.CREATED_AT AS createdAt,
+            igd.IMAGE_URL AS imageUrl,
+            u.USERNAME AS userName,
+            nd.episode_no AS episodeNo
+        FROM 
+            novel n
+        LEFT JOIN IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
+        LEFT JOIN USERS u ON u.USER_ID = n.USER_ID
+        LEFT JOIN NOVEL_DETAIL nd ON n.NOVEL_ID = nd.NOVEL_ID
+        WHERE 
+            n.NOVEL_ID = #{novelId}
+            AND (nd.episode_no IS NULL OR nd.episode_no = (
+                SELECT MAX(nd2.episode_no)
+                FROM NOVEL_DETAIL nd2
+                WHERE nd2.NOVEL_ID = n.NOVEL_ID
+            ))
     </select>
     
-    
-
     <!-- 새 소설 추가 -->
-
     <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
         INSERT INTO novel (
             novel_id, title, intro, user_id, genre, created_at, creation_id
@@ -95,267 +72,132 @@
         )
     </insert>
     
-    <!-- 성민 -->
+    <!-- 소설 세부사항 추가 -->
     <insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
-    	INSERT INTO novel_detail (
-    		novel_id, title, episode_no, contents, image_id, bgm_id, visibility
-    	) VALUES (
-    		#{novelId}, #{title}, #{episodeNo}, #{contents}, #{imageId}, #{bgmId}, 'private'
-    	)
-    </insert>
-    
-    <select id="getNovelDetailByNovelId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
-		SELECT 
-		    ND.NOVEL_ID as novelId,
-		    ND.EPISODE_NO as episodeNo,
-		    ND.CONTENTS as contents,
-		    ND.CREATED_AT as createdAt,
-		    ND.IMAGE_ID as imageId,
-		    ND.TITLE as title,
-		    ND.BGM_ID as bgmId,
-		    ND.VISIBILITY,
-		    igd.image_url as imageUrl
-		FROM 
-		    NOVEL_DETAIL ND
-		LEFT JOIN 
-		    IMAGE_GENERATION_DATA IGD 
-		ON 
-		    ND.IMAGE_ID = IGD.creation_ID
-		WHERE 
-		    ND.NOVEL_ID = #{novelId}
-    </select>
-    
-    <update id="updateStatus" parameterType="com.team3webnovel.vo.NovelVo">
-	   	UPDATE NOVEL
-	    SET STATUS = #{status}
-	    WHERE NOVEL_ID = #{novelId}
-	</update>
-
-    <insert id="insertNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        INSERT INTO novel (
-            novel_id, title, intro, user_id, genre, created_at, creation_id
+        INSERT INTO novel_detail (
+            novel_id, title, episode_no, contents, image_id, bgm_id, visibility
         ) VALUES (
-            novel_seq.NEXTVAL, #{title}, #{intro}, #{userId}, #{genre}, #{createdAt}, #{creationId}
+            #{novelId}, #{title}, #{episodeNo}, #{contents}, #{imageId}, #{bgmId}, 'private'
         )
     </insert>
     
-    <!-- 성민 -->
-    <insert id="insertNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
-    	INSERT INTO novel_detail (
-    		novel_id, title, episode_no, contents, image_id, bgm_id, visibility
-    	) VALUES (
-    		#{novelId}, #{title}, #{episodeNo}, #{contents}, #{imageId}, #{bgmId}, 'private'
-    	)
-    </insert>
-    
     <select id="getNovelDetailByNovelId" parameterType="int" resultType="com.team3webnovel.vo.NovelVo">
-		SELECT 
-		    ND.NOVEL_ID as novelId,
-		    ND.EPISODE_NO as episodeNo,
-		    ND.CONTENTS as contents,
-		    ND.CREATED_AT as createdAt,
-		    ND.IMAGE_ID as imageId,
-		    ND.TITLE as title,
-		    ND.BGM_ID as bgmId,
-		    ND.VISIBILITY,
-		    igd.image_url as imageUrl
-		FROM 
-		    NOVEL_DETAIL ND
-		LEFT JOIN 
-		    IMAGE_GENERATION_DATA IGD 
-		ON 
-		    ND.IMAGE_ID = IGD.creation_ID
-		WHERE 
-		    ND.NOVEL_ID = #{novelId}
+        SELECT 
+            ND.NOVEL_ID AS novelId,
+            ND.EPISODE_NO AS episodeNo,
+            ND.CONTENTS AS contents,
+            ND.CREATED_AT AS createdAt,
+            ND.IMAGE_ID AS imageId,
+            ND.TITLE AS title,
+            ND.BGM_ID AS bgmId,
+            ND.VISIBILITY,
+            igd.image_url AS imageUrl
+        FROM 
+            NOVEL_DETAIL ND
+        LEFT JOIN IMAGE_GENERATION_DATA IGD ON ND.IMAGE_ID = IGD.creation_ID
+        WHERE 
+            ND.NOVEL_ID = #{novelId}
     </select>
     
     <update id="updateStatus" parameterType="com.team3webnovel.vo.NovelVo">
-	   	UPDATE NOVEL
-	    SET STATUS = #{status}
-	    WHERE NOVEL_ID = #{novelId}
+        UPDATE NOVEL
+        SET STATUS = #{status}
+        WHERE NOVEL_ID = #{novelId}
+    </update>
+
+    <select id="getMainNovelList" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            n.NOVEL_ID AS novelId,
+            n.GENRE,
+            n.STATUS,
+            n.USER_ID AS userId,
+            n.TITLE,
+            n.CREATION_ID AS creationId,
+            n.INTRO,
+            n.CREATED_AT AS createdAt,
+            igd.IMAGE_URL AS imageUrl
+        FROM 
+            novel n
+        LEFT JOIN IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
+        WHERE 
+            n.STATUS IS NOT NULL
+    </select>
+    
+    <select id="getNovelDetail" parameterType="com.team3webnovel.vo.NovelVo" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            nd.NOVEL_ID AS novelId,
+            nd.EPISODE_NO AS episodeNo,
+            nd.CONTENTS,
+            nd.CREATED_AT AS createdAt,
+            nd.IMAGE_ID AS imageId,
+            igd.image_url AS imageUrl,
+            nd.TITLE,
+            nd.BGM_ID AS bgmId,
+            md.audio_url AS bgmUrl,
+            n.USER_ID AS userId
+        FROM 
+            NOVEL_DETAIL nd
+        LEFT JOIN NOVEL n ON nd.novel_id = n.novel_id
+        LEFT JOIN IMAGE_GENERATION_DATA igd ON nd.image_id = igd.creation_id
+        LEFT JOIN MUSIC_DATA md ON nd.bgm_id = md.creation_id
+        WHERE  
+            nd.NOVEL_ID = #{novelId} AND nd.EPISODE_NO = #{episodeNo}
+    </select>
+    
+    <update id="updateNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
+        UPDATE NOVEL_DETAIL
+        SET
+            CONTENTS = #{contents},
+            IMAGE_ID = #{imageId},
+            TITLE = #{title},
+            BGM_ID = #{bgmId},
+            CREATED_AT = CURRENT_TIMESTAMP
+        WHERE
+            NOVEL_ID = #{novelId}
+        AND
+            EPISODE_NO = #{episodeNo}
     </update>
     
-	<select id="getMainNovelList" resultType="com.team3webnovel.vo.NovelVo">
-	    SELECT 
-	        n.NOVEL_ID AS novelId,
-	        n.GENRE,
-	        n.STATUS,
-	        n.USER_ID AS userId,
-	        n.TITLE,
-	        n.CREATION_ID AS creationId,
-	        n.INTRO,
-	        n.CREATED_AT AS createdAt,
-	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
-	    FROM 
-	        novel n
-	    LEFT JOIN 
-	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-	    WHERE 
-	        n.STATUS IS NOT NULL
-	</select>
-    
-	<select id="getNovelDetail" parameterType="com.team3webnovel.vo.NovelVo" resultType="com.team3webnovel.vo.NovelVo">
-		SELECT 
-		    nd.NOVEL_ID as novelId,
-		    nd.EPISODE_NO as episodeNo,
-		    nd.CONTENTS,
-		    nd.CREATED_AT as createdAt,
-		    nd.IMAGE_ID as imageId,
-            igd.image_url as imageUrl,
-		    nd.TITLE,
-		    nd.BGM_ID as bgmId,
-            md.audio_url as bgmUrl,
-            n.USER_ID as userId
-		FROM 
-		    NOVEL_DETAIL nd
-        LEFT JOIN NOVEL n
-        ON nd.novel_id = n.novel_id
-        LEFT JOIN IMAGE_GENERATION_DATA igd
-        ON nd.image_id = igd.creation_id
-        LEFT JOIN MUSIC_DATA md
-        ON nd.bgm_id = md.creation_id
-		WHERE  
-		    nd.NOVEL_ID = #{novelId} AND nd.EPISODE_NO = #{episodeNo}
-	</select>
-	
-	<update id="updateNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
-	    UPDATE NOVEL_DETAIL
-	    SET
-	        CONTENTS = #{contents},
-	        IMAGE_ID = #{imageId},
-	        TITLE = #{title},
-	        BGM_ID = #{bgmId},
-	        CREATED_AT = CURRENT_TIMESTAMP
-	    WHERE
-	        NOVEL_ID = #{novelId}
-	    AND
-	        EPISODE_NO = #{episodeNo}
-	</update>
-	
-	<update id="updateEpisodeVisibility" parameterType="com.team3webnovel.vo.NovelVo">
-	    UPDATE novel_detail
-	    SET visibility = #{visibility}
-	    WHERE novel_id = #{novelId} AND episode_no = #{episodeNo}
-	</update>
-	
-	
-	
-
-    <!-- 성민 -->
-    
+    <update id="updateEpisodeVisibility" parameterType="com.team3webnovel.vo.NovelVo">
+        UPDATE novel_detail
+        SET visibility = #{visibility}
+        WHERE novel_id = #{novelId} AND episode_no = #{episodeNo}
+    </update>
 
     <!-- 소설 수정 -->
     <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        UPDATE novel_detail
+        UPDATE novel
         SET title = #{title},
-            episode_no = #{episodeNo},
-            contents = #{contents}
+            intro = #{intro},
+            genre = #{genre},
+            creation_id = #{creationId}
         WHERE novel_id = #{novelId}
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645
     </update>
     
-	<select id="getMainNovelList" resultType="com.team3webnovel.vo.NovelVo">
-	    SELECT 
-	        n.NOVEL_ID AS novelId,
-	        n.GENRE,
-	        n.STATUS,
-	        n.USER_ID AS userId,
-	        n.TITLE,
-	        n.CREATION_ID AS creationId,
-	        n.INTRO,
-	        n.CREATED_AT AS createdAt,
-	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
-	    FROM 
-	        novel n
-	    LEFT JOIN 
-	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-	    WHERE 
-	        n.STATUS IS NOT NULL
-	</select>
-    
-	<select id="getNovelDetail" parameterType="com.team3webnovel.vo.NovelVo" resultType="com.team3webnovel.vo.NovelVo">
-		SELECT 
-		    nd.NOVEL_ID as novelId,
-		    nd.EPISODE_NO as episodeNo,
-		    nd.CONTENTS,
-		    nd.CREATED_AT as createdAt,
-		    nd.IMAGE_ID as imageId,
-            igd.image_url as imageUrl,
-		    nd.TITLE,
-		    nd.BGM_ID as bgmId,
-            md.audio_url as bgmUrl,
-            n.USER_ID as userId
-		FROM 
-		    NOVEL_DETAIL nd
-        LEFT JOIN NOVEL n
-        ON nd.novel_id = n.novel_id
-        LEFT JOIN IMAGE_GENERATION_DATA igd
-        ON nd.image_id = igd.creation_id
-        LEFT JOIN MUSIC_DATA md
-        ON nd.bgm_id = md.creation_id
-		WHERE  
-		    nd.NOVEL_ID = #{novelId} AND nd.EPISODE_NO = #{episodeNo}
-	</select>
-	
-	<update id="updateNovelDetail" parameterType="com.team3webnovel.vo.NovelVo">
-	    UPDATE NOVEL_DETAIL
-	    SET
-	        CONTENTS = #{contents},
-	        IMAGE_ID = #{imageId},
-	        TITLE = #{title},
-	        BGM_ID = #{bgmId},
-	        CREATED_AT = CURRENT_TIMESTAMP
-	    WHERE
-	        NOVEL_ID = #{novelId}
-	    AND
-	        EPISODE_NO = #{episodeNo}
-	</update>
-	
-	<update id="updateEpisodeVisibility" parameterType="com.team3webnovel.vo.NovelVo">
-	    UPDATE novel_detail
-	    SET visibility = #{visibility}
-	    WHERE novel_id = #{novelId} AND episode_no = #{episodeNo}
-	</update>
-    <!-- 성민 -->
-    
-    <!-- 24.10.08 ys -->
-    <!-- 소설 수정 -->
-	<update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-	    UPDATE novel
-	    SET title = #{title},
-	        intro = #{intro},
-	        genre = #{genre},
-	        creation_id = #{creationId}
-	    WHERE novel_id = #{novelId}
-	</update>
-	
     <!-- 소설 삭제 -->
     <delete id="deleteNovel" parameterType="int">
         DELETE FROM novel WHERE novel_id = #{novelId}
     </delete>
-    <!-- ys -->
 
-	<!-- 소설 검색 (제목에서 검색) -->
-	<select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
-	    SELECT 
-	        n.NOVEL_ID AS novelId,
-	        n.GENRE,
-	        n.STATUS,
-	        n.USER_ID AS userId,
-	        n.TITLE,
-	        n.CREATION_ID AS creationId,
-	        n.INTRO,
-	        n.CREATED_AT AS createdAt,
-	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
-	    FROM 
-	        novel n
-	    LEFT JOIN 
-	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-	    WHERE 
-	        n.STATUS IS NOT NULL
-	    And n.title LIKE '%' || #{keyword} || '%'
-	    ORDER BY n.created_at DESC
-	</select>
-
+    <!-- 소설 검색 (제목에서 검색) -->
+    <select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
+        SELECT 
+            n.NOVEL_ID AS novelId,
+            n.GENRE,
+            n.STATUS,
+            n.USER_ID AS userId,
+            n.TITLE,
+            n.CREATION_ID AS creationId,
+            n.INTRO,
+            n.CREATED_AT AS createdAt,
+            igd.IMAGE_URL AS imageUrl
+        FROM 
+            novel n
+        LEFT JOIN IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
+        WHERE 
+            n.STATUS IS NOT NULL
+            AND n.title LIKE '%' || #{keyword} || '%'
+        ORDER BY n.created_at DESC
+    </select>
 
 </mapper>

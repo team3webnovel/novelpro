@@ -50,32 +50,6 @@
         </a>
     </section>
 
-<<<<<<< HEAD
-    <!-- 장르 섹션 -->
-    <section id="genres" class="genres-section" style="margin-top: 30px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="card text-center genre selected" data-genre="all">
-                        <div class="card-body">
-                            <h5 class="card-title">전체</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- 동적으로 장르 렌더링 -->
-                <c:forEach var="genre" items="${genres}">
-                    <div class="col-md-2">
-                        <div class="card text-center genre" data-genre="${genre.code}">
-                            <div class="card-body">
-                                <h5 class="card-title">${genre.name}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-    </section>
-=======
 	<!-- 장르 섹션 -->
 	<section id="genres" class="genres-section" style="margin-top: 30px;">
 	    <div class="container">
@@ -100,7 +74,6 @@
 	        </div>
 	    </div>
 	</section>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645
 
     <!-- 카테고리별 소설 섹션 -->
     <section id="novels" class="novel-section" style="margin-top: 10px;">

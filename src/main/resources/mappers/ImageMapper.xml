@@ -49,10 +49,6 @@
 		FROM image_generation_data igd 
 		JOIN creation c 
 		ON igd.creation_id = c.creation_id
-
-		WHERE c.user_id = #{userId} AND
-		c.art_form = 2
-
 		WHERE c.user_id = #{userId}
 		AND c.art_form IN (2, 3)
 		order by igd.created_at desc

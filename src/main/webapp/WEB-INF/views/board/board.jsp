@@ -158,11 +158,7 @@
 		    <c:forEach items="${list}" var="board">
 		        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
 		            <td>${board.boardId}</td>
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/gijeTest/list.jsp
-		            <td><a href="view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
-=======
 		            <td><a href="<%= request.getContextPath()%>/board/view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645:src/main/webapp/WEB-INF/views/board/board.jsp
 		            <td>${board.userName}</td>
 		            <td>${board.formattedCreatedAt}</td>
 		            <td>${board.viewCount}</td>
@@ -171,11 +167,7 @@
 		</table>
 		
 		<!-- 게시글 작성 버튼 -->
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/gijeTest/list.jsp
-		<a href="/team3webnovel/gije/write" class="create-btn">게시글 작성</a>
-=======
 		<a href="/team3webnovel/board/write" class="create-btn">게시글 작성</a>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645:src/main/webapp/WEB-INF/views/board/board.jsp
 		
 		<div class="pagination">
 		    <c:if test="${totalPages > 1}">
@@ -185,11 +177,7 @@
 		                    <span class="page-link active">${i}</span> <!-- 현재 페이지 강조 -->
 		                </c:when>
 		                <c:otherwise>
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/gijeTest/list.jsp
-		                    <a href="/team3webnovel/gije/board?page=${i}" class="page-link">${i}</a>
-=======
 		                    <a href="/team3webnovel/board?page=${i}" class="page-link">${i}</a>
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645:src/main/webapp/WEB-INF/views/board/board.jsp
 		                </c:otherwise>
 		            </c:choose>
 		        </c:forEach>
