@@ -6,18 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Font Customizer</title>
-    <link rel="stylesheet" href="static/css/font_customizer.css">
-    
+    <link rel="stylesheet" href="static/css/generate/generate_font.css">
+    <link rel="stylesheet" href="static/css/generate/font_collection.css">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
+<div class="main-contents">
 <!-- 직접 올리기 섹션 -->
 <div class="toolbar">
-    <h2>직접 올리기</h2>
+    <h2>이미지 업로드</h2>
     <div>
         <input type="file" id="imageUpload" accept="image/*">
-    </div>
-</div>
-<!-- 모달 버튼 -->
+        <!-- 모달 버튼 -->
 <button id="openModalBtn">이미지 선택하기</button>
 
 <!-- 모달 -->
@@ -32,6 +32,9 @@
         </div>
     </div>
 </div>
+    </div>
+</div>
+
 
 <!-- 툴바 UI 구성 -->
 <div class="toolbar">
@@ -94,6 +97,6 @@
 <script src="static/js/font/keyboard_controls.js"></script>
 <script src="static/js/font/modal.js"></script>
 
-
+</div>
 </body>
 </html>
