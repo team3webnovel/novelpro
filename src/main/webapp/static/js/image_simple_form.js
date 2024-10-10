@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				negative_prompt: "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",
 				sampler_index: "dpmpp_2m",
 				steps: 25,
-				width: 896,
+				width: 768,
 				height: 1152,
 				cfg_scale: 5,
 				checkpoint: checkpoint,
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				        negative_prompt: data.negative_prompt || "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",  // 서버에서 받은 negative_prompt 값 또는 기본값
 				        sampler_index: "dpmpp_2m",
 				        steps: 25,
-				        width: 896,
+				        width: 768,
 				        height: 1152,
 				        cfg_scale: 6,
 				        checkpoint: checkpoint,
