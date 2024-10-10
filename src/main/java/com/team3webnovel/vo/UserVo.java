@@ -9,7 +9,7 @@ public class UserVo {
     private String password;
     private LocalDateTime createdAt;  // String 대신 LocalDateTime 사용
 
-    // Getters and Setters
+	// Getters and Setters
     public UserVo() {}
 
     public void setUserId(int userId) {
@@ -57,6 +57,7 @@ public class UserVo {
 		return "UserVo [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", createdAt=" + createdAt + "]";
 	}
+
     
     
 }

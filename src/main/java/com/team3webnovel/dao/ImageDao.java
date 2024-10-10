@@ -16,6 +16,10 @@ public interface ImageDao {
     // 이미지 생성 프롬프트 db 저장
     void imageGenerate(Map<String, Object> imageData);
     
+    void fontGenerate(Map<String, Object> imageData);
+    
     public List<ImageVo> getImageDataByUserId(CreationVo vo);  // 메서드 선언
+    
+    public ImageVo getAllInformation(int creationId);
 
 }

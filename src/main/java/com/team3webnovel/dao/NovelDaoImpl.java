@@ -35,8 +35,8 @@ public class NovelDaoImpl implements NovelDao {
 
     // 소설 수정
     @Override
-    public int updateNovel(NovelVo novel) {
-        return novelMapper.updateNovel(novel);  // Mapper를 통한 DB Update
+    public void updateNovel(NovelVo novel) {
+    	novelMapper.updateNovel(novel);
     }
 
     // 소설 삭제
@@ -51,13 +51,57 @@ public class NovelDaoImpl implements NovelDao {
         return novelMapper.searchNovels(keyword);  // Mapper를 통한 소설 검색
     }
 
+	
+//	성민
 	@Override
-	public NovelVo getNovelById(int novelId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertNovelDetail(NovelVo vo) {
+		novelMapper.insertNovelDetail(vo);
 	}
 
-    // 소설 ID로 소설 조회
+	@Override
+	public List<NovelVo> getNovelDetailByNovelId(int novelId) {
+		return novelMapper.getNovelDetailByNovelId(novelId);
+	}
+	
+	@Override
+	public NovelVo getNovelByNovelId(int novelId) {
+		return novelMapper.getNovelByNovelId(novelId);
+	}
+
+	@Override
+	public void updateStatus(NovelVo vo) {
+		novelMapper.updateStatus(vo);
+	}
+
+	@Override
+	public List<NovelVo> getMainNovelList() {
+		return novelMapper.getMainNovelList();
+	}
+
+	@Override
+	public NovelVo getNovelDetail(NovelVo vo) {
+		return novelMapper.getNovelDetail(vo);
+	}
+
+	@Override
+	public void updateNovelDetail(NovelVo vo) {
+		novelMapper.updateNovelDetail(vo);
+	}
+	
+	@Override
+	public void updateEpisodeVisibility(NovelVo vo) {
+		novelMapper.updateEpisodeVisibility(vo);
+	}
+	
+	@Override
+    public NovelVo getNovelById(int novelId) {
+        // MyBatis 매퍼를 사용하여 novelId로 소설 데이터를 조회
+        return novelMapper.getNovelByNovelId(novelId);
+    }
+
+
+
+//    // 소설 ID로 소설 조회
 //    @Override
 //    public NovelVo getNovelById(UserVo novelId) {
 //        return novelMapper.getNovelListByUserId(novelId);  // Mapper를 통한 소설 조회

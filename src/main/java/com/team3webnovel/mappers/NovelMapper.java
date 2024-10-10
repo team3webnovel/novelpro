@@ -18,9 +18,6 @@ public interface NovelMapper {
     // 소설 리스트 조회 (전체 소설)
     List<NovelVo> getNovelList();
 
-    // 소설 수정
-    int updateNovel(NovelVo novel);
-
     // 소설 삭제
     int deleteNovel(int novelId);
 
@@ -29,4 +26,27 @@ public interface NovelMapper {
     
     // 소설의 디테일 정보 가져오기
     List<NovelVo> getEpisodesByNovelId(int novelId);
+    
+//    성민
+    void insertNovelDetail(NovelVo vo);
+    
+    List<NovelVo> getNovelDetailByNovelId(int novelId);
+    
+    // 정보 불러오기
+    NovelVo getNovelByNovelId(int novelId);
+    
+    void updateStatus(NovelVo vo);
+    
+    List<NovelVo> getMainNovelList();
+    
+    NovelVo getNovelDetail(NovelVo vo);
+    
+    void updateNovelDetail(NovelVo vo);
+    
+    void updateEpisodeVisibility(NovelVo vo);
+    
+    ///ys 소설 수정
+    void updateNovel(NovelVo novel);
+    
+    
 }

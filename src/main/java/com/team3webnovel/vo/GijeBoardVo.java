@@ -1,21 +1,27 @@
 package com.team3webnovel.vo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class GijeBoardVo {
 	int boardId;
 	int userId;
+	String userName;
 	String title;
 	String content;
 	Date createdAt;
 	Date updatedAt;
 	int viewCount;
 	
-	public GijeBoardVo(int boardId, int userId, String title, String content, Date createdAt, Date updatedAt,
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	
+	public GijeBoardVo(int boardId, int userId, String userName, String title, String content, Date createdAt, Date updatedAt,
 			int viewCount) {
 		super();
 		this.boardId = boardId;
 		this.userId = userId;
+		this.userName = userName;
 		this.title = title;
 		this.content = content;
 		this.createdAt = createdAt;
@@ -69,4 +75,34 @@ public class GijeBoardVo {
 	public void setViewCount(int viewCount) {
 		this.viewCount = viewCount;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public String getFormattedCreatedAt() {
+        if (createdAt == null) {
+            return "";
+        }
+
+        Date now = new Date();
+        long diffInMillis = now.getTime() - createdAt.getTime();
+        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(diffInMillis);
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMillis);
+        long diffInHours = TimeUnit.MILLISECONDS.toHours(diffInMillis);
+
+        if (diffInSeconds < 60) {
+            return "1분 미만";
+        } else if (diffInMinutes < 60) {
+            return diffInMinutes + "분 전";
+        } else if (diffInHours < 24) {
+            return diffInHours + "시간 전";
+        } else {
+            return dateFormat.format(createdAt);
+        }
+    }
 }

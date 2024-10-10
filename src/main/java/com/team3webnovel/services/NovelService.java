@@ -15,7 +15,7 @@ public interface NovelService {
     // 새 소설 생성
     void insertNovel(NovelVo novel); // 소설 작성
 
-    // 소설 수정
+    // ys 소설 수정
     void updateNovel(NovelVo novel);
 
     // 소설 삭제
@@ -24,6 +24,21 @@ public interface NovelService {
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
 
+//  성민
+    void insertNovelDetail(NovelVo vo);
 
+    List<NovelVo> getNovelDetailByNovelId(int novelId);
+    
+    // 정보 불러오기
+    NovelVo getNovelByNovelId(int novelId);
+    
+    void updateStatus(NovelVo vo);
 
+    List<NovelVo> getMainNovelList();
+    
+    NovelVo getNovelDetail(NovelVo vo);
+    
+    void updateNovelDetail(NovelVo vo);
+    
+    void updateEpisodeVisibility(NovelVo vo);
 }

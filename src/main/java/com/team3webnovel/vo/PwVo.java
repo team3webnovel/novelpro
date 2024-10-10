@@ -20,4 +20,11 @@ public class PwVo {
     public void setPwPw(String pwPw) {
         this.pwPw = pwPw;
     }
+
+	@Override
+	public String toString() {
+		return "PwVo [pwName=" + pwName + ", pwPw=" + pwPw + "]";
+	}
+    
+    
 }

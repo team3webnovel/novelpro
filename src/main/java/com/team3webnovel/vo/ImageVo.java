@@ -15,9 +15,31 @@ public class ImageVo {
     private int seed;
     private int width;
     private int height;
+    private String filename;
+    private String title;
 
     // 기본 생성자
-    public ImageVo() {}
+    public ImageVo() {
+    	
+    }
+
+	public ImageVo(int creationId, String imageUrl, String modelCheck, String sampler, String prompt, String nPrompt,
+			Timestamp createdAt, int steps, int cfg, int seed, int width, int height, String filename) {
+		super();
+		this.creationId = creationId;
+		this.imageUrl = imageUrl;
+		this.modelCheck = modelCheck;
+		this.sampler = sampler;
+		this.prompt = prompt;
+		this.nPrompt = nPrompt;
+		this.createdAt = createdAt;
+		this.steps = steps;
+		this.cfg = cfg;
+		this.seed = seed;
+		this.width = width;
+		this.height = height;
+		this.filename = filename;
+	}
 
 	public int getCreationId() {
 		return creationId;
@@ -115,13 +137,31 @@ public class ImageVo {
 		this.height = height;
 	}
 
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+		}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String toString() {
 		return "ImageVo [creationId=" + creationId + ", imageUrl=" + imageUrl + ", modelCheck=" + modelCheck
 				+ ", sampler=" + sampler + ", prompt=" + prompt + ", nPrompt=" + nPrompt + ", createdAt=" + createdAt
 				+ ", steps=" + steps + ", cfg=" + cfg + ", seed=" + seed + ", width=" + width + ", height=" + height
-				+ "]";
+				+ ", filename=" + filename + ", title=" + title + "]";
 	}
+	
+	
     
     
 

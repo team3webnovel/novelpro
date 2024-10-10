@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.team3webnovel.mappers.ImageBoardMapper">
+
+	<select id="getImageBoardList" resultType="com.team3webnovel.vo.ImageBoardVo">
+		select ib.board_id as boardId, ib.user_id as userId, ib.creation_id as creationId, ib.created_at as createdAt, ib.view_count as viewCount, ib.content as content, ib.public_check as publicCheck,
+			igd.image_url as imageUrl
+		from image_board ib 
+		left join image_generation_data igd ON ib.creation_id = igd.creation_id
+		order by board_id desc
+	</select>
+
+	<insert id="writeImageBoard" parameterType="com.team3webnovel.vo.ImageBoardVo">
+		insert into image_board (user_id, creation_id, content, public_check) values (#{userId}, #{creationId}, #{content}, #{publicCheck})
+	</insert>
+	
+	<select id="publicCheck" parameterType="int" resultType="int">
+		select public_check as publicCheck from image_board where board_id = #{boardId}
+	</select>
+	
+	<delete id="deleteComment" parameterType="map">
+		delete from board_comments where comment_id = #{commentId} and user_id = #{userId}
+	</delete>
+</mapper>
