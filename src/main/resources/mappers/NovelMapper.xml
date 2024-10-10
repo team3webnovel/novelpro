@@ -183,13 +183,14 @@
     
 
     <!-- 소설 수정 -->
-    <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        UPDATE novel_detail
-        SET title = #{title},
-            episode_no = #{episodeNo},
-            contents = #{contents}
-        WHERE novel_id = #{novelId}
-    </update>
+	<update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
+	    UPDATE novel
+	    SET title = #{title},
+	        intro = #{intro},
+	        genre = #{genre},
+	        creation_id = #{creationId}
+	    WHERE novel_id = #{novelId}
+	</update>
 
     <!-- 소설 삭제 -->
     <delete id="deleteNovel" parameterType="int">
