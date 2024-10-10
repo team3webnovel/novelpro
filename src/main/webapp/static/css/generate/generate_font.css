@@ -1,31 +1,75 @@
-
-.main-contents {
-	margin-top: 100px;
-}
-
-/* 기본 스타일 */
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+/* 공통 설정 */
+body, .main-contents {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
     padding: 0;
-    background-color: #f7f7f7;
+    background-color: #f0f8ff; /* 밝은 하늘색 배경 */
 }
 
-/* 페이지 제목 스타일 */
-h2 {
+/* 메인 컨텐츠 패딩 */
+.main-contents {
+    padding: 100px;
+    background-color: #ffffff; /* 흰색 배경으로 깔끔한 느낌 */
+}
+
+/* 굵은 글자 스타일 */
+h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
+    font-weight: bold;
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+    color: #003366; /* 어두운 파란색 텍스트 */
 }
 
-/* 이미지 업로드 섹션 스타일 */
-#imageUpload {
+/* 버튼 및 입력 필드 공통 스타일 */
+#imageUpload, #saveBtn, #openModalBtn {
     display: block;
-    margin: 0 auto;
-    padding: 10px;
+    margin: 20px auto;
+    padding: 14px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #007BFF; /* 파란색 테두리 */
+    border-radius: 10px;
+    width: 80%;
+    max-width: 300px;
+    background-color: #f0f8ff; /* 밝은 하늘색 배경 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+#imageUpload:hover, #saveBtn:hover, #openModalBtn:hover {
+    border-color: #0056b3; /* 짙은 파란색 테두리 */
+    background-color: #e0f7ff; /* 조금 더 짙은 하늘색 */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* 모달 버튼 추가 스타일 */
+#openModalBtn {
+    background-color: #007BFF; /* 파란색 배경 */
+    color: #fff;
+    cursor: pointer;
+}
+.button-container {
+    display: flex;          /* 가로 정렬을 위한 Flexbox */
+    justify-content: center; /* 가운데 정렬 */
+    gap: 20px;              /* 버튼 간의 간격 */
+    margin-bottom: 20px;    /* 아래에 공간 추가 */
+}
+
+#imageUpload, #openModalBtn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+}
+
+#openModalBtn {
+    background-color: #007BFF;
+    color: white;
+}
+
+#openModalBtn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
 /* 툴바 스타일 */
@@ -33,37 +77,60 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    gap: 20px;
+    padding: 15px;
+    background-color: #e0f7ff; /* 밝은 하늘색 배경 */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
-/* 폰트 선택 및 폰트 크기 선택 스타일 */
+#fontSelect {
+	width: 250px;
+}
+
+/* 폰트 선택 및 크기 선택 스타일 */
 #fontSelect, #fontSizeSelect {
-    padding: 5px;
+    padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 2px solid #007BFF; /* 파란색 테두리 */
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #f0f8ff; /* 밝은 하늘색 배경 */
+    transition: border-color 0.3s ease;
 }
 
-/* 텍스트 스타일 버튼 스타일 */
+#fontSelect:hover, #fontSizeSelect:hover {
+    border-color: #0056b3; /* 짙은 파란색 테두리 */
+}
+
+/* 텍스트 스타일 버튼 */
 .toolbar-btn {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 40px;
+    background-color: #ffffff; /* 흰색 배경 */
+    border: 2px solid #007BFF; /* 파란색 테두리 */
+    border-radius: 8px;
+    width: 50px;
     height: 40px;
+    line-height: 1.1;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.2s, border-color 0.3s;
 }
 
 .toolbar-btn:hover {
-    background-color: #dcdcdc;
+    background-color: #e0f7ff; /* 밝은 하늘색 배경 */
+    border-color: #0056b3; /* 짙은 파란색 테두리 */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-btn.active {
+    background-color: #007BFF; /* 파란색 배경 */
+    color: white;
+    border-color: #007BFF;
 }
 
 /* 색상 선택 스타일 */
@@ -72,114 +139,123 @@ h2 {
     height: 40px;
     border: none;
     cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* 체크박스와 그라데이션 색상 선택 스타일 */
-label {
-    font-size: 14px;
-    margin-right: 5px;
-}
-
+/* 체크박스 스타일 */
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
     margin-right: 10px;
+    border-radius: 3px;
+    border: 2px solid #007BFF; /* 파란색 테두리 */
 }
 
 /* 캔버스 스타일 */
 canvas {
     display: block;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    background-color: white;
+    margin: 20px auto;
+    border: 2px solid #0056b3; /* 짙은 파란색 테두리 */
+    background-color: #ffffff; /* 흰색 배경 */
     max-width: 100%;
-    max-height: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* 그라데이션 관련 항목 비활성화 시 스타일 */
-input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-/* 텍스트 박스 추가 버튼 스타일 */
-#addTextBoxBtn {
-    padding: 10px;
+/* 텍스트 박스 추가 버튼 */
+#addTextBoxBtn, #addVerticalTextBoxBtn {
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    background-color: #4CAF50; /* 초록색 버튼 */
+    background-color: #007BFF; /* 파란색 배경 */
     color: white;
     border: none;
     border-radius: 5px;
+    text-align: center;
     width: auto;
     height: 40px;
-    text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-#addTextBoxBtn:hover {
-    background-color: #45a049; /* 호버 시 어두운 초록색 */
+#addTextBoxBtn:hover, #addVerticalTextBoxBtn:hover {
+    background-color: #0056b3; /* 짙은 파란색 배경 */
 }
-/* 텍스트 박스 추가 버튼 스타일 */
-#addVerticalTextBoxBtn {
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50; /* 초록색 버튼 */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    width: auto;
-    height: 40px;
-    text-align: center;
-}
-
-#addVerticalTextBoxBtn:hover {
-    background-color: #45a049; /* 호버 시 어두운 초록색 */
-}
-
-/* 텍스트 스타일 버튼 활성화 상태 */
-.toolbar-btn.active {
-    background-color: #007BFF; /* 파란색 */
-    color: white;
-    border-color: #007BFF;
-}
-
-.toolbar-btn.active:hover {
-    background-color: #0069d9; /* 활성화 상태에서 호버 */
-}
-
-
 
 /* 모달 기본 스타일 */
 .modal {
-    display: none; /* 처음에 안보이게 */
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 배경 어둡게 */
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    background-color: #ffffff; /* 흰색 배경 */
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+/* 알림창 스타일 */
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    color: white;
+    padding: 15px 30px;
     font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.custom-alert.success {
+    background-color: #32cd32; /* 라임 그린 배경 */
 }
 
+.custom-alert.error {
+    background-color: #ff4500; /* 오렌지 레드 배경 */
+}
+
+.custom-alert.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #fontSelect, #fontSizeSelect, #addTextBoxBtn, #addVerticalTextBoxBtn {
+        width: 100%;
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .modal-content {
+        width: 100%;
+    }
+}
