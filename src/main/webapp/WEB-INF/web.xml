@@ -14,7 +14,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     <!-- Spring DispatcherServlet 설정 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -23,9 +22,18 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
 
+        <!-- load-on-startup은 여기서 설정되어야 합니다 -->
+        <load-on-startup>1</load-on-startup>
+        
+        <!-- multipart-config 설정 -->
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- 10MB -->
+            <max-request-size>20971520</max-request-size> <!-- 20MB -->
+            <file-size-threshold>5242880</file-size-threshold> <!-- 5MB -->
+        </multipart-config>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
@@ -55,13 +63,51 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-	<filter>
-	    <filter-name>loggingFilter</filter-name>
-	    <filter-class>com.team3webnovel.filters.GlobalLoggingFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	    <filter-name>loggingFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <!-- Global Logging Filter 설정 -->
+    <filter>
+        <filter-name>loggingFilter</filter-name>
+        <filter-class>com.team3webnovel.filters.GlobalLoggingFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>loggingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+ <!-- 400 Bad Request -->
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+
+    <!-- 403 Forbidden -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+
+    <!-- 404 Not Found -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+
+    <!-- 500 Internal Server Error -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+
+    <!-- NullPointerException과 같은 특정 예외 처리 -->
+    <error-page>
+        <exception-type>java.lang.NullPointerException</exception-type>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+
+    <!-- 모든 예외 처리 (기타 예상치 못한 오류들) -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+    
 </web-app>

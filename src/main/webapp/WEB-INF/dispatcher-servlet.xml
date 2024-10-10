@@ -11,18 +11,17 @@
            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- Component scan 설정 -->
-    <context:component-scan base-package="com.team3webnovel.controllers"/>
-	<context:component-scan base-package="com.team3webnovel.dao" />
-	<context:component-scan base-package="com.team3webnovel.db" />
-	<context:component-scan base-package="com.team3webnovel.filters" />
-	<context:component-scan base-package="com.team3webnovel.mappers" />
-	<context:component-scan base-package="com.team3webnovel.services" />		
-	<context:component-scan base-package="com.team3webnovel.vo" />		
+    <context:component-scan base-package="com.team3webnovel"/>
+    
     <!-- JSP 뷰 리졸버 설정 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+	    <!-- 파일 업로드 처리를 위한 MultipartResolver 설정 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
 
     <!-- 정적 리소스 핸들러 -->
     <mvc:resources mapping="/static/**" location="/static/" />

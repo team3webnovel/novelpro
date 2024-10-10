@@ -1,16 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/login.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/users/login.css">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <div class="login-container">
@@ -19,16 +17,26 @@
             <h2>당신의 이야기를 꾸며드릴게요!<br>자유 연재 플랫폼 아일란드</h2>
         </div>
 
-        <!-- form 태그에서 action 속성에 /login URL을 명시하여 POST 요청을 전송 -->
+        <!-- 기존 로그인 폼 -->
         <form id="loginForm" action="<%= request.getContextPath() %>/login" method="post">
             <input type="text" id="username" name="username" placeholder="아이디" required><br>
             <input type="password" id="password" name="password" placeholder="비밀번호" required><br>
             <button type="submit" class="login-btn">로그인</button>
         </form>
 
+        <!-- 구글 로그인 버튼 추가 -->
+        <div class="google-login">
+            <form action="<%= request.getContextPath() %>/google-login" method="get">
+                <!-- 이미지가 버튼으로 동작 -->
+                <button type="submit" class="google-login-btn" style="background: none; border: none;">
+                    <img src="<%= request.getContextPath() %>/static/icons/signInWithGoogle.png" alt="Login with Google" style="width: 300px;">
+                </button>
+            </form>
+        </div>
+
         <div class="login-options">
-            <a href="#">아이디 찾기</a> |
-            <a href="#">비밀번호 재설정</a> |
+            <a href="<%= request.getContextPath() %>/find-id">아이디 찾기</a> |
+            <a href="<%= request.getContextPath() %>/reset-password">비밀번호 재설정</a> |
             <a href="<%= request.getContextPath() %>/register">회원가입</a>
         </div>
 

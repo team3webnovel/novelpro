@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3webnovel.mappers.ImageMapper">
+	<!-- 성민 -->
+    <!-- creation 테이블에 데이터 삽입 (CREATION_ID는 시퀀스에 의해 자동 생성됨) -->
+    <insert id="insertCreation" parameterType="map">
+        INSERT INTO creation (user_id, art_form)
+        VALUES (#{userId}, #{artForm})
+    </insert>
+
+    <!-- 마지막으로 삽입된 creation_id 가져오기 -->
+    <select id="getLastCreationId" resultType="int">
+        SELECT MAX(creation_id) FROM creation
+    </select>
+
+    <!-- image_data 테이블에 이미지 데이터 삽입 (CREATED_AT은 SYSDATE로 자동 설정됨) -->
+    <insert id="insertImageData" parameterType="map">
+        INSERT INTO IMAGE_GENERATION_DATA (
+		    CREATION_ID, IMAGE_URL, MODELCHECK, SAMPLER, 
+		    PROMPT, N_PROMPT, STEPS, CFG, SEED, 
+		    WIDTH, HEIGHT, FILENAME, title
+		)
+        VALUES (
+            #{creationId}, #{imageUrl}, #{modelCheck}, #{sampler},
+            #{prompt}, #{nPrompt}, #{steps}, #{cfg}, #{seed}, #{width}, #{height}, #{fileName}, #{fileName}
+        )
+    </insert>
+    
+      <insert id="insertFontData" parameterType="map">
+        INSERT INTO IMAGE_GENERATION_DATA (
+		    CREATION_ID, IMAGE_URL, FILENAME, TITLE
+		)
+        VALUES (
+            #{creationId}, #{imageUrl}, #{fileName}, #{title}
+        )
+    </insert>
+    
+    <select id="getImageDataByUserId" parameterType="com.team3webnovel.vo.CreationVo" resultType="com.team3webnovel.vo.ImageVo">
+		SELECT igd.creation_id as creationId, igd.image_url as imageUrl,
+			igd.created_at as createdAt, sampler as sampler, prompt, 
+			n_prompt as nPrompt, steps, cfg, seed, width, height, modelcheck as modelCheck, title, filename
+		FROM image_generation_data igd 
+		JOIN creation c 
+		ON igd.creation_id = c.creation_id
+		WHERE c.user_id = #{userId}
+		AND c.art_form IN (2, 3)
+		order by igd.created_at desc
+    </select>
+    
+    <update id="updateImageTitle" parameterType="com.team3webnovel.vo.ImageVo">
+    	UPDATE IMAGE_GENERATION_DATA
+	    SET title = #{title}
+	    WHERE creation_id = #{creationId}
+    </update>
+    
+    <delete id="deleteImageById" parameterType="int">
+        DELETE FROM IMAGE_GENERATION_DATA
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+    <delete id="deleteCreationById" parameterType="int">
+        DELETE FROM creation
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+	<update id="updateCreationId" parameterType="int">
+	    UPDATE creation
+	    SET creation_id = 0
+	    WHERE creation_id = #{creationId}
+	</update>
+
+    
+    <!-- 성민 -->
+
+    <!-- 기본적인 이미지 정보에 대한 resultMap -->
+    <resultMap id="imageResultMap" type="com.team3webnovel.vo.ImageVo">
+        <result property="creationId" column="CREATION_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="imageUrl" column="IMAGE_URL"/>
+        <result property="description" column="DESCRIPTION"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/> <!-- DATE 타입 필드 -->
+    </resultMap>
+
+    <!-- 특정 user_id와 art_form을 기준으로 이미지 리스트 조회 -->
+    <select id="getImageByUserIdAndArtForm" parameterType="map" resultMap="imageResultMap">
+        SELECT 
+            id.CREATION_ID,
+            id.TITLE,
+            id.IMAGE_URL,
+            id.DESCRIPTION,
+            id.CREATED_AT
+        FROM creation c
+        JOIN image_data id ON c.CREATION_ID = id.CREATION_ID
+        WHERE c.USER_ID = #{userId} AND c.ART_FORM = #{artForm}
+        ORDER BY id.CREATED_AT
+    </select>
+    
+    <!-- 기제 자리 -->
+    <select id="getAllInformation" parameterType="int" resultType="com.team3webnovel.vo.ImageVo">
+    	select creation_id as creationId, image_url as imageUrl, created_at as createdAt, modelcheck as modelCheck,
+    		sampler as sampler, prompt as prompt, n_prompt as nPrompt, steps, cfg, seed, width, height, filename, title
+    	from image_generation_data
+    	where creation_id = #{creationId}
+    </select> 
+</mapper>

@@ -1,0 +1,213 @@
+/* 본문을 감싸는 요소에 여백 추가 */
+.main-content {
+    padding-top: 80px; /* 헤더 높이 + 추가 여백 */
+}
+
+/* 전체적인 폰트 및 배경 스타일 */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* 제목 스타일 */
+h2 {
+    font-weight: 600;
+    color: #333;
+}
+
+/* 강조된 AI 창작 스튜디오 버튼 스타일 */
+.btn-studio {
+    background-color: #ff5733 !important; /* 주황색과 빨간색 사이의 색상 */
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.btn-studio:hover {
+    background-color: #e94e2e !important; /* 호버 시 더 어두운 색상 */
+}
+
+/* 버튼 그룹 설정 - 버튼 간 간격 제거 및 붙이기 */
+.btn-group .btn {
+    background-color: #0056b3;
+    border: none;
+    transition: background-color 0.3s ease;
+    margin: 0 !important; /* 모든 마진 제거 */
+    border-radius: 0 !important; /* 버튼이 붙도록 둥글기 제거 */
+    padding: 10px 20px;
+    color: white;
+}
+
+/* 버튼 사이 경계선 (하얀색) 추가 */
+.btn-group .btn:not(:last-child) {
+    border-right: 2px solid white; /* 버튼 사이 경계선 하얀색으로 설정 */
+}
+
+.btn-group .btn:hover {
+    background-color: #003f7f;
+}
+
+/* '표지 폰트' 버튼의 스타일 */
+.btn-warning {
+    background-color: #ff9800;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-right: none; /* 마지막 버튼은 경계선 제거 */
+}
+
+/* 탭 메뉴 스타일 */
+.nav-tabs .nav-link {
+    color: #555;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+    color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* 카드 호버 효과 */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 카드 제목 스타일 */
+.card-title {
+    font-weight: 500;
+    color: #333;
+}
+
+/* 모달 창 스타일 */
+.modal-content {
+    border-radius: 12px;
+}
+
+.modal-header {
+    background-color: #0056b3;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* 모달 버튼 스타일 */
+.modal-footer .btn-primary {
+    background-color: #ff9800;
+    border: none;
+}
+
+/* 폼 및 텍스트 필드 스타일 */
+.form-control {
+    border-radius: 8px;
+}
+
+/* 이미지 스타일링 */
+.card-img-top {
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* 오버레이와 확인 버튼의 우선순위를 높여 다른 요소들 위에 나타나도록 설정 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
+    display: none; /* 처음엔 보이지 않도록 */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* 다른 요소 위에 나타나도록 z-index 추가 */
+}
+
+#confirmButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #ff5733;
+    border: none;
+    color: white;
+    cursor: pointer;
+        
+    position: absolute; /* 버튼을 절대 위치로 설정 */
+    top: 60%; /* 상단에서 50% 위치에 고정 */
+    left: 50%; /* 좌측에서 50% 위치에 고정 */
+    transform: translate(-50%, -50%); /* 중앙에 정렬 */
+    
+    transition: background-color 0.3s ease;
+    z-index: 10001; /* 오버레이 위에 나타나도록 z-index 추가 */
+}
+
+/* 메시지 박스 스타일 */
+.message-box {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    opacity: 0; /* 처음엔 보이지 않도록 */
+    transition: opacity 1s ease-in-out;
+    position: center;
+}
+
+#confirmButton:hover {
+    background-color: #e94e2e;
+}
+
+/* 비디오 탭 카드 스타일 */
+#video .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#video .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 비디오 썸네일 이미지 스타일 */
+#video .card-img-top {
+    max-height: 200px;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+#video .card-img-top:hover {
+    opacity: 0.9;
+}
+
+/* 비디오 카드 본문 스타일 */
+#video .card-body {
+    text-align: left;
+    color: #333;
+}
+
+/* 비디오 카드 제목 스타일 */
+#video .card-title {
+    font-weight: 500;
+    color: #0056b3;
+}
+
+/* 비디오 샘플러 및 생성 정보 텍스트 스타일 */
+#video .card-text {
+    font-size: 0.9rem;
+    color: #666;
+}

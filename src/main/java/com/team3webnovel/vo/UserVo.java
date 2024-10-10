@@ -1,22 +1,26 @@
 package com.team3webnovel.vo;
 
+import java.time.LocalDateTime;
+
 public class UserVo {
     private int userId;
     private String username;
     private String email;
     private String password;
-    private String createdAt;
+    private LocalDateTime createdAt;  // String 대신 LocalDateTime 사용
 
-    // Getters and Setters
-    public int getUserId() {
-        return userId;
-    }
+	// Getters and Setters
+    public UserVo() {}
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getUsername() {
+    public int getUserId() {
+		return userId;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -40,11 +44,19 @@ public class UserVo {
         this.password = password;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+	@Override
+	public String toString() {
+		return "UserVo [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", createdAt=" + createdAt + "]";
+	}
+    
+    
 }
