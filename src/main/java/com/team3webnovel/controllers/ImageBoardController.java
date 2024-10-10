@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,6 +66,24 @@ public class ImageBoardController {
 	    }
 		
 		return response;
+	}
+	
+	@DeleteMapping("/delete/{boardId}")
+	@ResponseBody // JSON 응답을 반환하기 위해 사용
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable("boardId") int boardId, HttpSession session) {
+		UserVo user = (UserVo) session.getAttribute("user");
+	    Map<String, Object> response = new HashMap<>();
+	    String message = imageBoardService.deleteImageBoard(boardId, user.getUserId());
+	    
+	    if ("성공".equals(message)) {
+	        response.put("success", true);
+	        response.put("message", "게시글이 성공적으로 삭제되었습니다.");
+	        return ResponseEntity.ok(response); // 성공 응답 반환
+	    } else {
+	        response.put("success", false);
+	        response.put("message", "게시글 삭제에 실패하였습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // 실패 시 에러 응답 반환
+	    }
 	}
 	
 	@PostMapping("/detail/{creationId}")

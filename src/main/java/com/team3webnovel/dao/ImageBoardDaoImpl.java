@@ -29,6 +29,11 @@ public class ImageBoardDaoImpl implements ImageBoardDao {
 	public void writeImageBoard(ImageBoardVo boardVo) {
 		imageBoardMapper.writeImageBoard(boardVo);
 	}
+	
+	@Override
+	public int deleteImageBoard(Map <String, Integer> map) {
+		return imageBoardMapper.deleteImageBoard(map);
+	}
 
 	@Override
 	public int publicCheck(int boardId) {

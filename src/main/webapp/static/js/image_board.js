@@ -2,10 +2,11 @@ let currentBoardId = null;
 let currentCreationId = null;
 let currentComment = null;
 
-function openModal(boardId, imageUrl, creationId, comment) {
+function openModal(boardId, imageUrl, creationId, comment, userId) {
 	document.getElementById('modal-content').textContent = "";
 	document.getElementById('comment-content').innerHTML="";
-	
+	document.getElementById('deleteBoard').innerHTML = "";
+
 	currentBoardId = boardId;
     currentCreationId = creationId;
     currentComment = comment;
@@ -13,7 +14,7 @@ function openModal(boardId, imageUrl, creationId, comment) {
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
 	
-	refreshModal(boardId, creationId, comment);
+	refreshModal(boardId, creationId, comment, userId);
     // modal을 보이게 설정
     $('#myModal').modal('show');
 }
@@ -24,9 +25,9 @@ function closeModal() {
     $('#myModal').modal('hide');
 }
 
-function refreshModal(boardId, creationId, comment){
+function refreshModal(boardId, creationId, comment, boardUserId){
 	let userId = document.getElementById('userId').value;
-	console.log(userId);
+	
 	fetch('/team3webnovel/images/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
@@ -125,6 +126,17 @@ function refreshModal(boardId, creationId, comment){
 							</tr>
 						</tbody>
 					</table>
+				`;
+			}
+			console.log(boardUserId, userId);
+			if (boardUserId == userId) {
+		        document.getElementById('deleteBoard').innerHTML = `
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		            <button type="button" id="deletePostButton" class="btn btn-danger" onclick="deletePost(currentBoardId)">게시글 삭제</button>
+		        `;
+		    } else {
+				document.getElementById('deleteBoard').innerHTML = `
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 				`;
 			}
 		})

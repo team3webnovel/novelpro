@@ -69,7 +69,7 @@
         	<input type="hidden" id="userId" value="${userId }">
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
-                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }')">
+                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
                         <img src="${image.imageUrl}" alt="이미지" class="card-img-top">
                     </div>
                 </div>
@@ -101,6 +101,9 @@
 	                		</div>
 	                	</div>
 	                </div>
+	            </div>
+	            
+	            <div id="deleteBoard" class="modal-footer">
 	            </div>
 	        </div>
 	    </div>
