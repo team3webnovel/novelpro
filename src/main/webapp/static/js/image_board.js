@@ -145,6 +145,27 @@ function refreshModal(boardId, creationId, comment, boardUserId){
 		})
 }
 
+function deletePost(boardId) {
+    if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+        fetch(`/team3webnovel/images/board/delete/${boardId}`, {
+            method: 'DELETE'
+        })
+		.then(response => response.json()) // JSON 응답을 받음
+        .then(data => {
+            if (data.success) {
+                alert(data.message); // 서버에서 전달한 성공 메시지 출력
+                window.location.href = '/team3webnovel/images/board';
+            } else {
+                alert(data.message); // 서버에서 전달한 실패 메시지 출력
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('게시글 삭제 중 오류가 발생했습니다.');
+        });
+    }
+};
+
 function toggleContent() {
     const shortContent = document.getElementById('shortContent');
     const fullContent = document.getElementById('fullContent');
