@@ -105,6 +105,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/edit_new_novel.js"></script>
+
 
 <!-- 선택한 이미지 미리보기 표시 -->
 <script>
@@ -121,29 +123,8 @@
         const fileNameElement = document.getElementById('selectedImageFileName');
         fileNameElement.innerText = selectedOption.text;
     }
-
-    // 소설 삭제 기능
-    function deleteNovel(novelId) {
-    if (confirm('정말 삭제하시겠습니까?')) {
-        fetch(`${contextPath}/delete_novel/${novelId}`, {
-            method: 'POST'  // 반드시 'POST'로 설정
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('삭제되었습니다.');
-                window.location.href = `${contextPath}/my_storage`;  // 삭제 후 리다이렉트
-            } else {
-                alert('삭제에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('삭제 중 오류 발생:', error);
-            alert('삭제 중 오류가 발생했습니다.');
-        });
-    }
-}
-
 </script>
+
 
 
 </body>
