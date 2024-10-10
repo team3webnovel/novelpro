@@ -14,7 +14,6 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     <!-- Spring DispatcherServlet 설정 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -34,7 +33,7 @@
             <file-size-threshold>5242880</file-size-threshold> <!-- 5MB -->
         </multipart-config>
     </servlet>
-
+    
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
