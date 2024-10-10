@@ -12,12 +12,25 @@ let offsetX, offsetY;  // 드래그 위치 오프셋
 let isOnTextBox = false;  // 텍스트 박스 내부에 마우스가 있는지 여부
 let selectedTextBoxes = []; // 다중 선택된 텍스트 박스를 저장할 배열
 
+let gif;  // 전역으로 gif 객체를 선언하여 renderGIF 함수에서도 접근 가능하게 함
+let gifCanvas;  // 전역으로 gifCanvas를 선언하여 renderGIF에서 사용
+
 // 텍스트 박스 포커스 관리
 let isTextBoxFocused = false;
 
 let isDragging = false;
 let dragStartX, dragStartY;
 let dragEndX, dragEndY;
+
+const fontSelect = document.getElementById('fontSelect');
+
+
+
+// 선택한 폰트를 select 요소에 직접 적용하는 함수
+fontSelect.addEventListener('change', function() {
+    const selectedFont = fontSelect.value;
+    fontSelect.style.fontFamily = selectedFont;  // select 박스에도 선택한 폰트를 적용
+});
 
 // 무작위로 6자리 숫자를 Base64로 인코딩하여 파일명 생성
 function generateRandomBase64FileName() {
@@ -50,15 +63,22 @@ function uploadImage() {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error('Upload failed');
+                throw new Error('이미지 저장에 실패헀습니다.');
             }
         })
         .then(data => {
-            console.log("Image uploaded successfully:", data);
+				console.log("Image uploaded successfully:", data);
 
-            // 업로드된 파일명을 백엔드로 전송
-            sendFileNameToBackend(fileName);  // fileName 변수를 전송
-        })
+				// 업로드된 파일명을 백엔드로 전송
+				sendFileNameToBackend(fileName);  // fileName 변수를 전송
+			    // 성공 상태 메시지 출력
+			    displayStatusMessage('이미지가 성공적으로 저장되었습니다.', 'success');
+
+			    // 업로드 후 이미지 미리보기 추가
+			    const imagePreview = document.createElement('img');
+			    imagePreview.src = canvas.toDataURL();  // 업로드된 캔버스를 미리보기로 표시
+			    document.getElementById('uploadStatus').appendChild(imagePreview);
+			})
         .catch(error => {
             console.error("Error uploading image:", error);
             displayStatusMessage('Failed to upload image.', 'error');
@@ -89,40 +109,141 @@ function sendFileNameToBackend(fileName) {
 }
 
 
-// 성공 또는 실패 메시지를 표시하는 함수
+// 성공 또는 실패 메시지를 표시하는 함수 (커스텀 알람 사용)
 function displayStatusMessage(message, status) {
     var statusDiv = document.getElementById('uploadStatus');
     statusDiv.innerText = message;
-    
-    // 상태에 따른 스타일 변경 (성공: 녹색, 실패: 빨간색)
+
+    // 상태에 따른 클래스 추가
     if (status === 'success') {
-        statusDiv.style.color = 'green';
+        statusDiv.className = 'custom-alert success show';
     } else if (status === 'error') {
-        statusDiv.style.color = 'red';
+        statusDiv.className = 'custom-alert error show';
     }
-    
-    // 일정 시간 후 메시지를 사라지게 할 수 있음 (선택 사항)
+
+    // 알람을 표시하고, 일정 시간 후 사라지게 설정
+    statusDiv.style.display = 'block';  // 알람 표시
     setTimeout(() => {
-        statusDiv.innerText = '';
-    }, 5000);  // 5초 후 메시지 사라짐
+        statusDiv.classList.remove('show');  // 알람 사라지기 시작
+        setTimeout(() => {
+            statusDiv.style.display = 'none';  // 완전히 숨김
+        }, 300);  // 사라지는 애니메이션 대기 시간
+    }, 3000);  // 3초 후 알람이 사라짐
 }
+
+
 
 // 세이브 버튼에 함수 연결
 document.getElementById('saveBtn').addEventListener('click', uploadImage);
 
-// 이미지 업로드 핸들러
 document.getElementById('imageUpload').addEventListener('change', function () {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        img.onload = function () {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            drawCanvas();
+    const file = this.files[0];
+    const fileType = file.type;
+
+    if (!file) {
+        console.error("No file selected.");
+        return;
+    }
+
+    if (fileType === "image/gif") {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const imgElement = document.getElementById('canvas');
+			
+            if (!imgElement) {
+                console.error("Canvas element not found!");
+                return;
+            }
+
+            // GIF 파일 URL 설정
+            imgElement.src = event.target.result;
+
+            // SuperGif 사용하여 GIF 처리
+            gif = new SuperGif({ gif: imgElement });
+            gif.load(function() {
+                console.log('GIF loaded successfully!');
+
+                // gifCanvas가 유효한지 확인 (안전하게 확인)
+                gifCanvas = gif.get_canvas();
+                if (!gifCanvas) {
+                    console.error("gifCanvas is null");
+                    return;
+                }
+
+                // 캔버스 크기 변경
+                canvas.width = gifCanvas.width;
+                canvas.height = gifCanvas.height;
+
+                // GIF를 캔버스에 그리기
+                renderGIF(ctx);  // GIF 렌더링 함수 호출
+            });
         };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(this.files[0]);
+        reader.readAsDataURL(file);  // 파일을 Data URL로 읽어들이기
+    } else {
+        // PNG, JPEG 등의 일반 이미지 파일 처리
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            img.onload = function () {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                drawCanvas();  // 텍스트 박스 및 추가 요소 그리기
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);  // 파일을 Data URL로 읽어들이기
+    }
 });
+
+function renderGIF(ctx) {
+    // 다음 GIF 프레임으로 이동
+    gif.move_relative(1);
+
+    // 캔버스를 초기화하고 GIF 프레임을 그리기
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(gif.get_canvas(), 0, 0, canvas.width, canvas.height);
+
+    // 텍스트 박스를 GIF 위에 그리기
+    drawTextBoxes(ctx);
+
+    // GIF의 프레임 딜레이를 가져오기
+    const frameInfo = gif.get_current_frame(); // 현재 프레임 정보를 가져옴
+    const frameDelay = frameInfo.delay || 100; // delay 값이 없으면 기본값 100ms
+
+    // 프레임 속도를 기반으로 GIF 재생
+    setTimeout(() => renderGIF(ctx), frameDelay);
+}
+
+function drawTextBoxes(ctx) {
+    textBoxes.forEach((textBox) => {
+        // 폰트 설정
+        ctx.font = `${textBox.bold ? 'bold ' : ''}${textBox.italic ? 'italic ' : ''}${textBox.fontSize}px ${textBox.font}`;
+        ctx.fillStyle = textBox.color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // 여러 줄 텍스트 처리 (줄바꿈 처리)
+        const lines = textBox.text.split('\n');
+        const lineHeight = textBox.fontSize * 1.2;  // 텍스트 줄 간격 설정
+
+        lines.forEach((line, i) => {
+            const yPosition = textBox.y + i * lineHeight - (lines.length - 1) * lineHeight / 2;
+            ctx.fillText(line, textBox.x, yPosition);  // 각 줄을 캔버스에 그리기
+        });
+
+        // 선택된 텍스트 박스에 테두리 표시
+        if (focusedTextBoxIndex === textBoxes.indexOf(textBox)) {
+            ctx.setLineDash([5, 5]);  // 점선 테두리 설정
+            ctx.strokeStyle = '#000';  // 테두리 색상
+            ctx.strokeRect(
+                textBox.x - 50,
+                textBox.y - 10 - (lines.length - 1) * lineHeight / 2,  // 박스 높이를 줄 수에 맞춰 설정
+                100,
+                20 + (lines.length - 1) * lineHeight  // 줄 수에 따른 높이 조정
+            );
+            ctx.setLineDash([]);  // 점선 해제
+        }
+    });
+}
 
 
 // 텍스트 박스 생성 버튼 클릭 시 새로운 텍스트 박스 추가
@@ -311,12 +432,7 @@ function drawCanvas() {
 // 텍스트 박스 외부 클릭 시 포커스 처리 (다중 선택 포함)
 canvas.addEventListener('click', function (e) {
 	
-	// 모달에서 이미지가 선택된 경우에는 포커스 해제 로직을 실행하지 않음
-	if (modalImageSelected) {
-	    // 플래그를 다시 초기화 (한 번만 체크되도록)
-	    modalImageSelected = false;
-	    return;
-	}
+
 	
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
