@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.dto.ImageBoardViewDto;
 import com.team3webnovel.services.ImageBoardServiceImpl;
-import com.team3webnovel.services.ImageService;
 import com.team3webnovel.vo.BoardCommentVo;
 import com.team3webnovel.vo.ImageBoardVo;
 import com.team3webnovel.vo.UserVo;

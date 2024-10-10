@@ -25,6 +25,7 @@ function closeModal() {
 }
 
 function refreshModal(boardId, creationId, comment){
+	let userId = document.getElementById('userId').value;
 	fetch('/team3webnovel/images/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
@@ -42,7 +43,11 @@ function refreshModal(boardId, creationId, comment){
 			if(comments != null){
 				let commentsHtml = comments.map(comment => {
 		            return `<tr><td><strong>${comment.userName}</strong>: ${comment.content}
-						<span class="comment-time">${comment.formattedCreatedAt}</td></tr></span>`;
+						<span class="comment-time">${comment.formattedCreatedAt}</td></tr></span>
+						${userId == comment.userId ? 
+	                    	`<button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>` 
+	                    : ''}
+						`;
 		        }).join('');
 				document.getElementById('comment-content').innerHTML=`
 					<table class="table">
