@@ -196,7 +196,6 @@
         DELETE FROM novel WHERE novel_id = #{novelId}
     </delete>
 
-	<!-- 소설 검색 (제목에서 검색) -->
 	<select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
 	    SELECT 
 	        n.NOVEL_ID AS novelId,
@@ -214,9 +213,12 @@
 	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
 	    WHERE 
 	        n.STATUS IS NOT NULL
-	    And n.title LIKE '%' || #{keyword} || '%'
-	    ORDER BY n.created_at DESC
+	    AND 
+	        REPLACE(n.title, ' ', '') LIKE '%' || REPLACE(#{keyword}, ' ', '') || '%'  -- 공백 제거 후 검색
+	    ORDER BY 
+	        n.created_at DESC
 	</select>
+
 
 
 </mapper>
