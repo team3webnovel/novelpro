@@ -56,6 +56,22 @@ def get_audio_information_until_complete(audio_id, max_attempts=10):
                     music_data = response.json()  # JSON 형식으로 변환
                     print(f"음악 상태 응답 데이터: {music_data}", file=sys.stderr)
 
+                    # error_message가 있는지 확인
+                    error_message = music_data[0].get("error_message", "")
+                    if error_message:
+                        print(f"오류 발생: {error_message}", file=sys.stderr)
+                        return [{
+                            "title": "",
+                            "lyric": "",
+                            "audio_url": "",
+                            "image_url": "",
+                            "model_name": "",
+                            "gpt_description_prompt": "",
+                            "type": "",
+                            "tags": "",
+                            "error_message": error_message  # 에러 메시지만 전달, 나머지는 빈 값
+                        }]
+
                     # title, lyric, audio_url이 모두 비어 있지 않은지 확인
                     if (music_data and music_data[0]["status"] == 'streaming' and
                             music_data[0]["title"] and music_data[0]["lyric"] and music_data[0]["audio_url"]):
