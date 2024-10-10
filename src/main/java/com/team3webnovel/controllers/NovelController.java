@@ -379,6 +379,7 @@ public class NovelController {
     @ResponseBody
     public Map<String, Object> deleteImage(@RequestBody Map<String, Object> requestData) {
         Map<String, Object> response = new HashMap<>();
+        System.err.println("? 삭제 넘어옴?");
         try {
             int creationId = (int) requestData.get("creationId");
 
