@@ -196,7 +196,7 @@ public class ComfyUIVideoGenerator {
 				},
 				            "client_id": "%s"
 				        }
-				        """.formatted(height, width, seed, steps, cfgScale, samplerIndex, filenam, clientId);
+				        """.formatted(width ,height, seed, steps, cfgScale, samplerIndex, filenam, clientId);
 
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json")
 				.POST(HttpRequest.BodyPublishers.ofString(jsonInputString)).build();
