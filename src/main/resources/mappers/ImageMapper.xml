@@ -112,5 +112,5 @@
     		sampler as sampler, prompt as prompt, n_prompt as nPrompt, steps, cfg, seed, width, height, filename, title
     	from image_generation_data
     	where creation_id = #{creationId}
-    </select>
+    </select> 
 </mapper>

@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
+import com.team3webnovel.services.VideoService;
 import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.MusicVo;
 import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
+import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,6 +38,9 @@ public class NovelController {
 
     @Autowired
     private NovelService novelService;
+
+    @Autowired
+    private VideoService videoService;
 
     @Autowired
     private ImageService imageService;
@@ -64,8 +69,15 @@ public class NovelController {
 
         List<NovelVo> novelList = novelService.getNovelListByUserId(user.getUserId());
         model.addAttribute("novelList", novelList);
-
-        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId());
+        System.err.println("Novel List: " + novelList);  // 소설 리스트 로그 출력
+        
+        // userId와 artForm = 1인 음악들을 가져오기
+        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
+        
+        List<VideoVo> videoList = videoService.getVideoDataByUserId(creationVo); // null을 사용하여 전체 데이터를 가져올 수도 있음
+        model.addAttribute("videoList", videoList);
+        System.err.println("비디오정보!!!!!!!!!!" + videoList);
+        // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
 
         return "storage/my_storage";
