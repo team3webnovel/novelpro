@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/register.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/users/changePassword.css">
     <script src="<%= request.getContextPath() %>/static/js/password-strength.js" defer></script>
     <title>비밀번호 변경</title>
 
@@ -27,9 +27,10 @@
             }
         };
     </script>
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
-    <div class="container">
+    <div class="change-password-container">
         <h2>비밀번호 변경</h2>
         <form action="${pageContext.request.contextPath}/change-password" method="post">
             <div class="form-group">
@@ -39,7 +40,7 @@
 
             <div class="form-group">
                 <label for="new-password">새 비밀번호:</label>
-                <input type="password" id="new-password" name="newPassword" required>
+                <input type="password" id="password" name="newPassword" oninput="checkPasswordStrength(); checkPasswordMatch();" required>
             </div>
             <div id="strength-wrapper">
                 <div id="strength-bar"></div>
@@ -47,9 +48,11 @@
             </div>
             <div class="form-group">
                 <label for="confirm-password">새 비밀번호 확인:</label>
-                <input type="password" id="confirm-password" name="confirmPassword" required>
+                <input type="password" id="confirm-password" name="confirmPassword" oninput="checkPasswordMatch();" required>
             </div>
 
+            <div id="password-match-message"></div> <!-- 비밀번호 일치 여부 메시지 -->
+            
             <button type="submit" class="btn btn-primary">비밀번호 변경</button>
         </form>
     </div>

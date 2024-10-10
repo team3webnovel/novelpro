@@ -53,6 +53,7 @@
                 <option value="판타지">판타지</option>
                 <option value="무협">무협</option>
                 <option value="로맨스">로맨스</option>
+                <option value="일반">일반</option>
             </select>
         </div>
 

@@ -1,9 +1,6 @@
 package com.team3webnovel.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,31 +35,29 @@ public class MusicController {
     public String generateMusic(@RequestParam("prompt") String prompt,
                                 @RequestParam(value = "make_instrumental", required = false) boolean makeInstrumental,
                                 Model model, HttpServletRequest request) {
+    	 List<MusicVo> musicList;
         try {
-            // 에러 메시지를 담을 맵 생성
-            Map<String, String> errorMap = new HashMap<>();
 
             // MusicService를 통해 Suno API로 음악 생성 요청
-            List<MusicVo> musicList = musicService.generateMusic(prompt, makeInstrumental, errorMap);
+            musicList = musicService.generateMusic(prompt, makeInstrumental, model);
 
-            // 에러가 있을 경우, 모델에 에러 메시지 추가
-            if (errorMap.containsKey("error")) {
-                model.addAttribute("errorMessage", errorMap.get("error"));
-                return "generate/generate_music";  // 다시 음악 생성 페이지로 이동
+            // 에러가 있으면 다시 생성 페이지로
+            if (model.containsAttribute("errorMessage")) {
+                return "generate/generate_music";
             }
-            
-            // 경고가 있을 경우, 모델에 경고 메시지 추가
-            if (errorMap.containsKey("warning")) {
-                model.addAttribute("warningMessage", errorMap.get("warning"));
+            // 에러가 있으면 다시 생성 페이지로
+            if (model.containsAttribute("warningMessage")) {
+                return "generate/generate_music";
             }
 
             // 생성된 음악 리스트를 모델에 추가하여 결과 페이지로 전달
             model.addAttribute("musicList", musicList);
             return "generate/music_result"; // 음악 결과 페이지로 이동
+            
         } catch (Exception e) {
             // 예외 메시지를 출력하여 디버깅할 수 있도록 수정
             e.printStackTrace();  // 예외의 스택 트레이스를 출력
-            model.addAttribute("errorMessage", "음악 생성 중 오류가 발생했습니다. 에러 메시지: " + e.getMessage());
+            model.addAttribute("error", "음악 생성 중 오류가 발생했습니다. 에러 메시지: " + e.getMessage());
             return "generate/generate_music"; // 다시 음악 생성 페이지로 이동
         }
     }
