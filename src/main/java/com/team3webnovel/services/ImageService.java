@@ -23,4 +23,13 @@ public interface ImageService {
     List<ImageVo> getImageDataByUserId(CreationVo vo);
     
     ImageVo getAllInformation(int boardId, int creationId);
+    
+    void updateImageTitle(ImageVo imageVo);
+    
+    void deleteImageById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
+
 }

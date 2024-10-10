@@ -33,9 +33,9 @@
 
         <!-- 오른쪽: 소설 정보 -->
         <div class="col-md-8">
-            <p>작가: 작가명</p>
+            <p>작가: ${novelCover.userName}</p>
             <p>장르: ${novelCover.genre}</p>
-            <p>전체 에피소드: n화</p>
+            <p>전체 에피소드: ${novelCover.episodeNo != null ? novelCover.episodeNo : 0}</p>
 
             <!-- 상태 표시 및 변경 -->
             <p>상태:
@@ -61,9 +61,14 @@
 
                         <!-- 에피소드 제목 및 링크 -->
                         <div class="flex-grow-1 ml-3">
-                            <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}">
+			                <a href="<%=request.getContextPath()%>/novel/episodeview/${novelCover.novelId}/${episode.episodeNo}">
                                 에피소드 ${episode.episodeNo}화: ${episode.title}
                             </a>
+                            <!-- 미리보기 링크 추가 -->
+			                <br>
+                            <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}" class="text-muted">
+			                    펀집
+			                </a>
                         </div>
 
                         <!-- 드롭다운 및 작성일 -->

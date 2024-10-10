@@ -57,6 +57,33 @@ public class ImageServiceImpl implements ImageService {
 			return imageVo;
 		}
 	}
+	
+    @Override
+    public void updateImageTitle(ImageVo imageVo) {
+        // DAO 호출하여 이미지 제목 업데이트
+        imageDao.updateImageTitle(imageVo);
+    }
+
+	@Override
+	public void deleteImageById(int creationId) {
+		imageDao.deleteImageById(creationId);
+		
+	}
+
+	@Override
+	public void deleteCreationById(int creationId) {
+		imageDao.deleteCreationById(creationId);
+		
+	}
+	
+	@Override
+	public void updateCreationId(int creationId) {
+		imageDao.updateCreationId(creationId);
+		
+	}
+    
+    
+	
 	// 성민
 
 }

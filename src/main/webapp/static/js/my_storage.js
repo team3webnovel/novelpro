@@ -23,7 +23,7 @@ function submitData() {
     var creationId = document.getElementById("creationIdField").value;
 
     // 데이터 전송
-    fetch('/team3webnovel/image/board/write', {
+    fetch('/team3webnovel/images/board/write', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ function submitData() {
     }).then(response => {
         if (response.ok) {
             // 전송 성공 시 리다이렉트
-            window.location.href = '/team3webnovel/image/board';
+            window.location.href = '/team3webnovel/images/board';
         } else {
             alert('데이터 전송에 실패했습니다.');
         }

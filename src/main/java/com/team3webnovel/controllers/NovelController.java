@@ -1,7 +1,9 @@
 package com.team3webnovel.controllers;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
@@ -255,7 +259,8 @@ public class NovelController {
     	novelVo = novelService.getNovelDetail(novelVo);
     	model.addAttribute("episode", novelVo);
     	System.err.println(novelVo);
-    	model.addAttribute("maxEpisode", 3);
+    	NovelVo maxNovelVo = novelService.getNovelByNovelId(novelId);
+    	model.addAttribute("maxEpisode", maxNovelVo.getEpisodeNo());
     	
     	if (user == null) {
     		return "storage/episode_user";
@@ -275,8 +280,20 @@ public class NovelController {
         // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
         
-    	
     	return "storage/update_episode";
+    }
+    @GetMapping("/novel/episodeview/{novelId}/{episodeNo}")
+    public String episodeView(
+            @PathVariable int novelId, 
+            @PathVariable int episodeNo,
+            Model model) {
+    	NovelVo novelVo = new NovelVo();
+    	novelVo.setNovelId(novelId);
+    	novelVo.setEpisodeNo(episodeNo);
+    	novelVo = novelService.getNovelDetail(novelVo);
+    	model.addAttribute("episode", novelVo);
+    	return "storage/episode_user";
+    	
     }
     
     @PostMapping("/episode/update/{novelId}/{episodeNo}")
@@ -327,6 +344,40 @@ public class NovelController {
         // 서비스 호출하여 에피소드 공개/비공개 상태 업데이트
         novelService.updateEpisodeVisibility(vo);
     }
+    
+    @PostMapping("/update-image-title")
+    @ResponseBody
+    public Map<String, Object> updateImageTitle(@RequestBody ImageVo imageVo) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // 이미지 제목 업데이트 로직 호출
+            imageService.updateImageTitle(imageVo);
+
+            response.put("success", true);  // 성공 응답
+        } catch (Exception e) {
+            response.put("success", false);  // 실패 응답
+        }
+        return response;
+    }
+    
+    @PostMapping("/delete-image")
+    @ResponseBody
+    public Map<String, Object> deleteImage(@RequestBody Map<String, Object> requestData) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            int creationId = (int) requestData.get("creationId");
+
+            // 이미지 삭제 서비스 호출
+            imageService.updateCreationId(creationId);
+
+            response.put("success", true);  // 성공 응답
+        } catch (Exception e) {
+            response.put("success", false);  // 실패 응답
+        }
+        return response;
+    }
+
+
     
 
 }
