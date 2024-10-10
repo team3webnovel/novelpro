@@ -166,7 +166,7 @@
 		</table>
 		
 		<!-- 게시글 작성 버튼 -->
-		<a href="/team3webnovel/board/write" class="create-btn">게시글 작성</a>
+		<a href="board/write" class="create-btn">게시글 작성</a>
 		
 		<div class="pagination">
 		    <c:if test="${totalPages > 1}">

@@ -91,4 +91,22 @@ public class ImageBoardController {
 	    }
 		return response;
 	}
+	
+	@RequestMapping(value="/comment/delete", method=RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public Map<String, Object> deleteComment(HttpSession session, @RequestParam("commentId") int commentId){
+		Map<String, Object> response = new HashMap<>();
+		UserVo user = (UserVo) session.getAttribute("user");
+		try {
+			int success = imageBoardService.deleteComment(commentId, user.getUserId());
+			if (success == 1) {
+				response.put("success", true);
+			} else {
+				response.put("success", false);
+			}
+		} catch(Exception e) {
+			response.put("success", false);
+		}
+		return response;
+	}
 }

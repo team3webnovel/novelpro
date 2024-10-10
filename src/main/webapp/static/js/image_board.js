@@ -26,6 +26,7 @@ function closeModal() {
 
 function refreshModal(boardId, creationId, comment){
 	let userId = document.getElementById('userId').value;
+	console.log(userId);
 	fetch('/team3webnovel/images/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
@@ -43,10 +44,11 @@ function refreshModal(boardId, creationId, comment){
 			if(comments != null){
 				let commentsHtml = comments.map(comment => {
 		            return `<tr><td><strong>${comment.userName}</strong>: ${comment.content}
-						<span class="comment-time">${comment.formattedCreatedAt}</td></tr></span>
+						<span class="comment-time">${comment.formattedCreatedAt}</span>
 						${userId == comment.userId ? 
-	                    	`<button type="button" class="comment-delete" data-comment-id="${comment.commentId}">삭제</button>` 
+	                    	`<button type="button" class="comment-delete btn btn-danger btn-sm" data-comment-id="${comment.commentId}" style="float: right;">삭제</button>` 
 	                    : ''}
+						</td></tr>
 						`;
 		        }).join('');
 				document.getElementById('comment-content').innerHTML=`
@@ -183,6 +185,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('Error:', error);
                 alert('댓글 작성 중 오류가 발생했습니다.');
             });
+        }
+		
+		// 댓글 삭제 버튼 클릭 확인
+        if (event.target && event.target.classList.contains('comment-delete')) {
+            event.preventDefault();
+            let commentId = event.target.getAttribute('data-comment-id'); // 삭제할 댓글의 ID
+
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+                fetch(`/team3webnovel/images/board/comment/delete?commentId=${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => response.json()) // 서버로부터 JSON 응답을 받음
+                .then(data => {
+                    if (data.success) {
+                        alert('댓글이 삭제되었습니다.');
+                        refreshModal(currentBoardId, currentCreationId, currentComment); // 댓글 목록 갱신
+                    } else {
+                        alert('댓글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('댓글 삭제 중 오류가 발생했습니다.');
+                });
+            }
         }
     });
 });
