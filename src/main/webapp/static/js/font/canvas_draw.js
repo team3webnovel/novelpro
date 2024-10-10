@@ -432,13 +432,7 @@ function drawCanvas() {
 // 텍스트 박스 외부 클릭 시 포커스 처리 (다중 선택 포함)
 canvas.addEventListener('click', function (e) {
 	
-	// 모달에서 이미지가 선택된 경우에는 포커스 해제 로직을 실행하지 않음
-	if (modalImageSelected) {
-	    // 플래그를 다시 초기화 (한 번만 체크되도록)
-	    modalImageSelected = false;
-	    return;
-		
-	}
+
 	
     const rect = canvas.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
