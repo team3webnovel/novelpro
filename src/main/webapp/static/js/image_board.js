@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-function openModal(boardId, imageUrl, creationId) {
-	document.getElementById('modalContent').textContent = "";
-    // modal에 데이터를 세팅
-    document.getElementById('modalImage').src = imageUrl;
-	
-	fetch('/team3webnovel/gije/image/board/detail/' + creationId, {
-=======
 let currentBoardId = null;
 let currentCreationId = null;
 let currentComment = null;
@@ -34,7 +26,6 @@ function closeModal() {
 
 function refreshModal(boardId, creationId, comment){
 	fetch('/team3webnovel/images/board/detail/' + creationId, {
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645
 		method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -45,21 +36,6 @@ function refreshModal(boardId, creationId, comment){
 	})
 		.then(response => response.json())
 		.then(data => {
-<<<<<<< HEAD
-			document.getElementById('modalContent').textContent = data.prompt;
-		})
-		.catch(error => console.error('실패'))
-	
-    // modal을 보이게 설정
-    $('#myModal').modal('show');
-}
-
-// modal을 닫는 함수
-function closeModal() {
-	document.getElementById('modalContent').textContent = "";
-    $('#myModal').modal('hide');
-}
-=======
 			// imageVo 객체와 comments 리스트를 사용하여 모달에 데이터를 세팅
 	        const imageVo = data.imageVo; // imageVo 필드에 접근
 	        const comments = data.comments; // comments 필드에 접근 (리스트)
@@ -205,4 +181,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
->>>>>>> fca975958283a01489625d9af5f4fb7a09190645

@@ -177,7 +177,7 @@ public class NovelController {
 
         novelService.insertNovel(vo);
 
-        return "redirect:/my_storage";
+        return "redirect:/storage";
     }
     
     @PostMapping("/new_novel/api")
@@ -244,6 +244,20 @@ public class NovelController {
 
         return (user == null || novelVo.getUserId() != user.getUserId()) ? 
                 "storage/detail_user" : "storage/novel_detail";
+    }
+    
+    @PostMapping("/updateStatus")
+    public void updateStatus(@RequestParam("novelId") int novelId, @RequestParam("status") String status) {
+        try {
+            // 상태 업데이트 로직 수행
+            NovelVo vo = new NovelVo();
+            vo.setNovelId(novelId);
+            vo.setStatus(status);
+            novelService.updateStatus(vo);
+            // 응답을 반환하지 않음
+        } catch (Exception e) {
+            // 오류 발생 시에도 아무런 응답을 보내지 않음
+        }
     }
 
     // 에피소드 업데이트
