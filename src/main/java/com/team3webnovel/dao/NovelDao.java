@@ -42,12 +42,9 @@ public interface NovelDao {
     void updateNovelDetail(NovelVo vo);
     
     void updateEpisodeVisibility(NovelVo vo);
-    
+
     // ys 소설 수정
     void updateNovel(NovelVo novel);
 
-    
-
-    
 
 }

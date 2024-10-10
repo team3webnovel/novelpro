@@ -47,6 +47,5 @@ public interface NovelMapper {
     
     ///ys 소설 수정
     void updateNovel(NovelVo novel);
-    
-    
+
 }

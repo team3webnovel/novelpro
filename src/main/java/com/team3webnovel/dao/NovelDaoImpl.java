@@ -92,18 +92,10 @@ public class NovelDaoImpl implements NovelDao {
 	public void updateEpisodeVisibility(NovelVo vo) {
 		novelMapper.updateEpisodeVisibility(vo);
 	}
-	
 	@Override
     public NovelVo getNovelById(int novelId) {
         // MyBatis 매퍼를 사용하여 novelId로 소설 데이터를 조회
         return novelMapper.getNovelByNovelId(novelId);
     }
 
-
-
-//    // 소설 ID로 소설 조회
-//    @Override
-//    public NovelVo getNovelById(UserVo novelId) {
-//        return novelMapper.getNovelListByUserId(novelId);  // Mapper를 통한 소설 조회
-//    }
 }

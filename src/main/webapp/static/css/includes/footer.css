@@ -1,0 +1,37 @@
+/* 기본 푸터 스타일 */
+footer {
+    background-color: #343a40; /* 어두운 배경 색상 */
+    color: #fff; /* 글자 색상 */
+    padding: 10px 0; /* 패딩 추가 */
+    width: 100%; /* 너비 100% */
+    text-align: center; /* 중앙 정렬 */
+    position: relative; /* 푸터를 화면 하단에 고정 */
+    bottom: 0; /* 화면 하단에 위치 */
+    left: 0; /* 왼쪽에 맞춤 */
+}
+
+/* 푸터 텍스트 스타일 */
+.footer-container {
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 0 15px; /* 좌우 패딩 */
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 중앙 정렬 */
+}
+
+/* 푸터 텍스트 */
+.footer-container p {
+    margin: 0; /* 기본 여백 제거 */
+    font-size: 1rem; /* 기본 폰트 크기 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 넘치는 텍스트는 생략 기호로 표시 */
+    max-width: 100%;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .footer-container p {
+        font-size: 0.9rem; /* 작은 화면에서 폰트 크기 축소 */
+        padding: 0 10px; /* 여백 추가 */
+    }
+}

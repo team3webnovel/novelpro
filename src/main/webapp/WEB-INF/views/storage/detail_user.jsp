@@ -32,9 +32,15 @@
 
         <!-- 오른쪽: 소설 정보 -->
         <div class="col-md-8">
+<<<<<<< HEAD
             <p><strong>작가:</strong> 작가명</p>
             <p><strong>장르:</strong> ${novelCover.genre}</p>
             <p><strong>전체 에피소드:</strong> n화</p>
+=======
+            <p>작가: ${novelCover.userName}</p>
+            <p>장르: ${novelCover.genre}</p>
+            <p>전체 에피소드: ${novelCover.episodeNo != null ? novelCover.episodeNo : 0}</p>
+>>>>>>> fca975958283a01489625d9af5f4fb7a09190645
 
             <!-- 상태 표시 -->
             <p><strong>상태:</strong> 

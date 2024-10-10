@@ -22,4 +22,13 @@ public interface ImageDao {
     
     public ImageVo getAllInformation(int creationId);
 
+    void updateImageTitle(ImageVo imageVo);
+    
+    void deleteImageById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
+
+
 }

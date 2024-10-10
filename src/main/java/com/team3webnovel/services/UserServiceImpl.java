@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService {
     @Transactional  // 트랜잭션 활성화
     public void registerUser(UserVo user) {
     	
-        logger.info("registerUser started for username: {}", user.getUsername());
+//        logger.info("registerUser started for username: {}", user.getUsername());
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        logger.info("Password encoding completed for username: {}", user.getUsername());
+//        logger.info("Password encoding completed for username: {}", user.getUsername());
 
         user.setPassword(encodedPassword);
 

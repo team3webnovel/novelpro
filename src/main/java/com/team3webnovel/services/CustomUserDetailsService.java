@@ -19,13 +19,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 @Autowired
 private UserMapper userMapper;
-	
+
+	@Autowired
+	private UserDao userDao;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 데이터베이스에서 사용자 정보를 로드
         UserVo user = userMapper.findUserByUsername(username);
+        UserVo userVo = userDao.findUserByUsername(username);
+        if (userVo == null) {
 
-        if (user == null) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
 

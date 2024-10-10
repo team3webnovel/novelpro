@@ -2,24 +2,24 @@ package com.team3webnovel.dto;
 
 import java.util.List;
 
-import com.team3webnovel.vo.GijeBoardVo;
+import com.team3webnovel.vo.BoardVo;
 
 public class BoardPageDto {
-	private List<GijeBoardVo> boardList;
+	private List<BoardVo> boardList;
 	private int totalPages;
 	private int currentPage;
 
-	public BoardPageDto(List<GijeBoardVo> boardList, int totalPages, int currentPage) {
+	public BoardPageDto(List<BoardVo> boardList, int totalPages, int currentPage) {
         this.boardList = boardList;
         this.totalPages = totalPages;
         this.currentPage = currentPage;
     }
 
-	public List<GijeBoardVo> getBoardList() {
+	public List<BoardVo> getBoardList() {
 		return boardList;
 	}
 
-	public void setBoardList(List<GijeBoardVo> boardList) {
+	public void setBoardList(List<BoardVo> boardList) {
 		this.boardList = boardList;
 	}
 

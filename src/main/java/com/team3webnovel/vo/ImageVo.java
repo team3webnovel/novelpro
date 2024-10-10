@@ -143,7 +143,8 @@ public class ImageVo {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
-		}
+	}
+	
 	
 	public String getTitle() {
 		return title;

@@ -1,5 +1,4 @@
 package com.team3webnovel.controllers;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,21 @@ import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.UserVo;
 
 import jakarta.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class FontController {
@@ -87,6 +101,7 @@ public class FontController {
         paramMap.put("creationId", creationId);
         paramMap.put("imageUrl", imageUrl);
         paramMap.put("fileName", fileName);
+        paramMap.put("title", fileName);
 
         // image_generation_data 테이블에 이미지 데이터를 삽입
         imageService.fontGenerate(paramMap);

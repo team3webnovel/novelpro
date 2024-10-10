@@ -4,7 +4,6 @@ import com.team3webnovel.vo.PwVo;
 
 public interface PwDao {
 	
-	
 	PwVo getPasswordByName(String pwName);
 	
 }

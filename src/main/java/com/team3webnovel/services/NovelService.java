@@ -29,6 +29,7 @@ public interface NovelService {
 
     List<NovelVo> getNovelDetailByNovelId(int novelId);
     
+
     // 정보 불러오기
     NovelVo getNovelByNovelId(int novelId);
     

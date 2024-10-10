@@ -35,6 +35,10 @@
 		)
         VALUES (
             #{creationId}, #{imageUrl}, #{fileName}
+		    CREATION_ID, IMAGE_URL, FILENAME, TITLE
+		)
+        VALUES (
+            #{creationId}, #{imageUrl}, #{fileName}, #{title}
         )
     </insert>
     
@@ -45,10 +49,37 @@
 		FROM image_generation_data igd 
 		JOIN creation c 
 		ON igd.creation_id = c.creation_id
+
 		WHERE c.user_id = #{userId} AND
 		c.art_form = 2
+
+		WHERE c.user_id = #{userId}
+		AND c.art_form IN (2, 3)
 		order by igd.created_at desc
     </select>
+    
+    <update id="updateImageTitle" parameterType="com.team3webnovel.vo.ImageVo">
+    	UPDATE IMAGE_GENERATION_DATA
+	    SET title = #{title}
+	    WHERE creation_id = #{creationId}
+    </update>
+    
+    <delete id="deleteImageById" parameterType="int">
+        DELETE FROM IMAGE_GENERATION_DATA
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+    <delete id="deleteCreationById" parameterType="int">
+        DELETE FROM creation
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+	<update id="updateCreationId" parameterType="int">
+	    UPDATE creation
+	    SET creation_id = 0
+	    WHERE creation_id = #{creationId}
+	</update>
+
     
     <!-- 성민 -->
 
