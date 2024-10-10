@@ -1,5 +1,7 @@
 package com.team3webnovel.vo;
 
+import java.sql.Timestamp;
+
 public class VideoVo {
 
 	private int creationId; // 비디오 생성 ID
@@ -18,6 +20,8 @@ public class VideoVo {
 	private int videoFrames; // 비디오 프레임 수
 	private int motionBucketId; // 모션 버킷 ID
 	private int fps; // 초당 프레임 수 (FPS)
+	private Timestamp createdAt;
+	private String title;
 
 	// 기본 생성자
 	public VideoVo() {
@@ -173,13 +177,32 @@ public class VideoVo {
 	public void setFps(int fps) {
 		this.fps = fps;
 	}
+	
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	@Override
 	public String toString() {
-		return "VideoVo{" + "creationId=" + creationId + ", userId=" + userId + ", videoUrl='" + videoUrl + '\''
-				+ ", videoFilename='" + videoFilename + '\'' + ", prompt='" + prompt + '\'' + ", modelCheck='"
-				+ modelCheck + '\'' + ", sampler='" + sampler + '\'' + ", initImage='" + initImage + '\'' + ", steps="
-				+ steps + ", cfg=" + cfg + ", seed=" + seed + ", width=" + width + ", height=" + height
-				+ ", videoFrames=" + videoFrames + ", motionBucketId=" + motionBucketId + ", fps=" + fps + '}';
+		return "VideoVo [creationId=" + creationId + ", userId=" + userId + ", videoUrl=" + videoUrl
+				+ ", videoFilename=" + videoFilename + ", prompt=" + prompt + ", modelCheck=" + modelCheck
+				+ ", sampler=" + sampler + ", initImage=" + initImage + ", steps=" + steps + ", cfg=" + cfg + ", seed="
+				+ seed + ", width=" + width + ", height=" + height + ", videoFrames=" + videoFrames
+				+ ", motionBucketId=" + motionBucketId + ", fps=" + fps + ", createdAt=" + createdAt + ", title="
+				+ title + "]";
 	}
 }

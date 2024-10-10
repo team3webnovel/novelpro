@@ -3,31 +3,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Video Generation Result</title>
+    <title>Image Generation Result</title>
 </head>
 <body>
-    <h1>Video Generation Result</h1>
+    <h1>Image Generation Result</h1>
 
     <div id="resultSection">
         <% 
-            String videoUrl = (String) session.getAttribute("videoUrl");
-            Boolean videoGenerated = (Boolean) session.getAttribute("videoGenerated");
+            String imageUrl = (String) session.getAttribute("videoUrl");  // 기존 videoUrl 대신 imageUrl로 사용
+            Boolean imageGenerated = (Boolean) session.getAttribute("videoGenerated");  // 기존 videoGenerated 그대로 사용
 
-            if (videoGenerated != null && videoGenerated) {
+            if (imageGenerated != null && imageGenerated) {
         %>
-            <p>Video generation was successful! You can watch your video below:</p>
-            <video controls style="max-width: 100%;">
-                <source src="<%= videoUrl %>" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <p><a href="<%= videoUrl %>" download>Download Video</a></p>
+            <p>Image generation was successful! You can view your image below:</p>
+            <img src="<%= imageUrl %>" alt="Generated Image" style="max-width: 100%;" />
+            <p><a href="<%= imageUrl %>" download>Download Image</a></p>  <!-- 다운로드 링크 -->
         
         <% 
-                session.removeAttribute("videoGenerated");
+                session.removeAttribute("videoGenerated");  // 세션에서 제거
                 session.removeAttribute("videoUrl");
             } else {
         %>
-            <p>Video generation is still in progress. Please check back later.</p>
+            <p>Image generation is still in progress. Please check back later.</p>
             <script>
                 setTimeout(function () {
                     window.location.reload();
