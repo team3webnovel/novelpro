@@ -40,20 +40,52 @@ public class MainController {
     }
     
     @GetMapping("/generate-search")
-    public String searchPage() {
+    public String searchPage(Model model) {
+    	// 장르 리스트를 생성
+        List<GenreVo> genres = new ArrayList<>();
+        genres.add(new GenreVo("로판", "로판"));
+        genres.add(new GenreVo("현판", "현판"));
+        genres.add(new GenreVo("판타지", "판타지"));
+        genres.add(new GenreVo("무협", "무협"));
+        genres.add(new GenreVo("로맨스", "로맨스"));
+        genres.add(new GenreVo("일반", "일반"));
+        
+        // 모델에 장르 리스트 추가
+        model.addAttribute("genres", genres);
+        
     	return "search";
     }
     
     @GetMapping("/generate-search/{index}")
     public String generateSearch(@PathVariable String index, Model model) {
-        // novelService를 통해 검색 결과 가져오기
-        List<NovelVo> novelList = novelService.searchNovels(index);
-        
-        // JSP로 검색어와 결과 전달
-        model.addAttribute("searchQuery", index);  // 검색어 전달
-        model.addAttribute("results", novelList);  // 검색 결과 전달
-        
+        // 검색어에서 앞뒤 공백 제거하고 중복 공백을 하나의 공백으로 변경
+        String cleanedIndex = index.trim().replaceAll("\\s+", " ");
+
+        // 검색어가 공백만 있을 경우 처리
+        if (cleanedIndex.isEmpty()) {
+            // 공백만 있으면 전체 소설 리스트 반환
+            List<NovelVo> novelList = novelService.searchNovels(""); // 모든 소설 반환 메서드
+            model.addAttribute("results", novelList);
+        } else {
+            // 공백 외에 검색어가 있으면 해당 검색어로 검색
+            List<NovelVo> novelList = novelService.searchNovels(cleanedIndex);
+            model.addAttribute("results", novelList);
+        }
+
+        // 장르 리스트 생성 및 모델에 추가
+        List<GenreVo> genres = new ArrayList<>();
+        genres.add(new GenreVo("로판", "로판"));
+        genres.add(new GenreVo("현판", "현판"));
+        genres.add(new GenreVo("판타지", "판타지"));
+        genres.add(new GenreVo("무협", "무협"));
+        genres.add(new GenreVo("로맨스", "로맨스"));
+        genres.add(new GenreVo("일반", "일반"));
+        model.addAttribute("genres", genres);
+
+        model.addAttribute("searchQuery", index);  // 원본 검색어 전달
         return "search";  // search.jsp로 이동
     }
+
+
     
 }
