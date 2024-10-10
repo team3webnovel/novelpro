@@ -34,10 +34,13 @@
         }
         .card {
         	margin-bottom: 10px;
-            padding: 20px;
+            padding: 10px;
             background-color: #f9f9f9;
             border-radius: 8px;
             transition: transform 0.3s ease;
+        }
+        .card img{
+        	
         }
         .card:hover {
             transform: translateY(-10px);

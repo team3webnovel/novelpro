@@ -72,7 +72,7 @@ function refreshModal(boardId, creationId, comment){
 				`;	
 			}
 			
-			if (imageVo != null){
+			if (imageVo != null && imageVo.prompt != null){
 				document.getElementById('modal-content').innerHTML = `
 		            <table class="table">
 		                <thead>

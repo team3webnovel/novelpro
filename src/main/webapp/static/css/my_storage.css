@@ -125,6 +125,7 @@ h2 {
     max-height: 200px;
     object-fit: cover;
 }
+
 /* 오버레이와 확인 버튼의 우선순위를 높여 다른 요소들 위에 나타나도록 설정 */
 .overlay {
     position: fixed;
@@ -169,4 +170,44 @@ h2 {
 
 #confirmButton:hover {
     background-color: #e94e2e;
+}
+
+/* 비디오 탭 카드 스타일 */
+#video .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#video .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 비디오 썸네일 이미지 스타일 */
+#video .card-img-top {
+    max-height: 200px;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+#video .card-img-top:hover {
+    opacity: 0.9;
+}
+
+/* 비디오 카드 본문 스타일 */
+#video .card-body {
+    text-align: left;
+    color: #333;
+}
+
+/* 비디오 카드 제목 스타일 */
+#video .card-title {
+    font-weight: 500;
+    color: #0056b3;
+}
+
+/* 비디오 샘플러 및 생성 정보 텍스트 스타일 */
+#video .card-text {
+    font-size: 0.9rem;
+    color: #666;
 }
