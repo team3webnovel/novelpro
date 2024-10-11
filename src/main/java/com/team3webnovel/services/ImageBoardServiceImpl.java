@@ -38,6 +38,22 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 	public void writeImageBoard(ImageBoardVo boardVo) {
 		imageBoardDao.writeImageBoard(boardVo);
 	}
+	
+	@Override
+	public String deleteImageBoard(int boardId, int userId) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardId", boardId);
+		map.put("userId", userId);
+		
+		int success = imageBoardDao.deleteImageBoard(map);
+		String message;
+		if (success == 1) {
+			message = "성공";
+		} else {
+			message = "실패";
+		}
+		return message;
+	}
 
 	@Override
 	public ImageBoardViewDto getImageBoardDetailAndComment(int boardId, int creationId) {		

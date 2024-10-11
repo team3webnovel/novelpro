@@ -68,7 +68,7 @@
 
     <!-- 음악 보관함으로 이동하는 링크 추가 -->
 <p id="musicStorageLink" class="text-center mt-3">
-    <a href="<%= request.getContextPath() %>/storage?tab=music">음악 보관함으로 이동</a>
+    <a href="<%= request.getContextPath() %>/storage#music">음악 보관함으로 이동</a>
 </p>
 
 </div>
