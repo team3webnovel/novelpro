@@ -11,6 +11,8 @@ public interface ImageBoardDao {
 	
 	public void writeImageBoard(ImageBoardVo boardVo);
 	
+	public int deleteImageBoard(Map <String, Integer> map);
+	
 	public int publicCheck(int boardId);
 	
 	List <BoardCommentVo> getList(int boardId);

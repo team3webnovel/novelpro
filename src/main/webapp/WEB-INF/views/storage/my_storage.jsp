@@ -41,6 +41,8 @@
 						href="<%=request.getContextPath()%>/generate-font"
 						class="btn btn-primary">표지 폰트</a> <a
 						href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
+					<a href="<%=request.getContextPath()%>/videos/video"
+						class="btn btn-primary">비디오 제작(임시)</a>
 				</div>
 			</div>
 

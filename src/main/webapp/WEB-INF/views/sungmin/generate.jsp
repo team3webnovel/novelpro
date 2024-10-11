@@ -65,11 +65,11 @@
 
 			<div class="form-group">
 				<label for="width">Width (64-2048):</label> <input type="range"
-					id="widthRange" name="widthRange" min="64" max="2048" value="896"
+					id="widthRange" name="widthRange" min="64" max="2048" value="768"
 					class="form-control-range"
 					oninput="document.getElementById('width').value=this.value">
 				<input type="number" id="width" name="width" min="64" max="2048"
-					value="896" class="form-control mt-2"
+					value="768" class="form-control mt-2"
 					oninput="document.getElementById('widthRange').value=this.value">
 			</div>
 
@@ -100,8 +100,7 @@
 					onclick="setRandomSeed()">랜덤 Seed</button>
 			</div>
 
-			<button type="submit" class="btn btn-primary btn-block">Generate
-				Image</button>
+			<button type="submit" class="btn btn-primary btn-block">Generate Image</button>
 		</form>
 	</div>
 

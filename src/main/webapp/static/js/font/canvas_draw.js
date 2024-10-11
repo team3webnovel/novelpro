@@ -89,7 +89,7 @@ function uploadImage() {
 	
 // 파일명을 백엔드로 전송하는 함수
 function sendFileNameToBackend(fileName) {
-    fetch('http://localhost:8080/team3webnovel/generate-font', {  // 백엔드 경로로 파일명 전송
+    fetch('/team3webnovel/generate-font', {  // 백엔드 경로로 파일명 전송
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'  // JSON 형식으로 데이터 전송

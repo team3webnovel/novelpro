@@ -26,9 +26,14 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
+        	display: inline; /* h1을 인라인 요소로 설정 */
             text-align: center;
             color: #333;
         }
+        .btn-secondary {
+		    opacity: 0.7; /* 버튼의 투명도를 낮춰서 덜 눈에 띄게 함 */
+		    margin-bottom: 7px;
+		}
         .grid {
             display: flex;
             flex-wrap: wrap;
@@ -110,6 +115,9 @@
 <body>
     <div class="container">
         <h1>모델 선택</h1>
+	    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-left: 10px;">
+	        디테일 설정
+	    </button>
         <div class="row">
             <div class="col-md-4">
 			    <div class="card">
@@ -402,5 +410,117 @@
 	        </div>
 	    </div>
 	</div>
+	
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" id="detailModal-dialog" role="document">
+    <div class="modal-content" id="detailModal-content" style="padding: 10px;">
+      <div class="modal-header">
+        <h5 class="modal-title">디테일 설정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="detailForm">
+          <!-- Checkpoint & Sampler -->
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="checkpoint">Checkpoint:</label>
+              <select id="checkpoint" name="checkpoint" class="form-control">
+                <option value="aamXLAnimeMix_v10.safetensors">aamXLAnimeMix_v10</option>
+                <option value="animagineXLV31_v31.safetensors">animagineXLV31_v31</option>
+                <option value="juggernautXL_juggXIByRundiffusion.safetensors">juggernautXL_juggXIByRundiffusion</option>
+                <option value="prefectPonyXL_v3.safetensors">prefectPonyXL_v3</option>
+                <option value="romanticprism_v10.safetensors">romanticprism_v10</option>
+                <option value="dreamshaper_8.safetensors">dreamshaper_8</option>
+                <option value="majicmixRealistic.safetensors">majicmixRealistic</option>
+                <option value="sdxlNijiSeven_sdxlNijiSeven.safetensors">sdxlNijiSeven</option>
+              </select>
+            </div>
+
+            <div class="form-group col-6">
+              <label for="sampler_index">Sampler Index:</label>
+              <select id="sampler_index" name="sampler_index" class="form-control">
+                <option value="euler">Euler</option>
+                <option value="euler_ancestral">Euler a</option>
+                <option value="dpmpp_2m">DPM++ 2M</option>
+                <option value="dpmpp_2m_sde">DPM++ 2M SDE</option>
+                <option value="ipndm_v">IPNDM_V</option>
+                <option value="lms">LMS</option>
+                <option value="lcm">LCM</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Prompt & Negative Prompt -->
+          <div class="row">
+            <div class="form-group col-12">
+              <label for="prompt">Prompt:</label>
+              <textarea id="prompt" name="prompt" class="form-control" rows="4" required></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-12">
+              <label for="negative_prompt">Negative Prompt:</label>
+              <textarea id="negative_prompt" name="negative_prompt" class="form-control" rows="4" required></textarea>
+            </div>
+          </div>
+
+          <!-- Steps & CFG Scale (한 줄에 배치) -->
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="steps">Steps (1-100):</label>
+              <input type="number" id="steps" name="steps" min="1" max="100" value="25" class="form-control" oninput="document.getElementById('stepsRange').value=this.value">
+              <input type="range" id="stepsRange" name="stepsRange" min="1" max="100" value="25" class="form-control-range mt-2" oninput="document.getElementById('steps').value=this.value">
+            </div>
+
+            <div class="form-group col-6">
+              <label for="cfg_scale">CFG Scale (1-20):</label>
+              <input type="number" id="cfg_scale" name="cfg_scale" min="1" max="20" value="7" class="form-control" oninput="document.getElementById('cfgScaleRange').value=this.value">
+              <input type="range" id="cfgScaleRange" name="cfgScaleRange" min="1" max="20" value="7" class="form-control-range mt-2" oninput="document.getElementById('cfg_scale').value=this.value">
+            </div>
+          </div>
+
+          <!-- Width & Height -->
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="width">Width (64-2048):</label>
+              <input type="range" id="widthRange" name="widthRange" min="64" max="2048" value="768" class="form-control-range" oninput="document.getElementById('width').value=this.value">
+              <input type="number" id="width" name="width" min="64" max="2048" value="768" class="form-control mt-2" oninput="document.getElementById('widthRange').value=this.value">
+            </div>
+
+            <div class="form-group col-6">
+              <label for="height">Height (64-2048):</label>
+              <input type="range" id="heightRange" name="heightRange" min="64" max="2048" value="1152" class="form-control-range" oninput="document.getElementById('height').value=this.value">
+              <input type="number" id="height" name="height" min="64" max="2048" value="1152" class="form-control mt-2" oninput="document.getElementById('heightRange').value=this.value">
+            </div>
+          </div>
+
+          <!-- Seed -->
+          <div class="row">
+            <div class="form-group col-9">
+              <label for="seed">Seed:</label>
+              <input type="number" id="seed" name="seed" class="form-control" value="1">
+            </div>
+            <div class="form-group col-3">
+              <button type="button" class="btn btn-secondary" onclick="setRandomSeed()">랜덤 Seed</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+      	<div id="spinner3" style="display:none;" class="mt-3">Loading...</div>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" id="detailSubmitButton" class="btn btn-primary">생성</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>

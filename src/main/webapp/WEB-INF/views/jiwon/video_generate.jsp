@@ -5,29 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>비디오 생성</title>
-    <style>
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-        }
-
-        .image-item {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .image-item img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .image-item.selected {
-            border-color: blue; /* 선택된 이미지의 테두리 색을 변경 */
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/video/video_generate.css">
 </head>
 <body>
 
@@ -51,57 +29,17 @@
         <input type="hidden" id="selectedFilename" name="selectedFilename">
         <input type="hidden" id="selectedImageUrl" name="selectedImageUrl">
 
-        <div>
-            <label for="samplerName">샘플러 이름:</label> 
-            <input type="text" id="samplerName" name="sampler_index" value="dpmpp_2m" required>
-        </div>
-
-        <div>
-            <label for="steps">스텝:</label> 
-            <input type="number" id="steps" name="steps" value="20" required>
-        </div>
-
-        <div>
-            <label for="width">너비:</label> 
-            <input type="number" id="width" name="width" value="512" readonly>
-        </div>
-
-        <div>
-            <label for="height">높이:</label> 
-            <input type="number" id="height" name="height" value="768" readonly>
-        </div>
-
-        <div>
-            <label for="videoFrames">비디오 프레임:</label> 
-            <input type="number" id="videoFrames" name="videoFrames" value="14" readonly>
-        </div>
-
-        <div>
-            <label for="fps">FPS (초당 프레임):</label> 
-            <input type="number" id="fps" name="fps" value="6" required>
-        </div>
-
-        <div>
-            <label for="seed">시드:</label> 
-            <input type="number" id="seed" name="seed" value="1">
-            <button type="button" onclick="setRandomSeed()">랜덤 시드</button>
-        </div>
-
-        <div>
-            <label for="cfgScale">CFG 스케일:</label> 
-            <input type="number" step="0.1" id="cfgScale" name="cfg_scale" value="2" required>
-        </div>
-
-        <div>
-            <label for="checkpoint">체크포인트:</label> 
-            <input type="text" id="checkpoint" name="checkpoint" value="svd.safetensors" readonly>
-        </div>
-
-        <div>
-            <label for="motionBucketId">모션 버킷 ID:</label> 
-            <input type="number" id="motionBucketId" name="motionBucketId" value="127" required>
-        </div>
-
+        <input type="hidden" id="samplerName" name="sampler_index" value="dpmpp_2m" required>
+        <input type="hidden" id="steps" name="steps" value="20" required>
+        <input type="hidden" id="width" name="width" value="512" readonly>
+        <input type="hidden" id="height" name="height" value="768" readonly>
+        <input type="hidden" id="videoFrames" name="videoFrames" value="14" readonly>
+        <input type="hidden" id="fps" name="fps" value="6" required>
+        <input type="hidden" id="seed" name="seed" value="1">
+        <input type="hidden" id="cfgScale" name="cfg_scale" value="2" required>
+        <input type="hidden" id="checkpoint" name="checkpoint" value="svd.safetensors" readonly>
+        <input type="hidden" id="motionBucketId" name="motionBucketId" value="127" required>
+        
         <!-- 이미지 생성 버튼 추가 -->
         <button type="button" id="generateImageBtn" onclick="generateImage()">이미지 생성</button>
 
@@ -133,10 +71,11 @@
             document.getElementById('selectedImageUrl').value = selectedImageUrl;
         }
 
-        // 랜덤 시드 설정 함수
+     	// 랜덤 시드 설정 함수 (폼 제출 시에도 자동 호출)
         function setRandomSeed() {
             const randomSeed = Math.floor(Math.random() * 9999999) + 1;
             document.getElementById('seed').value = randomSeed;
+            console.log("Random Seed Set: " + randomSeed);
         }
 
         // 이미지 생성 함수
