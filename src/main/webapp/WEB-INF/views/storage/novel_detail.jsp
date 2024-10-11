@@ -10,15 +10,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 
 <!-- 내 보관함 섹션 추가 -->
 <div class="container mt-5">
     <div class="d-flex justify-content-between">
         <h2>${novelCover.title}</h2>
         <!-- 글쓰기 버튼 -->
-        <a href="<%=request.getContextPath()%>/write/${novelCover.novelId}" class="btn btn-primary">회차 쓰기</a>
+        <a href="<%=request.getContextPath()%>/novel/write/${novelCover.novelId}" class="btn btn-primary">회차 쓰기</a>
         <!-- 편집 버튼 (수정 및 삭제) -->
-        <a href="<%=request.getContextPath()%>/edit_new_novel/${novelCover.novelId}" class="btn btn-secondary">편집</a>
+        <a href="<%=request.getContextPath()%>/novel/edit-new-novel/${novelCover.novelId}" class="btn btn-secondary">편집</a>
    	</div>
 </div>
 
@@ -98,7 +102,7 @@
     
         // AJAX 요청으로 상태 변경
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<%=request.getContextPath()%>/updateStatus", true);
+        xhr.open("POST", "<%=request.getContextPath()%>/novel/updateStatus", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     
         // 데이터 전송 (응답 처리는 생략)
@@ -112,7 +116,7 @@
 
         // AJAX 요청으로 상태 변경
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<%=request.getContextPath()%>/updateVisibility", true);
+        xhr.open("POST", "<%=request.getContextPath()%>/novel/updateVisibility", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
         // 데이터 전송

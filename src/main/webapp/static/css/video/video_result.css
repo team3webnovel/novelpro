@@ -1,15 +1,16 @@
+
 /* 기본적인 스타일 설정 */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f2f5;
     color: #333;
-    margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;  /* 필요에 따라 추가: 페이지에서 스크롤이 발생하지 않도록 설정 */
+    margin-top: 150px !important;
+    margin-bottom: 150px;
 }
 
 /* 컨테이너 스타일 */

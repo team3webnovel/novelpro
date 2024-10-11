@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Image Generation Result</title>
+
+    <!-- header.jsp를 포함 -->
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+
+    <!-- 필요한 경우에만 video_result.css 포함 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/video/video_result.css">
 </head>
 <body>

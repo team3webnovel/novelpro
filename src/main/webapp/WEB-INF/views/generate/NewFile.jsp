@@ -28,6 +28,7 @@
             border-color: blue; /* 선택된 이미지의 테두리 색을 변경 */
         }
     </style>
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
 

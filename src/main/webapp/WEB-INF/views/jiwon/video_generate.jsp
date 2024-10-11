@@ -5,17 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>비디오 생성</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/video/video_generate.css">
-</head>
-<body>
 
-    <h1>비디오 생성</h1>
-    <form id="videoGenerateForm" method="post" action="<%=request.getContextPath()%>/videos/vidgenerate">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/video/video_generate.css">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+
+</head>
+<body class="video-gen-body">
+
+    <h1 class="video-gen-h1">비디오 생성</h1>
+    <form id="videoGenerateForm" class="video-gen-form" method="post" action="<%=request.getContextPath()%>/videos/vidgenerate" onsubmit="setRandomSeed()">
         <!-- 데이터베이스에서 이미지 선택 -->
-        <h2>데이터베이스에서 이미지 선택</h2>
-        <div class="image-grid" id="imageGrid">
+        <h2 class="video-gen-h2">데이터베이스에서 이미지 선택</h2>
+        <div class="video-gen-image-grid" id="imageGrid">
             <c:forEach var="image" items="${imageList}">
-                <div class="image-item" data-url="${image.imageUrl}" data-filename="${image.filename}"
+                <div class="video-gen-image-item" data-url="${image.imageUrl}" data-filename="${image.filename}"
                     onclick="selectImage(this)">
                     <img src="${image.imageUrl}" alt="데이터베이스 이미지">
                     <p>생성일: ${image.createdAt}</p>
@@ -41,13 +44,13 @@
         <input type="hidden" id="motionBucketId" name="motionBucketId" value="127" required>
         
         <!-- 이미지 생성 버튼 추가 -->
-        <button type="button" id="generateImageBtn" onclick="generateImage()">이미지 생성</button>
+        <button type="button" id="generateImageBtn" class="video-gen-button" onclick="generateImage()">이미지 생성</button>
 
-        <button type="submit" id="submitBtn" disabled>비디오 생성</button>
+        <button type="submit" id="submitBtn" class="video-gen-button" disabled>비디오 생성</button>
     </form>
 
     <!-- 결과 표시 영역 -->
-    <div id="generationResult"></div>
+    <div id="generationResult" class="video-gen-generation-result"></div>
 
     <script>
         let selectedImageElement = null;

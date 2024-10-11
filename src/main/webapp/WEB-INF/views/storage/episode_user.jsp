@@ -9,9 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${episode.title} - 소설 보기</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
 <body class="bg-light d-flex justify-content-center align-items-start" style="min-height: 100vh; padding-top: 40px; padding-bottom: 40px;">
-
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 <div class="container">
     <div class="card shadow-sm mx-auto" style="max-width: 800px;">
         <div class="card-body">

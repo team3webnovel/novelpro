@@ -1,8 +1,5 @@
-/* Google Fonts 추가 */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
 /* 기본 스타일 설정 */
-body {
+.video-gen-body {
     font-family: 'Poppins', sans-serif;
     background-color: #f0f2f5;
     color: #2c3e50;
@@ -10,7 +7,7 @@ body {
     padding: 0;
 }
 
-h1, h2 {
+.video-gen-h1, .video-gen-h2 {
     color: #34495e;
     text-align: center;
     margin-bottom: 20px;
@@ -18,7 +15,7 @@ h1, h2 {
 }
 
 /* 컨테이너 스타일 */
-.container {
+.video-gen-container {
     max-width: 850px;
     margin: 0 auto;
     padding: 30px;
@@ -28,24 +25,24 @@ h1, h2 {
     transition: box-shadow 0.3s ease;
 }
 
-.container:hover {
+.video-gen-container:hover {
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* 폼 스타일 */
-form {
+.video-gen-form {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-label {
+.video-gen-label {
     font-weight: 600;
     margin-bottom: 8px;
     color: #7f8c8d;
 }
 
-input, select, button {
+.video-gen-input, .video-gen-select, .video-gen-button {
     padding: 12px 15px;
     font-size: 16px;
     border-radius: 8px;
@@ -53,13 +50,13 @@ input, select, button {
     transition: all 0.3s ease;
 }
 
-input:focus, select:focus {
+.video-gen-input:focus, .video-gen-select:focus {
     border-color: #1abc9c;
     outline: none;
     box-shadow: 0 0 5px rgba(26, 188, 156, 0.3);
 }
 
-button {
+.video-gen-button {
     background-color: #1abc9c;
     color: white;
     border: none;
@@ -67,29 +64,25 @@ button {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover {
+.video-gen-button:hover {
     background-color: #16a085;
     box-shadow: 0 8px 15px rgba(22, 160, 133, 0.3);
 }
 
-button:disabled {
+.video-gen-button:disabled {
     background-color: #bdc3c7;
     cursor: not-allowed;
 }
 
-button:disabled:hover {
-    box-shadow: none;
-}
-
 /* 이미지 선택 영역 */
-.image-grid {
+.video-gen-image-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
 }
 
-.image-item {
+.video-gen-image-item {
     position: relative;
     width: 160px;
     height: 160px;
@@ -101,27 +94,27 @@ button:disabled:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.image-item:hover {
+.video-gen-image-item:hover {
     transform: scale(1.05);
 }
 
-.image-item.selected {
+.video-gen-image-item.selected {
     border-color: #1abc9c;
     transform: scale(1.05);
 }
 
-.image-item img {
+.video-gen-image-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.image-item:hover img {
+.video-gen-image-item:hover img {
     transform: scale(1.1);
 }
 
-.image-item p {
+.video-gen-image-item p {
     font-size: 13px;
     text-align: center;
     margin: 8px 0 0 0;
@@ -129,7 +122,7 @@ button:disabled:hover {
 }
 
 /* 결과 표시 영역 */
-#generationResult {
+.video-gen-generation-result {
     margin-top: 25px;
     padding: 20px;
     border: 1px solid #e1e5eb;
@@ -139,19 +132,19 @@ button:disabled:hover {
     transition: all 0.3s ease;
 }
 
-#generationResult.show {
+.video-gen-generation-result.show {
     display: block;
     opacity: 1;
 }
 
 /* 모바일 대응 */
 @media (max-width: 600px) {
-    .image-grid {
+    .video-gen-image-grid {
         flex-direction: column;
         align-items: center;
     }
 
-    .image-item {
+    .video-gen-image-item {
         width: 100%;
         max-width: 280px;
     }
