@@ -24,6 +24,7 @@ window.onload = function() {
     explanationText.style.left = '50%';
     explanationText.style.transform = 'translate(-50%, -50%)';
     explanationText.style.zIndex = '10002';
+    explanationText.style.maxWidth = '80%';  // 텍스트 폭 제한
     document.body.appendChild(explanationText);
 
     // 첫 번째 텍스트 타이핑 효과
@@ -76,13 +77,14 @@ window.onload = function() {
         typing();
     }
 
-    // "다음" 버튼 생성 함수
+    // "다음" 버튼 생성 함수 (텍스트 아래 배치)
     function createNextButton(nextStepFunction) {
         const nextButton = document.createElement('button');
         nextButton.innerHTML = '다음';
-        nextButton.style.position = 'fixed';
-        nextButton.style.bottom = '20px';
-        nextButton.style.right = '20px';
+        nextButton.style.position = 'absolute';
+        nextButton.style.top = `${explanationText.getBoundingClientRect().bottom + 20}px`; // 설명 텍스트 아래에 위치
+        nextButton.style.left = '50%';
+        nextButton.style.transform = 'translateX(-50%)';
         nextButton.style.padding = '10px 20px';
         nextButton.style.fontSize = '1.2rem';
         nextButton.style.zIndex = '10002';
@@ -114,13 +116,14 @@ window.onload = function() {
         });
     }
 
-    // "종료" 버튼 생성 함수
+    // "종료" 버튼 생성 함수 (텍스트 아래에 위치)
     function createExitButton() {
         const exitButton = document.createElement('button');
         exitButton.innerHTML = '종료';
-        exitButton.style.position = 'fixed';
-        exitButton.style.bottom = '20px';
-        exitButton.style.left = '20px';
+        exitButton.style.position = 'absolute';
+        exitButton.style.top = `${explanationText.getBoundingClientRect().bottom + 20}px`; // 설명 텍스트 아래에 위치
+        exitButton.style.left = '50%';
+        exitButton.style.transform = 'translateX(-50%)';
         exitButton.style.padding = '10px 20px';
         exitButton.style.fontSize = '1.2rem';
         exitButton.style.zIndex = '10002';
@@ -138,9 +141,9 @@ window.onload = function() {
         const explanationText = document.getElementById('explanationText');
 
         // 강조 및 오버레이 제거
-        const images = document.querySelectorAll('.carousel-item');
-        images.forEach(image => {
-            image.classList.remove('highlight');
+        const items = document.querySelectorAll('.carousel-item');
+        items.forEach(item => {
+            item.classList.remove('highlight');
         });
         if (overlay) overlay.remove();
         if (explanationText) explanationText.remove();
@@ -164,4 +167,4 @@ window.onload = function() {
 		    console.log('Added highlight to carousel-item:', item);
 		});
 	};
-	}
+}
