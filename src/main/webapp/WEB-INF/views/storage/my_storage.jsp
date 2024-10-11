@@ -18,6 +18,11 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="static/js/my_storage.js"></script>
 <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+
+
 </head>
 
 <body>
@@ -95,8 +100,11 @@
 										<h5 class="card-title text-dark">
 											<a href="${pageContext.request.contextPath}/music_detail/${music.creationId}" class="text-dark">${music.title}</a>
 										</h5>
-										<audio id="audioPlayer${music.creationId}" controls class="w-100 mt-2">
-											<source id="audioSource${music.creationId}" src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4" type="audio/mp4">
+										<audio id="audioPlayer${music.creationId}" controls
+											class="plyr">
+											<source id="audioSource${music.creationId}"
+												src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4"
+												type="audio/mp4">
 											Your browser does not support the audio element.
 										</audio>
 									</div>
@@ -209,6 +217,14 @@
 			</div>
 		</div>
 
+<script type="text/javascript">
+    var contextPath = "<%=request.getContextPath()%>";
+    var originalTitle = '';  // 제목 저장 변수
+ // Plyr 초기화 코드
+    document.addEventListener('DOMContentLoaded', () => {
+        const players = Plyr.setup('.plyr'); // .plyr 클래스를 가진 모든 오디오 및 비디오 태그에 적용
+    });
+</script>
 		<script type="text/javascript">
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalTitle = '';  // 제목 저장 변수
