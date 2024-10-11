@@ -133,6 +133,7 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 		return imageBoardDao.deleteComment(map);
 	}
 
+
 	@Override
 	public boolean toggleLike(int userId, int boardId) {
 		
@@ -152,4 +153,5 @@ public class ImageBoardServiceImpl implements ImageBoardService {
             return true; // 좋아요 추가됨
         }
 	}
+
 }
