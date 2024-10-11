@@ -176,12 +176,7 @@
 	    UPDATE novel_detail
 	    SET visibility = #{visibility}
 	    WHERE novel_id = #{novelId} AND episode_no = #{episodeNo}
-	</update>
-	
-	
-	
-
-    <!-- 성민 -->
+	</update><!-- 성민 -->
     
 
     <!-- 소설 수정 -->
@@ -222,6 +217,12 @@
 	        n.created_at DESC
 	</select>
 
+	<!-- 에피소드(회차) 삭제 -->
+	<delete id="deleteEpisode" >
+	    DELETE FROM novel_detail
+	    WHERE novel_id = #{novelId}
+	    AND episode_no = #{episodeNo};
+	</delete>
 
 
 </mapper>

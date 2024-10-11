@@ -100,6 +100,13 @@ public class NovelServiceImpl implements NovelService {
 	public void updateEpisodeVisibility(NovelVo vo) {
 		novelDao.updateEpisodeVisibility(vo);
 	}
+
+
+	@Override
+	public void deleteEpisode(int novelId, int episodeNo) {
+		novelDao.deleteEpisode(novelId, episodeNo);
+		
+	}
 	
 	
 	

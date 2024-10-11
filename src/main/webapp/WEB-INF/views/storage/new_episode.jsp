@@ -329,6 +329,7 @@
         alert("임시 저장 기능이 구현될 예정입니다.");
     }
 
+
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {
         var contextPath = "<%= request.getContextPath() %>";

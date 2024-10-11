@@ -17,14 +17,18 @@
 
 <!-- 내 보관함 섹션 추가 -->
 <div class="container mt-5">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
         <h2>${novelCover.title}</h2>
+
+        <div>
         <!-- 글쓰기 버튼 -->
         <a href="<%=request.getContextPath()%>/novel/write/${novelCover.novelId}" class="btn btn-primary">회차 쓰기</a>
         <!-- 편집 버튼 (수정 및 삭제) -->
         <a href="<%=request.getContextPath()%>/novel/edit-new-novel/${novelCover.novelId}" class="btn btn-secondary">편집</a>
-   	</div>
+   		</div>
+	</div>
 </div>
+
 
 <!-- 기존 소설 상세 페이지 내용 -->
 <div class="container mt-4">
@@ -73,7 +77,7 @@
                             <!-- 미리보기 링크 추가 -->
 			                <br>
                             <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}" class="text-muted">
-			                    펀집
+			                    편집
 			                </a>
                         </div>
 
