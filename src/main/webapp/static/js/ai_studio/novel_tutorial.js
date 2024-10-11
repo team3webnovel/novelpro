@@ -1,10 +1,9 @@
+let tutorialRunning = true; // 전역 플래그 변수: 튜토리얼이 실행 중인지 여부
+
 window.onload = function() {
-    // 1. 페이지가 로드되면 화면이 어두워지고 장르 선택 부분을 강조
+    // 어두운 배경 생성
     const overlay = document.createElement('div');
     overlay.id = 'darkOverlay';
-    document.body.appendChild(overlay);
-
-    // 어두운 배경 스타일 적용
     overlay.style.position = 'fixed';
     overlay.style.top = 0;
     overlay.style.left = 0;
@@ -12,15 +11,9 @@ window.onload = function() {
     overlay.style.height = '100%';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
     overlay.style.zIndex = '9999';
+    document.body.appendChild(overlay);
 
-    // 장르 선택 부분 강조
-    const genreSelect = document.getElementById('genre');
-    genreSelect.classList.add('highlight');
-    genreSelect.style.position = 'relative';
-    genreSelect.style.zIndex = '10001';
-    genreSelect.scrollIntoView({ behavior: 'smooth' });
-
-    // 설명 텍스트 추가 (화면 정중앙에 배치)
+    // 설명 텍스트 생성 (중앙 배치)
     const explanationText = document.createElement('div');
     explanationText.id = 'explanationText';
     explanationText.style.color = '#fff';
@@ -33,86 +26,161 @@ window.onload = function() {
     explanationText.style.zIndex = '10002';
     document.body.appendChild(explanationText);
 
-    // 타이핑 애니메이션 함수
-    const textToType = '먼저 내가 쓰는 글의 장르를 선택합니다.';
-    let index = 0;
+    // 첫 번째 단계 (장르 선택 강조)
+    stepOne();
 
-    function typeText(text, callback) {
-        if (index < text.length) {
-            explanationText.innerHTML += text.charAt(index);
-            index++;
-            setTimeout(() => typeText(text, callback), 100);
-        } else if (callback) {
-            callback();
-        }
+    // 스킵 버튼 생성
+    createSkipButton();
+
+    // 1. 첫 번째 단계: 장르 선택 부분 강조
+    function stepOne() {
+        const genreSelect = document.getElementById('genre');
+        genreSelect.classList.add('highlight');
+        genreSelect.style.position = 'relative';
+        genreSelect.style.zIndex = '10001';
+        genreSelect.scrollIntoView({ behavior: 'smooth' });
+
+        // 타이핑 애니메이션
+        typeText('먼저 내가 쓰는 글의 장르를 선택합니다.', function() {
+            if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 다음 버튼 생성
+                createNextButton(genreSelect, stepTwo); // 첫 번째 "다음" 버튼 생성
+            }
+        });
     }
 
-    // 첫 타이핑 애니메이션 시작
-    typeText(textToType, () => {
-        nextButton.style.display = 'block'; // 타이핑이 끝나면 "다음" 버튼 보이기
-    });
+    // 2. 두 번째 단계: 사용자 입력 영역 강조
+    function stepTwo() {
+        const genreSelect = document.getElementById('genre');
+        genreSelect.classList.remove('highlight'); // 이전 강조 제거
 
-    // "다음" 버튼 생성
-    const nextButton = document.createElement('button');
-    nextButton.id = 'nextButton';
-    nextButton.innerHTML = '다음';
-    nextButton.style.position = 'absolute';
-    nextButton.style.top = genreSelect.getBoundingClientRect().bottom + window.scrollY + 30 + 'px';
-    nextButton.style.left = genreSelect.getBoundingClientRect().left + (genreSelect.offsetWidth / 2) - 30 + 'px';
-    nextButton.style.padding = '10px 20px';
-    nextButton.style.fontSize = '1.2rem';
-    nextButton.style.zIndex = '10001';
-    nextButton.style.display = 'none'; // 처음에는 숨기기
-    document.body.appendChild(nextButton);
-
-    // 2. "다음" 버튼 클릭 시 사용자 입력 영역 강조
-    nextButton.addEventListener('click', function() {
-        // 장르 선택 강조 제거
-        genreSelect.classList.remove('highlight');
-        explanationText.innerHTML = '';
-        nextButton.style.display = 'none';
-
-        // 사용자 입력 영역 강조
         const inputArea = document.getElementById('input-area');
         inputArea.classList.add('highlight');
         inputArea.style.zIndex = '10001';
         inputArea.scrollIntoView({ behavior: 'smooth' });
 
-        // 챗봇 설명 텍스트 타이핑 애니메이션
-        const newText = '챗봇과의 대화를 통해 시놉시스를 작성해보세요!';
-        index = 0;
-        typeText(newText, () => {
-            nextButton.style.display = 'block'; // 두 번째 타이핑 후 버튼 보이기
-            nextButton.style.top = inputArea.getBoundingClientRect().bottom + window.scrollY + 30 + 'px';
-            nextButton.style.left = inputArea.getBoundingClientRect().left + (inputArea.offsetWidth / 2) - 30 + 'px';
-        });
-    });
-
-    // 3. "다음" 버튼 클릭 시 줄거리 입력 강조
-    nextButton.addEventListener('click', function() {
-        // 사용자 입력 영역 강조 제거
-        const inputArea = document.getElementById('input-area');
-        inputArea.classList.remove('highlight');
-
-        // 설명 텍스트 초기화
+        // 텍스트 초기화 후 타이핑 애니메이션
         explanationText.innerHTML = '';
-        nextButton.style.display = 'none';
+        typeText('챗봇과의 대화를 통해 시놉시스를 작성해보세요!', function() {
+            if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 다음 버튼 생성
+                createNextButton(inputArea, stepThree); // 두 번째 "다음" 버튼 생성
+            }
+        });
+    }
 
-        // 줄거리 입력 강조
+    // 3. 세 번째 단계: 줄거리 입력 강조 및 "종료" 버튼
+    function stepThree() {
+        const inputArea = document.getElementById('input-area');
+        inputArea.classList.remove('highlight'); // 이전 강조 제거
+
         const introInput = document.getElementById('intro');
         introInput.classList.add('highlight');
         introInput.style.zIndex = '10001';
         introInput.scrollIntoView({ behavior: 'smooth' });
 
-        // 새로운 설명 텍스트 타이핑 애니메이션
-        const finalText = '이제 당신의 글을 소개할 시간이에요!';
-        index = 0;
-        typeText(finalText, () => {
-            // 마지막 타이핑이 끝나면 오버레이와 설명 제거
-            setTimeout(function() {
-                explanationText.remove();
-                overlay.remove();
-            }, 3000); // 3초 후 제거
+        explanationText.innerHTML = ''; // 텍스트 초기화
+        typeText('이제 당신의 글을 소개할 시간이에요!', function() {
+            if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 종료 버튼 생성
+                createExitButton(); // "종료" 버튼 생성
+            }
         });
-    });
+    }
+
+    // 타이핑 애니메이션 함수
+    function typeText(text, callback) {
+        let index = 0;
+        explanationText.innerHTML = ''; // 이전 텍스트 초기화
+        function typing() {
+            if (!tutorialRunning) return; // 튜토리얼이 중단되면 타이핑 중단
+            if (index < text.length) {
+                explanationText.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typing, 100);
+            } else if (callback) {
+                callback(); // 타이핑이 끝나면 콜백 실행
+            }
+        }
+        typing();
+    }
+
+    // "다음" 버튼 생성 함수
+    function createNextButton(targetElement, nextStepFunction) {
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = '다음';
+        nextButton.style.position = 'absolute';
+        nextButton.style.top = targetElement.getBoundingClientRect().bottom + window.scrollY + 30 + 'px';
+        nextButton.style.left = targetElement.getBoundingClientRect().left + (targetElement.offsetWidth / 2) - 30 + 'px';
+        nextButton.style.padding = '10px 20px';
+        nextButton.style.fontSize = '1.2rem';
+        nextButton.style.zIndex = '10001';
+        nextButton.id = 'nextButton'; // ID 추가
+        document.body.appendChild(nextButton);
+
+        nextButton.addEventListener('click', function() {
+            nextButton.remove(); // "다음" 버튼을 제거하고 다음 단계로 이동
+            nextStepFunction();
+        });
+    }
+
+    // "종료" 버튼 생성 함수
+    function createExitButton() {
+        const exitButton = document.createElement('button');
+        exitButton.innerHTML = '종료';
+        exitButton.style.position = 'fixed';
+        exitButton.style.bottom = '20px';
+        exitButton.style.left = '50%';
+        exitButton.style.transform = 'translateX(-50%)';
+        exitButton.style.padding = '10px 20px';
+        exitButton.style.fontSize = '1.2rem';
+        exitButton.style.zIndex = '10001';
+        exitButton.id = 'exitButton';
+        document.body.appendChild(exitButton);
+
+        exitButton.addEventListener('click', function() {
+            closeTutorial(); // 튜토리얼 종료
+        });
+    }
+
+    // "스킵" 버튼 생성 함수 (오른쪽 상단에 고정)
+    function createSkipButton() {
+        const skipButton = document.createElement('button');
+        skipButton.innerHTML = '스킵';
+        skipButton.style.position = 'fixed';
+        skipButton.style.top = '20px';
+        skipButton.style.right = '20px';
+        skipButton.style.padding = '10px 20px';
+        skipButton.style.fontSize = '1.2rem';
+        skipButton.style.zIndex = '10001'; // 항상 맨 위에 표시
+        skipButton.id = 'skipButton'; // ID 추가
+        document.body.appendChild(skipButton);
+
+        // 스킵 버튼 클릭 시 튜토리얼 종료
+        skipButton.addEventListener('click', function() {
+            tutorialRunning = false; // 튜토리얼 실행 중단
+            closeTutorial(); // 튜토리얼 종료
+        });
+    }
+
+    // 튜토리얼 종료 함수
+    function closeTutorial() {
+        const overlay = document.getElementById('darkOverlay');
+        const genreSelect = document.getElementById('genre');
+        const inputArea = document.getElementById('input-area');
+        const introInput = document.getElementById('intro');
+        const explanationText = document.getElementById('explanationText');
+
+        // 강조 및 오버레이 제거
+        if (genreSelect) genreSelect.classList.remove('highlight');
+        if (inputArea) inputArea.classList.remove('highlight');
+        if (introInput) introInput.classList.remove('highlight');
+        if (overlay) overlay.remove();
+        if (explanationText) explanationText.remove();
+
+        // 버튼 제거
+        const exitButton = document.getElementById('exitButton');
+        const skipButton = document.getElementById('skipButton');
+        const nextButton = document.getElementById('nextButton'); // "다음" 버튼 참조 추가
+        if (exitButton) exitButton.remove();
+        if (skipButton) skipButton.remove();
+        if (nextButton) nextButton.remove(); // "다음" 버튼 제거
+    }
 };

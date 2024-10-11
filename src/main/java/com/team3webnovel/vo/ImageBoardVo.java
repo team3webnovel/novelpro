@@ -1,5 +1,6 @@
 package com.team3webnovel.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ImageBoardVo {
@@ -11,6 +12,7 @@ public class ImageBoardVo {
 	private String content;
 	private String imageUrl;
 	private int publicCheck;
+	private BigDecimal like;
 	
 	public ImageBoardVo() {
 		
@@ -23,7 +25,7 @@ public class ImageBoardVo {
 		this.publicCheck = publicCheck;
 	}
 
-	public ImageBoardVo(int boardId, int userId, int creationId, Date createAt, int viewCount, String content, String imageUrl, int publicCheck) {
+	public ImageBoardVo(int boardId, int userId, int creationId, Date createAt, int viewCount, String content, String imageUrl, int publicCheck, BigDecimal like) {
 		super();
 		this.boardId = boardId;
 		this.userId = userId;
@@ -33,6 +35,7 @@ public class ImageBoardVo {
 		this.content = content;
 		this.imageUrl = imageUrl;
 		this.publicCheck = publicCheck;
+		this.like = like;
 	}
 
 	public int getBoardId() {
@@ -98,5 +101,17 @@ public class ImageBoardVo {
 	public void setPublicCheck(int publicCheck) {
 		this.publicCheck = publicCheck;
 	}
-	
+
+    public void setLike(BigDecimal like) {
+        this.like = like; // BigDecimal을 int로 변환하여 설정
+    }
+
+    public BigDecimal getLike() {
+        return like;
+    }
+
+	public void setLike(int i) {
+		BigDecimal bd = new BigDecimal(i);
+		this.like = bd;
+	}
 }

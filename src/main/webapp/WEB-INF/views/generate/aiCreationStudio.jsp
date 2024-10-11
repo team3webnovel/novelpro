@@ -215,7 +215,7 @@
             // 동적으로 폼을 생성하여 POST 방식으로 전송
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = '<%=request.getContextPath()%>/creation-studio'; // 컨텍스트 경로 포함
+            form.action = '<%=request.getContextPath()%>/creation-studio/novel'; // 컨텍스트 경로 포함
 
             // 필요한 입력값이 있으면 input 요소를 동적으로 추가 가능
             // 예: hidden 필드

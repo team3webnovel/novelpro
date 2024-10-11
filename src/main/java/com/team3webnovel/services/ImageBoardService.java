@@ -19,4 +19,6 @@ public interface ImageBoardService {
 	void writeComment(BoardCommentVo vo);
 	
 	int deleteComment(int commentId, int userId);
+	
+	public boolean toggleLike(int userId, int boardId);
 }

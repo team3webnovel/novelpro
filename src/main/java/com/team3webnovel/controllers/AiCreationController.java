@@ -19,10 +19,16 @@ public class AiCreationController {
         return "/generate/aiCreationStudio"; // aiCreationStudio.jsp로 이동
     }
     
-    @PostMapping
+    @PostMapping("/novel")
     public String goToNewNovel(Model model) {
     	model.addAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
     	return "/storage/new_novel";
+    }
+    
+    @PostMapping("/image")
+    public String goToImage(Model model) {
+    	model.addAttribute("AImessage","AI 창작 스튜디오에 오신 것을 환영합니다!");
+    	return "/generate/image_simple_form";
     }
 
 }

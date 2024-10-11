@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			.then(result => {
 			    console.log(result);  // 서버에서 받은 JSON 응답 출력
 			    document.getElementById("spinner1").style.display = "none";
-			    window.location.href = "/team3webnovel/my_storage"; // 페이지 이동
+			    window.location.href = "/team3webnovel/storage"; // 페이지 이동
 			})
 			.catch(error => {
 			    console.error('Error:', error);

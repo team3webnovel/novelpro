@@ -105,7 +105,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.insertNovelDetail(vo);
 
-        return "redirect:/my_storage"; // 작성 후 보관함 페이지로 리다이렉트
+        return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
     
     // 글쓰기 페이지로 이동
