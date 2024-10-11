@@ -131,15 +131,17 @@ public class ImageBoardController {
 		return response;
 	}
 	
-	/*
-	 * @PostMapping("/like/{boardId}") public ResponseEntity<Map<String, Object>>
-	 * toggleLike(@PathVariable int boardId, @RequestBody Map<String, Object>
-	 * requestBody){ int userId = (int)requestBody.get("userId"); boolean liked =
-	 * imageBoardService.toggleLike(userId, boardId);
-	 * 
-	 * Map<String, Object> response = new HashMap<>(); response.put("success",
-	 * true); response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
-	 * 
-	 * return ResponseEntity.ok(response); }
-	 */
+
+	@PostMapping("/like/{boardId}")
+	public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int boardId, @RequestBody Map<String, Object> requestBody){
+		String userIdStr = (String) requestBody.get("userId");
+		int userId = Integer.parseInt(userIdStr);
+		boolean liked = imageBoardService.toggleLike(userId, boardId);
+		
+		Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
+
+        return ResponseEntity.ok(response);
+	}
 }

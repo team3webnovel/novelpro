@@ -52,6 +52,7 @@ public class NovelController {
     @GetMapping("/write/{novelId}")
     public String showWritePage(@PathVariable("novelId") int novelId, HttpSession session, Model model) {
     	
+    	
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
     	CreationVo vo = new CreationVo();
@@ -122,7 +123,7 @@ public class NovelController {
 
     // 소설 생성
     @PostMapping("/new-novel")
-    public String write(@ModelAttribute NovelVo vo, HttpSession session,
+    public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
     		@RequestParam("illust") int illust,
     		@RequestParam("title") String title,
     		@RequestParam("intro") String intro,
@@ -151,6 +152,10 @@ public class NovelController {
     	
     	// NovelService를 통해 소설 삽입
     	novelService.insertNovel(vo);
+    	
+    	if (model.containsAttribute("AImessage")) {
+    		return "/generate/image_simple_form";
+    	}
     	
     	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }

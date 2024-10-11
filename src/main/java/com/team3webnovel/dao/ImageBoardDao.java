@@ -18,4 +18,10 @@ public interface ImageBoardDao {
 	List <BoardCommentVo> getList(int boardId);
 	void writeComment(BoardCommentVo vo);
 	int deleteComment(Map<String, Integer> map);
+	
+	boolean check (Map<String, Integer> map);
+	void like(Map<String, Integer> map);
+	void unlike(Map<String, Integer> map);
+	
+	List<Map<String, Object>> likeCounts();
 }
