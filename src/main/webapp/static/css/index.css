@@ -85,8 +85,12 @@ body {
 }
 
 .card img {
-	border-radius: 10px; /* 이미지 모서리 둥글게 */
+    border-radius: 10px; /* 이미지 모서리 둥글게 */
+    width: 100%; /* 부모 컨테이너에 맞게 이미지 너비 설정 */
+    aspect-ratio: 1 / 1.5; /* 가로 1 : 세로 1.5 비율 */
+    object-fit: cover; /* 이미지가 잘리지 않고 비율에 맞게 채워지도록 설정 */
 }
+
 
 /* 장르 섹션 스타일 */
 .genres-section {

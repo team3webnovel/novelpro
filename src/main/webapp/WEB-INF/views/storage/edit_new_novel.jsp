@@ -26,7 +26,7 @@
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 수정 -->
         <div class="col-md-6">
             <!-- 폼 action 경로를 소설 수정으로 변경 -->
-            <form action="${pageContext.request.contextPath}/edit_new_novel/${novelCover.novelId}" method="POST">
+            <form action="${pageContext.request.contextPath}/novel/edit-new-novel/${novelCover.novelId}" method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>

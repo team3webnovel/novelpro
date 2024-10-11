@@ -17,30 +17,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
-import com.team3webnovel.services.VideoService;
 import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.MusicVo;
 import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
-import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/novel")
 public class NovelController {
 
     @Autowired
     private NovelService novelService;
-    
-    @Autowired
-    private VideoService videoService;
     
     @Autowired
     private ImageService imageService;
@@ -111,7 +108,7 @@ public class NovelController {
     }
     
     // 글쓰기 페이지로 이동
-    @GetMapping("/cover")
+    @GetMapping("/new-novel")
     public String insertCoverPage(HttpSession session, Model model) {
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
@@ -124,7 +121,7 @@ public class NovelController {
     }
 
     // 소설 생성
-    @PostMapping("/cover")
+    @PostMapping("/new-novel")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
     		@RequestParam("illust") int illust,
     		@RequestParam("title") String title,
@@ -159,7 +156,7 @@ public class NovelController {
     }
     
  // 소설 상세페이지로 이동
-    @GetMapping("/novel_detail/{novelId}")
+    @GetMapping("/novel-detail/{novelId}")
     public String detailPage(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
         
 /*      수정해야할듯
@@ -223,7 +220,7 @@ public class NovelController {
         }
     }
     
-    @GetMapping("/novel/episode/{novelId}/{episodeNo}")
+    @GetMapping("/episode/{novelId}/{episodeNo}")
     public String episodeUpdate(
             @PathVariable int novelId, 
             @PathVariable int episodeNo,
@@ -259,7 +256,7 @@ public class NovelController {
         
     	return "storage/update_episode";
     }
-    @GetMapping("/novel/episodeview/{novelId}/{episodeNo}")
+    @GetMapping("/episodeview/{novelId}/{episodeNo}")
     public String episodeView(
             @PathVariable int novelId, 
             @PathVariable int episodeNo,
@@ -401,7 +398,7 @@ public class NovelController {
             .body("{\"intro\": \"" + generatedIntro + "\"}");  // intro 필드만 반환
     }
     
-    @GetMapping("/edit_new_novel/{novelId}")
+    @GetMapping("/edit-new-novel/{novelId}")
     public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         UserVo user = (UserVo)session.getAttribute("user");
@@ -436,7 +433,7 @@ public class NovelController {
         return "storage/edit_new_novel";
     }
     
-    @PostMapping("/edit_new_novel/{novelId}")
+    @PostMapping("/edit-new-novel/{novelId}")
     public String updateNovel(
             @PathVariable int novelId, 
             Model model, HttpSession session,
@@ -476,7 +473,7 @@ public class NovelController {
         return "redirect:/novel_detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
     }
 
-    @PostMapping("/delete_novel/{novelId}")
+    @PostMapping("/delete-novel/{novelId}")
     public String deleteNovel(@PathVariable int novelId, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");

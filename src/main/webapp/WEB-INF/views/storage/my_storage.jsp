@@ -40,7 +40,7 @@
 						class="btn btn-primary">표지 제작</a> <a
 						href="<%=request.getContextPath()%>/generate-font"
 						class="btn btn-primary">표지 폰트</a> <a
-						href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
+						href="<%=request.getContextPath()%>/novel/new-novel" class="btn btn-primary">글쓰기</a>
 				</div>
 			</div>
 
@@ -65,7 +65,7 @@
 						<c:forEach var="novel" items="${novelList}">
 							<div class="col-md-4 mb-4">
 								<a
-									href="<%=request.getContextPath()%>/novel_detail/${novel.novelId}"
+									href="<%=request.getContextPath()%>/novel/novel-detail/${novel.novelId}"
 									class="card-link">
 									<div class="card h-100">
 										<img src="${novel.imageUrl}" class="card-img-top"

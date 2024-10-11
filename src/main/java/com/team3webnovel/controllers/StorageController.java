@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
@@ -21,6 +22,7 @@ import com.team3webnovel.vo.VideoVo;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/storage")
 public class StorageController {
 	
 	@Autowired ImageService imageService;	
@@ -31,7 +33,7 @@ public class StorageController {
     
     @Autowired VideoService videoService;
 	
-	@GetMapping("/storage")
+    @RequestMapping({"/", "/main", ""})
     public String showMyStoragePage(HttpSession session, Model model) {
         // 세션에서 로그인한 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");
