@@ -74,7 +74,7 @@ public class NovelController {
     @PostMapping("/write/{novelId}")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
     					@RequestParam("illust") int illust,
-    					@RequestParam("bgm") int bgm,
+    					@RequestParam(value="bgm", required = false) int bgm,
                         @RequestParam("title") String title,
                         @RequestParam("episode") int episode,
                         @RequestParam("content") String content) {
@@ -281,7 +281,7 @@ public class NovelController {
             @PathVariable int episodeNo,
             Model model, HttpSession session,
             @RequestParam("illust") int illust,
-			@RequestParam("bgm") int bgm,
+            @RequestParam(value="bgm", required = false) int bgm,
             @RequestParam("title") String title,
             @RequestParam("content") String content) {
     	
@@ -304,7 +304,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.updateNovelDetail(vo);
     	
-    	return "redirect:/novel_detail/" + novelId;
+    	return "redirect:/novel-detail/" + novelId;
     	
     }
     

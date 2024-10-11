@@ -14,7 +14,7 @@ public class BoardVo {
 	Date updatedAt;
 	int viewCount;
 	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm");
 	
 	public BoardVo(int boardId, int userId, String userName, String title, String content, Date createdAt, Date updatedAt,
 			int viewCount) {
