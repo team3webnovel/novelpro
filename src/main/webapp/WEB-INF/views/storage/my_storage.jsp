@@ -217,7 +217,6 @@
 			</div>
 		</div>
 
-<<<<<<< HEAD
 <script type="text/javascript">
     var contextPath = "<%=request.getContextPath()%>";
     var originalTitle = '';  // 제목 저장 변수
@@ -226,7 +225,6 @@
         const players = Plyr.setup('.plyr'); // .plyr 클래스를 가진 모든 오디오 및 비디오 태그에 적용
     });
 </script>
-=======
 		<script type="text/javascript">
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalTitle = '';  // 제목 저장 변수
@@ -402,7 +400,6 @@
 		        }
 		    }
 		</script>
->>>>>>> 8f1879a3a9dc1105b877d74c8b560f454e7f3fb5
 	</div>
 </body>
 </html>
