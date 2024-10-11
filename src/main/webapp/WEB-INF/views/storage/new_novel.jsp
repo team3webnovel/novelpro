@@ -15,10 +15,17 @@
     <script type="text/javascript">
         const contextPath = "${pageContext.request.contextPath}";
     </script>
-
+    <!-- 조건부로 novel_tutorial.js 로드 -->
+<!--     <c:if test="${not empty AImessage}"> -->
+        <script src="${pageContext.request.contextPath}/static/js/ai_studio/novel_tutorial.js"></script>
+    	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/ai_studio/novel_tutorial.css">
+<!--     </c:if> -->
 </head>
 <body>
-
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 <div class="container mt-5">
     <h2>소설 쓰기</h2>
     

@@ -52,6 +52,7 @@ public class NovelController {
     @GetMapping("/write/{novelId}")
     public String showWritePage(@PathVariable("novelId") int novelId, HttpSession session, Model model) {
     	
+    	
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
     	CreationVo vo = new CreationVo();

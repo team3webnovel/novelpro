@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 창작 스튜디오</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     <style>
         /* 전체 페이지 스타일 */
         body {
@@ -119,67 +120,34 @@
             font-weight: bold;
         }
 
-        /* 화면 어두워지기 위한 오버레이 */
+        /* 어두운 배경 오버레이 */
         #darkOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
+            background-color: rgba(0, 0, 0, 0.85); /* 어두운 배경 */
             display: none; /* 기본적으로 보이지 않음 */
             z-index: 10; /* 화면 최상단에 위치 */
         }
 
-        /* 소설 구상하기 강조 */
+        /* 소설 구상하기 스타일 (초기 상태) */
         #novelPlanning {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.5); /* 초기에는 작게 설정 */
+            /* 클릭 전에는 아무런 스타일이 없음 */
+            cursor: pointer; /* 마우스를 가져가면 손가락 모양 */
+        }
+
+        /* 소설 구상하기 강조 (버튼 클릭 후 적용될 스타일) */
+        .highlight-novelPlanning {
             background-color: #fff;
             color: #333;
             padding: 20px 40px;
             border-radius: 10px;
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
-            opacity: 0;
             z-index: 20; /* 어두운 배경 위에 위치 */
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            display: none; /* 처음에는 숨김 */
+            transition: all 0.5s ease;
         }
-    /* 제목 스타일 */
-    #novelPlanning h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-    }
-
-    /* 설명 스타일 */
-    #novelPlanning p {
-        color: #666;
-        margin-top: 10px;
-        font-size: 1rem;
-    }
-
-        /* 애니메이션: 중앙으로 날아오는 효과 */
-        #novelPlanning.show-novel-planning {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1); /* 원래 크기로 */
-            display: block;
-            animation: zoomIn 0.6s forwards;
-        }
-            /* 애니메이션 추가: 모달 확대 효과 */
-    @keyframes zoomIn {
-        0% {
-            transform: scale(0.5);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-
 
     </style>
 </head>
@@ -188,14 +156,9 @@
 <!-- 어두운 배경 오버레이 -->
 <div id="darkOverlay"></div>
 
-<!-- 소설 구상하기 강조 섹션 -->
-<div id="novelPlanning">
-    <h2>STEP 1.</h2>
-    <p>소설 구상 및 구조화: 당신의 상상력을 구체화 해보세요!</p>
-</div>
 
 <div class="center-container">
-    <h1>AI 창작 스튜디오에 오신 것을 환영합니다!</h1>
+    <h1>${AImessage}</h1>
     <h3>AI가 당신의 창작을 도와드립니다.</h3>
     <h4>준비물은 오직 당신의 '창의력'뿐!</h4>
     <h5>아이디어만 있다면, 나머지는 AI가 도와드립니다.</h5>
@@ -206,7 +169,7 @@
     <!-- 제공 도구 소개 -->
     <div class="tools">
         <div class="tool-step">
-            <div class="step-description">📖 소설 구상 및 구조화</div>
+            <div class="step-description" id="novelPlanning">📖 소설 구상 및 구조화</div>
             <div class="arrow">→</div>
         </div>
         <div class="tool-step">
@@ -236,7 +199,6 @@
         }, 500);  // 0.5초 후에 나타남
     }
 
-    // 작업 시작하기 버튼 클릭 시 이벤트 처리
     document.querySelector('.start-btn').addEventListener('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
 
@@ -246,16 +208,35 @@
 
         // 소설 구상하기 강조 애니메이션
         const novelPlanning = document.getElementById('novelPlanning');
-        setTimeout(() => {
-            novelPlanning.classList.add('show-novel-planning');
-        }, 300); // 0.3초 후 애니메이션 시작
+        novelPlanning.classList.add('highlight-novelPlanning');
+        
+        // "소설 구상하기" 클릭 시 POST 방식으로 이동
+        novelPlanning.addEventListener('click', function() {
+            // 동적으로 폼을 생성하여 POST 방식으로 전송
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '<%=request.getContextPath()%>/creation-studio'; // 컨텍스트 경로 포함
+
+            // 필요한 입력값이 있으면 input 요소를 동적으로 추가 가능
+            // 예: hidden 필드
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'novelTitle';
+            hiddenField.value = 'My New Novel';
+            form.appendChild(hiddenField);
+
+            // 폼을 DOM에 추가하고 제출
+            document.body.appendChild(form);
+            form.submit();
+        });
 
         // 오버레이 클릭 시 초기화
         overlay.addEventListener('click', function() {
             overlay.style.display = 'none';  // 어두운 배경 제거
-            novelPlanning.classList.remove('show-novel-planning');  // 강조 해제
+            novelPlanning.classList.remove('highlight-novelPlanning');  // 강조 해제
         });
     });
+
 </script>
 
 </body>
