@@ -20,5 +20,5 @@ public interface ImageBoardService {
 	
 	int deleteComment(int commentId, int userId);
 	
-	/* public boolean toggleLike(int userId, int boardId); */
+	public boolean toggleLike(int userId, int boardId);
 }
