@@ -20,7 +20,7 @@
     <h2>회차 쓰기</h2>
     
     <!-- 폼 시작 -->
-    <form action="<%=request.getContextPath()%>/episode/update/${episode.novelId}/${episode.episodeNo}" method="POST">
+    <form action="<%=request.getContextPath()%>/novel/episode/update/${episode.novelId}/${episode.episodeNo}" method="POST">
         
         <!-- 이미지 선택 드롭다운 -->
         <div class="form-group">
