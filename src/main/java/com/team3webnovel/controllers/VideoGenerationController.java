@@ -37,15 +37,6 @@ public class VideoGenerationController {
 		this.comfyUIVideoGenerator = new ComfyUIVideoGenerator();
 	}
 
-	// GET 요청으로 JSP 페이지 렌더링
-	@GetMapping("/generate")
-	public String showGeneratePage(HttpSession session) {
-		UserVo vo = (UserVo) session.getAttribute("user");
-		int clientId = vo.getUserId();
-		comfyUIVideoGenerator.connectWebSocket(clientId);
-		return "jiwon/video_generate"; // generate.jsp 페이지로 이동
-	}
-
 
 	// 작업 상태를 확인하는 API
 	@GetMapping("/checkStatus")

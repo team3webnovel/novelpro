@@ -183,20 +183,20 @@
     
 
     <!-- 소설 수정 -->
-    <update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
-        UPDATE novel_detail
-        SET title = #{title},
-            episode_no = #{episodeNo},
-            contents = #{contents}
-        WHERE novel_id = #{novelId}
-    </update>
+	<update id="updateNovel" parameterType="com.team3webnovel.vo.NovelVo">
+	    UPDATE novel
+	    SET title = #{title},
+	        intro = #{intro},
+	        genre = #{genre},
+	        creation_id = #{creationId}
+	    WHERE novel_id = #{novelId}
+	</update>
 
     <!-- 소설 삭제 -->
     <delete id="deleteNovel" parameterType="int">
         DELETE FROM novel WHERE novel_id = #{novelId}
     </delete>
 
-	<!-- 소설 검색 (제목에서 검색) -->
 	<select id="searchNovels" parameterType="string" resultType="com.team3webnovel.vo.NovelVo">
 	    SELECT 
 	        n.NOVEL_ID AS novelId,
@@ -214,9 +214,12 @@
 	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
 	    WHERE 
 	        n.STATUS IS NOT NULL
-	    And n.title LIKE '%' || #{keyword} || '%'
-	    ORDER BY n.created_at DESC
+	    AND 
+	        REPLACE(n.title, ' ', '') LIKE '%' || REPLACE(#{keyword}, ' ', '') || '%'  -- 공백 제거 후 검색
+	    ORDER BY 
+	        n.created_at DESC
 	</select>
+
 
 
 </mapper>

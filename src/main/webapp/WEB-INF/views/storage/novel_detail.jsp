@@ -17,7 +17,9 @@
         <h2>${novelCover.title}</h2>
         <!-- 글쓰기 버튼 -->
         <a href="<%=request.getContextPath()%>/write/${novelCover.novelId}" class="btn btn-primary">회차 쓰기</a>
-    </div>
+        <!-- 편집 버튼 (수정 및 삭제) -->
+        <a href="<%=request.getContextPath()%>/edit_new_novel/${novelCover.novelId}" class="btn btn-secondary">편집</a>
+   	</div>
 </div>
 
 <!-- 기존 소설 상세 페이지 내용 -->
