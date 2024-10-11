@@ -92,7 +92,7 @@ document.getElementById('submit-btn').addEventListener('click', function() {
     var userInput = document.getElementById('user-input').value;
     var genre = document.getElementById('genre').value;
 
-    var apiUrl = contextPath + "/new_novel/api";
+    var apiUrl = contextPath + "/novel/new_novel/api";
 
     if (userInput.trim() !== "" && genre.trim() !== "") {
         console.log("User input: " + userInput);
