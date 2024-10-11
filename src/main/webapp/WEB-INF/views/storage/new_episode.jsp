@@ -172,9 +172,6 @@
 					</div>
 
 
-<<<<<<< HEAD
-
-				
 				    <!-- 선택한 BGM ID를 폼에 숨긴 필드로 전송 -->
 				    <input type="hidden" id="selectedBgmId" name="bgm" value="" />
 
@@ -329,21 +326,6 @@
     function saveTemporary() {
         alert("임시 저장 기능이 구현될 예정입니다.");
     }
-=======
-        <!-- 버튼들 -->
-        <div class="d-flex justify-content-between mt-3">
-            <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
-            <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
-            <!-- 버튼 -->
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary">저장</button>
-            </div>
-            </div>
-    	</form> <!-- 폼 끝 -->
-</div>
-
-<script>
->>>>>>> ad35e6932a891afff47269c0781107bc78955957
 
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {

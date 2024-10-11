@@ -99,8 +99,7 @@ document.getElementById('submit-btn').addEventListener('click', function() {
     var userInput = document.getElementById('user-input').value;
     var genre = document.getElementById('genre').value;
 
-    // contextPath 정의 (JSP에서 정의된 경로 사용)
-    var contextPath = "${pageContext.request.contextPath}";
+
     var apiUrl = contextPath + "/novel/new_novel/api";
 
     if (userInput.trim() !== "" && genre.trim() !== "") {

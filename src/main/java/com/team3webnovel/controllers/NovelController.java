@@ -371,7 +371,7 @@ public class NovelController {
     
     
     
-    @PostMapping("/new-novel/api")
+    @PostMapping("/new_novel/api")
     @ResponseBody
     public ResponseEntity<String> generateIntro(@RequestBody Map<String, String> requestBody) {
         String userMessage = requestBody.get("userMessage");
