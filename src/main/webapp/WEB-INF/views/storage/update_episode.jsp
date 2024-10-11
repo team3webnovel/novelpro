@@ -120,21 +120,19 @@
             <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
             <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
 
-            <!-- 버튼 그룹: 임시저장과 저장을 옆에 배치 -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
-                <button type="submit" class="btn btn-primary">저장</button>
-            </div>
+            <!-- 버튼 그룹: 삭제와 저장을 옆에 배치 -->
+			<div class="btn-group">
+			    <!-- 삭제 버튼 -->
+			    <button id="deleteBtn" class="btn btn-danger" onclick="deleteEpisode(${novelCover.novelId}, ${episodeNo})">삭제</button>
+			
+			    <!-- 저장 버튼: form의 기본 submit 동작 -->
+			    <button type="submit" class="btn btn-primary">저장</button>
+			</div>
          </div>
     </form> <!-- 폼 끝 -->
 </div>
 
 <script>
-    function saveTemporary() {
-        alert("임시 저장 기능이 구현될 예정입니다.");
-        // 이 부분에 실제 임시 저장 로직을 추가할 수 있습니다.
-    }
-
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {
         var contextPath = "<%= request.getContextPath() %>";
@@ -201,6 +199,30 @@
         editor.insertHtml('<img src="' + imageUrl + '" alt="이미지" style="max-width:100%;">');
         $('#imageModal').modal('hide');
     }
+    
+ // 에피소드 삭제
+    function deleteEpisode(novelId, episodeNo) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            var contextPath = "<%= request.getContextPath() %>";
+            fetch(`${contextPath}/novel/delete-episode/${novelId}/${episodeNo}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('에피소드가 성공적으로 삭제되었습니다.');
+                    window.location.href = contextPath + '/storage';  // 삭제 후 목록 페이지로 리다이렉트
+                } else {
+                    alert('에피소드 삭제에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('삭제 중 오류 발생:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            });
+        }
+    }
+
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
