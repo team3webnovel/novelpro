@@ -8,6 +8,7 @@
           href="<%=request.getContextPath()%>/static/css/includes/header.css">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>  		
     <script>
         window.addEventListener('scroll', function() {
             const ultraUniqueHeader = document.querySelector('.ultra-unique-header');
@@ -47,8 +48,8 @@
                     <a href="<%=request.getContextPath()%>/logout" class="btn btn-primary btn-sm">
                         <i class="bi bi-box-arrow-right"></i> <!-- 로그아웃 -->
                     </a>
-                    <!-- 보관함 버튼 추가 (로그인한 사용자에게만 표시됨) -->
-                    <a href="<%=request.getContextPath()%>/storage" class="btn btn-primary btn-sm">
+                    <!-- 보관함 버튼 (로그인한 사용자에게만 표시) -->
+                    <a href="<%=request.getContextPath()%>/storage" class="btn btn-primary btn-sm position-relative storage-icon">
                         <i class="bi bi-box"></i> <!-- 보관함 -->
                     </a>
                 </c:when>
@@ -59,6 +60,5 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        
     </div>
 </header>

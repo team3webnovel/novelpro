@@ -68,7 +68,7 @@
     
 	<update id="updateCreationId" parameterType="int">
 	    UPDATE creation
-	    SET creation_id = 0
+	    SET user_id = 0
 	    WHERE creation_id = #{creationId}
 	</update>
 

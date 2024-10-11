@@ -152,5 +152,4 @@ public class ImageBoardServiceImpl implements ImageBoardService {
             return true; // 좋아요 추가됨
         }
 	}
-
 }
