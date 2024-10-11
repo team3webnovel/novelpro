@@ -141,8 +141,6 @@ public class ImageGenerationController {
         Boolean imageGenerated = (Boolean) session.getAttribute("imageGenerated");
         if (imageGenerated != null && imageGenerated) {
             response.put("status", "completed");
-            response.put("imageUrl", session.getAttribute("imageUrl"));
-            session.removeAttribute("imageGenerated");  // 상태 체크 후 세션에서 제거
         } else {
             response.put("status", "in_progress");
         }

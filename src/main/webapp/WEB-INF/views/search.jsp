@@ -100,7 +100,7 @@
 	                            <img src="${novel.imageUrl}" alt="${novel.title}" class="img-fluid rounded" style="max-width: 100%; height: auto;">
 	                        </div>
 	                        <div class="col-md-10">
-	                            <h5 class="mt-3"><a href="${pageContext.request.contextPath}/novel_detail/${novel.novelId}" class="text-dark">${novel.title}</a></h5>
+	                            <h5 class="mt-3"><a href="${pageContext.request.contextPath}/novel/novel-detail/${novel.novelId}" class="text-dark">${novel.title}</a></h5>
 	                            <p class="mb-2"><span class="badge badge-primary">${novel.genre}</span></p>
 	                            <p class="text-muted">${novel.intro}</p>
 	                        </div>

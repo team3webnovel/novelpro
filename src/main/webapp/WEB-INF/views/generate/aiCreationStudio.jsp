@@ -41,7 +41,7 @@
         h3 {
             font-size: 1.8rem;
             margin-bottom: 10px;
-            color: #fffbea; /* 좀 더 밝은 색상으로 변경 */
+            color: #fffbea; /* 밝은 색상 */
         }
 
         h4 {
@@ -118,9 +118,81 @@
             color: white;
             font-weight: bold;
         }
+
+        /* 화면 어두워지기 위한 오버레이 */
+        #darkOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
+            display: none; /* 기본적으로 보이지 않음 */
+            z-index: 10; /* 화면 최상단에 위치 */
+        }
+
+        /* 소설 구상하기 강조 */
+        #novelPlanning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5); /* 초기에는 작게 설정 */
+            background-color: #fff;
+            color: #333;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            z-index: 20; /* 어두운 배경 위에 위치 */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            display: none; /* 처음에는 숨김 */
+        }
+    /* 제목 스타일 */
+    #novelPlanning h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* 설명 스타일 */
+    #novelPlanning p {
+        color: #666;
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+
+        /* 애니메이션: 중앙으로 날아오는 효과 */
+        #novelPlanning.show-novel-planning {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* 원래 크기로 */
+            display: block;
+            animation: zoomIn 0.6s forwards;
+        }
+            /* 애니메이션 추가: 모달 확대 효과 */
+    @keyframes zoomIn {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+
     </style>
 </head>
 <body>
+
+<!-- 어두운 배경 오버레이 -->
+<div id="darkOverlay"></div>
+
+<!-- 소설 구상하기 강조 섹션 -->
+<div id="novelPlanning">
+    <h2>STEP 1.</h2>
+    <p>소설 구상 및 구조화: 당신의 상상력을 구체화 해보세요!</p>
+</div>
 
 <div class="center-container">
     <h1>AI 창작 스튜디오에 오신 것을 환영합니다!</h1>
@@ -129,7 +201,7 @@
     <h5>아이디어만 있다면, 나머지는 AI가 도와드립니다.</h5>
     
     <!-- 창작 시작 버튼 -->
-    <a href="<%=request.getContextPath()%>/start-creation" class="start-btn">작업 시작하기</a>
+    <a href="#" class="start-btn">작업 시작하기</a>
 
     <!-- 제공 도구 소개 -->
     <div class="tools">
@@ -163,6 +235,27 @@
             document.querySelector('.tools').style.opacity = '1';  // 도구 소개 보이기
         }, 500);  // 0.5초 후에 나타남
     }
+
+    // 작업 시작하기 버튼 클릭 시 이벤트 처리
+    document.querySelector('.start-btn').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+
+        // 화면 어두워지기
+        const overlay = document.getElementById('darkOverlay');
+        overlay.style.display = 'block';
+
+        // 소설 구상하기 강조 애니메이션
+        const novelPlanning = document.getElementById('novelPlanning');
+        setTimeout(() => {
+            novelPlanning.classList.add('show-novel-planning');
+        }, 300); // 0.3초 후 애니메이션 시작
+
+        // 오버레이 클릭 시 초기화
+        overlay.addEventListener('click', function() {
+            overlay.style.display = 'none';  // 어두운 배경 제거
+            novelPlanning.classList.remove('show-novel-planning');  // 강조 해제
+        });
+    });
 </script>
 
 </body>

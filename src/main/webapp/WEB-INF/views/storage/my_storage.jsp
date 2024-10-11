@@ -19,6 +19,10 @@
 <script src="static/js/my_storage.js"></script>
 <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+
+
 </head>
 
 <body>
@@ -40,7 +44,7 @@
 						class="btn btn-primary">표지 제작</a> <a
 						href="<%=request.getContextPath()%>/generate-font"
 						class="btn btn-primary">표지 폰트</a> <a
-						href="<%=request.getContextPath()%>/cover" class="btn btn-primary">글쓰기</a>
+						href="<%=request.getContextPath()%>/novel/new-novel" class="btn btn-primary">글쓰기</a>
 				</div>
 			</div>
 
@@ -65,7 +69,7 @@
 						<c:forEach var="novel" items="${novelList}">
 							<div class="col-md-4 mb-4">
 								<a
-									href="<%=request.getContextPath()%>/novel_detail/${novel.novelId}"
+									href="<%=request.getContextPath()%>/novel/novel-detail/${novel.novelId}"
 									class="card-link">
 									<div class="card h-100">
 										<img src="${novel.imageUrl}" class="card-img-top"
@@ -115,7 +119,7 @@
 												class="text-dark">${music.title}</a>
 										</h5>
 										<audio id="audioPlayer${music.creationId}" controls
-											class="w-100 mt-2">
+											class="plyr">
 											<source id="audioSource${music.creationId}"
 												src="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4"
 												type="audio/mp4">
@@ -237,6 +241,10 @@
 <script type="text/javascript">
     var contextPath = "<%=request.getContextPath()%>";
     var originalTitle = '';  // 제목 저장 변수
+ // Plyr 초기화 코드
+    document.addEventListener('DOMContentLoaded', () => {
+        const players = Plyr.setup('.plyr'); // .plyr 클래스를 가진 모든 오디오 및 비디오 태그에 적용
+    });
 </script>
 	</div>
 </body>

@@ -44,14 +44,14 @@ function submitData() {
 }
 // 이벤트 위임을 통해 버튼 클릭 이벤트 처리
 document.addEventListener('click', function(event) {
+    const overlay = document.getElementById("overlay");
+    const messageBox = document.getElementById("messageBox");
+    const confirmButton = document.getElementById("confirmButton");
+
     // 클릭된 요소가 AI 창작 스튜디오 버튼인지 확인
     if (event.target && event.target.id === 'aiStudioButton') {
         event.preventDefault(); // 기본 동작 방지
         console.log('AI 창작 스튜디오 버튼이 클릭되었습니다.');
-
-        const overlay = document.getElementById("overlay");
-        const messageBox = document.getElementById("messageBox");
-        const confirmButton = document.getElementById("confirmButton");
 
         if (overlay && messageBox && confirmButton) {
             // 오버레이 보이기
@@ -62,24 +62,33 @@ document.addEventListener('click', function(event) {
                 messageBox.style.opacity = 1; // 메시지 박스 나타나기
             }, 500); // 0.5초 후 메시지 나타남
 
-                // 확인 버튼 표시
-                setTimeout(() => {
-                    confirmButton.style.display = "block"; // 확인 버튼 보이기
-                    console.log("확인 버튼이 보입니다.");
+            // 확인 버튼 표시
+            setTimeout(() => {
+                confirmButton.style.display = "block"; // 확인 버튼 보이기
+                console.log("확인 버튼이 보입니다.");
 
-                    // 확인 버튼 클릭 시 리다이렉션 설정
-                    confirmButton.onclick = function() {
-                        console.log("확인 버튼 클릭됨. /creation-studio로 이동");
-                        window.location.href = contextPath + "/creation-studio"; // 이동할 페이지 경로 설정
-                    };
+                // 확인 버튼 클릭 시 리다이렉션 설정
+                confirmButton.onclick = function() {
+                    console.log("확인 버튼 클릭됨. /creation-studio로 이동");
+                    window.location.href = contextPath + "/creation-studio"; // 이동할 페이지 경로 설정
+                };
 
-                }, 1000); // 메시지가 완전히 사라진 후 확인 버튼 나타남
-
+            }, 1000); // 메시지가 완전히 사라진 후 확인 버튼 나타남
         } else {
             console.error("오버레이 또는 메시지 박스 요소가 없습니다.");
         }
     }
+
+    // 바깥을 클릭하면 오버레이 닫기
+    if (overlay && overlay.style.display === "flex" && !messageBox.contains(event.target) && !event.target.closest('#aiStudioButton')) {
+        overlay.style.display = "none"; // 오버레이 숨기기
+        messageBox.style.opacity = 0; // 메시지 박스 투명도 0으로 설정
+        confirmButton.style.display = "none"; // 확인 버튼 숨기기
+        console.log("오버레이가 닫혔습니다.");
+    }
 });
+
+
 
 
 // 이미지 모달을 열고 creationId 값을 설정
@@ -233,5 +242,42 @@ $(document).ready(function() {
     // 탭 클릭 시 URL에 해시값 추가
     $('.nav-tabs a').on('shown.bs.tab', function(e) {
         window.location.hash = e.target.hash;
+    });
+});
+
+
+// 이미지 클릭 시 음악 재생 함수
+function playMusic(creationId, audioUrl) {
+    const audioPlayer = document.getElementById('audioPlayer' + creationId);
+    
+    if (audioPlayer.paused) {
+        // 모든 오디오 정지
+        const allPlayers = document.querySelectorAll('audio');
+        allPlayers.forEach(player => {
+            player.pause();
+            player.currentTime = 0;
+        });
+        
+        // 클릭한 오디오 플레이어 재생
+        audioPlayer.play();
+    } else {
+        // 재생 중이면 일시 정지
+        audioPlayer.pause();
+    }
+}
+
+// 음악 탭 초기화 함수 (페이지 로드 시 실행)
+document.addEventListener('DOMContentLoaded', () => {
+    const musicCards = document.querySelectorAll('.card');
+    
+    // 각 카드에 마우스 오버 시 커스텀 스타일 적용
+    musicCards.forEach(card => {
+        card.addEventListener('mouseover', () => {
+            card.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+        });
     });
 });
