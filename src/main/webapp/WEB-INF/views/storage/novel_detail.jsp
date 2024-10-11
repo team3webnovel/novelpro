@@ -73,7 +73,7 @@
                             <!-- 미리보기 링크 추가 -->
 			                <br>
                             <a href="<%=request.getContextPath()%>/novel/episode/${novelCover.novelId}/${episode.episodeNo}" class="text-muted">
-			                    펀집
+			                    편집
 			                </a>
                         </div>
 

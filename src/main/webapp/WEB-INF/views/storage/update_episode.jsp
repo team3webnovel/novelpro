@@ -11,17 +11,12 @@
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 </head>
 <body>
-    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
-    <header style="margin-bottom: 100px;">
-        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
-    </header>
 
 <div class="container mt-5">
     <h2>회차 쓰기</h2>
     
     <!-- 폼 시작 -->
     <form action="<%=request.getContextPath()%>/novel/episode/update/${episode.novelId}/${episode.episodeNo}" method="POST">
-        
         <!-- 이미지 선택 드롭다운 -->
         <div class="form-group">
             <label for="imageSelect">이미지를 선택하세요</label>
