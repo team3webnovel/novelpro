@@ -159,19 +159,19 @@
 						</div>
 						
 						<!-- 프롬프트 내용 표시 (기본적으로 일부만 표시) -->
-						<p id="modalPromptShort" style="margin-bottom: 0; display: inline;"></p>
+						<p id="modalPromptShort" style="margin-bottom: 10px; display: inline;"></p>
 						<span id="togglePromptButtonContainer" style="display: inline;">
 						    <button type="button" id="togglePromptButton" onclick="togglePrompt()" style="font-size: 0.875rem; padding: 0; border: none; background: none; color: #007bff;">자세히 보기</button>
 						</span>
 						
 						<!-- 전체 프롬프트 내용 -->
-						<p id="modalPromptFull" style="display: none; margin-bottom: 0; display: inline;"></p>
+						<p id="modalPromptFull" style="display: none; margin-bottom: 10px; display: inline;"></p>
 						<span id="togglePromptButtonContainerFull" style="display: none; display: inline;">
 						    <button type="button" id="togglePromptButtonFull" onclick="togglePrompt()" style="font-size: 0.875rem; padding: 0; border: none; background: none; color: #007bff;">간단히 보기</button>
 						</span>
-
-
-						<p id="modalCreatedAt"></p>
+						
+						<!-- 생성일 표시 -->
+						<p id="modalCreatedAt" style="margin-top: 10px;"></p>
 						<p id="modalSampler"></p>
 						<p id="modalModelCheck"></p>
 
@@ -226,10 +226,10 @@
 			    document.getElementById('modalCreatedAt').innerText = '생성일: ' + createdAt;
 			    document.getElementById('modalSampler').innerText = '샘플러: ' + sampler;
 			
-			    // 프롬프트 내용 설정
-			    const shortPrompt = prompt.length > 50 ? prompt.substring(0, 50) + '...' : prompt;
+			    // 프롬프트 내용 설정, 앞에 "프롬프트: " 추가
+			    const shortPrompt = prompt.length > 50 ? '프롬프트: ' + prompt.substring(0, 50) + '...' : '프롬프트: ' + prompt;
 			    document.getElementById('modalPromptShort').innerText = shortPrompt;
-			    document.getElementById('modalPromptFull').innerText = prompt;
+			    document.getElementById('modalPromptFull').innerText = '프롬프트: ' + prompt;
 			
 			    document.getElementById('modalModelCheck').innerText = '모델 체크: ' + modelCheck;
 			    document.getElementById('modalTitle').innerText = '제목: ' + title;
@@ -240,6 +240,7 @@
 			    // 모달 띄우기
 			    $('#myModal').modal('show');
 			}
+
 
 
 
