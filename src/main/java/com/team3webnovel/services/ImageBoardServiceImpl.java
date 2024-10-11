@@ -95,4 +95,21 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 		return imageBoardDao.deleteComment(map);
 	}
 
+	@Override
+	public boolean toggleLike(int userId, int boardId) {
+		
+		boolean liked = imageBoardDao
+		
+		if (liked) {
+            // 이미 좋아요가 눌린 상태라면, 좋아요 취소
+            likeRepository.deleteByUserIdAndBoardId(userId, boardId);
+            return false; // 좋아요 취소됨
+        } else {
+            // 좋아요 추가
+            Like like = new Like(userId, boardId);
+            likeRepository.save(like);
+            return true; // 좋아요 추가됨
+        }
+	}
+
 }

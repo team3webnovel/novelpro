@@ -56,7 +56,34 @@
 		        max-width: 85%;
 		    }
 		}
-
+		.like-container {
+		    display: inline-block;
+		    margin-top: 10px;
+		}
+		
+		.like-btn {
+		    background-color: transparent;
+		    border: none;
+		    cursor: pointer;
+		    font-size: 18px;
+		    color: #555;
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.like-btn:hover .like-icon {
+		    color: #ff7675; /* 좋아요 버튼을 마우스로 올렸을 때 색상 변경 */
+		}
+		
+		.like-icon {
+		    margin-right: 5px;
+		    font-size: 20px;
+		    transition: color 0.3s ease;
+		}
+		
+		.like-count {
+		    font-size: 16px;
+		}
     </style>
 
     <!-- JS 파일 추가 -->
@@ -69,8 +96,15 @@
         	<input type="hidden" id="userId" value="${userId }">
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
-                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
-                        <img src="${image.imageUrl}" alt="이미지" class="card-img-top">
+                    <div class="card">
+                        <img src="${image.imageUrl}" alt="이미지" class="card-img-top" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
+                         <!-- 좋아요 버튼 및 카운트 표시 -->
+						<div class="like-container">
+						    <button class="like-btn" onclick="toggleLike(${boardId})">
+						        <span class="like-icon">👍</span>
+						        <span id="like-count-${boardId}">${likeCount}</span> <!-- 좋아요 수 -->
+						    </button>
+						</div>     
                     </div>
                 </div>
             </c:forEach>
