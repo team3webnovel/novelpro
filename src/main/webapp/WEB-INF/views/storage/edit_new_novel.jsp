@@ -18,7 +18,10 @@
 
 </head>
 <body>
-
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 <div class="container mt-5">
     <h2>소설 수정</h2>
 
@@ -26,7 +29,7 @@
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 수정 -->
         <div class="col-md-6">
             <!-- 폼 action 경로를 소설 수정으로 변경 -->
-            <form action="${pageContext.request.contextPath}/edit_new_novel/${novelCover.novelId}" method="POST">
+            <form action="${pageContext.request.contextPath}/novel/edit-new-novel/${novelCover.novelId}" method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>
@@ -123,6 +126,27 @@
         const fileNameElement = document.getElementById('selectedImageFileName');
         fileNameElement.innerText = selectedOption.text;
     }
+    // 소설 삭제 기능
+    /* function deleteNovel(novelId) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        fetch(`${contextPath}/novel/delete-novel/${novelId}`, {
+            method: 'DELETE'  // 반드시 'POST'로 설정
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('삭제되었습니다.');
+                window.location.href = `${contextPath}/storage`;  // 삭제 후 리다이렉트
+            } else {
+                alert('삭제에 실패했습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('삭제 중 오류 발생:', error);
+            alert('삭제 중 오류가 발생했습니다.');
+        }); */
+    }
+}
+
 </script>
 
 

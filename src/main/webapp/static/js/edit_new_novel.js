@@ -1,6 +1,6 @@
 function deleteNovel(novelId) {
     if (confirm('정말 삭제하시겠습니까?')) {
-        fetch(`/team3webnovel/delete/${novelId}`, {
+        fetch(`${contextPath}/novel/delete-novel/${novelId}`, {
             method: 'DELETE'
         })
         .then(response => {

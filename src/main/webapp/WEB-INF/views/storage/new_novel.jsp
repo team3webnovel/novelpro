@@ -18,6 +18,10 @@
 
 </head>
 <body>
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 
 <div class="container mt-5">
     <h2>소설 쓰기</h2>
@@ -26,7 +30,7 @@
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
-            <form action="${pageContext.request.contextPath}/cover" method="POST">
+            <form action="${pageContext.request.contextPath}/new-novel" method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>

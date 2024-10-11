@@ -11,12 +11,16 @@
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 </head>
 <body>
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
 
 <div class="container mt-5">
     <h2>소설 쓰기</h2>
     
     <!-- 폼 시작 -->
-    <form action="<%=request.getContextPath()%>/write/${novelId}" method="POST">
+    <form action="<%=request.getContextPath()%>/novel/write/${novelId}" method="POST">
         
         <!-- 표지 이미지 선택 드롭다운 -->
         <div class="form-group">
@@ -119,21 +123,15 @@
         <div class="d-flex justify-content-between mt-3">
             <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
             <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
-
-            <!-- 버튼 그룹: 임시저장과 저장을 옆에 배치 -->
+            <!-- 버튼 -->
             <div class="btn-group">
-                <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
                 <button type="submit" class="btn btn-primary">저장</button>
             </div>
-         </div>
-    </form> <!-- 폼 끝 -->
+            </div>
+    	</form> <!-- 폼 끝 -->
 </div>
 
 <script>
-    function saveTemporary() {
-        alert("임시 저장 기능이 구현될 예정입니다.");
-        // 이 부분에 실제 임시 저장 로직을 추가할 수 있습니다.
-    }
 
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {

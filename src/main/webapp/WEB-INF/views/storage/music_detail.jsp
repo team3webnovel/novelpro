@@ -9,6 +9,7 @@
     <title>Music Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_detail.css">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <div class="container mt-5">

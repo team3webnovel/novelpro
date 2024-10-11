@@ -2,10 +2,11 @@ let currentBoardId = null;
 let currentCreationId = null;
 let currentComment = null;
 
-function openModal(boardId, imageUrl, creationId, comment) {
+function openModal(boardId, imageUrl, creationId, comment, userId) {
 	document.getElementById('modal-content').textContent = "";
 	document.getElementById('comment-content').innerHTML="";
-	
+	document.getElementById('deleteBoard').innerHTML = "";
+
 	currentBoardId = boardId;
     currentCreationId = creationId;
     currentComment = comment;
@@ -13,7 +14,7 @@ function openModal(boardId, imageUrl, creationId, comment) {
     // modal에 데이터를 세팅
     document.getElementById('modalImage').src = imageUrl;
 	
-	refreshModal(boardId, creationId, comment);
+	refreshModal(boardId, creationId, comment, userId);
     // modal을 보이게 설정
     $('#myModal').modal('show');
 }
@@ -24,7 +25,9 @@ function closeModal() {
     $('#myModal').modal('hide');
 }
 
-function refreshModal(boardId, creationId, comment){
+function refreshModal(boardId, creationId, comment, boardUserId){
+	let userId = document.getElementById('userId').value;
+	
 	fetch('/team3webnovel/images/board/detail/' + creationId, {
 		method: 'POST',
         headers: {
@@ -42,7 +45,12 @@ function refreshModal(boardId, creationId, comment){
 			if(comments != null){
 				let commentsHtml = comments.map(comment => {
 		            return `<tr><td><strong>${comment.userName}</strong>: ${comment.content}
-						<span class="comment-time">${comment.formattedCreatedAt}</td></tr></span>`;
+						<span class="comment-time">${comment.formattedCreatedAt}</span>
+						${userId == comment.userId ? 
+	                    	`<button type="button" class="comment-delete btn btn-danger btn-sm" data-comment-id="${comment.commentId}" style="float: right;">삭제</button>` 
+	                    : ''}
+						</td></tr>
+						`;
 		        }).join('');
 				document.getElementById('comment-content').innerHTML=`
 					<table class="table">
@@ -65,7 +73,7 @@ function refreshModal(boardId, creationId, comment){
 				`;	
 			}
 			
-			if (imageVo != null){
+			if (imageVo != null && imageVo.prompt != null){
 				document.getElementById('modal-content').innerHTML = `
 		            <table class="table">
 		                <thead>
@@ -120,11 +128,43 @@ function refreshModal(boardId, creationId, comment){
 					</table>
 				`;
 			}
+			console.log(boardUserId, userId);
+			if (boardUserId == userId) {
+		        document.getElementById('deleteBoard').innerHTML = `
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		            <button type="button" id="deletePostButton" class="btn btn-danger" onclick="deletePost(currentBoardId)">게시글 삭제</button>
+		        `;
+		    } else {
+				document.getElementById('deleteBoard').innerHTML = `
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				`;
+			}
 		})
 		.catch(error => {
 			console.error(error)
 		})
 }
+
+function deletePost(boardId) {
+    if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+        fetch(`/team3webnovel/images/board/delete/${boardId}`, {
+            method: 'DELETE'
+        })
+		.then(response => response.json()) // JSON 응답을 받음
+        .then(data => {
+            if (data.success) {
+                alert(data.message); // 서버에서 전달한 성공 메시지 출력
+                window.location.href = '/team3webnovel/images/board';
+            } else {
+                alert(data.message); // 서버에서 전달한 실패 메시지 출력
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('게시글 삭제 중 오류가 발생했습니다.');
+        });
+    }
+};
 
 function toggleContent() {
     const shortContent = document.getElementById('shortContent');
@@ -179,5 +219,68 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert('댓글 작성 중 오류가 발생했습니다.');
             });
         }
+		
+		// 댓글 삭제 버튼 클릭 확인
+        if (event.target && event.target.classList.contains('comment-delete')) {
+            event.preventDefault();
+            let commentId = event.target.getAttribute('data-comment-id'); // 삭제할 댓글의 ID
+
+            if (confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+                fetch(`/team3webnovel/images/board/comment/delete?commentId=${commentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => response.json()) // 서버로부터 JSON 응답을 받음
+                .then(data => {
+                    if (data.success) {
+                        alert('댓글이 삭제되었습니다.');
+                        refreshModal(currentBoardId, currentCreationId, currentComment); // 댓글 목록 갱신
+                    } else {
+                        alert('댓글 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('댓글 삭제 중 오류가 발생했습니다.');
+                });
+            }
+        }
     });
 });
+
+// 좋아요 상태를 토글하는 함수
+function toggleLike(boardId) {
+    const likeCountElement = document.getElementById(`like-count-${boardId}`);
+    let likeCount = parseInt(likeCountElement.textContent, 10);
+	
+	let userId = document.getElementById('userId').value;
+
+    fetch(`/team3webnovel/images/board/like/${boardId}`, {
+        method: 'POST', // 좋아요/좋아요 취소 요청
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userId: userId // 실제 사용자 ID로 교체
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // 서버 응답에 따라 UI 업데이트 (좋아요 추가/취소)
+            if (data.liked) {
+                likeCountElement.textContent = likeCount + 1;
+            } else {
+                likeCountElement.textContent = likeCount - 1;
+            }
+        } else {
+            alert('좋아요 처리에 실패했습니다.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('서버와의 통신 중 문제가 발생했습니다.');
+    });
+}

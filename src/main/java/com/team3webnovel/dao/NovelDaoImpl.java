@@ -1,13 +1,14 @@
 package com.team3webnovel.dao;
 
-import com.team3webnovel.mappers.NovelMapper;
-import com.team3webnovel.vo.NovelVo;
-import com.team3webnovel.vo.UserVo;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.team3webnovel.mappers.NovelMapper;
+import com.team3webnovel.vo.NovelVo;
 
 @Repository
 public class NovelDaoImpl implements NovelDao {
@@ -97,6 +98,17 @@ public class NovelDaoImpl implements NovelDao {
 	@Override
 	public void updateEpisodeVisibility(NovelVo vo) {
 		novelMapper.updateEpisodeVisibility(vo);
+	}
+
+	@Override
+	public void deleteEpisode(int novelId, int episodeNo) {
+	    // Map에 파라미터 담기
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("novelId", novelId);
+	    params.put("episodeNo", episodeNo);
+
+	    // Mapper에 Map 전달
+	    novelMapper.deleteEpisode(params);
 	}
 	
 	
