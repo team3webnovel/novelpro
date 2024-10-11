@@ -211,3 +211,73 @@ h2 {
     font-size: 0.9rem;
     color: #666;
 }
+/* 기본 카드 스타일 */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+/* 카드 Hover 시 강조 효과 */
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 음악 이미지 스타일 */
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+}
+
+/* 음악 제목 스타일 */
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #444;
+}
+
+/* 오디오 플레이어 스타일 */
+.custom-audio-player {
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 오디오 플레이어 Hover 시 효과 */
+.custom-audio-player:hover {
+    background-color: #f1f1f1;
+}
+
+/* 플레이어 컨트롤 스타일 */
+.custom-audio-player::-webkit-media-controls-play-button {
+    color: #333;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.custom-audio-player::-webkit-media-controls-timeline {
+    background-color: #ddd;
+    height: 4px;
+}
+
+.custom-audio-player::-webkit-media-controls-current-time,
+.custom-audio-player::-webkit-media-controls-time-remaining-display {
+    color: #333;
+}
+
+/* 버튼과 링크 스타일 */
+.card-body a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+.card-body a:hover {
+    color: #0056b3;
+}
+

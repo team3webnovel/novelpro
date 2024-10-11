@@ -35,24 +35,24 @@
 <!-- Music Creator Container -->
 <div id="musicCreatorContainer" class="mt-5">
     <form action="<%= request.getContextPath() %>/generate-music" method="post">
-        <h1 id="musicCreatorTitle" class="text-center">Create Your Music</h1>
+        <h1 id="musicCreatorTitle" class="text-center">당신만의 BGM을 만들어보세요!</h1>
 
         <div id="formInputGroup">
-            <label for="prompt">Enter a prompt for your music:</label>
+            <label for="prompt">어떤 BGM이 만들어지면 좋을까요?</label>
             <input type="text" class="form-control" id="prompt" name="prompt" required>
         </div>
 
         <div id="instrumentalOption" class="form-check mb-3">
             <input type="checkbox" class="form-check-input" id="make_instrumental" name="make_instrumental">
-            <label class="form-check-label" for="make_instrumental">Instrumental?</label>
+            <label class="form-check-label" for="make_instrumental">가사 없이?</label>
         </div>
 
-        <button id="submitMusic" type="submit" class="btn btn-primary btn-block">Create Music</button>
+        <button id="submitMusic" type="submit" class="btn btn-primary btn-block">BGM 생성</button>
 
         <!-- 로딩 메시지 -->
         <div id="loadingIndicator" style="display:none;" class="text-center mt-3">
             <div id="loadingSpinner"></div>
-            <p>Creating your music, please wait...</p>
+            <p>음악을 생성 중입니다. 잠시만 기다려주세요...</p>
         </div>
 
         <!-- 에러 메시지 표시 -->
@@ -67,15 +67,41 @@
     </form>
 
     <!-- 음악 보관함으로 이동하는 링크 추가 -->
-    <p id="musicStorageLink" class="text-center mt-3">
-        <a href="<%= request.getContextPath() %>/storage-music">Go to Music Storage</a>
-    </p>
+<p id="musicStorageLink" class="text-center mt-3">
+    <a href="<%= request.getContextPath() %>/storage#music">음악 보관함으로 이동</a>
+</p>
+
 </div>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function() {
-        document.getElementById('loadingIndicator').style.display = 'block';
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    // URL에서 해시 값을 확인
+    const hash = window.location.hash;
+
+    // 해시 값이 '#music'이면 '내 음악' div를 활성화
+    if (hash === "#music") {
+        // 모든 탭의 활성화 상태를 제거
+        document.querySelectorAll('.tab-pane').forEach(function(tabContent) {
+            tabContent.classList.remove('show', 'active');
+        });
+
+        // '내 음악' 탭을 활성화
+        const musicTabContent = document.querySelector('#music');
+        if (musicTabContent) {
+            musicTabContent.classList.add('show', 'active');
+        }
+
+        // 탭 링크의 활성화 상태를 맞춰줌
+        document.querySelectorAll('.nav-link').forEach(function(tabLink) {
+            tabLink.classList.remove('active');
+        });
+
+        const musicTabLink = document.querySelector('a[href="#music"]');
+        if (musicTabLink) {
+            musicTabLink.classList.add('active');
+        }
+    }
+});
 
     // 에러 메시지나 경고 메시지가 있는 경우 표시
     if ('${errorMessage}' !== '') {
