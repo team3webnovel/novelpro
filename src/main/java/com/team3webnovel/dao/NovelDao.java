@@ -44,6 +44,8 @@ public interface NovelDao {
     void updateNovelDetail(NovelVo vo);
     
     void updateEpisodeVisibility(NovelVo vo);
+
+	void deleteEpisode(int novelId, int episodeNo);
     
 
 }

@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -371,7 +372,7 @@ public class NovelController {
 
         // 입력 값 검증
         if (userMessage == null || genre == null || userMessage.trim().isEmpty() || genre.trim().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST) // 수정: HttpStatus.BAD_REQUEST 사용
                 .contentType(MediaType.APPLICATION_JSON)
                 .body("{\"error\": \"userMessage 또는 genre가 누락되었거나 비어있습니다.\"}");
         }
@@ -402,6 +403,7 @@ public class NovelController {
             .contentType(MediaType.APPLICATION_JSON)
             .body("{\"intro\": \"" + generatedIntro + "\"}");  // intro 필드만 반환
     }
+
     
     @GetMapping("/edit-new-novel/{novelId}")
     public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
@@ -478,24 +480,38 @@ public class NovelController {
         return "redirect:/novel/novel-detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
     }
 
-    @PostMapping("/delete-novel/{novelId}")
-    public String deleteNovel(@PathVariable int novelId, HttpSession session) {
-        // 세션에서 사용자 정보 가져오기
-        UserVo user = (UserVo) session.getAttribute("user");
-        System.out.println("Delete Request for Novel ID: " + novelId);
 
-        if (user == null) {
-            return "redirect:/login";  // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+
+    // 24.10.10
+    @DeleteMapping("/delete-novel/{novelId}")
+    public ResponseEntity<String> deleteNovel(@PathVariable int novelId) {
+        try {
+            System.out.println("Deleting novel with ID: " + novelId); // 로그 추가
+            novelService.deleteNovel(novelId);
+            return ResponseEntity.ok("Novel deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to delete novel");
         }
 
-        // NovelService를 통해 소설 삭제
-        novelService.deleteNovel(novelId);
-
-        // 삭제 후 저장소 페이지로 리다이렉트
-        return "redirect:/storage";
     }
+    
+    // 24.10.11 에피소드 삭제
+    @DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
+    public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
+        try {
+            // 에피소드 삭제 서비스 호출
+            novelService.deleteEpisode(novelId, episodeNo);
+
+            return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
+        }
+    }
+
+}
+
 
 
     
 
-}
+
