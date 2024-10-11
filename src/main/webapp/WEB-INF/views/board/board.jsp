@@ -22,6 +22,7 @@
             font-family: Arial, sans-serif;
             margin-top: 60px;
         }
+
         .table {
 		    table-layout: fixed; /* 테이블의 열 너비를 고정 */
 		}
@@ -45,7 +46,7 @@
 </head>
 <body>
 <div class="main-container">
-    <div class="container mt-4">
+    <div id="container" class="container mt-4">
         <!-- 메시지 표시 -->
         <c:if test="${not empty message}">
             <div class="alert alert-info" role="alert">${message}</div>
