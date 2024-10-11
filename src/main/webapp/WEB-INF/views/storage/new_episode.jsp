@@ -9,6 +9,88 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- CKEditor CDN -->
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
+
+    <!-- 추가 스타일 -->
+	<style>
+	    .btn-custom {
+	        background-color: #007bff;
+	        color: #fff;
+	        border-radius: 50px;
+	        padding: 10px 20px;
+	    }
+	    .btn-custom:hover {
+		    background-color: #0056b3;
+		    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
+		}
+		
+		.preview-container img:hover {
+		    transform: scale(1.05); /* 이미지 hover 시 약간 확대 */
+		}
+		
+		.bgm-card:hover {
+		    transform: scale(1.05); /* BGM 카드 hover 시 약간 확대 */
+		}
+			    
+	
+	    .preview-container {
+	        margin-top: 20px;
+	        text-align: center;
+	    }
+	
+	    .preview-container img {
+	        border-radius: 10px;
+	        max-width: 100%;
+	        max-height: 400px;
+	        display: block;
+	        margin-left: auto;
+	        margin-right: auto; /* 이미지 좌측 중앙 배치 */
+	    }
+	
+	    .preview-container p {
+	        margin-top: 10px;
+	        font-weight: bold;
+	        color: #555;
+	        text-align: center;
+	    }
+	
+	    /* BGM 카드 스타일 */
+	    .bgm-card {
+	        max-width: 100%;
+	        max-height: 400px;
+	        display: flex;
+	        flex-direction: column;
+	        justify-content: center;
+	    }
+	
+	    .bgm-card img {
+	        max-height: 200px;
+	        object-fit: cover;
+	    }
+	
+	    .bgm-card audio {
+	        margin-top: 10px;
+	        width: 100%;
+	    }
+	
+	    /* BGM 플레이어 중앙 배치 */
+	    .bgm-preview-container {
+	        margin-top: 20px;
+	        text-align: center;
+	    }
+	
+	    .bgm-preview-container audio {
+	        display: block;
+	        margin-left: auto;
+	        margin-right: auto; /* 음원 플레이어 우측 중앙 배치 */
+	    }
+	
+	    /* 모달 이미지 선택 시 시각적으로 강조 */
+	    .img-thumbnail:hover {
+	        border: 2px solid #007bff;
+	        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+	    }
+	</style>
+
 </head>
 <body>
     <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
@@ -16,186 +98,241 @@
         <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     </header>
 
-<div class="container mt-5">
-    <h2>소설 쓰기</h2>
+    <div class="container mt-5">
+        <h2 class="mb-4">소설 쓰기</h2>
     
-    <!-- 폼 시작 -->
-    <form action="<%=request.getContextPath()%>/novel/write/${novelId}" method="POST">
-        
-        <!-- 표지 이미지 선택 드롭다운 -->
-        <div class="form-group">
-            <label for="imageSelect">표지 이미지를 선택하세요</label>
-            <select id="imageSelect" class="form-control" name="illust" onchange="displaySelectedImage()">
-                <option value="">표지 이미지를 선택하세요</option>
-                <c:forEach var="image" items="${imageList}">
-                    <option value="${image.creationId}" data-image-url="${image.imageUrl}">
-                        ${image.filename != null ? image.filename : image.imageUrl}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
+        <!-- 폼 시작 -->
+        <form action="<%=request.getContextPath()%>/novel/write/${novelId}" method="POST">
+            <div class="row">
+                <!-- 왼쪽: 표지 이미지 선택 -->
+                <div class="col-md-6">
+                    <h4>표지 이미지 선택</h4>
+                    <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#coverImageModal">
+                        표지 이미지 선택
+                    </button>
 
-        <!-- 선택한 이미지 미리보기 -->
-        <div class="mt-3">
-            <img id="selectedImagePreview" src="" alt="선택된 이미지가 여기에 표시됩니다" style="max-width: 100%; height: auto; display: none;" />
-        </div>
+                    <!-- 선택된 이미지 미리보기 -->
+                    <div class="preview-container">
+                        <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지" style="display: none;" />
+                        <p>선택한 파일명: <span id="selectedCoverImageFileName">없음</span></p>
+                    </div>
 
-        <!-- 선택한 이미지 파일명 표시 -->
-        <p>선택한 파일명: <span id="selectedImageFileName">없음</span></p>
+                    <!-- 선택한 이미지 ID를 폼에 숨긴 필드로 전송 -->
+                    <input type="hidden" id="selectedCoverImageId" name="illust" value="" />
 
-        <!-- BGM 선택 드롭다운 -->
-        <div class="form-group">
-            <label for="bgmSelect">BGM을 선택하세요</label>
-            <select id="bgmSelect" class="form-control" name="bgm" onchange="displaySelectedBGM()">
-                <option value="">BGM을 선택하세요</option>
-                <c:forEach var="music" items="${musicList}">
-                    <option value="${music.creationId}" data-bgm-url="https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4">
-                        ${music.title}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
+                    <!-- 표지 이미지 선택 모달 -->
+                    <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="coverImageModalLabel">표지 이미지 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!-- 이미지를 선택할 수 있는 모달 -->
+                                        <c:forEach var="image" items="${imageList}">
+                                            <div class="col-md-3 text-center mb-3">
+                                                <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectCoverImage('${image.creationId}', '${image.imageUrl}', '${image.filename}')">
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- 선택한 BGM 파일명 표시 -->
-        <p>선택한 BGM 파일명: <span id="selectedBgmFileName">없음</span></p>
-
-        <!-- BGM 미리보기 -->
-        <div id="bgmPlayerContainer" class="mt-3" style="display: none;">
-            <audio id="bgmPlayer" controls>
-                <source id="bgmSource" src="" type="audio/mp4">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-    
-        <!-- 제목 -->
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="소설 제목을 입력하세요" required>
-        </div>
-
-        <!-- 몇화인지 -->
-        <div class="form-group">
-            <label for="episode">몇 화인지</label>
-            <input type="number" class="form-control" id="episode" name="episode" placeholder="몇 화인지 입력하세요" required>
-        </div>
-
-        <!-- 내용 (CKEditor 적용) -->
-        <div class="form-group">
-            <label for="content">내용</label>
-            <textarea class="form-control" id="content" name="content" rows="10" placeholder="소설 내용을 입력하세요" required></textarea>
-        </div>
-
-        <!-- 이미지 삽입 버튼 -->
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#imageModal">
-            텍스트에 이미지 삽입
-        </button>
-
-        <!-- 이미지 선택 모달 -->
-		<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-		    <div class="modal-dialog modal-lg" role="document"> <!-- modal-lg 클래스를 추가하여 큰 모달로 설정 -->
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
-		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		                    <span aria-hidden="true">&times;</span>
-		                </button>
-		            </div>
-		            <div class="modal-body">
-		                <div class="row">
-		                    <!-- 각 이미지를 5개씩 배치하기 위해 col-md-2 사용 -->
-		                    <c:forEach var="image" items="${imageList}">
-		                        <div class="col-md-2 text-center mb-3">
-		                            <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="max-width: 100%; cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
-		                            <p>${image.filename != null ? image.filename : '이미지'}</p>
-		                        </div>
-		                    </c:forEach>
-		                </div>
-		            </div>
-		            <div class="modal-footer">
-		                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+                <!-- 오른쪽: BGM 선택 -->
+				<div class="col-md-6">
+				    <h4>BGM 선택</h4>
+				    <div class="form-group">
+				        <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#bgmModal">
+				            BGM 선택
+				        </button>
+				    </div>
+				
+					<!-- 선택한 BGM 카드 형태로 미리보기 -->
+					<div class="card text-center mt-3 mx-auto" id="bgmCard" style="display: none; max-width: 330px; max-height: 440px;">
+					    <img id="selectedBgmImage" class="card-img-top" src="" alt="선택된 BGM 이미지" style="max-height: 320px; object-fit: cover; width: 100%;" />
+					    <div class="card-body" style="padding: 10px;">
+					        <h5 class="card-title text-dark">
+					            <span id="selectedBgmFileName">선택한 BGM 파일명</span>
+					        </h5>
+					        <audio id="bgmPlayer" controls class="w-100 mt-2" style="height: 40px;">
+					            <source id="bgmSource" src="" type="audio/mp4">
+					            Your browser does not support the audio element.
+					        </audio>
+					    </div>
+					</div>
 
 
-        <!-- 버튼들 -->
-        <div class="d-flex justify-content-between mt-3">
-            <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
-            <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
 
-            <!-- 버튼 그룹: 임시저장과 저장을 옆에 배치 -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
-                <button type="submit" class="btn btn-primary">저장</button>
+				
+				    <!-- 선택한 BGM ID를 폼에 숨긴 필드로 전송 -->
+				    <input type="hidden" id="selectedBgmId" name="bgm" value="" />
+
+
+
+                    <!-- BGM 선택 모달 -->
+                    <div class="modal fade" id="bgmModal" tabindex="-1" role="dialog" aria-labelledby="bgmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bgmModalLabel">BGM 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <c:forEach var="music" items="${musicList}">
+                                            <div class="col-md-3 text-center mb-3">
+                                                <button class="btn btn-outline-primary" onclick="selectBGM('${music.creationId}', 'https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4', '${music.title}', '${music.imageUrl}')">
+                                                    ${music.title}
+                                                </button>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-    </form> <!-- 폼 끝 -->
-</div>
+
+            <!-- 제목 입력 -->
+            <div class="form-group mt-5">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="소설 제목을 입력하세요" required>
+            </div>
+
+            <!-- 몇 화인지 입력 -->
+            <div class="form-group">
+                <label for="episode">몇 화인지</label>
+                <input type="number" class="form-control" id="episode" name="episode" placeholder="몇 화인지 입력하세요" required>
+            </div>
+
+            <!-- 내용 입력 (CKEditor 적용) -->
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" id="content" name="content" rows="10" placeholder="소설 내용을 입력하세요" required></textarea>
+            </div>
+
+            <!-- 이미지 삽입 버튼 -->
+            <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#imageModal">
+                텍스트에 이미지 삽입
+            </button>
+
+            <!-- 이미지 선택 모달 -->
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <c:forEach var="image" items="${imageList}">
+                                    <div class="col-md-2 text-center mb-3">
+                                        <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="insertImageToEditor('${image.imageUrl}')">
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 버튼들 -->
+            <div class="d-flex justify-content-between mt-3">
+                <!-- 이전 버튼: 클릭 시 cover 페이지로 이동 -->
+                <button type="button" class="btn btn-secondary" onclick="goBack()">이전</button>
+
+                <!-- 임시저장과 저장 버튼 -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="saveTemporary()">임시저장</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </div>
+        </form> <!-- 폼 끝 -->
+    </div>
 
 <script>
+    // 표지 이미지 선택 시 호출되는 함수
+    function selectCoverImage(creationId, imageUrl, fileName) {
+        var imgPreview = document.getElementById('selectedCoverImagePreview');
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block';  // 이미지 표시
+
+        document.getElementById('selectedCoverImageFileName').innerText = fileName;
+        document.getElementById('selectedCoverImageId').value = creationId;
+        $('#coverImageModal').modal('hide');
+    }
+
+ // BGM 선택 시 호출되는 함수
+    function selectBGM(creationId, bgmUrl, fileName, imageUrl) {
+        // BGM 카드 형태로 미리보기 표시
+        var bgmCard = document.getElementById('bgmCard');
+        var bgmImage = document.getElementById('selectedBgmImage');
+        var bgmPlayerContainer = document.getElementById('bgmPlayerContainer');
+        var bgmSource = document.getElementById('bgmSource');
+
+        // 이미지 설정
+        bgmImage.src = imageUrl;
+        bgmCard.style.display = 'block';
+
+        // BGM 파일명 표시
+        document.getElementById('selectedBgmFileName').innerText = fileName;
+
+        // 음원 미리보기 설정
+        bgmSource.src = bgmUrl;
+        document.getElementById('bgmPlayer').load();
+
+        // BGM ID 설정
+        document.getElementById('selectedBgmId').value = creationId;
+
+        // 모달 닫기
+        $('#bgmModal').modal('hide');
+    }
+
+
+
+    // CKEditor 적용
+    CKEDITOR.replace('content', {
+        height: 400
+    });
+
+    // CKEditor에 이미지 삽입
+    function insertImageToEditor(imageUrl) {
+        var editor = CKEDITOR.instances.content;
+        editor.insertHtml('<img src="' + imageUrl + '" alt="이미지" style="max-width:100%;">');
+        $('#imageModal').modal('hide');
+    }
+
+    // 임시 저장 버튼 기능
     function saveTemporary() {
         alert("임시 저장 기능이 구현될 예정입니다.");
-        // 이 부분에 실제 임시 저장 로직을 추가할 수 있습니다.
     }
 
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {
         var contextPath = "<%= request.getContextPath() %>";
         window.location.href = contextPath + "/cover";
-    }
-
-    // 표지 이미지 미리보기
-    function displaySelectedImage() {
-        var select = document.getElementById('imageSelect');
-        var fileName = select.options[select.selectedIndex].text;
-        var imageUrl = select.options[select.selectedIndex].getAttribute('data-image-url');
-
-        // 이미지 미리보기 설정
-        var imgPreview = document.getElementById('selectedImagePreview');
-        if (imageUrl) {
-            imgPreview.src = imageUrl;
-            imgPreview.style.display = 'block';  // 이미지 표시
-        } else {
-            imgPreview.style.display = 'none';  // 이미지 숨김
-        }
-
-        // 선택한 파일명 표시
-        document.getElementById('selectedImageFileName').innerText = fileName;
-    }
-
-    // BGM 미리보기
-    function displaySelectedBGM() {
-        var select = document.getElementById('bgmSelect');
-        var fileName = select.options[select.selectedIndex].text;
-        var bgmUrl = select.options[select.selectedIndex].getAttribute('data-bgm-url');
-
-        // 선택한 파일명 표시
-        document.getElementById('selectedBgmFileName').innerText = fileName;
-
-        // BGM 미리보기 설정
-        var bgmPlayerContainer = document.getElementById('bgmPlayerContainer');
-        var bgmPlayer = document.getElementById('bgmPlayer');
-        var bgmSource = document.getElementById('bgmSource');
-        
-        if (bgmUrl) {
-            bgmSource.src = bgmUrl; // 올바른 오디오 파일 경로가 들어가는지 확인
-            bgmPlayerContainer.style.display = 'block';
-            bgmPlayer.load(); // 새로운 소스를 로드하여 재생 가능하도록 설정
-        } else {
-            bgmPlayerContainer.style.display = 'none';
-        }
-    }
-
-    // CKEditor 적용
-    CKEDITOR.replace('content', {
-        height: 1000 // 여기서 높이를 픽셀 단위로 설정할 수 있습니다.
-    }); 
-    // CKEditor에 이미지 삽입
-    function insertImageToEditor(imageUrl) {
-        var editor = CKEDITOR.instances.content;
-        editor.insertHtml('<img src="' + imageUrl + '" alt="이미지" style="max-width:100%;">');
-        $('#imageModal').modal('hide'); // 모달 닫기
     }
 </script>
 

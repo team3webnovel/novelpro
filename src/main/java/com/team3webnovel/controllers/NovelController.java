@@ -52,6 +52,7 @@ public class NovelController {
     @GetMapping("/write/{novelId}")
     public String showWritePage(@PathVariable("novelId") int novelId, HttpSession session, Model model) {
     	
+    	
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
     	CreationVo vo = new CreationVo();
@@ -73,7 +74,7 @@ public class NovelController {
     @PostMapping("/write/{novelId}")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
     					@RequestParam("illust") int illust,
-    					@RequestParam("bgm") int bgm,
+    					@RequestParam(value="bgm", required = false) int bgm,
                         @RequestParam("title") String title,
                         @RequestParam("episode") int episode,
                         @RequestParam("content") String content) {
@@ -133,7 +134,7 @@ public class NovelController {
 
     // 소설 생성
     @PostMapping("/new-novel")
-    public String write(@ModelAttribute NovelVo vo, HttpSession session,
+    public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
     		@RequestParam("illust") int illust,
     		@RequestParam("title") String title,
     		@RequestParam("intro") String intro,
@@ -162,6 +163,10 @@ public class NovelController {
     	
     	// NovelService를 통해 소설 삽입
     	novelService.insertNovel(vo);
+    	
+    	if (model.containsAttribute("AImessage")) {
+    		return "/generate/image_simple_form";
+    	}
     	
     	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
@@ -287,7 +292,7 @@ public class NovelController {
             @PathVariable int episodeNo,
             Model model, HttpSession session,
             @RequestParam("illust") int illust,
-			@RequestParam("bgm") int bgm,
+            @RequestParam(value="bgm", required = false) int bgm,
             @RequestParam("title") String title,
             @RequestParam("content") String content) {
     	
@@ -310,7 +315,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.updateNovelDetail(vo);
     	
-    	return "redirect:/novel_detail/" + novelId;
+    	return "redirect:/novel/novel-detail/" + novelId;
     	
     }
     
@@ -498,7 +503,7 @@ public class NovelController {
         novelService.deleteNovel(novelId);
 
         // 삭제 후 저장소 페이지로 리다이렉트
-        return "redirect:/my_storage";
+        return "redirect:/storage";
     }
 
 
