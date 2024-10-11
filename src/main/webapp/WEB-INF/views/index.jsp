@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
-    <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>    
+  
 </head>
 <body>
     <!-- 헤더 포함 -->

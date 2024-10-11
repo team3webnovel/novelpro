@@ -125,13 +125,13 @@
     // 소설 삭제 기능
     function deleteNovel(novelId) {
     if (confirm('정말 삭제하시겠습니까?')) {
-        fetch(`${contextPath}/delete_novel/${novelId}`, {
+        fetch(`${contextPath}/novel/delete-novel/${novelId}`, {
             method: 'POST'  // 반드시 'POST'로 설정
         })
         .then(response => {
             if (response.ok) {
                 alert('삭제되었습니다.');
-                window.location.href = `${contextPath}/my_storage`;  // 삭제 후 리다이렉트
+                window.location.href = `${contextPath}/storage`;  // 삭제 후 리다이렉트
             } else {
                 alert('삭제에 실패했습니다.');
             }

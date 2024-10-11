@@ -29,6 +29,9 @@ function showImageInModal(imageElement) {
 function setRandomSeed() {
     // 랜덤 정수 생성 (예: 1부터 9999999까지)
     seed = Math.floor(Math.random() * 9999999) + 1;
+	if (document.getElementById('seed')){
+		document.getElementById('seed').value = seed;	
+	}
 }
 
 //	안 보이는 checkbox 요소 보이게 하는 함수
@@ -68,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				negative_prompt: "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",
 				sampler_index: "dpmpp_2m",
 				steps: 25,
-				width: 896,
+				width: 768,
 				height: 1152,
 				cfg_scale: 5,
 				checkpoint: checkpoint,
@@ -141,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				        negative_prompt: data.negative_prompt || "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",  // 서버에서 받은 negative_prompt 값 또는 기본값
 				        sampler_index: "dpmpp_2m",
 				        steps: 25,
-				        width: 896,
+				        width: 768,
 				        height: 1152,
 				        cfg_scale: 6,
 				        checkpoint: checkpoint,
@@ -179,4 +182,48 @@ document.addEventListener("DOMContentLoaded", function() {
 				
 			}
 		}
+});
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("detailSubmitButton").addEventListener("click", function() {
+		
+		document.getElementById("spinner3").style.display = "block";
+		
+		const imageData = {
+	      prompt: document.getElementById('prompt').value,
+	      negative_prompt: document.getElementById('negative_prompt').value || "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",
+	      sampler_index: document.getElementById('sampler_index').value,
+	      steps: parseInt(document.getElementById('steps').value, 10),  // 숫자로 변환
+	      width: parseInt(document.getElementById('width').value, 10),  // 숫자로 변환
+	      height: parseInt(document.getElementById('height').value, 10),  // 숫자로 변환
+	      cfg_scale: parseInt(document.getElementById('cfg_scale').value, 10),  // 숫자로 변환
+	      checkpoint: document.getElementById('checkpoint').value,
+	      seed: parseInt(document.getElementById('seed').value, 10)  // 숫자로 변환
+	    };
+	
+	  	// Fetch API로 form 데이터를 JSON 형식으로 전송
+	  	fetch('/team3webnovel/images', {
+		    method: 'POST',
+		    headers: {
+		      	'Content-Type': 'application/json', // JSON 형식으로 전송
+		    },
+	    	body: JSON.stringify(imageData) // 데이터를 JSON으로 변환
+	  	})
+	  	.then(response => {
+		    if (response.ok) {
+	      		return response.json(); // 응답을 JSON 형식으로 파싱
+		    } else {
+	      		throw new Error('Network response was not ok');
+	    	}
+	  	})
+	  	.then(data => {
+			console.log(data);  // 서버에서 받은 JSON 응답 출력
+			document.getElementById("spinner3").style.display = "none";
+		    alert("생성이 완료되었습니다!");
+		    window.location.href = "/team3webnovel/storage"; // 페이지 이동
+	  	})
+	  	.catch(error => {
+		    console.error("에러 발생:", error);
+		    alert("생성 중 오류가 발생했습니다.");
+	  	});
+	});
 });

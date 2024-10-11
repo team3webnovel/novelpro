@@ -37,6 +37,7 @@ public class StorageController {
     public String showMyStoragePage(HttpSession session, Model model) {
         // 세션에서 로그인한 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");
+        session.removeAttribute("imageGenerated");  // 상태 체크 후 세션에서 제거
         
         if (user == null) {
             // 로그인이 되어 있지 않으면 로그인 페이지로 리다이렉트

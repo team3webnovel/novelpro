@@ -470,7 +470,7 @@ public class NovelController {
         novelService.updateNovel(existingNovel);
 
         // 수정 후 소설 상세 페이지로 리다이렉트
-        return "redirect:/novel_detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
     }
 
     @PostMapping("/delete-novel/{novelId}")

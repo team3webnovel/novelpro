@@ -34,10 +34,13 @@
         }
         .card {
         	margin-bottom: 10px;
-            padding: 20px;
+            padding: 10px;
             background-color: #f9f9f9;
             border-radius: 8px;
             transition: transform 0.3s ease;
+        }
+        .card img{
+        	
         }
         .card:hover {
             transform: translateY(-10px);
@@ -63,9 +66,10 @@
     <div class="container">
         <h1 class="text-center mb-3">게시판</h1>
         <div class="row">
+        	<input type="hidden" id="userId" value="${userId }">
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
-                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }')">
+                    <div class="card" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
                         <img src="${image.imageUrl}" alt="이미지" class="card-img-top">
                     </div>
                 </div>
@@ -97,6 +101,9 @@
 	                		</div>
 	                	</div>
 	                </div>
+	            </div>
+	            
+	            <div id="deleteBoard" class="modal-footer">
 	            </div>
 	        </div>
 	    </div>
