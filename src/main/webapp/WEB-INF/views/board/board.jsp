@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <style>
-	
 	body {
 	    font-family: Arial, sans-serif;
 	    background-color: #f4f4f9;
@@ -158,7 +157,7 @@
 		    <c:forEach items="${list}" var="board">
 		        <tr onclick="goToPage('${board.boardId}', ${currentPage})">
 		            <td>${board.boardId}</td>
-		            <td><a href="<%= request.getContextPath()%>/board/view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
+		            <td><a href="board/view/${board.boardId}?page=${currentPage}">${board.title}</a></td>
 		            <td>${board.userName}</td>
 		            <td>${board.formattedCreatedAt}</td>
 		            <td>${board.viewCount}</td>
@@ -167,7 +166,7 @@
 		</table>
 		
 		<!-- 게시글 작성 버튼 -->
-		<a href="/team3webnovel/board/write" class="create-btn">게시글 작성</a>
+		<a href="board/write" class="create-btn">게시글 작성</a>
 		
 		<div class="pagination">
 		    <c:if test="${totalPages > 1}">

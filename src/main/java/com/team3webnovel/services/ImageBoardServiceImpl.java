@@ -38,6 +38,22 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 	public void writeImageBoard(ImageBoardVo boardVo) {
 		imageBoardDao.writeImageBoard(boardVo);
 	}
+	
+	@Override
+	public String deleteImageBoard(int boardId, int userId) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardId", boardId);
+		map.put("userId", userId);
+		
+		int success = imageBoardDao.deleteImageBoard(map);
+		String message;
+		if (success == 1) {
+			message = "성공";
+		} else {
+			message = "실패";
+		}
+		return message;
+	}
 
 	@Override
 	public ImageBoardViewDto getImageBoardDetailAndComment(int boardId, int creationId) {		
@@ -77,6 +93,23 @@ public class ImageBoardServiceImpl implements ImageBoardService {
 		map.put("commentId", commentId);
 		map.put("userId", userId);
 		return imageBoardDao.deleteComment(map);
+	}
+
+	@Override
+	public boolean toggleLike(int userId, int boardId) {
+		
+		boolean liked = imageBoardDao
+		
+		if (liked) {
+            // 이미 좋아요가 눌린 상태라면, 좋아요 취소
+            likeRepository.deleteByUserIdAndBoardId(userId, boardId);
+            return false; // 좋아요 취소됨
+        } else {
+            // 좋아요 추가
+            Like like = new Like(userId, boardId);
+            likeRepository.save(like);
+            return true; // 좋아요 추가됨
+        }
 	}
 
 }
