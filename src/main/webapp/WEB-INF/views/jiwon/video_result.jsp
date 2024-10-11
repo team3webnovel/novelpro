@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Image Generation Result</title>
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <h1>Image Generation Result</h1>

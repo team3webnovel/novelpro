@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
-    <script src="<%= request.getContextPath()%>/static/js/imageStatus.js"></script>    
+  
 </head>
 <body>
     <!-- 헤더 포함 -->
@@ -82,7 +82,7 @@
                 <!-- 동적으로 소설 목록 렌더링 -->
                 <c:forEach var="novel" items="${novelList}">
                     <div class="col-md-4 novel" data-genre="${novel.genre}">
-                        <a href="${pageContext.request.contextPath}/novel_detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
+                        <a href="${pageContext.request.contextPath}/novel/novel-detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                             <div class="card mb-4">
                                 <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
                                 <div class="card-body">

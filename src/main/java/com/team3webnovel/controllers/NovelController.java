@@ -17,30 +17,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
-import com.team3webnovel.services.VideoService;
 import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.MusicVo;
 import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
-import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/novel")
 public class NovelController {
 
     @Autowired
     private NovelService novelService;
-    
-    @Autowired
-    private VideoService videoService;
     
     @Autowired
     private ImageService imageService;
@@ -50,44 +47,6 @@ public class NovelController {
     
     @Autowired
     private OpenAiService openAiService;
-
-    @GetMapping("/storage")
-    public String showMyStoragePage(HttpSession session, Model model) {
-        // 세션에서 로그인한 사용자 정보 가져오기
-        UserVo user = (UserVo) session.getAttribute("user");
-
-        if (user == null) {
-            // 로그인이 되어 있지 않으면 로그인 페이지로 리다이렉트
-            return "redirect:/login";
-        }
-
-        // 사용자의 이미지 리스트 가져오기
-        CreationVo creationVo = new CreationVo();
-        creationVo.setUserId(user.getUserId());
-        creationVo.setArtForm(2); // 예: 소설 형식을 나타내는 코드 2
-        
-        // 이미지 데이터 모델에 추가 및 로그 출력
-        List<ImageVo> imageList = imageService.getImageDataByUserId(creationVo);
-        model.addAttribute("imageList", imageList);
-        System.err.println("Image List: " + imageList);  // 이미지 리스트 로그 출력
-
-        // 사용자 ID로 소설 리스트 가져오기
-        List<NovelVo> novelList = novelService.getNovelListByUserId(user.getUserId());
-        model.addAttribute("novelList", novelList);
-        System.err.println("Novel List: " + novelList);  // 소설 리스트 로그 출력
-        
-        // userId와 artForm = 1인 음악들을 가져오기
-        List<MusicVo> musicList = musicService.getStoredMusicByUserId(user.getUserId()); // null을 사용하여 전체 데이터를 가져올 수도 있음
-        
-        List<VideoVo> videoList = videoService.getVideoDataByUserId(creationVo); // null을 사용하여 전체 데이터를 가져올 수도 있음
-        model.addAttribute("videoList", videoList);
-        System.err.println("비디오정보!!!!!!!!!!" + videoList);
-        // 가져온 음악 데이터를 모델에 추가
-        model.addAttribute("musicList", musicList);
-
-        // 마이 스토리지 페이지로 이동
-        return "storage/my_storage"; // JSP 파일 경로
-    }
 
     // 글쓰기 페이지로 이동
     @GetMapping("/write/{novelId}")
@@ -149,7 +108,7 @@ public class NovelController {
     }
     
     // 글쓰기 페이지로 이동
-    @GetMapping("/cover")
+    @GetMapping("/new-novel")
     public String insertCoverPage(HttpSession session, Model model) {
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
@@ -162,7 +121,7 @@ public class NovelController {
     }
 
     // 소설 생성
-    @PostMapping("/cover")
+    @PostMapping("/new-novel")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
     		@RequestParam("illust") int illust,
     		@RequestParam("title") String title,
@@ -197,7 +156,7 @@ public class NovelController {
     }
     
  // 소설 상세페이지로 이동
-    @GetMapping("/novel_detail/{novelId}")
+    @GetMapping("/novel-detail/{novelId}")
     public String detailPage(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
         
 /*      수정해야할듯
@@ -261,7 +220,7 @@ public class NovelController {
         }
     }
     
-    @GetMapping("/novel/episode/{novelId}/{episodeNo}")
+    @GetMapping("/episode/{novelId}/{episodeNo}")
     public String episodeUpdate(
             @PathVariable int novelId, 
             @PathVariable int episodeNo,
@@ -297,7 +256,7 @@ public class NovelController {
         
     	return "storage/update_episode";
     }
-    @GetMapping("/novel/episodeview/{novelId}/{episodeNo}")
+    @GetMapping("/episodeview/{novelId}/{episodeNo}")
     public String episodeView(
             @PathVariable int novelId, 
             @PathVariable int episodeNo,
@@ -379,6 +338,7 @@ public class NovelController {
     @ResponseBody
     public Map<String, Object> deleteImage(@RequestBody Map<String, Object> requestData) {
         Map<String, Object> response = new HashMap<>();
+        System.err.println("? 삭제 넘어옴?");
         try {
             int creationId = (int) requestData.get("creationId");
 
@@ -438,7 +398,7 @@ public class NovelController {
             .body("{\"intro\": \"" + generatedIntro + "\"}");  // intro 필드만 반환
     }
     
-    @GetMapping("/edit_new_novel/{novelId}")
+    @GetMapping("/edit-new-novel/{novelId}")
     public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         UserVo user = (UserVo)session.getAttribute("user");
@@ -473,7 +433,7 @@ public class NovelController {
         return "storage/edit_new_novel";
     }
     
-    @PostMapping("/edit_new_novel/{novelId}")
+    @PostMapping("/edit-new-novel/{novelId}")
     public String updateNovel(
             @PathVariable int novelId, 
             Model model, HttpSession session,
@@ -510,10 +470,10 @@ public class NovelController {
         novelService.updateNovel(existingNovel);
 
         // 수정 후 소설 상세 페이지로 리다이렉트
-        return "redirect:/novel_detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
     }
 
-    @PostMapping("/delete_novel/{novelId}")
+    @PostMapping("/delete-novel/{novelId}")
     public String deleteNovel(@PathVariable int novelId, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         UserVo user = (UserVo) session.getAttribute("user");

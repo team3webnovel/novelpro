@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Video Generation Status</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <h1>Video Generation</h1>
