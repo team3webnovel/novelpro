@@ -56,12 +56,17 @@ function appendMessage(sender, message, isTemporary = false) {
     chatHistory.push(messageData);
 
     var chatbox = document.getElementById('chat-log');
+    if (!chatbox) {
+        console.error("chat-log 요소를 찾을 수 없습니다.");
+        return;
+    }
+
     chatbox.innerHTML = "";  // 기존 채팅 로그 초기화
 
-    let messageWrapper; // 변수 선언을 함수 스코프로 이동
+    let messageWrapper = null;  // 반복문 밖에서 선언
 
     chatHistory.forEach((chat) => {
-        messageWrapper = document.createElement('div');
+        messageWrapper = document.createElement('div');  // 반복문 안에서 값을 할당
         messageWrapper.classList.add('message-wrapper');
 
         var messageElement = document.createElement('div');
@@ -83,16 +88,20 @@ function appendMessage(sender, message, isTemporary = false) {
     chatbox.scrollTop = chatbox.scrollHeight;
     console.log(sender + " message appended: " + message);
 
-    // messageWrapper 반환 (마지막 메시지의 래퍼)
+    // 마지막으로 생성된 messageWrapper 반환
     return messageWrapper;
 }
+
+
 
 // 사용자 입력 처리 및 서버 요청
 document.getElementById('submit-btn').addEventListener('click', function() {
     var userInput = document.getElementById('user-input').value;
     var genre = document.getElementById('genre').value;
 
-    var apiUrl = contextPath + "/new_novel/api";
+    // contextPath 정의 (JSP에서 정의된 경로 사용)
+    var contextPath = "${pageContext.request.contextPath}";
+    var apiUrl = contextPath + "/novel/new_novel/api";
 
     if (userInput.trim() !== "" && genre.trim() !== "") {
         console.log("User input: " + userInput);
@@ -136,43 +145,43 @@ document.getElementById('submit-btn').addEventListener('click', function() {
 
             return response.json();
         })
-		.then(data => {
-		    console.log("Parsed JSON: ", data);  // 응답 데이터를 콘솔에 출력
+        .then(data => {
+            console.log("Parsed JSON: ", data);  // 응답 데이터를 콘솔에 출력
 
-		    if (data.intro) {
-		        // "생성 중..." 메시지를 실제 응답으로 대체
-		        chatHistory[loadingMessageIndex].message = data.intro;
-		        chatHistory[loadingMessageIndex].isTemporary = false;
+            if (data.intro) {
+                // "생성 중..." 메시지를 실제 응답으로 대체
+                chatHistory[loadingMessageIndex].message = data.intro;
+                chatHistory[loadingMessageIndex].isTemporary = false;
 
-		        // 기존 채팅 기록을 다시 렌더링하여 "생성 중..." 메시지를 대체
-		        var chatbox = document.getElementById('chat-log');
-		        chatbox.innerHTML = "";  // 기존 채팅 로그 초기화
+                // 기존 채팅 기록을 다시 렌더링하여 "생성 중..." 메시지를 대체
+                var chatbox = document.getElementById('chat-log');
+                chatbox.innerHTML = "";  // 기존 채팅 로그 초기화
 
-		        chatHistory.forEach((chat) => {
-		            var messageWrapper = document.createElement('div');
-		            messageWrapper.classList.add('message-wrapper');
+                chatHistory.forEach((chat) => {
+                    var messageWrapper = document.createElement('div');
+                    messageWrapper.classList.add('message-wrapper');
 
-		            var messageElement = document.createElement('div');
-		            messageElement.classList.add('message');
+                    var messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
 
-		            if (chat.sender === 'user') {
-		                messageElement.classList.add('user-message');
-		                messageWrapper.classList.add('user-wrapper');
-		            } else {
-		                messageElement.classList.add('bot-message');
-		                messageWrapper.classList.add('bot-wrapper');
-		            }
+                    if (chat.sender === 'user') {
+                        messageElement.classList.add('user-message');
+                        messageWrapper.classList.add('user-wrapper');
+                    } else {
+                        messageElement.classList.add('bot-message');
+                        messageWrapper.classList.add('bot-wrapper');
+                    }
 
-		            messageElement.innerHTML = chat.message;
-		            messageWrapper.appendChild(messageElement);
-		            chatbox.appendChild(messageWrapper);
-		        });
+                    messageElement.innerHTML = chat.message;
+                    messageWrapper.appendChild(messageElement);
+                    chatbox.appendChild(messageWrapper);
+                });
 
-            chatbox.scrollTop = chatbox.scrollHeight;
-        }else {
-			        console.error("intro 필드를 찾을 수 없습니다.");  // intro 필드가 없을 때 오류 출력
-			    }
-			})
+                chatbox.scrollTop = chatbox.scrollHeight;
+            } else {
+                console.error("intro 필드를 찾을 수 없습니다.");  // intro 필드가 없을 때 오류 출력
+            }
+        })
         .catch(error => {
             console.error('Error occurred: ', error);
             // 실패 시 "생성 중..." 메시지를 오류 메시지로 대체

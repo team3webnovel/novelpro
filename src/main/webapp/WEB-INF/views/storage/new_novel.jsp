@@ -33,7 +33,11 @@
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
+<<<<<<< HEAD
             <form action="${pageContext.request.contextPath}/novel/new-novel" method="POST">
+=======
+            <form action="${pageContext.request.contextPath}/new-novel" method="POST">
+>>>>>>> ad35e6932a891afff47269c0781107bc78955957
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>

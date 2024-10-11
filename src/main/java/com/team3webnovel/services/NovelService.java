@@ -20,6 +20,8 @@ public interface NovelService {
 
     // 소설 삭제
     void deleteNovel(int novelId);
+    
+    void deleteEpisode(int novelId, int episodeNo);
 
     // 소설 검색 (제목이나 내용에서 검색)
     List<NovelVo> searchNovels(String keyword);
