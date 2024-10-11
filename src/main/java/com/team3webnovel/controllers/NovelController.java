@@ -104,7 +104,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.insertNovelDetail(vo);
 
-        return "redirect:/my_storage"; // 작성 후 보관함 페이지로 리다이렉트
+        return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
     
     // 글쓰기 페이지로 이동
@@ -299,7 +299,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.updateNovelDetail(vo);
     	
-    	return "redirect:/novel_detail/" + novelId;
+    	return "redirect:/novel/novel-detail/" + novelId;
     	
     }
     
@@ -487,7 +487,7 @@ public class NovelController {
         novelService.deleteNovel(novelId);
 
         // 삭제 후 저장소 페이지로 리다이렉트
-        return "redirect:/my_storage";
+        return "redirect:/storage";
     }
 
 
