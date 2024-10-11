@@ -153,11 +153,23 @@ public class NovelController {
     public String insertCoverPage(HttpSession session, Model model) {
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
+    	
+    	// 이미지 리스트 가져오기
     	CreationVo vo = new CreationVo();
     	vo.setUserId(userId);
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
-    	System.err.println(imageList);
-    	model.addAttribute("imageList", imageList);
+    	
+    	// 비디오 리스트 가져오기
+        List<VideoVo> videoList = videoService.getVideoDataByUserId(vo);
+        
+        // 디버깅용 출력
+        System.err.println(imageList);
+        System.err.println(videoList);
+        
+        // 모델에 이미지 및 비디오 리스트 추가
+        model.addAttribute("imageList", imageList);
+        model.addAttribute("videoList", videoList);
+        
         return "storage/new_novel";
     }
 
@@ -465,8 +477,8 @@ public class NovelController {
         // CreationVo를 이용해 이미지 데이터 가져오기
         CreationVo vo = new CreationVo();
         vo.setUserId(novelVo.getUserId());
-        List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         
+        List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         model.addAttribute("imageList", imageList);
 
         // JSP 파일로 이동
