@@ -100,9 +100,9 @@
                         <img src="${image.imageUrl}" alt="이미지" class="card-img-top" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
                          <!-- 좋아요 버튼 및 카운트 표시 -->
 						<div class="like-container">
-						    <button class="like-btn" onclick="toggleLike(${boardId})">
+						    <button class="like-btn" onclick="toggleLike(${image.boardId})">
 						        <span class="like-icon">👍</span>
-						        <span id="like-count-${boardId}">${likeCount}</span> <!-- 좋아요 수 -->
+						        <span id="like-count-${image.boardId}">${image.like}</span> <!-- 좋아요 수 -->
 						    </button>
 						</div>     
                     </div>

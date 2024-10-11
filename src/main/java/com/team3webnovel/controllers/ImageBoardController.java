@@ -133,7 +133,8 @@ public class ImageBoardController {
 	
 	@PostMapping("/like/{boardId}")
 	public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int boardId, @RequestBody Map<String, Object> requestBody){
-		int userId = (int)requestBody.get("userId");
+		String userIdStr = (String) requestBody.get("userId");
+		int userId = Integer.parseInt(userIdStr);
 		boolean liked = imageBoardService.toggleLike(userId, boardId);
 		
 		Map<String, Object> response = new HashMap<>();

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.team3webnovel.mappers.ImageBoardCommentMapper;
+import com.team3webnovel.mappers.ImageBoardLikeMapper;
 import com.team3webnovel.mappers.ImageBoardMapper;
 import com.team3webnovel.vo.BoardCommentVo;
 import com.team3webnovel.vo.ImageBoardVo;
@@ -19,6 +20,9 @@ public class ImageBoardDaoImpl implements ImageBoardDao {
 	
 	@Autowired
 	private ImageBoardCommentMapper commentMapper;
+	
+	@Autowired
+	private ImageBoardLikeMapper likeMapper;
 	
 	@Override
 	public List<ImageBoardVo> list() {
@@ -53,5 +57,31 @@ public class ImageBoardDaoImpl implements ImageBoardDao {
 	@Override
 	public int deleteComment(Map<String, Integer> map) {
 		return commentMapper.deleteComment(map);
+	}
+
+	@Override
+	public boolean check(Map<String, Integer> map) {
+		Integer result = likeMapper.check(map);
+		int liked = (result != null) ? result : 0;
+		if (liked == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public void like(Map<String, Integer> map) {
+		likeMapper.pushLike(map);
+	}
+
+	@Override
+	public void unlike(Map<String, Integer> map) {
+		likeMapper.unlike(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> likeCounts() {
+		return likeMapper.likeCounts();
 	}
 }
