@@ -114,11 +114,22 @@ public class NovelController {
     public String insertCoverPage(HttpSession session, Model model) {
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
+    	
+    	// 이미지 리스트 가져오기
     	CreationVo vo = new CreationVo();
     	vo.setUserId(userId);
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
-    	System.err.println(imageList);
-    	model.addAttribute("imageList", imageList);
+    	
+ 
+        
+        // 디버깅용 출력
+        System.err.println(imageList);
+
+        
+        // 모델에 이미지 및 비디오 리스트 추가
+        model.addAttribute("imageList", imageList);
+
+        
         return "storage/new_novel";
     }
 
@@ -432,8 +443,8 @@ public class NovelController {
         // CreationVo를 이용해 이미지 데이터 가져오기
         CreationVo vo = new CreationVo();
         vo.setUserId(novelVo.getUserId());
-        List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         
+        List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         model.addAttribute("imageList", imageList);
 
         // JSP 파일로 이동
@@ -492,6 +503,7 @@ public class NovelController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to delete novel");
         }
+
 
     }
     

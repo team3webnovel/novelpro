@@ -132,6 +132,7 @@ public class ImageBoardController {
 	}
 	
 
+
 	@PostMapping("/like/{boardId}")
 	public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int boardId, @RequestBody Map<String, Object> requestBody){
 		String userIdStr = (String) requestBody.get("userId");
@@ -144,4 +145,5 @@ public class ImageBoardController {
 
         return ResponseEntity.ok(response);
 	}
+
 }
