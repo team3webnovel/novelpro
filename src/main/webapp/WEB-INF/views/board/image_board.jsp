@@ -11,20 +11,11 @@
     <!-- Bootstrap CSS 추가 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     <style>
-        body {
+		 body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 60px;
         }
         .grid {
             display: flex;
@@ -91,7 +82,14 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mb-3">게시판</h1>
+        <ul class="nav nav-tabs mb-4" id="boardTab" role="tablist">
+		  <li class="nav-item">
+		    <a class="nav-link" href="/team3webnovel/board" role="tab">리뷰 홍보 게시판</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link active" href="/team3webnovel/images/board" role="tab">이미지 게시판</a>
+		  </li>
+		</ul>
         <div class="row">
         	<input type="hidden" id="userId" value="${userId }">
             <c:forEach var="image" items="${list}">

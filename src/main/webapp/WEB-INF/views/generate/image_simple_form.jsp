@@ -10,17 +10,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     <!-- Custom CSS -->
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            margin-top: 80px;
         }
-        .container {
-            margin: 50px auto;
-            padding: 20px;
+        #container {
+        	padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -113,7 +112,7 @@
     <script src="<%= request.getContextPath()%>/static/js/image_simple_form.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div id="container" class="container">
         <h1>모델 선택</h1>
 	    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-left: 10px;">
 	        디테일 설정
