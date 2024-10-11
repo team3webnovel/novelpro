@@ -277,7 +277,7 @@
 
         // 서버로 수정된 제목을 전송 (AJAX)
         $.ajax({
-            url: contextPath + '/update-image-title',
+            url: contextPath + '/novel/update-image-title',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -358,7 +358,7 @@
         if (confirm('정말 이 이미지를 삭제하시겠습니까?')) {
             // 서버로 삭제 요청을 전송 (AJAX)
             $.ajax({
-                url: contextPath + '/delete-image',
+                url: contextPath + '/novel/delete-image',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
