@@ -74,8 +74,8 @@ public class NovelController {
     // 글쓰기 처리
     @PostMapping("/write/{novelId}")
     public String write(@ModelAttribute NovelVo vo, HttpSession session,
-    					@RequestParam("illust") int illust,
-    					@RequestParam(value="bgm", required = false) int bgm,
+            @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
+            @RequestParam(value = "bgm", required = false, defaultValue = "0") int bgm,       // 기본값 설정
                         @RequestParam("title") String title,
                         @RequestParam("episode") int episode,
                         @RequestParam("content") String content) {
@@ -106,7 +106,7 @@ public class NovelController {
         // NovelService를 통해 소설 삽입
         novelService.insertNovelDetail(vo);
 
-        return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
+        return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
     }
     
     // 글쓰기 페이지로 이동

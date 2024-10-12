@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -73,7 +74,17 @@
 										<div class="card-body">
 											<h5 class="card-title">제목: ${novel.title}</h5>
 											<p class="card-text">장르: ${novel.genre}</p>
-											<p class="card-text">내용: ${novel.intro}</p>
+											<p class="card-text">
+											    내용: 
+											    <c:choose>
+											        <c:when test="${fn:length(novel.intro) > 15}">
+											            ${fn:substring(novel.intro, 0, 15)}...
+											        </c:when>
+											        <c:otherwise>
+											            ${novel.intro}
+											        </c:otherwise>
+											    </c:choose>
+											</p>
 											<p class="card-text">작성일: ${novel.createdAt}</p>
 										</div>
 									</div>
