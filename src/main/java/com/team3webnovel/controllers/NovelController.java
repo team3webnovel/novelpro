@@ -136,7 +136,7 @@ public class NovelController {
     // 소설 생성
     @PostMapping("/new-novel")
     public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
-    		@RequestParam("illust") int illust,
+    		@RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
     		@RequestParam("title") String title,
     		@RequestParam("intro") String intro,
     		@RequestParam("genre") String genre) {

@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -86,7 +88,16 @@
                             <div class="card mb-4">
                                 <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
                                 <div class="card-body">
-                                    <h5 class="card-title">${novel.title}</h5>
+                                    <h5 class="card-title">
+									    <c:choose>
+									        <c:when test="${fn:length(novel.title) > 7}">
+									            ${fn:substring(novel.title, 0, 7)}...
+									        </c:when>
+									        <c:otherwise>
+									            ${novel.title}
+									        </c:otherwise>
+									    </c:choose>
+									</h5>
                                 </div>
                             </div>
                         </a>
