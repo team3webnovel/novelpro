@@ -21,5 +21,13 @@ public interface ImageDao {
     public List<ImageVo> getImageDataByUserId(CreationVo vo);  // 메서드 선언
     
     public ImageVo getAllInformation(int creationId);
+    
+    void updateImageTitle(ImageVo imageVo);
+    
+    void deleteImageById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
 
 }

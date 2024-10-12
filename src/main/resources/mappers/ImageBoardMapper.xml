@@ -16,6 +16,10 @@
 		insert into image_board (user_id, creation_id, content, public_check) values (#{userId}, #{creationId}, #{content}, #{publicCheck})
 	</insert>
 	
+	<delete id="deleteImageBoard" parameterType="map">
+		delete from image_board where board_id = #{boardId} and user_id = #{userId}
+	</delete>
+	
 	<select id="publicCheck" parameterType="int" resultType="int">
 		select public_check as publicCheck from image_board where board_id = #{boardId}
 	</select>

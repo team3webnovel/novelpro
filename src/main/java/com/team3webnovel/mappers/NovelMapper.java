@@ -1,10 +1,11 @@
 package com.team3webnovel.mappers;
 
-import com.team3webnovel.vo.NovelVo;
-import com.team3webnovel.vo.UserVo;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import java.util.List;
+
+import com.team3webnovel.vo.NovelVo;
 
 @Mapper
 public interface NovelMapper {
@@ -46,4 +47,6 @@ public interface NovelMapper {
     void updateNovelDetail(NovelVo vo);
     
     void updateEpisodeVisibility(NovelVo vo);
+
+    void deleteEpisode(Map<String, Object> params);
 }

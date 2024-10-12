@@ -1,0 +1,115 @@
+
+/* 기본적인 스타일 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 150px !important;
+    margin-bottom: 150px;
+}
+
+/* 컨테이너 스타일 */
+#resultSection {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box; /* 패딩 포함하여 너비 조정 */
+    transition: all 0.3s ease-in-out;
+    overflow: hidden; /* 컨텐츠가 넘치지 않도록 설정 */
+}
+
+/* 제목 스타일 */
+h1 {
+    color: #2c3e50;
+    font-size: 26px;
+    margin-bottom: 20px;
+    padding: 0 10px; /* 좌우 여백 추가 */
+    line-height: 1.2; /* 타이틀의 줄 높이 조정 */
+    word-break: break-word; /* 긴 단어가 있을 경우 자동 줄바꿈 */
+    white-space: normal; /* 긴 문장이 있을 때 줄바꿈 가능하게 */
+}
+
+/* 성공 메시지 스타일 */
+.success-message {
+    font-size: 18px;
+    color: #27ae60;
+    margin-bottom: 20px;
+}
+
+/* 이미지 스타일 */
+.generated-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+}
+
+.generated-image:hover {
+    transform: scale(1.02);
+}
+
+.storage-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.storage-btn:hover {
+    background-color: #219150;
+}
+
+/* 로딩 메시지 스타일 */
+.loading-message {
+    font-size: 18px;
+    color: #e67e22;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 로딩 애니메이션 */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+    #resultSection {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .download-btn {
+        font-size: 14px;
+    }
+}

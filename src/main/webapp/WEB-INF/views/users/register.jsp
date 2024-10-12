@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/register.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/users/register.css">
     <script src="<%= request.getContextPath() %>/static/js/password-strength.js" defer></script>
+            <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 </head>
 <body>
     <div class="register-container">

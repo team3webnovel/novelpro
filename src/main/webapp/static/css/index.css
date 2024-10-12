@@ -9,15 +9,12 @@ body {
 	margin: 0 auto;
 }
 
-/* 헤더 스타일 */
-header {
-	background-color: #fff;
-	color: #333;
-	padding: 10px 0; /* 위 아래 패딩 조정 */
-	text-align: center;
-	height: 60px; /* 헤더 높이 조정 */
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.ultra-unique-header {
+    transition: background-color 0.3s, color 0.3s, opacity 0.3s !important; /* 배경색, 글자색 및 투명도 전환 효과 */
+    background-color: #000; /* 투명한 검은색 */
+    opacity: 0.5;
 }
+
 
 /* 슬라이드 배너 스타일 */
 #banner {
@@ -88,8 +85,12 @@ header {
 }
 
 .card img {
-	border-radius: 10px; /* 이미지 모서리 둥글게 */
+    border-radius: 10px; /* 이미지 모서리 둥글게 */
+    width: 100%; /* 부모 컨테이너에 맞게 이미지 너비 설정 */
+    aspect-ratio: 1 / 1.5; /* 가로 1 : 세로 1.5 비율 */
+    object-fit: cover; /* 이미지가 잘리지 않고 비율에 맞게 채워지도록 설정 */
 }
+
 
 /* 장르 섹션 스타일 */
 .genres-section {
