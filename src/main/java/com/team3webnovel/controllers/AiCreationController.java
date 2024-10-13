@@ -30,5 +30,10 @@ public class AiCreationController {
     	model.addAttribute("AImessage","AI 창작 스튜디오에 오신 것을 환영합니다!");
     	return "/generate/image_simple_form";
     }
-
+    
+    @PostMapping("/font")
+    public String goToFont(Model model) {
+    	model.addAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
+    	return "/generate/generate_font";
+    }
 }

@@ -11,6 +11,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/ai_studio/novel_tutorial.css">
     <!-- Custom CSS -->
     <style>
         body {
@@ -125,28 +126,28 @@
 			        <div id="modelCarouselPony" class="carousel slide" data-ride="carousel" data-interval="3000">
 			            <div class="carousel-inner">
 							<div class="carousel-item active">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3.png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3.png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(2).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(2).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(3).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(3).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(4).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(4).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(5).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(5).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(6).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(6).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(7).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(7).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(8).png" class="d-block w-100 highlight-image" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(8).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -173,8 +174,8 @@
                     <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="card-img-top" alt="모델 예시 이미지" onclick="showImageInModal(this)">
                     <div class="card-body">
                         <h5 class="card-title">romanticprism_v10</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')">직접 입력</button>
+                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
+                        <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
                     </div>
                 </div>
             </div>
@@ -374,7 +375,7 @@
 	
 	<div id="AIModal" class="modal fade">
 	  <div class="modal-dialog modal-dialog-centered">
-	    <div class="modal-content">
+	    <div class="modal-content" id="tuto3">
 	      <div class="modal-header">
 	        <h5 class="modal-title">이미지 생성</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">

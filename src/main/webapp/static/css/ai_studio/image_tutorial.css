@@ -9,24 +9,11 @@
     z-index: 9998; /* 어두운 배경이 모든 요소를 덮음 */
 }
 
-/* 강조된 carousel-item 스타일 */
-.d-block w-100 highlight-image {
+/* 강조된 이미지 */
+.highlight {
     border: 3px solid #ffda44;
     box-shadow: 0 0 15px rgba(255, 218, 68, 0.7);
-    animation: blink 1s infinite alternate; /* 애니메이션 반복 */
-    z-index: 10003;
-}
-
-/* 반짝이는 애니메이션 */
-@keyframes blink {
-    0% {
-        border: 3px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-    100% {
-        border: 3px solid rgba(255, 218, 68, 1);
-        box-shadow: 0 0 20px rgba(255, 218, 68, 1);
-    }
+    z-index: 10010;
 }
 
 /* 강조 이미지 확대 애니메이션 */
@@ -36,22 +23,7 @@
     100% { transform: scale(1); }
 }
 
-/* 버튼 스타일 */
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    z-index: 10001; /* 버튼이 어두운 배경 위에 나타나도록 */
-}
 
-button:hover {
-    background-color: #0056b3;
-}
 
 /* 설명 텍스트 */
 #explanationText {
