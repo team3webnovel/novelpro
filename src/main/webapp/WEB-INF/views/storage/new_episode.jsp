@@ -172,8 +172,6 @@
 					</div>
 
 
-
-				
 				    <!-- 선택한 BGM ID를 폼에 숨긴 필드로 전송 -->
 				    <input type="hidden" id="selectedBgmId" name="bgm" value="" />
 
@@ -329,12 +327,11 @@
         alert("임시 저장 기능이 구현될 예정입니다.");
     }
 
-
     // 이전 버튼 클릭 시 cover.jsp로 이동
-    function goBack() {
-        var contextPath = "<%= request.getContextPath() %>";
-        window.location.href = contextPath + "/cover";
-    }
+	function goBack() {
+	    window.history.back();
+	}
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
