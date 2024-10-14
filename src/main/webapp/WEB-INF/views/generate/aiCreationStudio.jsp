@@ -214,7 +214,7 @@
         novelPlanning.addEventListener('click', function() {
             // 동적으로 폼을 생성하여 POST 방식으로 전송
             const form = document.createElement('form');
-            form.method = 'POST';
+            form.method = 'GET';
             form.action = '<%=request.getContextPath()%>/creation-studio/novel'; // 컨텍스트 경로 포함
 
             // 필요한 입력값이 있으면 input 요소를 동적으로 추가 가능

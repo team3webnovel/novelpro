@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.VideoVo;
 
 public interface VideoMapper {
@@ -30,4 +31,12 @@ public interface VideoMapper {
     
     // creationId로 비디오의 모든 정보 조회
     VideoVo getAllInformation(int creationId);
+    
+    void updateVideoTitle(VideoVo vo);
+    
+    void deleteVideoById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
 }

@@ -119,6 +119,9 @@
     <script src="<%= request.getContextPath()%>/static/js/image_simple_form.js"></script>
 </head>
 <body>
+<c:if test="${not empty AImessage}">
+  	<input type="hidden" id = "AImessage">
+</c:if>
     <div id="container" class="container">
         <h1>모델 선택</h1>
 	    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-left: 10px;">

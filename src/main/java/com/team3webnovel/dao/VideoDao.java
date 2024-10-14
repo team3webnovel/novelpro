@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.VideoVo;
 
 public interface VideoDao {
@@ -22,5 +23,13 @@ public interface VideoDao {
     
     // creationId로 특정 비디오 정보를 조회하는 메서드
     VideoVo getAllInformation(int creationId);
+
+    void updateVideoTitle(VideoVo videoVo);
+    
+    void deleteVideoById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
 
 }

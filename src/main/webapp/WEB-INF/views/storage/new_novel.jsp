@@ -34,7 +34,7 @@
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
 
-            <form action="${pageContext.request.contextPath}/novel/new-novel" method="POST">
+            <form method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>
@@ -62,7 +62,7 @@
                         <option value="">이미지를 선택하세요</option>
                         <c:forEach var="image" items="${imageList}">
                             <option value="${image.creationId}" data-image-url="${image.imageUrl}">
-                                ${image.filename != null ? image.filename : image.imageUrl}
+                                ${image.title != null ? image.title : image.imageUrl}
                             </option>
                         </c:forEach>
                     </select>
