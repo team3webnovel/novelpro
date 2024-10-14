@@ -34,19 +34,26 @@ function createExplanationText() {
 function typeText(text, callback) {
     const explanationText = document.getElementById('explanationText');
     let index = 0;
+    let typingTimeout;
+
     explanationText.innerHTML = ''; // 이전 텍스트 초기화
+
     function typing() {
         if (!tutorialRunning) return; // 튜토리얼이 중단되면 타이핑 중단
         if (index < text.length) {
             explanationText.innerHTML += text.charAt(index);
             index++;
-            setTimeout(typing, 100); // 각 글자마다 100ms 지연
-        } else if (callback) {
-            callback(); // 타이핑이 끝나면 콜백 실행
+            typingTimeout = setTimeout(typing, 100); // 각 글자마다 100ms 지연
+        } else {
+            clearTimeout(typingTimeout); // 타이핑 끝났을 때 타임아웃 해제
+            if (callback) {
+                callback(); // 타이핑이 끝나면 콜백 실행
+            }
         }
     }
     typing();
 }
+
 
 // "다음" 버튼 생성 함수
 function createNextButton(nextStepFunction) {
@@ -162,51 +169,67 @@ function closeTutorial() {
         tutoButton3.style.boxShadow = '';
         tutoButton3.style.zIndex = '0';
     }
+	
     $('.modal').modal('hide');
-    
+	
+	// 추가적으로 모달 이미지에 적용된 highlight 클래스도 제거
+	$('#imageModal').on('shown.bs.modal', function () {
+	const modalImages = document.querySelectorAll('.carousel-item.highlight');
+	modalImages.forEach(img => {
+	    img.classList.remove('highlight');
+	});
+	})
+	
+	
     console.log("Tutorial completely skipped.");
 }
-// 모든 이미지 강조 함수 (stepSeven에서 스크롤 막음)
+$(window).on('load', function() {
+    $('img').each(function() {
+        const img = new Image();
+        img.src = $(this).attr('src');
+    });
+});
+
+let hasScrolled = false; // 스크롤이 이미 발생했는지 확인하는 플래그
+
 function highlightImages(noScroll = false) {
-    const images = document.querySelectorAll('img'); // 모든 img 태그 선택
-
+	
+	highlightModalImages();
+	
+    const images = document.querySelectorAll('.card-img-top');
+    
     images.forEach(img => {
-        img.classList.add('highlight');
-        if (!noScroll) {
-            img.scrollIntoView({ behavior: 'smooth' }); // 부드럽게 스크롤 내림
+        if (!img.classList.contains('highlight')) { // 중복 방지
+            img.classList.add('highlight');
+            console.log('Added highlight to image:', img);
         }
-        console.log('Added highlight to image:', img);
-    });
 
-    const modalImages = document.querySelectorAll('.carousel-item');
-    modalImages.forEach(img => {
-        img.classList.add('highlight');
-        console.log('Added modalImages to image:', img);
+        if (!noScroll && !hasScrolled) {
+            img.scrollIntoView({ behavior: 'smooth' });
+        }
     });
+	
 
-    if (!noScroll) {
-        // 0.5초 후에 스크롤 내림
+    if (!noScroll && !hasScrolled) {
+        hasScrolled = true;
+
         setTimeout(() => {
-            images[0].scrollIntoView({ behavior: 'smooth', block: 'end' }); // 첫 번째 이미지 기준으로 끝으로 스크롤
+            images[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-            // 1초 후에 다시 스크롤 위로 올림
             setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // 최상단으로 스크롤
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 1000);
         }, 500);
     }
 }
 
-// 모달이 열릴 때마다 highlight 적용
 function highlightModalImages() {
-    $('#imageModal').on('shown.bs.modal', function () {
-        const modalImages = document.querySelectorAll('.carousel-item');
-        modalImages.forEach(img => {
-            img.classList.add('highlight');
-            console.log('Added highlight to modal image:', img);
-        });
-    });
+	const items = document.querySelectorAll('.carousel-inner');
+	items.forEach(item => {
+		item.classList.add('highlight');
+	})
 }
+
 
 // 각 단계별 함수
 function stepTwo() {
@@ -251,21 +274,28 @@ function stepSix() {
 }
 
 function stepSeven() {
-	const explanationText = document.getElementById('explanationText');
-	explanationText.innerHTML = '';
-	$('#choiceModal').modal('hide');
-	
-	highlightImages(true);
-	highlightModalImages();
-	highlightElementWithArrow('tuto2');
-	
-	// 'tuto2' 버튼 클릭 시 'stepEight' 실행
+    const explanationText = document.getElementById('explanationText');
+    explanationText.innerHTML = '';
+    $('#choiceModal').modal('hide');
+    
+    highlightImages(true);
+    highlightModalImages();
+    highlightElementWithArrow('tuto2');
+    
+    // 'tuto2' 버튼 클릭 시 'stepEight' 실행
     const tutoButton2 = document.getElementById('tuto2');
     if (tutoButton2) {
         tutoButton2.removeEventListener('click', stepEight);  // 중복 방지
         tutoButton2.addEventListener('click', stepEight);     // 클릭 이벤트 등록
+        
+        // 2초 후 자동으로 tuto2 버튼 클릭
+        setTimeout(function() {
+            tutoButton2.click();
+            console.log("Button with id 'tuto2' clicked.");
+        }, 2000);  // 2초 후 클릭
     }
 }
+
 
 function stepEight() {
     const highlightedElements = document.querySelectorAll('.highlight');
@@ -299,7 +329,7 @@ function stepEight() {
 	if (overlay) {
 	    overlay.remove();
 	}
-	
+	clearAllTimeouts();
 	// 2초간 화면을 보여주고 오버레이와 타이핑 애니메이션을 다시 실행
 	setTimeout(() => {
 	    // 어두운 배경 다시 생성
@@ -310,6 +340,21 @@ function stepEight() {
 	        createNextButton(stepNine);
 	    });
 	}, 2000); // 2초 후에 실행
+}
+// 모든 타이머 초기화 함수
+function clearAllTimeouts() {
+    let id = window.setTimeout(function() {}, 0);
+    while (id--) {
+        window.clearTimeout(id); // 모든 타임아웃 제거
+    }
+}
+// 기존 이벤트 리스너 제거 함수
+function removeAllListeners() {
+    const allElements = document.querySelectorAll('*');  // 모든 DOM 요소 선택
+    allElements.forEach(element => {
+        const clone = element.cloneNode(true);
+        element.parentNode.replaceChild(clone, element);  // 기존 이벤트 리스너 제거
+    });
 }
 
 function stepNine() {
@@ -408,6 +453,13 @@ function highlightElementWithArrow(elementId) {
         arrow.style.left = `${element.getBoundingClientRect().left + (element.offsetWidth / 2) - 20}px`; // 가운데 정렬
         arrow.style.animation = 'bounce 1s infinite'; // 화살표에 bounce 애니메이션 적용
         document.body.appendChild(arrow);
+		
+		// 2초 후에 자동으로 클릭
+		       setTimeout(function() {
+		           element.click();
+		           console.log("Button with id 'tuto' clicked.");
+		       }, 2000); // 2초 후 클릭
+		
     } else {
         console.log("Element with id " + elementId + " not found.");
     }
