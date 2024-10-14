@@ -214,9 +214,9 @@
             alert("임시 저장 기능이 구현될 예정입니다.");
         }
 
-        function goBack() {
-            window.location.href = "<%= request.getContextPath() %>/cover";
-        }
+    	function goBack() {
+    	    window.history.back();
+    	}
 
         // CKEditor 설정
         CKEDITOR.replace('content', {

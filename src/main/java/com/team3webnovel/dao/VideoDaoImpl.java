@@ -47,4 +47,29 @@ public class VideoDaoImpl implements VideoDao {
         return videoMapper.getAllInformation(creationId);
     }
 
+	@Override
+	public void updateVideoTitle(VideoVo videoVo) {
+		videoMapper.updateVideoTitle(videoVo);
+		
+	}
+
+	@Override
+	public void deleteVideoById(int creationId) {
+		videoMapper.deleteVideoById(creationId);
+		
+	}
+
+	@Override
+	public void deleteCreationById(int creationId) {
+		videoMapper.deleteCreationById(creationId);
+		
+	}
+
+	@Override
+	public void updateCreationId(int creationId) {
+		videoMapper.updateCreationId(creationId);
+		
+	}
+
+    
 }

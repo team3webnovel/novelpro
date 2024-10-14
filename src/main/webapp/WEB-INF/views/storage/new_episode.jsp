@@ -328,10 +328,10 @@
     }
 
     // 이전 버튼 클릭 시 cover.jsp로 이동
-    function goBack() {
-        var contextPath = "<%= request.getContextPath() %>";
-        window.location.href = contextPath + "/cover";
-    }
+	function goBack() {
+	    window.history.back();
+	}
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

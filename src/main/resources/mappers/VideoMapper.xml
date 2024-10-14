@@ -74,5 +74,22 @@
         FROM video_generation_data
         WHERE creation_id = #{creationId}
     </select>
+    
+    <update id="updateVideoTitle" parameterType="com.team3webnovel.vo.VideoVo">
+    	UPDATE IMAGE_GENERATION_DATA
+	    SET title = #{title}
+	    WHERE creation_id = #{creationId}
+    </update>
+    
+    <delete id="deleteVideoById" parameterType="int">
+        DELETE FROM IMAGE_GENERATION_DATA
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+    <update id="updateCreationId" parameterType="int">
+	    UPDATE creation
+	    SET user_id = 0
+	    WHERE creation_id = #{creationId}
+	</update>
 
 </mapper>
