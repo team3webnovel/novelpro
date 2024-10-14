@@ -67,7 +67,10 @@
                 <c:forEach var="episode" items="${detailList}">
                     <li class="list-group-item d-flex align-items-center">
                         <!-- 에피소드 이미지 -->
-                        <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
+                        <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid"
+						     style="width: 80px; height: 80px; object-fit: cover;"
+						     onerror="this.onerror=null; this.src='${novelCover.imageUrl}'; this.alt='대체 소설 커버 이미지';">
+
 
                         <!-- 에피소드 제목 및 링크 -->
                         <div class="flex-grow-1 ml-3">

@@ -172,8 +172,6 @@
 					</div>
 
 
-
-				
 				    <!-- 선택한 BGM ID를 폼에 숨긴 필드로 전송 -->
 				    <input type="hidden" id="selectedBgmId" name="bgm" value="" />
 
@@ -328,7 +326,6 @@
     function saveTemporary() {
         alert("임시 저장 기능이 구현될 예정입니다.");
     }
-
 
     // 이전 버튼 클릭 시 cover.jsp로 이동
     function goBack() {

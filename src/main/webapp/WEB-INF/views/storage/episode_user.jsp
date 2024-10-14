@@ -21,9 +21,12 @@
         <div class="card-body">
             <!-- 소설 제목 -->
             <h1 class="card-title text-center">${episode.title}</h1>
-			<audio id="audioPlayer" controls class="w-100 mt-2">
-				<source src="https://cdn1.suno.ai/${episode.bgmUrl.split('=')[1]}.mp4" type="audio/mp4">
-			</audio>
+			<c:if test="${not empty episode.bgmUrl}">
+			    <audio id="audioPlayer" controls class="w-100 mt-2">
+			        <source src="https://cdn1.suno.ai/${episode.bgmUrl.split('=')[1]}.mp4" type="audio/mp4">
+			    </audio>
+			</c:if>
+
             <!-- 작성자 정보와 회차 정보 -->
             <p class="card-text text-center text-muted">${episode.episodeNo}화</p>
 
