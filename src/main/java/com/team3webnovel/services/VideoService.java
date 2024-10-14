@@ -1,6 +1,7 @@
 package com.team3webnovel.services;
 
 import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.VideoVo;
 
 import java.util.List;
@@ -28,5 +29,13 @@ public interface VideoService {
     
     List<VideoVo> getVideoDataByUserId(CreationVo vo);
     
-    VideoVo getAllInformation(int creationId);
+    VideoVo getAllInformation(int boardId, int creationId);
+    
+    void updateVideoTitle(VideoVo videoVo);
+    
+    void deleteVideoById(int creationId);
+    
+    void deleteCreationById(int creationId);
+    
+    void updateCreationId(int creationId);
 }

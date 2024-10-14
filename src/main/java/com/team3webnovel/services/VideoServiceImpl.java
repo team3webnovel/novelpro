@@ -3,6 +3,7 @@ package com.team3webnovel.services;
 import com.team3webnovel.dao.VideoDao;
 import com.team3webnovel.mappers.VideoMapper;
 import com.team3webnovel.vo.CreationVo;
+import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.VideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +89,34 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoVo getAllInformation(int creationId) {
+    public VideoVo getAllInformation(int board, int creationId) {
         return videoMapper.getAllInformation(creationId);
     }
+
+	
+	@Override
+	public void updateVideoTitle(VideoVo videoVo) {
+		videoDao.updateVideoTitle(videoVo);
+		
+	}
+
+	@Override
+	public void deleteVideoById(int creationId) {
+		videoDao.deleteVideoById(creationId);
+		
+	}
+
+	@Override
+	public void deleteCreationById(int creationId) {
+		videoDao.deleteCreationById(creationId);
+		
+	}
+
+	@Override
+	public void updateCreationId(int creationId) {
+		videoDao.updateCreationId(creationId);
+		
+	}
+    
+    
 }

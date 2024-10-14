@@ -43,9 +43,9 @@
 }
 
 .video-gen-input, .video-gen-select, .video-gen-button {
-    padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
     border: 1px solid #ced6e0;
     transition: all 0.3s ease;
 }
@@ -62,6 +62,10 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px 15px;
+    font-size: 14px;
+    width: 120px; /* 버튼 넓이 줄이기 */
+    align-self: center; /* 버튼을 가운데 정렬 */
 }
 
 .video-gen-button:hover {
@@ -84,8 +88,8 @@
 
 .video-gen-image-item {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
     cursor: pointer;
     border: 2px solid transparent;
     border-radius: 8px;
@@ -146,6 +150,6 @@
 
     .video-gen-image-item {
         width: 100%;
-        max-width: 280px;
+        max-width: 240px;
     }
 }
