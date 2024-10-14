@@ -70,7 +70,14 @@
 							<div class="col-md-4 mb-4">
 								<a href="<%=request.getContextPath()%>/novel/novel-detail/${novel.novelId}" class="card-link">
 									<div class="card h-100">
-										<img src="${novel.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: contain;">
+						                <c:choose>
+						                    <c:when test="${empty novel.imageUrl}">
+						                        <img src="<%= request.getContextPath() %>/static/images/logo.png" alt="logo" class="card-img-top" style="max-height: 200px; object-fit: contain;">
+						                    </c:when>
+						                    <c:otherwise>
+						                        <img src="${novel.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: contain;">
+						                    </c:otherwise>
+						                </c:choose>
 										<div class="card-body">
 											<h5 class="card-title">제목: ${novel.title}</h5>
 											<p class="card-text">장르: ${novel.genre}</p>

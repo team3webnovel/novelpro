@@ -292,7 +292,7 @@ public class NovelController {
             @PathVariable int novelId, 
             @PathVariable int episodeNo,
             Model model, HttpSession session,
-            @RequestParam("illust") int illust,
+            @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,
             @RequestParam(value="bgm", required = false) int bgm,
             @RequestParam("title") String title,
             @RequestParam("content") String content) {
@@ -457,7 +457,7 @@ public class NovelController {
             Model model, HttpSession session,
             @RequestParam("title") String title,
             @RequestParam("genre") String genre,
-            @RequestParam("illust") int illust,
+            @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,
             @RequestParam("intro") String intro) {
 
         // 세션에서 사용자 정보 가져오기
@@ -503,7 +503,6 @@ public class NovelController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to delete novel");
         }
-
 
     }
     

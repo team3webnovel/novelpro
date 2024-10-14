@@ -34,12 +34,20 @@
 <div class="container mt-4">
     <div class="row">
     
-        <!-- 왼쪽: 커버 이미지 -->
-        <div class="col-md-4">
-            <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid">
-            <h2>인트로</h2>
-            <p>${novelCover.intro}</p>
-        </div>
+		<!-- 왼쪽: 커버 이미지 -->
+		<div class="col-md-4">
+		    <c:choose>
+		        <c:when test="${empty novelCover.imageUrl}">
+		            <img src="<%= request.getContextPath() %>/static/images/logo.png" alt="소설 커버" class="img-fluid">
+		        </c:when>
+		        <c:otherwise>
+		            <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid">
+		        </c:otherwise>
+		    </c:choose>
+		    <h2>인트로</h2>
+		    <p>${novelCover.intro}</p>
+		</div>
+
 
         <!-- 오른쪽: 소설 정보 -->
         <div class="col-md-8">
