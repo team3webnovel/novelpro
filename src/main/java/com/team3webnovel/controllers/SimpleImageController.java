@@ -124,7 +124,12 @@ public class SimpleImageController {
             model.addAttribute("message", "Error generating image: " + e.getMessage());
             response.put("success", false);
         }
-
+	    // AImessage가 있는지 확인 (예시: 모델에 AI 관련 메시지가 있는지 확인)
+	    if (model.containsAttribute("AImessage")) {
+	        // 리다이렉트 할 경로 설정
+	        response.put("redirect", "/creation-studio/font");  // 리다이렉트할 URL 설정
+	        return response;  // 즉시 리다이렉트 정보 반환
+	    }
         return response;  // 결과 페이지로 이동
 	}
 }

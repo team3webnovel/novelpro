@@ -11,7 +11,13 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    
+<%-- 서버에서 AImessage 값이 존재하는지 확인 --%>
+<c:if test="${not empty AImessage}">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/ai_studio/novel_tutorial.css">
+    <script src="<%= request.getContextPath()%>/static/js/ai_studio/image_tutorial.js"></script>
+</c:if>
+
     <!-- Custom CSS -->
     <style>
         body {
@@ -111,7 +117,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="<%= request.getContextPath()%>/static/js/image_simple_form.js"></script>
-    <script src="<%= request.getContextPath()%>/static/js/ai_studio/image_tutorial.js"></script>
 </head>
 <body>
     <div id="container" class="container">
