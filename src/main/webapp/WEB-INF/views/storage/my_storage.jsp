@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -76,12 +77,28 @@
 									href="<%=request.getContextPath()%>/novel/novel-detail/${novel.novelId}"
 									class="card-link">
 									<div class="card h-100">
-										<img src="${novel.imageUrl}" class="card-img-top"
-											style="max-height: 200px; object-fit: contain;">
+						                <c:choose>
+						                    <c:when test="${empty novel.imageUrl}">
+						                        <img src="<%= request.getContextPath() %>/static/images/logo.png" alt="logo" class="card-img-top" style="max-height: 200px; object-fit: contain;">
+						                    </c:when>
+						                    <c:otherwise>
+						                        <img src="${novel.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: contain;">
+						                    </c:otherwise>
+						                </c:choose>
 										<div class="card-body">
 											<h5 class="card-title">제목: ${novel.title}</h5>
 											<p class="card-text">장르: ${novel.genre}</p>
-											<p class="card-text">내용: ${novel.intro}</p>
+											<p class="card-text">
+											    내용: 
+											    <c:choose>
+											        <c:when test="${fn:length(novel.intro) > 15}">
+											            ${fn:substring(novel.intro, 0, 15)}...
+											        </c:when>
+											        <c:otherwise>
+											            ${novel.intro}
+											        </c:otherwise>
+											    </c:choose>
+											</p>
 											<p class="card-text">작성일: ${novel.createdAt}</p>
 										</div>
 									</div>
@@ -96,9 +113,16 @@
 					<div class="row">
 						<c:forEach var="image" items="${imageList}">
 							<div class="col-md-3 col-sm-6 mb-2">
-								<div class="card"
-									onclick="writeBoard(${image.creationId}, '${image.imageUrl}'); openImageModal(${image.creationId}, '${image.imageUrl}', '${image.createdAt}', '${image.sampler}', '${image.prompt}', '${image.modelCheck}', '${image.title}')">
-									<img src="${image.imageUrl}" class="card-img-top">
+								<div class="card" 
+								     data-creation-id="${image.creationId}" 
+								     data-image-url="${fn:escapeXml(image.imageUrl)}" 
+								     data-created-at="${fn:escapeXml(image.createdAt)}" 
+								     data-sampler="${fn:escapeXml(image.sampler)}"
+								     data-prompt="${fn:escapeXml(image.prompt)}" 
+								     data-model-check="${fn:escapeXml(image.modelCheck)}" 
+								     data-title="${fn:escapeXml(image.title)}"
+								     onclick="handleCardClick(this)">
+								    <img src="${image.imageUrl}" class="card-img-top">
 								</div>
 							</div>
 						</c:forEach>
@@ -348,8 +372,22 @@
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalTitle = '';  // 제목 저장 변수
 
-		    // 이미지 모달을 열고 creationId 값을 설정
+		    function handleCardClick(cardElement) {
+		        const creationId = cardElement.getAttribute('data-creation-id');
+		        const imageUrl = cardElement.getAttribute('data-image-url');
+		        const createdAt = cardElement.getAttribute('data-created-at');
+		        const sampler = cardElement.getAttribute('data-sampler');
+		        const prompt = cardElement.getAttribute('data-prompt');
+		        const modelCheck = cardElement.getAttribute('data-model-check');
+		        const title = cardElement.getAttribute('data-title');
+
+		        openImageModal(creationId, imageUrl, createdAt, sampler, prompt, modelCheck, title);
+		    }
+
+		 // 모달이 열릴 때 제목과 creationId 값을 설정하는 부분
 			function openImageModal(creationId, imageUrl, createdAt, sampler, prompt, modelCheck, title) {
+			    console.log('모달 열기 호출:', creationId, imageUrl, createdAt, sampler, prompt, modelCheck, title);
+			
 			    // 모달을 열 때 프롬프트 초기화
 			    document.getElementById('modalPromptShort').style.display = 'inline'; // 요약된 프롬프트만 표시
 			    document.getElementById('togglePromptButtonContainer').style.display = 'inline'; // "자세히 보기" 버튼 표시
@@ -361,42 +399,22 @@
 			    document.getElementById('modalCreatedAt').innerText = '생성일: ' + createdAt;
 			    document.getElementById('modalSampler').innerText = '샘플러: ' + sampler;
 			
-			    // 프롬프트 내용 설정, 앞에 "프롬프트: " 추가
+			    // 프롬프트 내용 설정
 			    const shortPrompt = prompt.length > 50 ? '프롬프트: ' + prompt.substring(0, 50) + '...' : '프롬프트: ' + prompt;
 			    document.getElementById('modalPromptShort').innerText = shortPrompt;
 			    document.getElementById('modalPromptFull').innerText = '프롬프트: ' + prompt;
 			
-			    document.getElementById('modalModelCheck').innerText = '모델 체크: ' + modelCheck;
+			    // 제목 설정
 			    document.getElementById('modalTitle').innerText = '제목: ' + title;
+			
+			    // originalTitle에 원래 제목 저장
+			    originalTitle = title;
 			
 			    // creationId 숨겨진 필드에 저장
 			    document.getElementById('creationIdField').value = creationId;
-			
+			  
 			    // 모달 띄우기
 			    $('#myModal').modal('show');
-			}
-
-
-
-
-			function togglePrompt() {
-			    const shortPrompt = document.getElementById("modalPromptShort");
-			    const fullPrompt = document.getElementById("modalPromptFull");
-			    const toggleButtonContainer = document.getElementById("togglePromptButtonContainer");
-			    const toggleButtonContainerFull = document.getElementById("togglePromptButtonContainerFull");
-
-			    // 토글 로직: 전체 내용과 짧은 내용을 번갈아 보여줌
-			    if (fullPrompt.style.display === "none") {
-			        fullPrompt.style.display = "inline";
-			        shortPrompt.style.display = "none";
-			        toggleButtonContainer.style.display = "none";
-			        toggleButtonContainerFull.style.display = "inline";
-			    } else {
-			        fullPrompt.style.display = "none";
-			        shortPrompt.style.display = "inline";
-			        toggleButtonContainer.style.display = "inline";
-			        toggleButtonContainerFull.style.display = "none";
-			    }
 			}
 
 
@@ -413,6 +431,7 @@
 		        document.getElementById('editControls').style.display = 'inline-block';
 		    }
 
+		    // 제목 수정 저장
 		    function saveTitle() {
 		        var editableTitle = document.getElementById('editableTitle');
 		        var newTitle = editableTitle.value;
@@ -451,24 +470,7 @@
 		        document.getElementById('editControls').style.display = 'none';
 		    }
 
-		    // 게시판 올리기 버튼 눌렀을 때 공개 여부 및 코멘트 입력 필드 보이기
-		    function enablePost() {
-		        document.getElementById('submitSection').style.display = 'block';
-
-		        // 게시판 올리기 버튼 숨기고 확인, 취소 버튼 표시
-		        document.getElementById('postButton').style.display = 'none';
-		        document.getElementById('postControls').style.display = 'inline-block';
-		    }
-
-		    // 게시판 올리기 취소
-		    function cancelPost() {
-		        // 공개 여부와 코멘트 입력 필드를 숨기고 게시판 올리기 버튼을 다시 표시
-		        document.getElementById('submitSection').style.display = 'none';
-		        document.getElementById('postButton').style.display = 'inline-block';
-		        document.getElementById('postControls').style.display = 'none';
-		    }
-
-		    // 모달이 닫힐 때 초기화
+		    // 모달 닫힐 때 초기화
 		    $('#myModal').on('hide.bs.modal', function () {
 		        // 제목을 원래 상태로 초기화
 		        document.getElementById('modalTitle').innerText = '제목: ' + originalTitle;
@@ -486,6 +488,7 @@
 		        document.getElementById('publicOption').value = 'public';
 		        document.getElementById('comment').value = '';
 		    });
+
 
 		    function writeBoard(creationId, imageUrl) {
 		        console.log("게시판에 이미지 올리기: " + creationId + ", " + imageUrl);
@@ -518,7 +521,27 @@
 		            });
 		        }
 		    }
-		    
+
+		    function togglePrompt() {
+		        const shortPrompt = document.getElementById("modalPromptShort");
+		        const fullPrompt = document.getElementById("modalPromptFull");
+		        const toggleButtonContainer = document.getElementById("togglePromptButtonContainer");
+		        const toggleButtonContainerFull = document.getElementById("togglePromptButtonContainerFull");
+
+		        // 토글 로직: 전체 내용과 짧은 내용을 번갈아 보여줌
+		        if (fullPrompt.style.display === "none") {
+		            fullPrompt.style.display = "inline";  // 전체 프롬프트 표시
+		            shortPrompt.style.display = "none";   // 요약 프롬프트 숨김
+		            toggleButtonContainer.style.display = "none"; // "자세히 보기" 숨김
+		            toggleButtonContainerFull.style.display = "inline"; // "간단히 보기" 버튼 표시
+		        } else {
+		            fullPrompt.style.display = "none";    // 전체 프롬프트 숨김
+		            shortPrompt.style.display = "inline"; // 요약 프롬프트 표시
+		            toggleButtonContainer.style.display = "inline"; // "자세히 보기" 버튼 표시
+		            toggleButtonContainerFull.style.display = "none";  // "간단히 보기" 숨김
+		        }
+		    }
+
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalVideoTitle = '';  // 비디오 제목 저장 변수
 
@@ -660,6 +683,7 @@
 		        }
 		    }
 		    
+
 		</script>
 	</div>
 </body>

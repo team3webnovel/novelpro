@@ -106,83 +106,76 @@ public class NovelController {
 		// NovelService를 통해 소설 삽입
 		novelService.insertNovelDetail(vo);
 
-		return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
-	}
+        return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
+    }
+    
+    // 글쓰기 페이지로 이동
+    @GetMapping("/new-novel")
+    public String insertCoverPage(HttpSession session, Model model) {
+    	UserVo user = (UserVo)session.getAttribute("user");
+    	int userId = user.getUserId();
+    	
+    	// 이미지 리스트 가져오기
+    	CreationVo vo = new CreationVo();
+    	vo.setUserId(userId);
+    	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
+    	
+ 
+        
+        // 디버깅용 출력
+        System.err.println(imageList);
 
-	// 글쓰기 페이지로 이동
-	@GetMapping("/new-novel")
-	public String insertCoverPage(HttpSession session, Model model) {
-		UserVo user = (UserVo) session.getAttribute("user");
-		int userId = user.getUserId();
+        
+        // 모델에 이미지 및 비디오 리스트 추가
+        model.addAttribute("imageList", imageList);
 
-		// 이미지 리스트 가져오기
-		CreationVo vo = new CreationVo();
-		vo.setUserId(userId);
-		List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
-
-		// 디버깅용 출력
-		System.err.println(imageList);
-
-		// 모델에 이미지 및 비디오 리스트 추가
-		model.addAttribute("imageList", imageList);
-
-		return "storage/new_novel";
-	}
-
-	// 소설 생성
-	@PostMapping("/new-novel")
-	public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
-			@RequestParam("illust") int illust, @RequestParam("title") String title,
-			@RequestParam("intro") String intro, @RequestParam("genre") String genre) {
-
-		// 세션에서 사용자 정보 가져오기
-		UserVo user = (UserVo) session.getAttribute("user");
-		if (user == null) {
-			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
-			return "redirect:/login";
-		}
-
-		// 전달받은 값으로 NovelVo 객체 설정
-		vo.setUserId(user.getUserId()); // 작성자 ID로 설정
-		vo.setTitle(title); // 소설 제목 설정
-		vo.setIntro(intro); // 소설 소개 설정
-		vo.setGenre(genre); // 소설 장르 설정
-		vo.setCreationId(illust); // 소설 표지 설정
-
-		// 생성일을 현재 시간으로 설정 (Timestamp로 변경)
-		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		vo.setCreatedAt(currentTime); // 생성일 설정
-
-		// 디버깅용 출력
-		System.err.println(vo.toString());
-
-		// NovelService를 통해 소설 삽입
-		novelService.insertNovel(vo);
-
-		if (model.containsAttribute("AImessage")) {
-			return "/generate/image_simple_form";
-		}
-
-		return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
-	}
-
-	// 소설 상세페이지로 이동
-	@GetMapping("/novel-detail/{novelId}")
-	public String detailPage(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
-
-		/*
-		 * 수정해야할듯 // 사용자 ID로 소설 리스트 가져오기 List<NovelVo> novelList =
-		 * novelService.getNovelListByUserId(user.getUserId());
-		 * model.addAttribute("novelList", novelList); // 전체 소설 리스트를 모델에 추가 (만약 필요하다면)
-		 * System.err.println("Novel List: " + novelList); // 소설 리스트 로그 출력
-		 * 
-		 * // novelList에서 novelId와 일치하는 소설을 필터링 NovelVo novelCover = novelList.stream()
-		 * .filter(n -> n.getNovelId() == novelId) .findFirst() .orElse(null); // 만약 찾지
-		 * 못하면 null 반환
-		 * 
-		 * // 조회한 소설 데이터를 모델에 추가 (novelCover가 null이 아닐 경우만 추가) if (novelCover != null) {
-		 * model.addAttribute("novelCover", novelCover); }
-		 */
+        
+        return "storage/new_novel";
+    }
+    
+    // 소설 생성
+    @PostMapping("/new-novel")
+    public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
+    		@RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
+    		@RequestParam("title") String title,
+    		@RequestParam("intro") String intro,
+    		@RequestParam("genre") String genre) {
+    	
+    	// 세션에서 사용자 정보 가져오기
+    	UserVo user = (UserVo) session.getAttribute("user");
+    	if (user == null) {
+    		// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+    		return "redirect:/login";
+    	}
+    	
+    	// 전달받은 값으로 NovelVo 객체 설정
+    	vo.setUserId(user.getUserId()); // 작성자 ID로 설정
+    	vo.setTitle(title);             // 소설 제목 설정
+    	vo.setIntro(intro);             // 소설 소개 설정
+    	vo.setGenre(genre);             // 소설 장르 설정
+    	vo.setCreationId(illust);		// 소설 표지 설정
+    	
+    	// 생성일을 현재 시간으로 설정 (Timestamp로 변경)
+    	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+    	vo.setCreatedAt(currentTime);   // 생성일 설정
+    	
+    	// 디버깅용 출력
+    	System.err.println(vo.toString());
+    	
+    	// NovelService를 통해 소설 삽입
+    	novelService.insertNovel(vo);
+    	
+    	if (model.containsAttribute("AImessage")) {
+    		return "/generate/image_simple_form";
+    	}
+    	
+    	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
+    }
+    
+ // 소설 상세페이지로 이동
+    @GetMapping("/novel-detail/{novelId}")
+    public String detailPage(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
+        
 		// novelId 기반 커버 찾기
 		NovelVo novelVo = novelService.getNovelByNovelId(novelId);
 		List<NovelVo> detailList = novelService.getNovelDetailByNovelId(novelId);
@@ -410,100 +403,106 @@ public class NovelController {
 				.body("{\"intro\": \"" + generatedIntro + "\"}"); // intro 필드만 반환
 	}
 
-	@GetMapping("/edit-new-novel/{novelId}")
-	public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
-		// 세션에서 사용자 정보 가져오기
-		UserVo user = (UserVo) session.getAttribute("user");
+    @GetMapping("/edit-new-novel/{novelId}")
+    public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
+        // 세션에서 사용자 정보 가져오기
+        UserVo user = (UserVo)session.getAttribute("user");
 
-		// novelId로 소설 데이터를 가져옴
-		NovelVo novelVo = novelService.getNovelByNovelId(novelId);
+        // novelId로 소설 데이터를 가져옴
+        NovelVo novelVo = novelService.getNovelByNovelId(novelId);
+        
+        System.out.println("Fetched novel: " + novelVo);  // novelVo가 null인지 확인
+        
+        if (novelVo == null) {
+            return "storage/episode_user"; // 소설을 찾지 못한 경우
+        }
+        
+        // 소설 데이터를 모델에 추가
+        model.addAttribute("novelCover", novelVo);
+        
+        
+        if (user == null) {
+    		return "storage/episode_user";
+    	} else if (user.getUserId() != novelVo.getUserId()) {
+    		return "storage/episode_user";
+    	}
 
-		System.out.println("Fetched novel: " + novelVo); // novelVo가 null인지 확인
+        // CreationVo를 이용해 이미지 데이터 가져오기
+        CreationVo vo = new CreationVo();
+        vo.setUserId(novelVo.getUserId());
+        
+        List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
+        model.addAttribute("imageList", imageList);
 
-		if (novelVo == null) {
-			return "storage/episode_user"; // 소설을 찾지 못한 경우
-		}
+        // JSP 파일로 이동
+        return "storage/edit_new_novel";
+    }
+    
+    @PostMapping("/edit-new-novel/{novelId}")
+    public String updateNovel(
+            @PathVariable int novelId, 
+            Model model, HttpSession session,
+            @RequestParam("title") String title,
+            @RequestParam("genre") String genre,
+            @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,
+            @RequestParam("intro") String intro) {
 
-		// 소설 데이터를 모델에 추가
-		model.addAttribute("novelCover", novelVo);
+        // 세션에서 사용자 정보 가져오기
+        UserVo user = (UserVo) session.getAttribute("user");
 
-		if (user == null) {
-			return "storage/episode_user";
-		} else if (user.getUserId() != novelVo.getUserId()) {
-			return "storage/episode_user";
-		}
+        if (user == null) {
+            return "redirect:/login";  // 로그인 페이지로 리다이렉트
+        }
 
-		// CreationVo를 이용해 이미지 데이터 가져오기
-		CreationVo vo = new CreationVo();
-		vo.setUserId(novelVo.getUserId());
+        // 기존 소설 데이터를 가져옴
+        NovelVo existingNovel = novelService.getNovelByNovelId(novelId);
 
-		List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
-		model.addAttribute("imageList", imageList);
+        if (existingNovel == null) {
+            return "error";  // 만약 해당 소설이 없으면 에러 페이지로 이동
+        }
 
-		// JSP 파일로 이동
-		return "storage/edit_new_novel";
-	}
+        // 수정된 부분만 덮어쓰기
+        existingNovel.setTitle(title);
+        existingNovel.setGenre(genre);
+        existingNovel.setImageId(illust);  // 소설 표지 이미지 ID 설정
+        existingNovel.setIntro(intro);
+        existingNovel.setUserId(user.getUserId());  // 현재 로그인된 사용자 ID 설정
 
-	@PostMapping("/edit-new-novel/{novelId}")
-	public String updateNovel(@PathVariable int novelId, Model model, HttpSession session,
-			@RequestParam("title") String title, @RequestParam("genre") String genre,
-			@RequestParam("illust") int illust, @RequestParam("intro") String intro) {
+        // 디버깅용 출력
+        System.err.println(existingNovel.toString());
 
-		// 세션에서 사용자 정보 가져오기
-		UserVo user = (UserVo) session.getAttribute("user");
+        // NovelService를 통해 소설 수정
+        novelService.updateNovel(existingNovel);
 
-		if (user == null) {
-			return "redirect:/login"; // 로그인 페이지로 리다이렉트
-		}
+        // 수정 후 소설 상세 페이지로 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;  // 수정된 소설의 상세 페이지로 리다이렉트
+    }
 
-		// 기존 소설 데이터를 가져옴
-		NovelVo existingNovel = novelService.getNovelByNovelId(novelId);
 
-		if (existingNovel == null) {
-			return "error"; // 만약 해당 소설이 없으면 에러 페이지로 이동
-		}
+    // 24.10.10
+    @DeleteMapping("/delete-novel/{novelId}")
+    public ResponseEntity<String> deleteNovel(@PathVariable int novelId) {
+        try {
+            System.out.println("Deleting novel with ID: " + novelId); // 로그 추가
+            novelService.deleteNovel(novelId);
+            return ResponseEntity.ok("Novel deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to delete novel");
+        }
 
-		// 수정된 부분만 덮어쓰기
-		existingNovel.setTitle(title);
-		existingNovel.setGenre(genre);
-		existingNovel.setImageId(illust); // 소설 표지 이미지 ID 설정
-		existingNovel.setIntro(intro);
-		existingNovel.setUserId(user.getUserId()); // 현재 로그인된 사용자 ID 설정
+    }
+    
+    // 24.10.11 에피소드 삭제
+    @DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
+    public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
+        try {
+            // 에피소드 삭제 서비스 호출
+            novelService.deleteEpisode(novelId, episodeNo);
 
-		// 디버깅용 출력
-		System.err.println(existingNovel.toString());
-
-		// NovelService를 통해 소설 수정
-		novelService.updateNovel(existingNovel);
-
-		// 수정 후 소설 상세 페이지로 리다이렉트
-		return "redirect:/novel/novel-detail/" + novelId; // 수정된 소설의 상세 페이지로 리다이렉트
-	}
-
-	// 24.10.10
-	@DeleteMapping("/delete-novel/{novelId}")
-	public ResponseEntity<String> deleteNovel(@PathVariable int novelId) {
-		try {
-			System.out.println("Deleting novel with ID: " + novelId); // 로그 추가
-			novelService.deleteNovel(novelId);
-			return ResponseEntity.ok("Novel deleted successfully");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to delete novel");
-		}
-
-	}
-
-	// 24.10.11 에피소드 삭제
-	@DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
-	public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
-		try {
-			// 에피소드 삭제 서비스 호출
-			novelService.deleteEpisode(novelId, episodeNo);
-
-			return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
-		}
-	}
+            return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
+        }
+    }
 
 }

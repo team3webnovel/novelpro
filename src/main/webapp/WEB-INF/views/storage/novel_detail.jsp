@@ -34,12 +34,20 @@
 <div class="container mt-4">
     <div class="row">
     
-        <!-- 왼쪽: 커버 이미지 -->
-        <div class="col-md-4">
-            <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid">
-            <h2>인트로</h2>
-            <p>${novelCover.intro}</p>
-        </div>
+		<!-- 왼쪽: 커버 이미지 -->
+		<div class="col-md-4">
+		    <c:choose>
+		        <c:when test="${empty novelCover.imageUrl}">
+		            <img src="<%= request.getContextPath() %>/static/images/logo.png" alt="소설 커버" class="img-fluid">
+		        </c:when>
+		        <c:otherwise>
+		            <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid">
+		        </c:otherwise>
+		    </c:choose>
+		    <h2>인트로</h2>
+		    <p>${novelCover.intro}</p>
+		</div>
+
 
         <!-- 오른쪽: 소설 정보 -->
         <div class="col-md-8">
@@ -67,7 +75,10 @@
                 <c:forEach var="episode" items="${detailList}">
                     <li class="list-group-item d-flex align-items-center">
                         <!-- 에피소드 이미지 -->
-                        <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
+                        <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid"
+						     style="width: 80px; height: 80px; object-fit: cover;"
+						     onerror="this.onerror=null; this.src='${novelCover.imageUrl}'; this.alt='대체 소설 커버 이미지';">
+
 
                         <!-- 에피소드 제목 및 링크 -->
                         <div class="flex-grow-1 ml-3">
