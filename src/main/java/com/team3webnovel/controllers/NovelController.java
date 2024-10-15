@@ -157,10 +157,13 @@ public class NovelController {
             return "redirect:/login"; // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
         }
         
+        // 줄바꿈 문자를 <br>로 변환하여 intro 저장
+    	String formattedIntro = intro.replaceAll("\n", "<br>");
+        
         // 전달받은 값으로 NovelVo 객체 설정
         vo.setUserId(user.getUserId());
         vo.setTitle(title);
-        vo.setIntro(intro);
+        vo.setIntro(formattedIntro);
         vo.setGenre(genre);
         vo.setCreationId(illust);
         
