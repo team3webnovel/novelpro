@@ -39,7 +39,7 @@
 
 <!-- Music Creator Container -->
 <div id="musicCreatorContainer" class="mt-5">
-    <form action="<%= request.getContextPath() %>/generate-music" method="post">
+    <form action="<%= request.getContextPath() %>/generate-music" method="post" id="musicForm">
         <h1 id="musicCreatorTitle" class="text-center">당신만의 BGM을 만들어보세요!</h1>
 
         <div id="formInputGroup">
@@ -72,49 +72,60 @@
     </form>
 
     <!-- 음악 보관함으로 이동하는 링크 추가 -->
-<p id="musicStorageLink" class="text-center mt-3">
-    <a href="<%= request.getContextPath() %>/storage#music">음악 보관함으로 이동</a>
-</p>
+    <p id="musicStorageLink" class="text-center mt-3">
+        <a href="<%= request.getContextPath() %>/storage#music">음악 보관함으로 이동</a>
+    </p>
 
 </div>
 
+    <!-- AImessage가 있을 경우 숨겨진 필드 추가 -->
+    <c:if test="${not empty AImessage }">
+        <input type="hidden" id="AImessage" value="${AImessage}">
+    </c:if>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // URL에서 해시 값을 확인
-    const hash = window.location.hash;
+    const AImessageElement = document.getElementById('AImessage');
+    const form = document.getElementById('musicForm');
+
+    // 폼 제출 시 숨겨진 필드로 AImessage 추가
+    form.addEventListener('submit', function(event) {
+        if (AImessageElement) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'AImessage';  // 폼으로 전송될 필드 이름
+            input.value = AImessageElement.value;
+            form.appendChild(input);
+        }
+    });
 
     // 해시 값이 '#music'이면 '내 음악' div를 활성화
+    const hash = window.location.hash;
     if (hash === "#music") {
-        // 모든 탭의 활성화 상태를 제거
         document.querySelectorAll('.tab-pane').forEach(function(tabContent) {
             tabContent.classList.remove('show', 'active');
         });
-
-        // '내 음악' 탭을 활성화
         const musicTabContent = document.querySelector('#music');
         if (musicTabContent) {
             musicTabContent.classList.add('show', 'active');
         }
-
-        // 탭 링크의 활성화 상태를 맞춰줌
         document.querySelectorAll('.nav-link').forEach(function(tabLink) {
             tabLink.classList.remove('active');
         });
-
         const musicTabLink = document.querySelector('a[href="#music"]');
         if (musicTabLink) {
             musicTabLink.classList.add('active');
         }
     }
-});
 
-    // 에러 메시지나 경고 메시지가 있는 경우 표시
+    // 에러 메시지 표시
     if ('${errorMessage}' !== '') {
         document.getElementById('errorMessage').style.display = 'block';
     }
     if ('${warningMessage}' !== '') {
         document.getElementById('warningMessage').style.display = 'block';
     }
+});
 </script>
 
 </body>

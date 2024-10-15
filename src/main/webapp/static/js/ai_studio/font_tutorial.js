@@ -102,6 +102,7 @@ function endTutorial() {
     const tutorialText = document.getElementById('tutorialText');
     const skipButton = document.getElementById('skipButton');
     const exitButton = document.getElementById('exitButton');
+    const nextButton = document.getElementById('nextButton');
     const highlightedElements = document.querySelectorAll('.highlight');  // 모든 강조된 요소들
 
     // 요소 제거
@@ -109,6 +110,7 @@ function endTutorial() {
     if (tutorialText) tutorialText.remove();
     if (skipButton) skipButton.remove();
     if (exitButton) exitButton.remove();
+    if (nextButton) nextButton.remove();
 
     // 모든 강조된 요소에서 highlight 클래스 제거
     highlightedElements.forEach(function (element) {
