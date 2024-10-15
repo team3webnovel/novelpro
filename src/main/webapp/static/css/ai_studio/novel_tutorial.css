@@ -6,6 +6,7 @@
     background-color: white;
     mix-blend-mode: screen;
     z-index: 10001;
+    position: relative;
 }
 
 /* 강조 영역의 애니메이션 */

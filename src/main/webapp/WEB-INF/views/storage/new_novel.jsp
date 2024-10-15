@@ -16,10 +16,10 @@
         const contextPath = "${pageContext.request.contextPath}";
     </script>
     <!-- 조건부로 novel_tutorial.js 로드 -->
-<c:if test="${not empty AImessage}">
+    <c:if test="${not empty AImessage}">
         <script src="${pageContext.request.contextPath}/static/js/ai_studio/novel_tutorial.js"></script>
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/ai_studio/novel_tutorial.css">
-</c:if> 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/ai_studio/novel_tutorial.css">
+    </c:if> 
 </head>
 <body>
     <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
@@ -34,7 +34,7 @@
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
 
-            <form method="POST">
+            <form method="POST" action="${pageContext.request.contextPath}/novel/new-novel">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>
@@ -89,26 +89,50 @@
             </form>
         </div>
 
-        <!-- gpt를 통한 줄거리 및 등장인물 생성 -->
+        <!-- AImessage가 있을 때 숨겨진 필드로 추가 -->
+        <c:if test="${not empty AImessage}">
+            <input type="hidden" id="AImessage" name="AImessage" value="${AImessage}">
+        </c:if>
+        
+        <!-- GPT를 통한 줄거리 및 등장인물 생성 -->
         <div class="col-md-6">
-    <h4>줄거리&등장인물</h4>
-    
-    <!-- 채팅 로그 영역 -->
-    <div id="chat-container" class="chat-window-container" style="position: relative;">
-        <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;">
-            <!-- 채팅 로그 표시 영역 -->
-        </div>
+            <h4>줄거리&등장인물</h4>
+            
+            <!-- 채팅 로그 영역 -->
+            <div id="chat-container" class="chat-window-container" style="position: relative;">
+                <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;">
+                    <!-- 채팅 로그 표시 영역 -->
+                </div>
 
-        <!-- 사용자 입력 -->
-        <div id="input-area" class="mt-3 d-flex input-area-sticky">
-            <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
-            <button id="submit-btn" type="button" class="btn btn-primary ml-2">입력</button>
+                <!-- 사용자 입력 -->
+                <div id="input-area" class="mt-3 d-flex input-area-sticky">
+                    <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
+                    <button id="submit-btn" type="button" class="btn btn-primary ml-2">입력</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector('form');
+    const AImessage = document.getElementById('AImessage');
+
+    form.addEventListener('submit', function(event) {
+        // 만약 AImessage가 존재한다면 이를 숨겨진 필드로 폼에 추가
+        if (AImessage) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'AImessage';
+            input.value = AImessage.value; // AImessage 값을 폼에 포함
+            form.appendChild(input);
+        }
+    });
+});
+</script>
+
 <!-- JavaScript 파일 링크 -->
-<!-- JS 파일 경로 수정 -->
 <script src="${pageContext.request.contextPath}/static/js/chatbot.js"></script>
 <!-- jQuery의 slim 버전이 아닌 일반 버전 사용 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
