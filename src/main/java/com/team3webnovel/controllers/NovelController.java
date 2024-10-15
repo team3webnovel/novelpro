@@ -32,6 +32,7 @@ import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.MusicVo;
 import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
+import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -121,11 +122,12 @@ public class NovelController {
     	CreationVo vo = new CreationVo();
     	vo.setUserId(userId);
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
+    	List<VideoVo> videoList = videoService.getVideoDataByUserId(vo);
+
     	
         if (model.containsAttribute("AImessage")) {
             redirectAttribute.addFlashAttribute("AImessage"); // 이미지 생성 페이지로 리다이렉트
         }
-
         
         // 디버깅용 출력
         System.err.println(imageList);
@@ -133,7 +135,7 @@ public class NovelController {
         
         // 모델에 이미지 및 비디오 리스트 추가
         model.addAttribute("imageList", imageList);
-
+        model.addAttribute("videoList", videoList);
         
         return "storage/new_novel";
     }
@@ -155,10 +157,13 @@ public class NovelController {
             return "redirect:/login"; // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
         }
         
+        // 줄바꿈 문자를 <br>로 변환하여 intro 저장
+    	String formattedIntro = intro.replaceAll("\n", "<br>");
+        
         // 전달받은 값으로 NovelVo 객체 설정
         vo.setUserId(user.getUserId());
         vo.setTitle(title);
-        vo.setIntro(intro);
+        vo.setIntro(formattedIntro);
         vo.setGenre(genre);
         vo.setCreationId(illust);
         
@@ -457,6 +462,9 @@ public class NovelController {
         
         List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         model.addAttribute("imageList", imageList);
+        
+        List<VideoVo> videoList = videoService.getVideoDataByUserId(vo);
+        model.addAttribute("videoList", videoList);
 
         // JSP 파일로 이동
         return "storage/edit_new_novel";
@@ -484,12 +492,15 @@ public class NovelController {
         if (existingNovel == null) {
             return "error";  // 만약 해당 소설이 없으면 에러 페이지로 이동
         }
+        
+        // 줄바꿈 문자를 <br>로 변환하여 intro 저장
+        String formattedIntro = intro.replaceAll("\n", "<br>");
 
         // 수정된 부분만 덮어쓰기
         existingNovel.setTitle(title);
         existingNovel.setGenre(genre);
         existingNovel.setImageId(illust);  // 소설 표지 이미지 ID 설정
-        existingNovel.setIntro(intro);
+        existingNovel.setIntro(formattedIntro);
         existingNovel.setUserId(user.getUserId());  // 현재 로그인된 사용자 ID 설정
 
         // 디버깅용 출력
@@ -564,5 +575,6 @@ public class NovelController {
 
 
 
-    
+
 }
+
