@@ -397,6 +397,7 @@
 			    // 이미지 및 정보 설정
 			    document.getElementById('modalImage').src = imageUrl;
 			    document.getElementById('modalCreatedAt').innerText = '생성일: ' + createdAt;
+			    document.getElementById('modalModelCheck').innerText = '생성일: ' + modelCheck;
 			    document.getElementById('modalSampler').innerText = '샘플러: ' + sampler;
 			
 			    // 프롬프트 내용 설정

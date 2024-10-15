@@ -49,4 +49,11 @@ public interface NovelMapper {
     void updateEpisodeVisibility(NovelVo vo);
 
     void deleteEpisode(Map<String, Object> params);
+    
+    
+	int check(Map<String, Integer> map);
+	
+	void pushLike(Map<String, Integer> map);
+	
+	void unlike(Map<String, Integer> map);
 }

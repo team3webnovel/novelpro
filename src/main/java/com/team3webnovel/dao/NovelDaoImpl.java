@@ -112,6 +112,25 @@ public class NovelDaoImpl implements NovelDao {
 	}
 	
 	
+	@Override
+	public boolean check(Map<String, Integer> map) {
+	    // count가 0이면 false, 1이면 true로 변환
+	    int result = novelMapper.check(map); // 이 부분에서 COUNT(*) 결과를 받음
+	    return result > 0; // 결과가 0보다 크면 true, 아니면 false
+	}
+
+
+	@Override
+	public void like(Map<String, Integer> map) {
+		novelMapper.pushLike(map);
+	}
+
+	@Override
+	public void unlike(Map<String, Integer> map) {
+		novelMapper.unlike(map);
+	}
+	
+	
 
     // 소설 ID로 소설 조회
 //    @Override

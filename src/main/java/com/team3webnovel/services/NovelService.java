@@ -42,4 +42,6 @@ public interface NovelService {
     void updateNovelDetail(NovelVo vo);
     
     void updateEpisodeVisibility(NovelVo vo);
+    
+    public boolean toggleLike(int userId, int boardId);
 }

@@ -36,6 +36,8 @@ import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
+
+
 @Controller
 @RequestMapping("/novel")
 public class NovelController {
@@ -543,6 +545,31 @@ public class NovelController {
         // 삭제 후 리다이렉트
         return "redirect:/novel/novel-detail/" + novelId;
     }
+    
+    @PostMapping("/like/{novelId}")
+    public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int novelId, HttpSession session) {
+        System.err.println("넘어옴 " + novelId);
+        
+        UserVo user = (UserVo) session.getAttribute("user");
+        if (user == null) {
+            // 로그인하지 않은 경우 JSON 응답으로 리다이렉트 정보를 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("redirect", "/team3webnovel/login"); // 로그인 페이지 URL을 명시적으로 설정
+            return ResponseEntity.status(401).body(response); // 상태 코드를 숫자로 사용
+        }
+
+        int userId = user.getUserId();
+        System.err.println(userId);
+        boolean liked = novelService.toggleLike(userId, novelId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 
