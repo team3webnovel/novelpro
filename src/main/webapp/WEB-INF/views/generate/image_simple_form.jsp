@@ -187,7 +187,10 @@
 			        <!-- Bootstrap Carousel -->
 			        <div id="modelCarouselRomantic" class="carousel slide" data-ride="carousel" data-interval="3000">
 			            <div class="carousel-inner">
-			                <div class="carousel-item active">
+			            	<div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
 			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
@@ -340,7 +343,7 @@
                 <div class="card">
                     <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
                     <div class="card-body">
-                        <h5 class="card-title">juggernautXL_juggXIByRundiffusion</h5>
+                        <h5 class="card-title">juggernautXL_이건 실사 이미지 생성</h5>
                         <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('juggernautXL_juggXIByRundiffusion.safetensors')">모델 선택</button>
                         <button class="btn btn-success" onclick="changeModelAIModal('juggernautXL_juggXIByRundiffusion.safetensors')">직접 입력</button>
                     </div>
@@ -362,24 +365,50 @@
                 <div class="card">
                     <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
                     <div class="card-body">
-                        <h5 class="card-title">majicmixRealistic</h5>
+                        <h5 class="card-title">majicmixRealistic 실사 베이스</h5>
                         <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('majicmixRealistic.safetensors')">모델 선택</button>
                         <button class="btn btn-success" onclick="changeModelAIModal('majicmixRealistic.safetensors')">직접 입력</button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">sdxlNijiSeven_sdxlNijiSeven.safetensors</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
+			    <div class="card">
+			        <!-- Bootstrap Carousel -->
+			        <div id="modelCarouselNiji" class="carousel slide" data-ride="carousel" data-interval="3000">
+			            <div class="carousel-inner">
+			            	<div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			            </div>
+			            <!-- Carousel controls -->
+			            <a class="carousel-control-prev" href="#modelCarouselNiji" role="button" data-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="sr-only">이전</span>
+			            </a>
+			            <a class="carousel-control-next" href="#modelCarouselNiji" role="button" data-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="sr-only">다음</span>
+			            </a>
+			        </div>
+			        <!-- Card Body -->
+			        <div class="card-body">
+			            <h5 class="card-title">니지세븐</h5>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
+			        </div>
+			    </div>
+			</div>   
+			         
         </div>
     </div>
     
