@@ -50,7 +50,7 @@ public class OpenAiService {
             PwVo pwVo = pwDao.getPasswordByName("openAiAPI");
             System.out.println(pwVo);
             if (pwVo != null) {
-            	System.out.println(decrypt(pwVo.getPwPw(), SECRET_KEY, INIT_VECTOR));
+               System.out.println(decrypt(pwVo.getPwPw(), SECRET_KEY, INIT_VECTOR));
                 return decrypt(pwVo.getPwPw(), SECRET_KEY, INIT_VECTOR);
             } else {
                 throw new Exception("API 키를 찾을 수 없습니다.");
