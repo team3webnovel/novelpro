@@ -77,38 +77,37 @@ public class NovelController {
 
 	// 글쓰기 처리
 	@PostMapping("/write/{novelId}")
-	public String write(@ModelAttribute NovelVo vo, HttpSession session, @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
-			@RequestParam(value = "bgm", required = false) int bgm, @RequestParam("title") String title,
-			@RequestParam("episode") int episode, @RequestParam("content") String content) {
+	public String write(@ModelAttribute NovelVo vo, HttpSession session, 
+	    @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  
+	    @RequestParam(value = "bgm", required = false, defaultValue = "0") int bgm, // 기본값 설정
+	    @RequestParam("title") String title,
+	    @RequestParam("episode") int episode, 
+	    @RequestParam("content") String content) {
 
-		// 세션에서 사용자 정보 가져오기
-		UserVo user = (UserVo) session.getAttribute("user");
-		if (user == null) {
-			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
-			return "redirect:/login";
-		}
+	    // 세션에서 사용자 정보 가져오기
+	    UserVo user = (UserVo) session.getAttribute("user");
+	    if (user == null) {
+	        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+	        return "redirect:/login";
+	    }
 
-		// 전달받은 값으로 NovelVo 객체 설정
-		vo.setUserId(user.getUserId()); // 작성자 ID로 설정
-		vo.setTitle(title); // 소설 제목 설정
-		vo.setImageId(illust); // 소설 표지 설정
-		vo.setBgmId(bgm);
-		vo.setEpisodeNo(episode);
-		vo.setContents(content);
+	    // 전달받은 값으로 NovelVo 객체 설정
+	    vo.setUserId(user.getUserId()); // 작성자 ID로 설정
+	    vo.setTitle(title); // 소설 제목 설정
+	    vo.setImageId(illust); // 소설 표지 설정
+	    vo.setBgmId(bgm); // BGM 설정
+	    vo.setEpisodeNo(episode); // 에피소드 번호 설정
+	    vo.setContents(content); // 소설 내용 설정
 
-		/*
-		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
-		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
-		 * 설정
-		 */
-		// 디버깅용 출력
-		System.err.println(vo.toString());
+	    // 디버깅용 출력
+	    System.err.println(vo.toString());
 
-		// NovelService를 통해 소설 삽입
-		novelService.insertNovelDetail(vo);
+	    // NovelService를 통해 소설 삽입
+	    novelService.insertNovelDetail(vo);
 
-        return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
-    }
+	    return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
+	}
+
     
     // 글쓰기 페이지로 이동
     @GetMapping("/new-novel")
