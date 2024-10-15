@@ -306,13 +306,13 @@
 						<div
 							class="d-flex justify-content-between align-items-center mt-3">
 							<p id="videoModalTitle" class="mb-2"></p>
-							<button type="button" class="btn btn-secondary btn-sm"
-								id="editVideoButton" onclick="enableEditVideoTitle()">수정</button>
+							<input type="hidden" class="btn btn-secondary btn-sm"
+								id="editVideoButton" onclick="enableEditVideoTitle()">
 							<div id="editVideoControls" style="display: none;">
-								<button type="button" class="btn btn-primary btn-sm"
-									onclick="saveVideoTitle()">확인</button>
-								<button type="button" class="btn btn-secondary btn-sm"
-									onclick="cancelEditVideoTitle()">취소</button>
+								<input type="button" class="btn btn-primary btn-sm"
+									onclick="saveVideoTitle()">
+								<input type="button" class="btn btn-secondary btn-sm"
+									onclick="cancelEditVideoTitle()">
 							</div>
 						</div>
 
@@ -340,8 +340,8 @@
 					</div>
 					<div class="modal-footer">
 						<!-- 게시판 올리기 버튼 -->
-						<button type="button" class="btn btn-primary" id="postVideoButton"
-							onclick="enableVideoPost()">게시판 올리기</button>
+						<input type="hidden" class="btn btn-primary" id="postVideoButton"
+							onclick="enableVideoPost()">
 
 						<!-- 비디오 삭제 버튼 -->
 						<button type="button" class="btn btn-danger"

@@ -65,6 +65,14 @@
                                 ${image.title != null ? image.title : image.imageUrl}
                             </option>
                         </c:forEach>
+                        
+                    <select id="videoSelect" class="form-control" name="illust" onchange="displaySelectedVideo()">
+                        <option value="">비디오를 선택하세요</option>
+                        <c:forEach var="video" items="${videoList}">
+                            <option value="${video.creationId}" data-video-url="${video.videoUrl}">
+                                ${video.title != null ? video.title : video.videoUrl}
+                            </option>
+                        </c:forEach>
                     </select>
                 </div>
 

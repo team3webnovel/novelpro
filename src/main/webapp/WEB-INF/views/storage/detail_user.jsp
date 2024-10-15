@@ -28,10 +28,6 @@
         <!-- 왼쪽: 커버 이미지 및 인트로 -->
         <div class="col-md-4 d-flex flex-column align-items-center">
             <img src="${novelCover.imageUrl}" alt="소설 커버" class="img-fluid mb-4" style="max-width: 100%; height: auto;">
-            <div class="text-center">
-                <h2>인트로</h2>
-                <p>${novelCover.intro}</p>
-            </div>
         </div>
 
         <!-- 오른쪽: 소설 정보 -->
@@ -48,6 +44,7 @@
                       novelCover.status == 'completed' ? '완결' : '미등록'}
                 </span>
             </p>
+            <p>${novelCover.intro}</p>
 
             <!-- 구분선 -->
             <hr>
