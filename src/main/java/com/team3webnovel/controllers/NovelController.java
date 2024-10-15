@@ -527,6 +527,23 @@ public class NovelController {
         // 삭제 후 리다이렉트
         return "redirect:/novel/novel-detail/" + novelId;
     }
+    
+	@PostMapping("/like/{novelId}")
+	public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int novelId, HttpSession session){
+		
+		System.err.println("넘어옴" + novelId);
+		UserVo user = (UserVo)session.getAttribute("user");
+		int userId = user.getUserId();
+		System.err.println(userId);
+		boolean liked = novelService.toggleLike(userId, novelId);
+
+		
+		Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
+
+        return ResponseEntity.ok(response);
+	}
 
 
     
