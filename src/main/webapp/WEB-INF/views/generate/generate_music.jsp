@@ -7,6 +7,7 @@
     <title>Music Creator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/generate/generate_music.css">
+    <script src="static/js/ai_studio/music_tutorial.js"></script>
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     <style>
         #loadingIndicator p {

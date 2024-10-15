@@ -37,4 +37,10 @@ public class AiCreationController {
     	redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
     	return "redirect:/generate-font";
     }
+    
+    @GetMapping("/music")
+    public String goToMusic(RedirectAttributes redirectAttributes) {
+    	redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
+    	return "redirect:/generate-music";
+    }
 }
