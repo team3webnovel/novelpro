@@ -130,6 +130,35 @@
                         </div>
                     </div>
                     <input type="hidden" id="selectedBgmId" name="bgm" value="" />
+                                        <!-- BGM 선택 모달 -->
+                    <div class="modal fade" id="bgmModal" tabindex="-1" role="dialog" aria-labelledby="bgmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bgmModalLabel">BGM 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <c:forEach var="music" items="${musicList}">
+                                            <div class="col-md-3 text-center mb-3">
+												<button type="button" class="btn btn-outline-primary" 
+												    onclick="selectBGM('${music.creationId}', 'https://cdn1.suno.ai/${music.audioUrl.split('=')[1]}.mp4', '${music.title}', '${music.imageUrl}')">
+												    ${music.title}
+												</button>
+
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

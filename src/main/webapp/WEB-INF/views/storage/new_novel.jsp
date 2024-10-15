@@ -16,10 +16,10 @@
         const contextPath = "${pageContext.request.contextPath}";
     </script>
     <!-- 조건부로 novel_tutorial.js 로드 -->
-<c:if test="${not empty AImessage}">
+    <c:if test="${not empty AImessage}">
         <script src="${pageContext.request.contextPath}/static/js/ai_studio/novel_tutorial.js"></script>
-    	<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/ai_studio/novel_tutorial.css">
-</c:if> 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/ai_studio/novel_tutorial.css">
+    </c:if> 
 </head>
 <body>
     <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
@@ -32,8 +32,6 @@
     <div class="row">
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
         <div class="col-md-6">
-            <!-- 폼 action 경로 수정 -->
-
             <form method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
@@ -55,51 +53,52 @@
                     </select>
                 </div>
 
-                <!-- 이미지 선택 버튼 -->
-				<div class="form-group">
-				    <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#imageModal">
-				        표지선택
-				    </button>
-				</div>
-				
-				<!-- 이미지 선택 모달 -->
-				<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-				    <div class="modal-dialog modal-lg" role="document">
-				        <div class="modal-content">
-				            <div class="modal-header">
-				                <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
-				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				                    <span aria-hidden="true">&times;</span>
-				                </button>
-				            </div>
-				            <div class="modal-body">
-				                <div class="row">
-				                    <c:forEach var="image" items="${imageList}">
-				                        <div class="col-md-2 text-center mb-3">
-				                            <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectImage('${image.imageUrl}')">
-				                        </div>
-				                    </c:forEach>
-				                </div>
-				            </div>
-				            <div class="modal-footer">
-				                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-				            </div>
-				        </div>
-				    </div>
-				</div>
-				
-                <!-- 이미지 미리보기 -->
-				<div class="form-group">
-				    <img id="imagePreview" src="" alt="선택한 이미지 미리보기" style="display: none; width: 200px; height: auto;">
-				</div>
 
-                <!-- 선택한 이미지 미리보기 -->
-                <div class="mt-3">
-                    <img id="selectedImagePreview" src="" alt="선택된 이미지가 여기에 표시됩니다" style="max-width: 100%; height: auto; display: none;" />
+
+                <!-- 표지 이미지 선택 -->
+                <label for="title">표지 이미지</label>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#coverImageModal">
+                        이미지 선택
+                    </button>
+
+
+                    <!-- 선택된 이미지 미리보기 -->
+                    <div class="preview-container mt-3">
+                        <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지" style="max-width: 100%; height: auto; display: none;" />
+                        <p>선택한 파일명: <span id="selectedCoverImageFileName">없음</span></p>
+                    </div>
+
+                    <!-- 선택한 이미지 ID를 폼에 숨긴 필드로 전송 -->
+                    <input type="hidden" id="selectedCoverImageId" name="illust" value="" />
+
+                    <!-- 표지 이미지 선택 모달 -->
+                    <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="coverImageModalLabel">표지 이미지 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!-- 이미지를 선택할 수 있는 모달 -->
+                                        <c:forEach var="image" items="${imageList}">
+                                            <div class="col-md-3 text-center mb-3">
+                                                <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectCoverImage('${image.creationId}', '${image.imageUrl}', '${image.filename}')">
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- 선택한 이미지 파일명 표시 -->
-                <p>선택한 파일명: <span id="selectedImageFileName">없음</span></p>
 
                 <!-- 줄거리 입력 -->
                 <div class="form-group mt-4">
@@ -116,6 +115,7 @@
 
         <!-- gpt를 통한 줄거리 및 등장인물 생성 -->
         <div class="col-md-6">
+
 		    <h4>줄거리&등장인물</h4>
 		    
 		    <!-- 채팅 로그 영역 -->
@@ -132,10 +132,14 @@
 		    </div>
 		</div>
 
+       		
+        </div>
+    </div>
+</div>
+
+
 <!-- JavaScript 파일 링크 -->
-<!-- JS 파일 경로 수정 -->
 <script src="${pageContext.request.contextPath}/static/js/chatbot.js"></script>
-<!-- jQuery의 slim 버전이 아닌 일반 버전 사용 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -149,6 +153,19 @@
 	    // 모달 닫기
 	    $('#imageModal').modal('hide');
 	}
+</script>
+
+<!-- 이미지 선택 스크립트 -->
+<script>
+    function selectCoverImage(creationId, imageUrl, fileName) {
+        var imgPreview = document.getElementById('selectedCoverImagePreview');
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block';  // 이미지 표시
+
+        document.getElementById('selectedCoverImageFileName').innerText = fileName;
+        document.getElementById('selectedCoverImageId').value = creationId;
+        $('#coverImageModal').modal('hide');
+    }
 </script>
 
 </body>

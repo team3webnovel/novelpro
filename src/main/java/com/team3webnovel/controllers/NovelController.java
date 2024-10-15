@@ -507,17 +507,28 @@ public class NovelController {
 
     }
     
-    // 24.10.11 에피소드 삭제
-    @DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
-    public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
-        try {
-            // 에피소드 삭제 서비스 호출
-            novelService.deleteEpisode(novelId, episodeNo);
-
-            return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
-        }
+	/*
+	 * // 24.10.11 에피소드 삭제
+	 * 
+	 * @DeleteMapping("/{novelId}/delete-episode/{episodeNo}") public
+	 * ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable
+	 * int episodeNo) { try { // 에피소드 삭제 서비스 호출 novelService.deleteEpisode(novelId,
+	 * episodeNo);
+	 * 
+	 * return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다."); } catch (Exception e) {
+	 * return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).
+	 * body("에피소드 삭제에 실패했습니다."); } }
+	 */
+    
+    @PostMapping("/deleteEpisode/{novelId}/{episodeNo}")
+    public String deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
+        // 삭제 로직 실행
+        novelService.deleteEpisode(novelId, episodeNo);
+        
+        // 삭제 후 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;
     }
 
+
+    
 }

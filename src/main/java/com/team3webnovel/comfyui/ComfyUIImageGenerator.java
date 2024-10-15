@@ -73,7 +73,7 @@ public class ComfyUIImageGenerator {
             int width,
             int height,
             int cfgScale,  // CFG Scale만 double 타입으로 유지
-            int seed,
+            Long seed,
             String checkpoint,
             int clientId) throws Exception {
         resultVoFuture = new CompletableFuture<>();  // 새 CompletableFuture 생성

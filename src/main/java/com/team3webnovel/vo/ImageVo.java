@@ -12,7 +12,7 @@ public class ImageVo {
     private Timestamp createdAt;
     private int steps;
     private int cfg;
-    private int seed;
+    private Long seed;
     private int width;
     private int height;
     private String filename;
@@ -24,7 +24,7 @@ public class ImageVo {
     }
 
 	public ImageVo(int creationId, String imageUrl, String modelCheck, String sampler, String prompt, String nPrompt,
-			Timestamp createdAt, int steps, int cfg, int seed, int width, int height, String filename) {
+			Timestamp createdAt, int steps, int cfg, Long seed, int width, int height, String filename) {
 		super();
 		this.creationId = creationId;
 		this.imageUrl = imageUrl;
@@ -113,11 +113,11 @@ public class ImageVo {
 		this.cfg = cfg;
 	}
 
-	public int getSeed() {
+	public Long getSeed() {
 		return seed;
 	}
 
-	public void setSeed(int seed) {
+	public void setSeed(Long seed) {
 		this.seed = seed;
 	}
 
