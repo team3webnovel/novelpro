@@ -34,7 +34,7 @@
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
 
-            <form  method="POST">
+            <form method="POST">
                 <!-- 제목 입력 -->
                 <div class="form-group">
                     <label for="title">소설 제목</label>
