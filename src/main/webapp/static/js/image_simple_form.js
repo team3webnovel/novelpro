@@ -64,12 +64,17 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			setRandomSeed();
 			
+			let samplerIndex = "dpmpp_2m";  // 기본 값 설정
+			if (checkpoint === 'animagineXLV31_v31.safetensors') {
+			    samplerIndex = "euler";  // 조건이 참일 경우 변경
+			}
+			
 			document.getElementById("spinner1").style.display = "block";
 			
 			const imageData = {
 				prompt: prompt,
 				negative_prompt: "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",
-				sampler_index: "dpmpp_2m",
+				sampler_index: samplerIndex,
 				steps: 25,
 				width: 768,
 				height: 1152,
@@ -142,13 +147,18 @@ document.addEventListener("DOMContentLoaded", function() {
 				})
 				.then(data => {
 					
+					let samplerIndex = "dpmpp_2m";  // 기본 값 설정
+					if (checkpoint === 'animagineXLV31_v31.safetensors') {
+					    samplerIndex = "euler";  // 조건이 참일 경우 변경
+					}
+					
 					setRandomSeed();
 				    
 				    // 서버에서 받은 데이터를 기반으로 imageData 구성
 				    const imageData = {
 				        prompt: data.prompt,  // 서버에서 받은 prompt 값
 				        negative_prompt: data.negative_prompt || "realistic, monochrome, greyscale, artist name, signature, watermark, ugly hands",  // 서버에서 받은 negative_prompt 값 또는 기본값
-				        sampler_index: "dpmpp_2m",
+				        sampler_index: samplerIndex,
 				        steps: 25,
 				        width: 768,
 				        height: 1152,

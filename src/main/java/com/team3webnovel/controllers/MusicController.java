@@ -30,14 +30,15 @@ public class MusicController {
     public String showGenerateMusicPage() {
         return "generate/generate_music"; // 음악 생성 페이지로 이동
     }
-
+    
     @PostMapping("/generate-music")
     public String generateMusic(@RequestParam("prompt") String prompt,
                                 @RequestParam(value = "make_instrumental", required = false) boolean makeInstrumental,
+                                @RequestParam(value = "AImessage", required = false) String AImessage, // AImessage 추가
                                 Model model, HttpServletRequest request) {
-    	 List<MusicVo> musicList;
+        
+        List<MusicVo> musicList;
         try {
-
             // MusicService를 통해 Suno API로 음악 생성 요청
             musicList = musicService.generateMusic(prompt, makeInstrumental, model);
 
@@ -45,22 +46,33 @@ public class MusicController {
             if (model.containsAttribute("errorMessage")) {
                 return "generate/generate_music";
             }
-            // 에러가 있으면 다시 생성 페이지로
             if (model.containsAttribute("warningMessage")) {
                 return "generate/generate_music";
             }
 
             // 생성된 음악 리스트를 모델에 추가하여 결과 페이지로 전달
             model.addAttribute("musicList", musicList);
+
+            // AImessage가 있는 경우
+            if (AImessage != null && !AImessage.isEmpty()) {
+                model.addAttribute("AImessage", AImessage);  // AImessage를 모델에 추가
+                return "generate/music_result";
+            }
+            
+            if (model.containsAttribute("AImessage")) {
+            	model.addAttribute("AImessage", AImessage);
+            	return "generate/music_result";
+            }
+            
             return "generate/music_result"; // 음악 결과 페이지로 이동
             
         } catch (Exception e) {
-            // 예외 메시지를 출력하여 디버깅할 수 있도록 수정
             e.printStackTrace();  // 예외의 스택 트레이스를 출력
             model.addAttribute("error", "음악 생성 중 오류가 발생했습니다. 에러 메시지: " + e.getMessage());
             return "generate/generate_music"; // 다시 음악 생성 페이지로 이동
         }
     }
+
 
     // GET 요청: /storage-music 페이지 (저장된 음악을 가져오는 로직)
     @GetMapping("/storage-music")

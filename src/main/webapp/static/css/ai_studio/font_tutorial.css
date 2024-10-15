@@ -1,0 +1,7 @@
+/* 강조 스타일 */
+.highlight {
+    border: 3px solid yellow !important;
+    box-shadow: 0 0 10px yellow !important;
+    z-index: 10001;
+    position: relative;
+}

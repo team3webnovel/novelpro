@@ -216,8 +216,8 @@
 			        <!-- Card Body -->
 			        <div class="card-body">
 			            <h5 class="card-title">로맨틱</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')">직접 입력</button>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
 			        </div>
 			    </div>
 			</div>
@@ -338,39 +338,6 @@
 			        </div>
 			    </div>
 			</div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">juggernautXL_이건 실사 이미지 생성</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('juggernautXL_juggXIByRundiffusion.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('juggernautXL_juggXIByRundiffusion.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">dreamshaper_8</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('dreamshaper_8.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('dreamshaper_8.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">majicmixRealistic 실사 베이스</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('majicmixRealistic.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('majicmixRealistic.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
 
             <div class="col-md-4">
 			    <div class="card">
@@ -647,7 +614,15 @@
     </div>
   </div>
 </div>
-
-
+<c:if test="${not empty AImessage}">
+    <!-- 하단 고정 버튼 추가 -->
+    <button class="fixed-bottom-button" id="bottomButton">다음 페이지로 이동</button>
+</c:if>
+    <script>
+        // 버튼 클릭 시 /generate-font 페이지로 이동
+        document.getElementById('bottomButton').addEventListener('click', function() {
+            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
+        });
+    </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 let tutorialRunning = true; // 전역 플래그 변수: 튜토리얼이 실행 중인지 여부
 
-window.onload = function() {
+window.onload = function () {
     // 어두운 배경 생성
     const overlay = document.createElement('div');
     overlay.id = 'darkOverlay';
@@ -35,32 +35,46 @@ window.onload = function() {
     // 1. 첫 번째 단계: 장르 선택 부분 강조
     function stepOne() {
         const genreSelect = document.getElementById('genre');
-        genreSelect.classList.add('highlight');
-        genreSelect.style.position = 'relative';
-        genreSelect.style.zIndex = '10001';
+        highlightElement(genreSelect);
         genreSelect.scrollIntoView({ behavior: 'smooth' });
 
         // 타이핑 애니메이션
-        typeText('먼저 내가 쓰는 글의 장르를 선택합니다.', function() {
+        typeText('먼저 내가 쓰는 글의 장르를 선택합니다.', function () {
             if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 다음 버튼 생성
                 createNextButton(genreSelect, stepTwo); // 첫 번째 "다음" 버튼 생성
             }
         });
     }
+	
+	// 모든 강조 초기화 함수
+	function resetHighlight() {
+	    const highlightedElements = document.querySelectorAll('.highlight');
+	    highlightedElements.forEach(element => {
+	        element.classList.remove('highlight');
+	        element.style.zIndex = ''; // z-index 초기화
+	        element.style.position = ''; // position 초기화
+	        element.style.boxShadow = ''; // box-shadow 초기화
+	        element.style.border = ''; // border 초기화
+	    });
+	}
 
+	// 요소 강조 함수
+	function highlightElement(element) {
+	    element.classList.add('highlight');
+	    element.style.position = 'relative';  // 강조할 때만 상대 위치 적용
+	    element.style.zIndex = '10001';       // z-index 설정
+	}
+	
     // 2. 두 번째 단계: 사용자 입력 영역 강조
     function stepTwo() {
-        const genreSelect = document.getElementById('genre');
-        genreSelect.classList.remove('highlight'); // 이전 강조 제거
-
+        resetHighlight();
         const inputArea = document.getElementById('input-area');
         inputArea.classList.add('highlight');
-        inputArea.style.zIndex = '10001';
         inputArea.scrollIntoView({ behavior: 'smooth' });
 
         // 텍스트 초기화 후 타이핑 애니메이션
         explanationText.innerHTML = '';
-        typeText('챗봇과의 대화를 통해 시놉시스를 작성해보세요!', function() {
+        typeText('챗봇과의 대화를 통해 시놉시스를 작성해보세요!', function () {
             if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 다음 버튼 생성
                 createNextButton(inputArea, stepThree); // 두 번째 "다음" 버튼 생성
             }
@@ -71,14 +85,14 @@ window.onload = function() {
     function stepThree() {
         const inputArea = document.getElementById('input-area');
         inputArea.classList.remove('highlight'); // 이전 강조 제거
-
         const introInput = document.getElementById('intro');
         introInput.classList.add('highlight');
-        introInput.style.zIndex = '10001';
+		introInput.style.position = 'relative';
+		introInput.style.zIndex = '10001';
         introInput.scrollIntoView({ behavior: 'smooth' });
 
         explanationText.innerHTML = ''; // 텍스트 초기화
-        typeText('이제 당신의 글을 소개할 시간이에요!', function() {
+        typeText('이제 당신의 글을 소개할 시간이에요!', function () {
             if (tutorialRunning) { // 튜토리얼이 실행 중일 때만 종료 버튼 생성
                 createExitButton(); // "종료" 버튼 생성
             }
@@ -115,7 +129,7 @@ window.onload = function() {
         nextButton.id = 'nextButton'; // ID 추가
         document.body.appendChild(nextButton);
 
-        nextButton.addEventListener('click', function() {
+        nextButton.addEventListener('click', function () {
             nextButton.remove(); // "다음" 버튼을 제거하고 다음 단계로 이동
             nextStepFunction();
         });
@@ -125,18 +139,26 @@ window.onload = function() {
     function createExitButton() {
         const exitButton = document.createElement('button');
         exitButton.innerHTML = '종료';
-        exitButton.style.position = 'fixed';
-        exitButton.style.bottom = '20px';
-        exitButton.style.left = '50%';
-        exitButton.style.transform = 'translateX(-50%)';
+
+        // 설명 텍스트 바로 아래에 종료 버튼을 배치
+        const explanationRect = explanationText.getBoundingClientRect(); // 설명 텍스트의 위치 계산
+
+        exitButton.style.position = 'relative';
+        exitButton.style.top = `${explanationRect.bottom + window.scrollY + 20}px`;  // 설명 텍스트 아래 20px 위치
+        exitButton.style.left = `${(window.innerWidth / 2) - 50}px`;  // 화면 중앙에 위치
         exitButton.style.padding = '10px 20px';
         exitButton.style.fontSize = '1.2rem';
         exitButton.style.zIndex = '10001';
         exitButton.id = 'exitButton';
         document.body.appendChild(exitButton);
 
-        exitButton.addEventListener('click', function() {
-            closeTutorial(); // 튜토리얼 종료
+        // 2초 후 튜토리얼 자동 종료
+        setTimeout(function () {
+            closeTutorial(); // 2초 후 튜토리얼 종료
+        }, 2000);
+
+        exitButton.addEventListener('click', function () {
+            closeTutorial(); // 종료 버튼 클릭 시 튜토리얼 종료
         });
     }
 
@@ -154,7 +176,7 @@ window.onload = function() {
         document.body.appendChild(skipButton);
 
         // 스킵 버튼 클릭 시 튜토리얼 종료
-        skipButton.addEventListener('click', function() {
+        skipButton.addEventListener('click', function () {
             tutorialRunning = false; // 튜토리얼 실행 중단
             closeTutorial(); // 튜토리얼 종료
         });
