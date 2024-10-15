@@ -529,7 +529,15 @@
     </div>
   </div>
 </div>
-
-
+<c:if test="${not empty AImessage}">
+    <!-- 하단 고정 버튼 추가 -->
+    <button class="fixed-bottom-button" id="bottomButton">다음 페이지로 이동</button>
+</c:if>
+    <script>
+        // 버튼 클릭 시 /generate-font 페이지로 이동
+        document.getElementById('bottomButton').addEventListener('click', function() {
+            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
+        });
+    </script>
 </body>
 </html>

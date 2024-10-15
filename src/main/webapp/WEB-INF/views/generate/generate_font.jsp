@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="static/css/generate/generate_font.css">
     <link rel="stylesheet" href="static/css/generate/font_collection.css">
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    
+<c:if test="${not empty AImessage}">
 	<script src="static/js/ai_studio/font_tutorial.js"></script>
+    <link rel="stylesheet" href="static/css/ai_studio/font_tutorial.css">
+</c:if>
+
 </head>
 <body>
 <div class="main-contents">
@@ -32,7 +37,9 @@
     </div>
 </div>
 
-
+<c:if test="${not empty AImessage}">
+	<input type="hidden" id = "AImessage">
+</c:if>
 
 <!-- 툴바 UI 구성 -->
 <div class="toolbar">

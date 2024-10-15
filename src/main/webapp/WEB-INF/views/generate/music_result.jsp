@@ -10,10 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_result.css"> <!-- CSS 링크 추가 -->
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    <c:if test="${not empty AImessage }">
+    	<script src="static/js/ai_studio/tutorial_end.js"></script>
+    </c:if>
 </head>
 <body class="bg-light text-dark">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Music Generation Result</h1>
+        <h1 class="text-center mb-4">음악 생성 결과</h1>
 
         <c:choose>
             <c:when test="${not empty musicList}">
@@ -36,16 +39,16 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <p class="text-danger">Sorry, no music was generated.</p>
+                <p class="text-danger">음악이 생성되지 않았습니다.</p>
             </c:otherwise>
         </c:choose>
 
         <div class="text-center mt-4">
-            <a href="<%= request.getContextPath() %>/generate-music" class="btn btn-primary">Generate Another Music</a>
+            <a href="<%= request.getContextPath() %>/generate-music" class="btn btn-primary">다른 음악 만들러 가기</a>
         </div>
-        <p class="text-center mt-2">
-            <a href="<%= request.getContextPath() %>/storage-music" class="text-dark">Go to Music Storage</a>
-        </p>
+        <div class="text-center mt-4">
+            <a href="<%= request.getContextPath() %>/storage#music" class="btn btn-primary" id = "tuto">보관함 가기</a>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
