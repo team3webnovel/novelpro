@@ -277,7 +277,7 @@ function stepSix() {
 }
 
 function stepSeven() {
-    if (tutorialRunning) {  // 튜토리얼이 종료되었으면 더 이상 실행되지 않도록 처리
+    if (!tutorialRunning) return;  // 튜토리얼이 종료되었으면 더 이상 실행되지 않도록 처리
 
     const explanationText = document.getElementById('explanationText');
     explanationText.innerHTML = '';
@@ -286,16 +286,15 @@ function stepSeven() {
     highlightImages(true);
     highlightModalImages();
     highlightElementWithArrow('tuto2');
-	
-	if (tutorialRunning) {  // 튜토리얼이 실행 중일 때만 stepEight 실행
-	    stepEight();
 
     // 'tuto2' 버튼 클릭 시 'stepEight' 실행
     const tutoButton2 = document.getElementById('tuto2');
     if (tutoButton2) {
         tutoButton2.removeEventListener('click', stepEight);  // 중복 방지
         tutoButton2.addEventListener('click', function() {
-
+            if (tutorialRunning) {  // 튜토리얼이 실행 중일 때만 stepEight 실행
+                stepEight();
+            }
         });
         
         // 2초 후 자동으로 tuto2 버튼 클릭
@@ -307,14 +306,11 @@ function stepSeven() {
         }, 2000);  // 2초 후 클릭
     }
 }
-}
-}
 
 
 function stepEight() {
-	
-	if (tutorialRunning) {// 튜토리얼이 중단되면 더 이상 실행되지 않도록 함
-	
+    if (!tutorialRunning) return; // 튜토리얼이 중단되면 더 이상 실행되지 않도록 함
+
     const highlightedElements = document.querySelectorAll('.highlight');
     highlightedElements.forEach(element => {
         element.classList.remove('highlight');
@@ -331,34 +327,41 @@ function stepEight() {
         tutoButton.style.animation = '';
         tutoButton.style.zIndex = '0';
     }
-	const arrow = document.getElementById('highlightArrow');
-	if (arrow) {
-		arrow.remove();
-	}
-	
-	const form = document.getElementById('tuto3');
-	if (form) { 
-		form.style.position = 'relative';
-    	form.classList.add('highlight');
+    
+    const arrow = document.getElementById('highlightArrow');
+    if (arrow) {
+        arrow.remove();
     }
-	// 어두운 배경 제거
-	const overlay = document.getElementById('darkOverlay');
-	if (overlay) {
-	    overlay.remove();
-	}
-	clearAllTimeouts();
-	// 2초간 화면을 보여주고 오버레이와 타이핑 애니메이션을 다시 실행
-	setTimeout(() => {
-	    // 어두운 배경 다시 생성
-	    createOverlay();
-	    
-	    // 타이핑 애니메이션 실행
-	    typeText("직접 원하는 프롬프트를 입력해볼 수도 있어요.", function() {
-	        createNextButton(stepNine);
-	    });
-	}, 2000); // 2초 후에 실행
+    
+    const form = document.getElementById('tuto3');
+    if (form) { 
+        form.style.position = 'relative';
+        form.classList.add('highlight');
+    }
+
+    // 어두운 배경 제거
+    const overlay = document.getElementById('darkOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+
+    clearAllTimeouts();
+
+    // 2초간 화면을 보여주고 오버레이와 타이핑 애니메이션을 다시 실행
+    setTimeout(() => {
+        if (tutorialRunning) {
+            // 어두운 배경 다시 생성
+            createOverlay();
+            
+            // 타이핑 애니메이션 실행
+            typeText("직접 원하는 프롬프트를 입력해볼 수도 있어요.", function() {
+                createNextButton(stepNine);
+            });
+        }
+    }, 2000); // 2초 후에 실행
 }
-}
+
+
 // 모든 타이머 초기화 함수
 function clearAllTimeouts() {
     let id = window.setTimeout(function() {}, 0);
@@ -390,8 +393,8 @@ function stepNine() {
 }
 
 function handleTutoClick() {
-	
-	if (tutorialRunning) {
+    if (!tutorialRunning) return; // 튜토리얼이 중단되면 실행되지 않음
+
     // 강조된 모든 요소에서 강조 효과 제거
     const highlightedElements = document.querySelectorAll('.highlight');
     highlightedElements.forEach(element => {
@@ -430,22 +433,22 @@ function handleTutoClick() {
     if (overlay) {
         overlay.remove();
     }
-	
-	const arrow = document.getElementById('highlightArrow');
-	if (arrow) {
-		arrow.remove();
-	}
 
-	    // 1초 후 오버레이 다시 생성하고 타이핑 메시지와 다음 버튼 표시
+    const arrow = document.getElementById('highlightArrow');
+    if (arrow) {
+        arrow.remove();
+    }
+
+    // 1초 후 오버레이 다시 생성하고 타이핑 메시지와 다음 버튼 표시
     setTimeout(() => {
-        createOverlay();
-        typeText("이곳에서 원하는 키워드를 고르거나...", function() {
-            createNextButton(stepSeven);
-        });
+        if (tutorialRunning) {
+            createOverlay();
+            typeText("이곳에서 원하는 키워드를 고르거나...", function() {
+                createNextButton(stepSeven);
+            });
+        }
     }, 2000); // 2초간 사용자에게 화면을 보여주고 오버레이를 다시 생성
 }
-}
-
 // tuto 아이디를 강조하고 화살표를 표시하는 함수
 function highlightElementWithArrow(elementId) {
     const images = document.querySelectorAll('img');
