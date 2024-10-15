@@ -55,18 +55,43 @@
                     </select>
                 </div>
 
-                <!-- 이미지 선택 -->
-                <div class="form-group">
-                    <label for="imageSelect">소설 표지 이미지 선택</label>
-                    <select id="imageSelect" class="form-control" name="illust" onchange="displaySelectedImage()">
-                        <option value="">이미지를 선택하세요</option>
-                        <c:forEach var="image" items="${imageList}">
-                            <option value="${image.creationId}" data-image-url="${image.imageUrl}">
-                                ${image.title != null ? image.title : image.imageUrl}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
+                <!-- 이미지 선택 버튼 -->
+				<div class="form-group">
+				    <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#imageModal">
+				        표지선택
+				    </button>
+				</div>
+				
+				<!-- 이미지 선택 모달 -->
+				<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+				            <div class="modal-header">
+				                <h5 class="modal-title" id="imageModalLabel">이미지 선택</h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                    <span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+				            <div class="modal-body">
+				                <div class="row">
+				                    <c:forEach var="image" items="${imageList}">
+				                        <div class="col-md-2 text-center mb-3">
+				                            <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectImage('${image.imageUrl}')">
+				                        </div>
+				                    </c:forEach>
+				                </div>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+				
+                <!-- 이미지 미리보기 -->
+				<div class="form-group">
+				    <img id="imagePreview" src="" alt="선택한 이미지 미리보기" style="display: none; width: 200px; height: auto;">
+				</div>
 
                 <!-- 선택한 이미지 미리보기 -->
                 <div class="mt-3">
@@ -91,21 +116,21 @@
 
         <!-- gpt를 통한 줄거리 및 등장인물 생성 -->
         <div class="col-md-6">
-    <h4>줄거리&등장인물</h4>
-    
-    <!-- 채팅 로그 영역 -->
-    <div id="chat-container" class="chat-window-container" style="position: relative;">
-        <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;">
-            <!-- 채팅 로그 표시 영역 -->
-        </div>
-
-        <!-- 사용자 입력 -->
-        <div id="input-area" class="mt-3 d-flex input-area-sticky">
-            <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
-            <button id="submit-btn" type="button" class="btn btn-primary ml-2">입력</button>
-        </div>
-    </div>
-</div>
+		    <h4>줄거리&등장인물</h4>
+		    
+		    <!-- 채팅 로그 영역 -->
+		    <div id="chat-container" class="chat-window-container" style="position: relative;">
+		        <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;">
+		            <!-- 채팅 로그 표시 영역 -->
+		        </div>
+		
+		        <!-- 사용자 입력 -->
+		        <div id="input-area" class="mt-3 d-flex input-area-sticky">
+		            <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
+		            <button id="submit-btn" type="button" class="btn btn-primary ml-2">입력</button>
+		        </div>
+		    </div>
+		</div>
 
 <!-- JavaScript 파일 링크 -->
 <!-- JS 파일 경로 수정 -->
@@ -114,6 +139,17 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+	function selectImage(imageUrl) {
+	    // 선택한 이미지를 미리보기로 표시
+	    var previewElement = document.getElementById('imagePreview');
+	    previewElement.src = imageUrl;
+	    previewElement.style.display = 'block';
+	
+	    // 모달 닫기
+	    $('#imageModal').modal('hide');
+	}
+</script>
 
 </body>
 </html>

@@ -149,10 +149,13 @@ public class NovelController {
     		return "redirect:/login";
     	}
     	
+    	// 줄바꿈 문자를 <br>로 변환하여 intro 저장
+    	String formattedIntro = intro.replaceAll("\n", "<br>");
+    	
     	// 전달받은 값으로 NovelVo 객체 설정
     	vo.setUserId(user.getUserId()); // 작성자 ID로 설정
     	vo.setTitle(title);             // 소설 제목 설정
-    	vo.setIntro(intro);             // 소설 소개 설정
+    	vo.setIntro(formattedIntro);    // 소설 소개 설정
     	vo.setGenre(genre);             // 소설 장르 설정
     	vo.setCreationId(illust);		// 소설 표지 설정
     	
@@ -165,12 +168,6 @@ public class NovelController {
     	
     	// NovelService를 통해 소설 삽입
     	novelService.insertNovel(vo);
-    	
-        // 'AImessage'가 모델에 없으면 RedirectAttributes로 추가
-        if (!model.containsAttribute("AImessage")) {
-            redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오로 이동합니다.");
-            return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
-        }
     	
     	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
@@ -475,12 +472,15 @@ public class NovelController {
         if (existingNovel == null) {
             return "error";  // 만약 해당 소설이 없으면 에러 페이지로 이동
         }
+        
+        // 줄바꿈 문자를 <br>로 변환하여 intro 저장
+        String formattedIntro = intro.replaceAll("\n", "<br>");
 
         // 수정된 부분만 덮어쓰기
         existingNovel.setTitle(title);
         existingNovel.setGenre(genre);
         existingNovel.setImageId(illust);  // 소설 표지 이미지 ID 설정
-        existingNovel.setIntro(intro);
+        existingNovel.setIntro(formattedIntro);
         existingNovel.setUserId(user.getUserId());  // 현재 로그인된 사용자 ID 설정
 
         // 디버깅용 출력
