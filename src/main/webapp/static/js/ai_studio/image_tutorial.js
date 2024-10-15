@@ -2,6 +2,7 @@ let tutorialRunning = true; // 튜토리얼이 실행 중인지 확인하는 전
 
 // 어두운 배경 생성
 function createOverlay() {
+	if (tutorialRunning) {
     const overlay = document.createElement('div');
     overlay.id = 'darkOverlay';
     overlay.style.position = 'fixed';
@@ -12,6 +13,7 @@ function createOverlay() {
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
     overlay.style.zIndex = '9998';
     document.body.appendChild(overlay);
+	}
 }
 
 // 설명 텍스트 생성 (중앙 배치)
@@ -117,6 +119,7 @@ function createExitButton() {
 
 // 튜토리얼 종료 함수 (강조 및 모든 관련 요소 제거)
 function closeTutorial() {
+	tutorialRunning = false; // 튜토리얼 종료
     // 모든 오버레이 및 강조된 요소 제거
     const overlay = document.getElementById('darkOverlay');
     const explanationText = document.getElementById('explanationText');
@@ -161,7 +164,7 @@ function closeTutorial() {
         tutoButton2.style.animation = '';
         tutoButton2.style.zIndex = '0';
     }
-    
+	
     const tutoButton3 = document.getElementById('tuto3');
     if (tutoButton3) {
         tutoButton3.classList.remove('highlight');
@@ -180,9 +183,9 @@ function closeTutorial() {
 	});
 	})
 	
-	
-    console.log("Tutorial completely skipped.");
+	clearAllTimeouts(); // 모든 타이머 제거
 }
+
 $(window).on('load', function() {
     $('img').each(function() {
         const img = new Image();
@@ -274,30 +277,44 @@ function stepSix() {
 }
 
 function stepSeven() {
+    if (tutorialRunning) {  // 튜토리얼이 종료되었으면 더 이상 실행되지 않도록 처리
+
     const explanationText = document.getElementById('explanationText');
     explanationText.innerHTML = '';
     $('#choiceModal').modal('hide');
-    
+
     highlightImages(true);
     highlightModalImages();
     highlightElementWithArrow('tuto2');
-    
+	
+	if (tutorialRunning) {  // 튜토리얼이 실행 중일 때만 stepEight 실행
+	    stepEight();
+
     // 'tuto2' 버튼 클릭 시 'stepEight' 실행
     const tutoButton2 = document.getElementById('tuto2');
     if (tutoButton2) {
         tutoButton2.removeEventListener('click', stepEight);  // 중복 방지
-        tutoButton2.addEventListener('click', stepEight);     // 클릭 이벤트 등록
+        tutoButton2.addEventListener('click', function() {
+
+        });
         
         // 2초 후 자동으로 tuto2 버튼 클릭
         setTimeout(function() {
-            tutoButton2.click();
-            console.log("Button with id 'tuto2' clicked.");
+            if (tutorialRunning) {  // 튜토리얼이 종료되지 않았을 때만 클릭
+                tutoButton2.click();
+                console.log("Button with id 'tuto2' clicked.");
+            }
         }, 2000);  // 2초 후 클릭
     }
+}
+}
 }
 
 
 function stepEight() {
+	
+	if (tutorialRunning) {// 튜토리얼이 중단되면 더 이상 실행되지 않도록 함
+	
     const highlightedElements = document.querySelectorAll('.highlight');
     highlightedElements.forEach(element => {
         element.classList.remove('highlight');
@@ -341,6 +358,7 @@ function stepEight() {
 	    });
 	}, 2000); // 2초 후에 실행
 }
+}
 // 모든 타이머 초기화 함수
 function clearAllTimeouts() {
     let id = window.setTimeout(function() {}, 0);
@@ -358,6 +376,9 @@ function removeAllListeners() {
 }
 
 function stepNine() {
+	clearAllTimeouts();
+	removeAllListeners();
+	
 	const explanationText = document.getElementById('explanationText');
 	explanationText.innerHTML = '';
 	typeText("이제 당신만의 웹소설 표지를 만들어보세요!", function() {
@@ -369,6 +390,8 @@ function stepNine() {
 }
 
 function handleTutoClick() {
+	
+	if (tutorialRunning) {
     // 강조된 모든 요소에서 강조 효과 제거
     const highlightedElements = document.querySelectorAll('.highlight');
     highlightedElements.forEach(element => {
@@ -412,7 +435,7 @@ function handleTutoClick() {
 	if (arrow) {
 		arrow.remove();
 	}
-	
+
 	    // 1초 후 오버레이 다시 생성하고 타이핑 메시지와 다음 버튼 표시
     setTimeout(() => {
         createOverlay();
@@ -420,6 +443,7 @@ function handleTutoClick() {
             createNextButton(stepSeven);
         });
     }, 2000); // 2초간 사용자에게 화면을 보여주고 오버레이를 다시 생성
+}
 }
 
 // tuto 아이디를 강조하고 화살표를 표시하는 함수
