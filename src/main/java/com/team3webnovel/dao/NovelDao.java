@@ -4,6 +4,7 @@ import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NovelDao {
     
@@ -46,6 +47,13 @@ public interface NovelDao {
     void updateEpisodeVisibility(NovelVo vo);
 
 	void deleteEpisode(int novelId, int episodeNo);
+	
+	
+	boolean check (Map<String, Integer> map);
+	
+	void like(Map<String, Integer> map);
+	
+	void unlike(Map<String, Integer> map);
     
 
 }

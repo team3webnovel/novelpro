@@ -1,6 +1,8 @@
 package com.team3webnovel.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -108,6 +110,26 @@ public class NovelServiceImpl implements NovelService {
 		
 	}
 	
+	@Override
+	public boolean toggleLike(int userId, int novelId) {
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("novelId", novelId);
+		map.put("userId", userId);
+
+		
+		boolean liked = novelDao.check(map);
+		
+		if (liked) {
+            // 이미 좋아요가 눌린 상태라면, 좋아요 취소
+            novelDao.unlike(map);
+            return false; // 좋아요 취소됨
+        } else {
+            // 좋아요 추가
+        	novelDao.like(map);
+            return true; // 좋아요 추가됨
+        }
+	}
 	
 	
 	

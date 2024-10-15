@@ -74,7 +74,7 @@
                             <!-- 에피소드 이미지 -->
                             <img src="${episode.imageUrl}" alt="소설 커버" class="img-fluid"
                                  style="width: 80px; height: 80px; object-fit: cover;"
-                                 onerror="this.onerror=null; this.src='${novelCover.imageUrl}'; this.alt='대체 소설 커버 이미지';">
+                                 onerror="this.onerror=null; this.src='<%= request.getContextPath() %>/static/images/logo.png'; this.alt='대체 소설 커버 이미지';">
 
                             <!-- 에피소드 제목 및 링크 -->
                             <div class="flex-grow-1 ml-3">
@@ -93,6 +93,7 @@
                                     <option value="public" ${episode.visibility == 'public' ? 'selected' : ''}>공개</option>
                                     <option value="private" ${episode.visibility == 'private' ? 'selected' : ''}>비공개</option>
                                 </select>
+                                <button onclick="deleteEpisode(${novelCover.novelId}, ${episode.episodeNo})" class="btn btn-danger btn-sm">삭제</button>
                                 <small class="d-block mt-2">작성일: ${episode.createdAt}</small>
                             </div>
                         </li>
@@ -121,6 +122,40 @@
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.send("novelId=" + novelId + "&episodeNo=" + episodeNo + "&visibility=" + selectedVisibility);
         }
+        // JSP에서 Context Path 미리 가져오기
+        const contextPath = "<%= request.getContextPath() %>";
+
+        function deleteEpisode(novelId, episodeNo) {
+            console.log("Deleting Episode:", novelId, episodeNo); 
+
+            if (confirm('정말로 이 에피소드를 삭제하시겠습니까?')) {
+                const requestUrl = contextPath + "/novel/deleteEpisode/" + novelId + "/" + episodeNo;
+                console.log("Request URL:", requestUrl); // 요청 URL 확인
+
+                fetch(requestUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // 삭제 성공 시 페이지 새로고침 또는 해당 리스트 항목 제거
+                        alert('에피소드가 성공적으로 삭제되었습니다.');
+                        window.location.reload();  // 페이지 새로고침
+                    } else {
+                        console.error("Failed to delete episode");
+                        alert('에피소드 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error("Error deleting episode:", error);
+                    alert('에피소드 삭제 중 오류가 발생했습니다.');
+                });
+            }
+        }
+
+
     </script>
 
     <!-- jQuery와 Bootstrap JavaScript -->
