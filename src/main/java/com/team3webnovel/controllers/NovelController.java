@@ -35,6 +35,8 @@ import com.team3webnovel.vo.UserVo;
 
 import jakarta.servlet.http.HttpSession;
 
+
+
 @Controller
 @RequestMapping("/novel")
 public class NovelController {
@@ -77,38 +79,37 @@ public class NovelController {
 
 	// 글쓰기 처리
 	@PostMapping("/write/{novelId}")
-	public String write(@ModelAttribute NovelVo vo, HttpSession session, @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
-			@RequestParam(value = "bgm", required = false) int bgm, @RequestParam("title") String title,
-			@RequestParam("episode") int episode, @RequestParam("content") String content) {
+	public String write(@ModelAttribute NovelVo vo, HttpSession session, 
+	    @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  
+	    @RequestParam(value = "bgm", required = false, defaultValue = "0") int bgm, // 기본값 설정
+	    @RequestParam("title") String title,
+	    @RequestParam("episode") int episode, 
+	    @RequestParam("content") String content) {
 
-		// 세션에서 사용자 정보 가져오기
-		UserVo user = (UserVo) session.getAttribute("user");
-		if (user == null) {
-			// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
-			return "redirect:/login";
-		}
+	    // 세션에서 사용자 정보 가져오기
+	    UserVo user = (UserVo) session.getAttribute("user");
+	    if (user == null) {
+	        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+	        return "redirect:/login";
+	    }
 
-		// 전달받은 값으로 NovelVo 객체 설정
-		vo.setUserId(user.getUserId()); // 작성자 ID로 설정
-		vo.setTitle(title); // 소설 제목 설정
-		vo.setImageId(illust); // 소설 표지 설정
-		vo.setBgmId(bgm);
-		vo.setEpisodeNo(episode);
-		vo.setContents(content);
+	    // 전달받은 값으로 NovelVo 객체 설정
+	    vo.setUserId(user.getUserId()); // 작성자 ID로 설정
+	    vo.setTitle(title); // 소설 제목 설정
+	    vo.setImageId(illust); // 소설 표지 설정
+	    vo.setBgmId(bgm); // BGM 설정
+	    vo.setEpisodeNo(episode); // 에피소드 번호 설정
+	    vo.setContents(content); // 소설 내용 설정
 
-		/*
-		 * // 생성일을 현재 시간으로 설정 (Timestamp로 변경) Timestamp currentTime = new
-		 * Timestamp(System.currentTimeMillis()); vo.setCreatedAt(currentTime); // 생성일
-		 * 설정
-		 */
-		// 디버깅용 출력
-		System.err.println(vo.toString());
+	    // 디버깅용 출력
+	    System.err.println(vo.toString());
 
-		// NovelService를 통해 소설 삽입
-		novelService.insertNovelDetail(vo);
+	    // NovelService를 통해 소설 삽입
+	    novelService.insertNovelDetail(vo);
 
-        return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
-    }
+	    return "redirect:/novel/novel-detail/" + vo.getNovelId(); // 작성 후 보관함 페이지로 리다이렉트
+	}
+
     
     // 글쓰기 페이지로 이동
     @GetMapping("/new-novel")
@@ -515,17 +516,53 @@ public class NovelController {
 
     }
     
-    // 24.10.11 에피소드 삭제
-    @DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
-    public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
-        try {
-            // 에피소드 삭제 서비스 호출
-            novelService.deleteEpisode(novelId, episodeNo);
-
-            return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
+	/*
+	 * // 24.10.11 에피소드 삭제
+	 * 
+	 * @DeleteMapping("/{novelId}/delete-episode/{episodeNo}") public
+	 * ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable
+	 * int episodeNo) { try { // 에피소드 삭제 서비스 호출 novelService.deleteEpisode(novelId,
+	 * episodeNo);
+	 * 
+	 * return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다."); } catch (Exception e) {
+	 * return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).
+	 * body("에피소드 삭제에 실패했습니다."); } }
+	 */
+    
+    @PostMapping("/deleteEpisode/{novelId}/{episodeNo}")
+    public String deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
+        // 삭제 로직 실행
+        novelService.deleteEpisode(novelId, episodeNo);
+        
+        // 삭제 후 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;
+    }
+    
+    @PostMapping("/like/{novelId}")
+    public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int novelId, HttpSession session) {
+        System.err.println("넘어옴 " + novelId);
+        
+        UserVo user = (UserVo) session.getAttribute("user");
+        if (user == null) {
+            // 로그인하지 않은 경우 JSON 응답으로 리다이렉트 정보를 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("redirect", "/team3webnovel/login"); // 로그인 페이지 URL을 명시적으로 설정
+            return ResponseEntity.status(401).body(response); // 상태 코드를 숫자로 사용
         }
+
+        int userId = user.getUserId();
+        System.err.println(userId);
+        boolean liked = novelService.toggleLike(userId, novelId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
+
+        return ResponseEntity.ok(response);
     }
 
+
+
+
+    
 }

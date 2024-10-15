@@ -33,7 +33,6 @@
         <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
         <div class="col-md-6">
             <!-- 폼 action 경로 수정 -->
-
             <form method="POST" action="${pageContext.request.contextPath}/novel/new-novel">
                 <!-- 제목 입력 -->
                 <div class="form-group">
@@ -55,26 +54,49 @@
                     </select>
                 </div>
 
-                <!-- 이미지 선택 -->
-                <div class="form-group">
-                    <label for="imageSelect">소설 표지 이미지 선택</label>
-                    <select id="imageSelect" class="form-control" name="illust" onchange="displaySelectedImage()">
-                        <option value="">이미지를 선택하세요</option>
-                        <c:forEach var="image" items="${imageList}">
-                            <option value="${image.creationId}" data-image-url="${image.imageUrl}">
-                                ${image.title != null ? image.title : image.imageUrl}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
+                <!-- 표지 이미지 선택 -->
+                <label for="title">표지 이미지</label>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#coverImageModal">
+                        이미지 선택
+                    </button>
 
-                <!-- 선택한 이미지 미리보기 -->
-                <div class="mt-3">
-                    <img id="selectedImagePreview" src="" alt="선택된 이미지가 여기에 표시됩니다" style="max-width: 100%; height: auto; display: none;" />
-                </div>
+                    <!-- 선택된 이미지 미리보기 -->
+                    <div class="preview-container mt-3">
+                        <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지" style="max-width: 100%; height: auto; display: none;" />
+                        <p>선택한 파일명: <span id="selectedCoverImageFileName">없음</span></p>
+                    </div>
 
-                <!-- 선택한 이미지 파일명 표시 -->
-                <p>선택한 파일명: <span id="selectedImageFileName">없음</span></p>
+                    <!-- 선택한 이미지 ID를 폼에 숨긴 필드로 전송 -->
+                    <input type="hidden" id="selectedCoverImageId" name="illust" value="" />
+
+                    <!-- 표지 이미지 선택 모달 -->
+                    <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="coverImageModalLabel">표지 이미지 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!-- 이미지를 선택할 수 있는 모달 -->
+                                        <c:forEach var="image" items="${imageList}">
+                                            <div class="col-md-3 text-center mb-3">
+                                                <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectCoverImage('${image.creationId}', '${image.imageUrl}', '${image.filename}')">
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- 줄거리 입력 -->
                 <div class="form-group mt-4">
@@ -134,10 +156,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <!-- JavaScript 파일 링크 -->
 <script src="${pageContext.request.contextPath}/static/js/chatbot.js"></script>
-<!-- jQuery의 slim 버전이 아닌 일반 버전 사용 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- 이미지 선택 스크립트 -->
+<script>
+    function selectCoverImage(creationId, imageUrl, fileName) {
+        var imgPreview = document.getElementById('selectedCoverImagePreview');
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block';  // 이미지 표시
+
+        document.getElementById('selectedCoverImageFileName').innerText = fileName;
+        document.getElementById('selectedCoverImageId').value = creationId;
+        $('#coverImageModal').modal('hide');
+    }
+</script>
 
 </body>
 </html>

@@ -60,7 +60,16 @@ public class SimpleImageController {
 	    int width = (int) requestData.get("width");
 	    int height = (int) requestData.get("height");
 	    int cfgScale = (int) requestData.get("cfg_scale");
-	    int seed = (int) requestData.get("seed");
+	 // seed가 Integer로 들어올 수 있으므로 Integer로 먼저 받음
+	    Object seedObj = requestData.get("seed");
+	    Long seed = null;
+
+	    if (seedObj instanceof Integer) {
+	        seed = ((Integer) seedObj).longValue();  // Integer인 경우 Long으로 변환
+	    } else if (seedObj instanceof Long) {
+	        seed = (Long) seedObj;  // Long이면 그대로 사용
+	    }
+
 	    String checkpoint = (String) requestData.get("checkpoint");
 	    
 	    try {

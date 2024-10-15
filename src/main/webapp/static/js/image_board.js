@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
 // 좋아요 상태를 토글하는 함수
 function toggleLike(boardId) {
     const likeCountElement = document.getElementById(`like-count-${boardId}`);
