@@ -89,6 +89,8 @@
             </form>
         </div>
 
+<input type="hidden" id = "AImessage">
+
         <!-- gpt를 통한 줄거리 및 등장인물 생성 -->
         <div class="col-md-6">
     <h4>줄거리&등장인물</h4>

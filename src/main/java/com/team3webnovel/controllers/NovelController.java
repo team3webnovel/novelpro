@@ -166,9 +166,8 @@ public class NovelController {
     	// NovelService를 통해 소설 삽입
     	novelService.insertNovel(vo);
     	
-        // 'AImessage'가 모델에 없으면 RedirectAttributes로 추가
+        // 'AImessage'가 모델에 있으면 
         if (model.containsAttribute("AImessage")) {
-            redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오로 이동합니다.");
             return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
         }
     	

@@ -1,7 +1,5 @@
 package com.team3webnovel.controllers;
 
-import java.sql.Timestamp;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +40,10 @@ public class AiCreationController {
     public String goToMusic(RedirectAttributes redirectAttributes) {
     	redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
     	return "redirect:/generate-music";
+    }
+    @GetMapping("/result-music") 
+    public String goToMusicResult(RedirectAttributes redirectAttributes) {
+    	redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오에 오신 것을 환영합니다!");
+    	return "redirect:/result-music";
     }
 }

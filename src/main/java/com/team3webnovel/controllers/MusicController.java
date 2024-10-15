@@ -31,6 +31,11 @@ public class MusicController {
         return "generate/generate_music"; // 음악 생성 페이지로 이동
     }
 
+    @GetMapping("/result-music")
+    public String resultMusic() {
+    	return "generate/music_result";
+    }
+    
     @PostMapping("/generate-music")
     public String generateMusic(@RequestParam("prompt") String prompt,
                                 @RequestParam(value = "make_instrumental", required = false) boolean makeInstrumental,
@@ -52,6 +57,11 @@ public class MusicController {
 
             // 생성된 음악 리스트를 모델에 추가하여 결과 페이지로 전달
             model.addAttribute("musicList", musicList);
+            
+            if (model.containsAttribute("AImessage")) {
+            	return "redirect:/creation-studio/result-music";
+            }
+            
             return "generate/music_result"; // 음악 결과 페이지로 이동
             
         } catch (Exception e) {

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,10 @@
     <title>Music Creator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/generate/generate_music.css">
-    <script src="static/js/ai_studio/music_tutorial.js"></script>
+    
+    <c:if test="${not empty AImessage }">
+    	<script src="static/js/ai_studio/music_tutorial.js"></script>
+    </c:if>
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     <style>
         #loadingIndicator p {

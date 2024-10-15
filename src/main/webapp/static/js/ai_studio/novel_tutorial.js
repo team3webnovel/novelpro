@@ -87,6 +87,8 @@ window.onload = function () {
         inputArea.classList.remove('highlight'); // 이전 강조 제거
         const introInput = document.getElementById('intro');
         introInput.classList.add('highlight');
+		introInput.style.position = 'relative';
+		introInput.style.zIndex = '10001';
         introInput.scrollIntoView({ behavior: 'smooth' });
 
         explanationText.innerHTML = ''; // 텍스트 초기화

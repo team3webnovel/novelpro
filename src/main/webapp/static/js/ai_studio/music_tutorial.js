@@ -71,9 +71,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // "instrumentalOption" 강조 함수
     function toggleHighlightInstrumentalOption(highlight) {
-        const instrumentalOption = document.getElementById('instrumentalOption');
+		const checkBox = document.getElementById('make_instrumental');
         if (highlight) {
-            instrumentalOption.style.boxShadow = '0 0 10px 5px yellow';  // 강조 효과 추가
+			checkBox.style.boxShadow = '0 0 10px 5px yellow';
+			checkBox.style.position = 'relative';
+			checkBox.style.zIndex = '10001';
         } else {
             instrumentalOption.style.boxShadow = 'none';  // 강조 효과 제거
         }
@@ -88,8 +90,11 @@ document.addEventListener("DOMContentLoaded", function () {
             typingIndex++;
             if (typingIndex < text.length) {
                 setTimeout(typeChar, 100);
+            } else if (currentStep < tutorialTexts.length - 1) {
+                nextButton.style.display = 'inline-block';  // 마지막이 아닌 경우에만 '다음' 버튼 표시
             } else {
-                nextButton.style.display = 'inline-block';  
+                nextButton.style.display = 'none';  // 마지막 단계에서는 '다음' 버튼 숨김
+                endButton.style.display = 'inline-block';  // 종료 버튼 표시
             }
         }
         typeChar();  
@@ -110,9 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentStep < tutorialTexts.length) {
             typeText(tutorialTexts[currentStep]);  
-        } else {
-            nextButton.style.display = 'none';  
-            endButton.style.display = 'inline-block';  
         }
     });
 

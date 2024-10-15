@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/music_result.css"> <!-- CSS 링크 추가 -->
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    <c:if test="${not empty AImessage }">
+    	<script src="static/js/ai_studio/tutorial_end.js"></script>
+    </c:if>
+    
 </head>
 <body class="bg-light text-dark">
     <div class="container mt-5">
