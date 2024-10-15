@@ -176,14 +176,7 @@ public class NovelController {
         
         // NovelService를 통해 소설 삽입
         novelService.insertNovel(vo);
-        
-        if (model.containsAttribute("AImessage")) {
-        	return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
-        }
-        // AImessage가 있을 경우 처리
-        if (AImessage != null && !AImessage.isEmpty()) {
-            return "redirect:/creation-studio/image"; // AImessage가 있으면 이미지 생성 페이지로 리다이렉트
-        }
+       
 
         return "redirect:/storage"; // 일반적으로 보관함 페이지로 리다이렉트
     }
