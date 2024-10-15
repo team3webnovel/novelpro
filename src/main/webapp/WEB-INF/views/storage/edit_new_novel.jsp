@@ -57,7 +57,7 @@
 						</select>
 					</div>
 
-					<!-- 표지 이미지 선택 -->
+					<!-- 표지 이미지 또는 비디오 선택 -->
 					<label for="title">표지 이미지 또는 비디오 썸네일 선택</label>
 					<div class="col-md-6">
 						<button type="button" class="btn btn-custom" data-toggle="modal"
@@ -125,42 +125,6 @@
 						</div>
 					</div>
 
-<script>
-function selectCoverImage(creationId, imageUrl, fileName) {
-    var imgPreview = document.getElementById('selectedCoverImagePreview');
-    imgPreview.src = imageUrl;
-    imgPreview.style.display = 'block';  // 이미지 표시
-
-    document.getElementById('selectedCoverImageFileName').innerText = fileName;
-    document.getElementById('selectedCoverImageId').value = creationId;
-    $('#coverImageModal').modal('hide');
-}
-
-// 페이지 로드 시 BGM 및 표지 이미지가 있는 경우 미리보기 표시
-window.onload = function() {
-    <c:if test="${not empty novelCover.creationId}">
-        <c:forEach var="image" items="${imageList}">
-            <c:if test="${image.creationId == novelCover.creationId}">
-                document.getElementById('selectedCoverImagePreview').src = '${image.imageUrl}';
-                document.getElementById('selectedCoverImagePreview').style.display = 'block';
-                document.getElementById('selectedCoverImageFileName').innerText = '${image.filename}';
-                document.getElementById('selectedCoverImageId').value = '${image.creationId}';
-            </c:if>
-        </c:forEach>
-        <c:forEach var="video" items="${videoList}">
-            <c:if test="${video.creationId == novelCover.creationId}">
-                document.getElementById('selectedCoverImagePreview').src = '${video.videoUrl}';
-                document.getElementById('selectedCoverImagePreview').style.display = 'block';
-                document.getElementById('selectedCoverImageFileName').innerText = '${video.videoFilename}';
-                document.getElementById('selectedCoverImageId').value = '${video.creationId}';
-            </c:if>
-        </c:forEach>
-    </c:if>
-}
-</script>
-
-
-
 					<!-- 줄거리 입력 -->
 					<div class="form-group mt-4">
 						<label for="intro">소설 줄거리</label>
@@ -223,6 +187,18 @@ function selectCoverImage(creationId, imageUrl, fileName) {
     document.getElementById('selectedCoverImageId').value = creationId;
     $('#coverImageModal').modal('hide');
 }
+
+function selectCoverVideo(creationId, videoUrl, videoFilename) {
+    var imgPreview = document.getElementById('selectedCoverImagePreview');
+    imgPreview.src = videoUrl;
+    imgPreview.style.display = 'block';  // 이미지 표시
+
+    document.getElementById('selectedCoverImageFileName').innerText = videoFilename;
+    document.getElementById('selectedCoverImageId').value = creationId;
+    $('#coverImageModal').modal('hide');
+}
+
+
 
 // 페이지 로드 시 BGM 및 표지 이미지가 있는 경우 미리보기 표시
 window.onload = function() {
