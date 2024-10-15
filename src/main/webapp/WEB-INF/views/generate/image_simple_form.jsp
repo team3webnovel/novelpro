@@ -274,8 +274,8 @@
                     <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
                     <div class="card-body">
                         <h5 class="card-title">majicmixRealistic</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('majicmixRealistic.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('majicmixRealistic.safetensors')">직접 입력</button>
+                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('majicmixRealistic_v7.safetensors')">모델 선택</button>
+                        <button class="btn btn-success" onclick="changeModelAIModal('majicmixRealistic_v7.safetensors')">직접 입력</button>
                     </div>
                 </div>
             </div>
