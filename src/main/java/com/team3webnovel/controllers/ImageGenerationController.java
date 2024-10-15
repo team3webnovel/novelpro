@@ -60,7 +60,7 @@ public class ImageGenerationController {
             @RequestParam("width") int width,
             @RequestParam("height") int height,
             @RequestParam("cfg_scale") int cfgScale,
-            @RequestParam("seed") int seed,
+            @RequestParam("seed") Long seed,
             @RequestParam("checkpoint") String checkpoint,
             Model model, HttpSession session) {
     	UserVo userVo = (UserVo)session.getAttribute("user");

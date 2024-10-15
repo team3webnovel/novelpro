@@ -220,12 +220,11 @@
 	    ORDER BY 
 	        n.created_at DESC
 	</select>
-
-	<!-- 에피소드(회차) 삭제 -->
-	<delete id="deleteEpisode" >
+	
+	<delete id="deleteEpisode" parameterType="map">
 	    DELETE FROM novel_detail
 	    WHERE novel_id = #{novelId}
-	    AND episode_no = #{episodeNo};
+	    AND episode_no = #{episodeNo}
 	</delete>
 
 
