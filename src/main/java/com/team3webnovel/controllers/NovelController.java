@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
@@ -76,7 +77,7 @@ public class NovelController {
 
 	// 글쓰기 처리
 	@PostMapping("/write/{novelId}")
-	public String write(@ModelAttribute NovelVo vo, HttpSession session, @RequestParam("illust") int illust,
+	public String write(@ModelAttribute NovelVo vo, HttpSession session, @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
 			@RequestParam(value = "bgm", required = false) int bgm, @RequestParam("title") String title,
 			@RequestParam("episode") int episode, @RequestParam("content") String content) {
 
@@ -139,7 +140,7 @@ public class NovelController {
     		@RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
     		@RequestParam("title") String title,
     		@RequestParam("intro") String intro,
-    		@RequestParam("genre") String genre) {
+    		@RequestParam("genre") String genre, RedirectAttributes redirectAttributes) {
     	
     	// 세션에서 사용자 정보 가져오기
     	UserVo user = (UserVo) session.getAttribute("user");
@@ -165,9 +166,11 @@ public class NovelController {
     	// NovelService를 통해 소설 삽입
     	novelService.insertNovel(vo);
     	
-    	if (model.containsAttribute("AImessage")) {
-    		return "/generate/image_simple_form";
-    	}
+        // 'AImessage'가 모델에 없으면 RedirectAttributes로 추가
+        if (!model.containsAttribute("AImessage")) {
+            redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오로 이동합니다.");
+            return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
+        }
     	
     	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
     }
@@ -505,4 +508,6 @@ public class NovelController {
         }
     }
 
+
 }
+

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="static/css/generate/generate_font.css">
     <link rel="stylesheet" href="static/css/generate/font_collection.css">
     <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+	<script src="static/js/ai_studio/font_tutorial.js"></script>
 </head>
 <body>
 <div class="main-contents">
