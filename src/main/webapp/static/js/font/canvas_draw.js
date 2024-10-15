@@ -99,6 +99,10 @@ function sendFileNameToBackend(fileName) {
     .then(response => {
         if (response.ok) {
             console.log('File name sent successfully');
+			if (document.getElementById('AImessage')) {
+				window.location.href = "/team3webnovel/creation-studio/music";
+				console.log('going to music');
+			}
         } else {
             console.error('Failed to send file name');
         }

@@ -35,6 +35,8 @@ import com.team3webnovel.vo.UserVo;
 
 import jakarta.servlet.http.HttpSession;
 
+
+
 @Controller
 @RequestMapping("/novel")
 public class NovelController {
@@ -111,7 +113,7 @@ public class NovelController {
     
     // 글쓰기 페이지로 이동
     @GetMapping("/new-novel")
-    public String insertCoverPage(HttpSession session, Model model) {
+    public String insertCoverPage(HttpSession session, Model model, RedirectAttributes redirectAttribute) {
     	UserVo user = (UserVo)session.getAttribute("user");
     	int userId = user.getUserId();
     	
@@ -120,7 +122,10 @@ public class NovelController {
     	vo.setUserId(userId);
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
     	
- 
+        if (model.containsAttribute("AImessage")) {
+            redirectAttribute.addFlashAttribute("AImessage"); // 이미지 생성 페이지로 리다이렉트
+        }
+
         
         // 디버깅용 출력
         System.err.println(imageList);
@@ -133,46 +138,51 @@ public class NovelController {
         return "storage/new_novel";
     }
     
-    // 소설 생성
     @PostMapping("/new-novel")
-    public String write(@ModelAttribute NovelVo vo, HttpSession session, Model model,
-    		@RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  // 기본값 설정
-    		@RequestParam("title") String title,
-    		@RequestParam("intro") String intro,
-    		@RequestParam("genre") String genre, RedirectAttributes redirectAttributes) {
-    	
-    	// 세션에서 사용자 정보 가져오기
-    	UserVo user = (UserVo) session.getAttribute("user");
-    	if (user == null) {
-    		// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
-    		return "redirect:/login";
-    	}
-    	
-    	// 전달받은 값으로 NovelVo 객체 설정
-    	vo.setUserId(user.getUserId()); // 작성자 ID로 설정
-    	vo.setTitle(title);             // 소설 제목 설정
-    	vo.setIntro(intro);             // 소설 소개 설정
-    	vo.setGenre(genre);             // 소설 장르 설정
-    	vo.setCreationId(illust);		// 소설 표지 설정
-    	
-    	// 생성일을 현재 시간으로 설정 (Timestamp로 변경)
-    	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    	vo.setCreatedAt(currentTime);   // 생성일 설정
-    	
-    	// 디버깅용 출력
-    	System.err.println(vo.toString());
-    	
-    	// NovelService를 통해 소설 삽입
-    	novelService.insertNovel(vo);
-    	
-        // 'AImessage'가 모델에 없으면 RedirectAttributes로 추가
-        if (!model.containsAttribute("AImessage")) {
-            redirectAttributes.addFlashAttribute("AImessage", "AI 창작 스튜디오로 이동합니다.");
-            return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
+    public String write(@ModelAttribute NovelVo vo, 
+                        @RequestParam(value = "AImessage", required = false) String AImessage,
+                        HttpSession session, 
+                        Model model, 
+                        @RequestParam(value = "illust", required = false, defaultValue = "0") int illust,  
+                        @RequestParam("title") String title,
+                        @RequestParam("intro") String intro,
+                        @RequestParam("genre") String genre, 
+                        RedirectAttributes redirectAttributes) {
+        
+        // 세션에서 사용자 정보 가져오기
+        UserVo user = (UserVo) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login"; // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트
         }
-    	
-    	return "redirect:/storage"; // 작성 후 보관함 페이지로 리다이렉트
+        
+        // 전달받은 값으로 NovelVo 객체 설정
+        vo.setUserId(user.getUserId());
+        vo.setTitle(title);
+        vo.setIntro(intro);
+        vo.setGenre(genre);
+        vo.setCreationId(illust);
+        
+        // 생성일을 현재 시간으로 설정
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        vo.setCreatedAt(currentTime);
+
+        // 디버깅용 출력
+        System.err.println(vo.toString());
+        
+        // NovelService를 통해 소설 삽입
+        novelService.insertNovel(vo);
+        
+        if (model.containsAttribute("AImessage")) {
+        	return "redirect:/creation-studio/image"; // 이미지 생성 페이지로 리다이렉트
+        }
+        // AImessage가 있을 경우 처리
+        if (AImessage != null && !AImessage.isEmpty()) {
+            return "redirect:/creation-studio/image"; // AImessage가 있으면 이미지 생성 페이지로 리다이렉트
+        }
+
+        return "redirect:/storage"; // 일반적으로 보관함 페이지로 리다이렉트
     }
+
     
  // 소설 상세페이지로 이동
     @GetMapping("/novel-detail/{novelId}")
@@ -528,22 +538,30 @@ public class NovelController {
         return "redirect:/novel/novel-detail/" + novelId;
     }
     
-	@PostMapping("/like/{novelId}")
-	public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int novelId, HttpSession session){
-		
-		System.err.println("넘어옴" + novelId);
-		UserVo user = (UserVo)session.getAttribute("user");
-		int userId = user.getUserId();
-		System.err.println(userId);
-		boolean liked = novelService.toggleLike(userId, novelId);
+    @PostMapping("/like/{novelId}")
+    public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable int novelId, HttpSession session) {
+        System.err.println("넘어옴 " + novelId);
+        
+        UserVo user = (UserVo) session.getAttribute("user");
+        if (user == null) {
+            // 로그인하지 않은 경우 JSON 응답으로 리다이렉트 정보를 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("redirect", "/team3webnovel/login"); // 로그인 페이지 URL을 명시적으로 설정
+            return ResponseEntity.status(401).body(response); // 상태 코드를 숫자로 사용
+        }
 
-		
-		Map<String, Object> response = new HashMap<>();
+        int userId = user.getUserId();
+        System.err.println(userId);
+        boolean liked = novelService.toggleLike(userId, novelId);
+
+        Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("liked", liked); // true: 좋아요 추가됨, false: 취소됨
 
         return ResponseEntity.ok(response);
-	}
+    }
+
+
 
 
     
