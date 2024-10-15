@@ -1,5 +1,6 @@
 package com.team3webnovel.vo;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class NovelVo {
     private int bgmId;
     private String bgmUrl;
     private String visibility;
-
+    private int likeCount;
+    
     // 기본 생성자
     public NovelVo() {
     }
@@ -187,6 +189,14 @@ public class NovelVo {
 		this.userName = userName;
 	}
 
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	@Override
 	public String toString() {
 		return "NovelVo [genre=" + genre + ", status=" + status + ", userId=" + userId + ", title=" + title
@@ -194,7 +204,7 @@ public class NovelVo {
 				+ novelId + ", episodeNo=" + episodeNo + ", contents=" + contents + ", creationIdDetail="
 				+ creationIdDetail + ", titleDetail=" + titleDetail + ", userName=" + userName + ", imageUrl="
 				+ imageUrl + ", imageId=" + imageId + ", bgmId=" + bgmId + ", bgmUrl=" + bgmUrl + ", visibility="
-				+ visibility + "]";
+				+ visibility + ", likeCount=" + likeCount + "]";
 	}
 
 

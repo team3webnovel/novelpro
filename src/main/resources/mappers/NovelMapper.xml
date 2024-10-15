@@ -116,22 +116,29 @@
     </update>
     
 	<select id="getMainNovelList" resultType="com.team3webnovel.vo.NovelVo">
-	    SELECT 
-	        n.NOVEL_ID AS novelId,
-	        n.GENRE,
-	        n.STATUS,
-	        n.USER_ID AS userId,
-	        n.TITLE,
-	        n.CREATION_ID AS creationId,
-	        n.INTRO,
-	        n.CREATED_AT AS createdAt,
-	        igd.IMAGE_URL AS imageUrl  -- IMAGE_URL 컬럼 추가
-	    FROM 
-	        novel n
-	    LEFT JOIN 
-	        IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
-	    WHERE 
-	        n.STATUS IS NOT NULL
+		SELECT 
+		    n.NOVEL_ID AS novelId,
+		    n.GENRE,
+		    n.STATUS,
+		    n.USER_ID AS userId,
+		    n.TITLE,
+		    n.CREATION_ID AS creationId,
+		    n.INTRO,
+		    n.CREATED_AT AS createdAt,
+		    igd.IMAGE_URL AS imageUrl,  -- IMAGE_URL 컬럼 추가
+		    COUNT(nl.NOVEL_ID) AS likeCount  -- 좋아요 수를 카운트
+		FROM 
+		    novel n
+		LEFT JOIN 
+		    IMAGE_GENERATION_DATA igd ON n.CREATION_ID = igd.CREATION_ID
+		LEFT JOIN 
+		    novel_likes nl ON n.NOVEL_ID = nl.NOVEL_ID  -- novel_likes 테이블 조인
+		WHERE 
+		    n.STATUS IS NOT NULL
+		GROUP BY 
+		    n.NOVEL_ID, n.GENRE, n.STATUS, n.USER_ID, n.TITLE, n.CREATION_ID, n.INTRO, n.CREATED_AT, igd.IMAGE_URL
+		ORDER BY 
+		    n.CREATED_AT DESC
 	</select>
     
 	<select id="getNovelDetail" parameterType="com.team3webnovel.vo.NovelVo" resultType="com.team3webnovel.vo.NovelVo">
@@ -227,5 +234,18 @@
 	    AND episode_no = #{episodeNo}
 	</delete>
 
+
+	<select id="check" parameterType="Map" resultType="int">
+	    SELECT COUNT(*) FROM novel_likes WHERE novel_id = #{novelId} AND user_id = #{userId}
+	</select>
+
+
+	<insert id="pushLike" parameterType="Map">
+		insert into novel_likes (novel_id, user_id) values (#{novelId}, #{userId})
+	</insert>
+	
+	<delete id="unlike" parameterType="map">
+		delete from novel_likes where novel_id = #{novelId} and user_id = #{userId}
+	</delete>
 
 </mapper>

@@ -26,6 +26,7 @@
 </c:if>
 </head>
 <body>
+<<<<<<< HEAD
 	<!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
 	<header style="margin-bottom: 100px;">
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
@@ -37,6 +38,25 @@
 			<!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
 			<div class="col-md-6">
 				<!-- 폼 action 경로 수정 -->
+=======
+    <!-- 헤더 포함, 인라인 스타일로 간격 추가 -->
+    <header style="margin-bottom: 100px;">
+        <jsp:include page="/WEB-INF/views/includes/header.jsp" />
+    </header>
+<div class="container mt-5">
+    <h2>소설 쓰기</h2>
+    
+    <div class="row">
+        <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
+        <div class="col-md-6">
+            <!-- 폼 action 경로 수정 -->
+            <form method="POST" action="${pageContext.request.contextPath}/novel/new-novel">
+                <!-- 제목 입력 -->
+                <div class="form-group">
+                    <label for="title">소설 제목</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="소설 제목을 입력하세요" required>
+                </div>
+>>>>>>> 008fa2668d049c576b1ce4a79f06c78041d56f42
 
 				<form method="POST"
 					action="${pageContext.request.contextPath}/novel/new-novel">

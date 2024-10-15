@@ -12,14 +12,44 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/index.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/static/css/modal.css">
-  
+
+    <style type="text/css">
+        .like-container {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .like-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+
+        .like-btn:hover .like-icon {
+            color: #ff7675; /* 좋아요 버튼을 마우스로 올렸을 때 색상 변경 */
+        }
+
+        .like-icon {
+            margin-right: 5px;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .like-count {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
     <!-- 헤더 포함 -->
     <header>
         <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     </header>
-    
+
     <!-- 모달 HTML -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -52,30 +82,30 @@
         </a>
     </section>
 
-	<!-- 장르 섹션 -->
-	<section id="genres" class="genres-section" style="margin-top: 30px;">
-	    <div class="container">
-	        <div class="row row-cols-7">
-	            <div class="col">
-	                <div class="card text-center genre selected" data-genre="all">
-	                    <div class="card-body">
-	                        <h5 class="card-title">전체</h5>
-	                    </div>
-	                </div>
-	            </div>
-	            <!-- 동적으로 장르 렌더링 -->
-	            <c:forEach var="genre" items="${genres}">
-	                <div class="col">
-	                    <div class="card text-center genre" data-genre="${genre.code}">
-	                        <div class="card-body">
-	                            <h5 class="card-title">${genre.name}</h5>
-	                        </div>
-	                    </div>
-	                </div>
-	            </c:forEach>
-	        </div>
-	    </div>
-	</section>
+    <!-- 장르 섹션 -->
+    <section id="genres" class="genres-section" style="margin-top: 30px;">
+        <div class="container">
+            <div class="row row-cols-7">
+                <div class="col">
+                    <div class="card text-center genre selected" data-genre="all">
+                        <div class="card-body">
+                            <h5 class="card-title">전체</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- 동적으로 장르 렌더링 -->
+                <c:forEach var="genre" items="${genres}">
+                    <div class="col">
+                        <div class="card text-center genre" data-genre="${genre.code}">
+                            <div class="card-body">
+                                <h5 class="card-title">${genre.name}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </section>
 
     <!-- 카테고리별 소설 섹션 -->
     <section id="novels" class="novel-section" style="margin-top: 10px;">
@@ -89,18 +119,26 @@
                                 <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
                                 <div class="card-body">
                                     <h5 class="card-title">
-									    <c:choose>
-									        <c:when test="${fn:length(novel.title) > 7}">
-									            ${fn:substring(novel.title, 0, 7)}...
-									        </c:when>
-									        <c:otherwise>
-									            ${novel.title}
-									        </c:otherwise>
-									    </c:choose>
-									</h5>
+                                        <c:choose>
+                                            <c:when test="${fn:length(novel.title) > 18}">
+                                                ${fn:substring(novel.title, 0, 18)}...
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${novel.title}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </h5>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+     					<div class="like-container">
+						    <button class="like-btn" onclick="toggleLike(${novel.novelId})">
+						        <span class="like-icon">👍</span>
+						        <span id="like-count-${novel.novelId}">${novel.likeCount}</span> <!-- 좋아요 수 -->
+						    </button>
+						</div>  
+
+
+                        </div>
                     </div>
                 </c:forEach>
             </div>
@@ -110,6 +148,7 @@
     <!-- 푸터 포함 -->
     <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 
+    <script src="<%=request.getContextPath()%>/static/js/index.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -143,6 +182,10 @@
                 }
             });
         }
+
+
+
+
     </script>
 </body>
 </html>
