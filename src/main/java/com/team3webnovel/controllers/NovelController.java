@@ -384,28 +384,40 @@ public class NovelController {
 
 		// OpenAI API를 호출하여 intro 생성
 		String generatedIntro;
-		try {
-			// OpenAI API의 응답을 content 부분만 추출하는 방식으로 변경
-			generatedIntro = openAiService.generateIntroFromApi(userMessage, genre);
-			System.out.println("Generated intro: " + generatedIntro); // 추가: 생성된 intro 로그
+		 try {
+		        // OpenAI API를 호출하여 intro 생성
+		        generatedIntro = openAiService.generateIntroFromApi(userMessage, genre);
+		        System.out.println("Generated intro: " + generatedIntro); // 생성된 intro 로그
 
-			// intro 검증
-			if (generatedIntro == null || generatedIntro.trim().isEmpty()) {
-				return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-						.contentType(MediaType.APPLICATION_JSON).body("{\"error\": \"intro 생성 실패: 응답이 비어있습니다.\"}");
-			}
+		        // intro 검증: 응답이 비어있는 경우 오류 반환
+		        if (generatedIntro == null || generatedIntro.trim().isEmpty()) {
+		            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+		                    .contentType(MediaType.APPLICATION_JSON)
+		                    .body("{\"error\": \"intro 생성 실패: 응답이 비어있습니다.\"}");
+		        }
 
-		} catch (Exception e) {
-			e.printStackTrace(); // 예외 로그 출력
-			return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON)
-					.body("{\"error\": \"intro 생성 실패: " + e.getMessage() + "\"}");
+		    } catch (Exception e) {
+		        // 예외 처리 및 오류 메시지 반환
+		        e.printStackTrace(); // 예외 로그 출력
+		        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+		                .contentType(MediaType.APPLICATION_JSON)
+		                .body("{\"error\": \"intro 생성 실패: " + e.getMessage() + "\"}");
+		    }
+
+		    // 문단 구분: 특정 키워드를 기준으로 줄바꿈 추가
+		    String introWithParagraphs = generatedIntro
+		            .replace("제목", "\\n\\n제목")
+		            .replace("등장인물", "\\n\\n등장인물")
+		            .replace("줄거리", "\\n\\n줄거리");
+
+		    // 응답을 JSON 형식으로 반환 (문단 구분된 intro 반환)
+		    return ResponseEntity.ok()
+		            .contentType(MediaType.APPLICATION_JSON)
+		            .body("{\"intro\": \"" + introWithParagraphs + "\"}");
 		}
 
-		// 응답을 텍스트 형식으로 반환 (JSON의 content 필드만 반환)
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body("{\"intro\": \"" + generatedIntro + "\"}"); // intro 필드만 반환
-	}
-
+	
+	
     @GetMapping("/edit-new-novel/{novelId}")
     public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
@@ -495,17 +507,28 @@ public class NovelController {
 
     }
     
-    // 24.10.11 에피소드 삭제
-    @DeleteMapping("/{novelId}/delete-episode/{episodeNo}")
-    public ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
-        try {
-            // 에피소드 삭제 서비스 호출
-            novelService.deleteEpisode(novelId, episodeNo);
-
-            return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("에피소드 삭제에 실패했습니다.");
-        }
+	/*
+	 * // 24.10.11 에피소드 삭제
+	 * 
+	 * @DeleteMapping("/{novelId}/delete-episode/{episodeNo}") public
+	 * ResponseEntity<String> deleteEpisode(@PathVariable int novelId, @PathVariable
+	 * int episodeNo) { try { // 에피소드 삭제 서비스 호출 novelService.deleteEpisode(novelId,
+	 * episodeNo);
+	 * 
+	 * return ResponseEntity.ok("에피소드가 성공적으로 삭제되었습니다."); } catch (Exception e) {
+	 * return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).
+	 * body("에피소드 삭제에 실패했습니다."); } }
+	 */
+    
+    @PostMapping("/deleteEpisode/{novelId}/{episodeNo}")
+    public String deleteEpisode(@PathVariable int novelId, @PathVariable int episodeNo) {
+        // 삭제 로직 실행
+        novelService.deleteEpisode(novelId, episodeNo);
+        
+        // 삭제 후 리다이렉트
+        return "redirect:/novel/novel-detail/" + novelId;
     }
 
+
+    
 }

@@ -49,24 +49,51 @@
                         <option value="일반" ${novelCover.genre == '일반' ? 'selected' : ''}>일반</option>
                     </select>
                 </div>
+                
+                <!-- 표지 이미지 선택 -->
+                <label for="title">표지 이미지</label>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#coverImageModal">
+                        이미지 선택
+                    </button>
 
-                <!-- 이미지 선택 -->
-                <div class="form-group">
-                    <label for="imageSelect">소설 표지 이미지 선택</label>
-                    <select id="imageSelect" class="form-control" name="illust" onchange="displaySelectedImage()">
-                        <option value="">이미지를 선택하세요</option>
-                        <c:forEach var="image" items="${imageList}">
-                            <option value="${image.creationId}" data-image-url="${image.imageUrl}" ${novelCover.creationId == image.creationId ? 'selected' : ''}>
-                                ${image.title != null ? image.title : image.filename}
-                            </option>
-                        </c:forEach>
-                    </select>
+                    <!-- 선택된 이미지 미리보기 -->
+                    <div class="preview-container mt-3">
+                        <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지" style="max-width: 100%; height: auto; display: none;" />
+                        <p>선택한 파일명: <span id="selectedCoverImageFileName">없음</span></p>
+                    </div>
+
+                    <!-- 선택한 이미지 ID를 폼에 숨긴 필드로 전송 -->
+                    <input type="hidden" id="selectedCoverImageId" name="illust" value="" />
+
+                    <!-- 표지 이미지 선택 모달 -->
+                    <div class="modal fade" id="coverImageModal" tabindex="-1" role="dialog" aria-labelledby="coverImageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="coverImageModalLabel">표지 이미지 선택</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <!-- 이미지를 선택할 수 있는 모달 -->
+                                        <c:forEach var="image" items="${imageList}">
+                                            <div class="col-md-3 text-center mb-3">
+                                                <img src="${image.imageUrl}" alt="${image.filename}" class="img-thumbnail" style="cursor: pointer;" onclick="selectCoverImage('${image.creationId}', '${image.imageUrl}', '${image.filename}')">
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 선택한 이미지 미리보기 -->
-                <div class="mt-3">
-                    <img id="selectedImagePreview" src="${novelCover.imageUrl}" alt="선택된 이미지가 여기에 표시됩니다" style="max-width: 100%; height: auto;" />
-                </div>
 
                 <!-- 줄거리 입력 -->
                 <div class="form-group mt-4">
@@ -113,38 +140,28 @@
 
 <!-- 선택한 이미지 미리보기 표시 -->
 <script>
-    // 이미지 선택 및 미리보기 기능
-    function displaySelectedImage() {
-        const selectElement = document.getElementById('imageSelect');
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const imageUrl = selectedOption.getAttribute('data-image-url');
+function selectCoverImage(creationId, imageUrl, fileName) {
+    var imgPreview = document.getElementById('selectedCoverImagePreview');
+    imgPreview.src = imageUrl;
+    imgPreview.style.display = 'block';  // 이미지 표시
 
-        const previewElement = document.getElementById('selectedImagePreview');
-        previewElement.src = imageUrl;
-        previewElement.style.display = imageUrl ? 'block' : 'none';
+    document.getElementById('selectedCoverImageFileName').innerText = fileName;
+    document.getElementById('selectedCoverImageId').value = creationId;
+    $('#coverImageModal').modal('hide');
+}
 
-        const fileNameElement = document.getElementById('selectedImageFileName');
-        fileNameElement.innerText = selectedOption.text;
-    }
-    // 소설 삭제 기능
-    /* function deleteNovel(novelId) {
-    if (confirm('정말 삭제하시겠습니까?')) {
-        fetch(`${contextPath}/novel/delete-novel/${novelId}`, {
-            method: 'DELETE'  // 반드시 'POST'로 설정
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('삭제되었습니다.');
-                window.location.href = `${contextPath}/storage`;  // 삭제 후 리다이렉트
-            } else {
-                alert('삭제에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('삭제 중 오류 발생:', error);
-            alert('삭제 중 오류가 발생했습니다.');
-        }); */
-    }
+// 페이지 로드 시 BGM 및 표지 이미지가 있는 경우 미리보기 표시
+window.onload = function() {
+    <c:if test="${not empty novelCover.creationId}">
+        <c:forEach var="image" items="${imageList}">
+            <c:if test="${image.creationId == novelCover.creationId}">
+                document.getElementById('selectedCoverImagePreview').src = '${image.imageUrl}';
+                document.getElementById('selectedCoverImagePreview').style.display = 'block';
+                document.getElementById('selectedCoverImageFileName').innerText = '${image.filename}';
+                document.getElementById('selectedCoverImageId').value = '${image.creationId}';
+            </c:if>
+        </c:forEach>
+    </c:if>
 }
 
 </script>
