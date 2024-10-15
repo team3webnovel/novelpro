@@ -32,6 +32,7 @@ import com.team3webnovel.vo.ImageVo;
 import com.team3webnovel.vo.MusicVo;
 import com.team3webnovel.vo.NovelVo;
 import com.team3webnovel.vo.UserVo;
+import com.team3webnovel.vo.VideoVo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -119,7 +120,7 @@ public class NovelController {
     	CreationVo vo = new CreationVo();
     	vo.setUserId(userId);
     	List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
-    	
+    	List<VideoVo> videoList = videoService.getVideoDataByUserId(vo);
  
         
         // 디버깅용 출력
@@ -128,7 +129,7 @@ public class NovelController {
         
         // 모델에 이미지 및 비디오 리스트 추가
         model.addAttribute("imageList", imageList);
-
+        model.addAttribute("videoList", videoList);
         
         return "storage/new_novel";
     }
@@ -444,6 +445,9 @@ public class NovelController {
         
         List<ImageVo> imageList = imageService.getImageDataByUserId(vo);
         model.addAttribute("imageList", imageList);
+        
+        List<VideoVo> videoList = videoService.getVideoDataByUserId(vo);
+        model.addAttribute("videoList", videoList);
 
         // JSP 파일로 이동
         return "storage/edit_new_novel";
@@ -529,5 +533,6 @@ public class NovelController {
     }
 
 
-    
+
 }
+

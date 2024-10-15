@@ -106,3 +106,9 @@
     width: 20%;
     margin-left: 10px;
 }
+
+.btn-custom {
+    border: 2px solid #007bff; /* 원하는 색상으로 변경 */
+    border-radius: 5px; /* 둥근 테두리 */
+    padding: 10px 20px; /* 버튼 크기 조정 */
+}
