@@ -281,3 +281,29 @@ h2 {
     color: #0056b3;
 }
 
+/* 기본적으로 드롭다운 내용을 숨김 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+}
+
+/* 드롭다운 링크 스타일 */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 마우스를 드롭다운 버튼에 올렸을 때 드롭다운 내용 표시 */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 드롭다운 항목에 마우스를 올렸을 때 배경색 변경 */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}

@@ -281,3 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.getElementById('cover-image-btn').addEventListener('mouseenter', function() {
+    document.querySelector('.dropdown-content').style.display = 'block';
+});
+
+document.getElementById('cover-image-btn').addEventListener('mouseleave', function() {
+    document.querySelector('.dropdown-content').style.display = 'none';
+});

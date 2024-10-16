@@ -50,11 +50,6 @@
     transition: all 0.3s ease;
 }
 
-.video-gen-input:focus, .video-gen-select:focus {
-    border-color: #1abc9c;
-    outline: none;
-    box-shadow: 0 0 5px rgba(26, 188, 156, 0.3);
-}
 
 .video-gen-button {
     background-color: #1abc9c;
