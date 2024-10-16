@@ -127,14 +127,14 @@
 		    line-height: 1.42857;
 		}
 		
-		.btn-outline-info {
-		    border-color: #17a2b8; /* 테두리 색상 설정 */
-		    color: #17a2b8; /* 아이콘 색상 */
+		.btn-outline-warning {
+		    border-color: #ffc107; /* 노란색 테두리 */
+		    color: #ffc107; /* 노란색 아이콘 */
 		}
 		
-		.btn-outline-info:hover {
-		    background-color: #17a2b8; /* 호버 시 배경색 변경 */
-		    color: white; /* 호버 시 아이콘 색상 변경 */
+		.btn-outline-warning:hover {
+		    background-color: #ffc107; /* 호버 시 배경색 */
+		    color: white; /* 호버 시 아이콘 색상 */
 		}
     </style>
     <!-- Bootstrap JS and dependencies -->
@@ -310,7 +310,7 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
 			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimagine">?</button>
-			        	<button class="btn btn-outline-info btn-sm btn-circle" data-toggle="modal" data-target="#infoModalAAMXLAnimeMix">
+			        	<button class="btn btn-outline-warning btn-sm btn-circle" data-toggle="modal" data-target="#infoModalAAMXLAnimeMix">
 						    <i class="fas fa-question"></i>
 						</button>
 			        </div>
