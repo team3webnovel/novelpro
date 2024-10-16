@@ -218,3 +218,13 @@ document.getElementById('submit-btn').addEventListener('click', function() {
         alert("메시지와 장르를 입력해주세요.");
     }
 });
+
+
+//////////////////////////////////////
+const chatLog = document.getElementById('chat-log');
+
+    chatLog.addEventListener('click', function() {
+        // chat-container를 찾아서 'enlarged' 클래스를 토글합니다.
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.classList.toggle('enlarged');
+    });

@@ -88,10 +88,19 @@ html, body {
 
 /* 채팅 로그와 입력 영역 배치 */
 #chat-container {
-    flex-grow: 1;
+    width: 400px; /* 기본 너비 */
+    height: 600px; /* 기본 높이 */
     display: flex;
     flex-direction: column;
     overflow: hidden; /* 스크롤 문제가 생기지 않도록 설정 */
+    transition: width 0.3s ease, height 0.3s ease; /* 크기 변화를 부드럽게 처리 */
+}
+
+#chat-container.enlarged {
+    width: 600px; /* 클릭 시 확장된 너비 */
+    height: 800px; /* 클릭 시 확장된 높이 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* 확대 시 강조를 위한 그림자 */
+    z-index: 100; /* 다른 요소 위에 표시되도록 설정 */
 }
 
 #chat-log {
