@@ -60,10 +60,19 @@
 					</div>
 
 					<!-- 표지 이미지 선택 -->
-					<label for="title">표지 이미지 또는 비디오 썸네일 선택</label>
+					<div class="col-md-6">
+
+
+						<!-- 장르 선택 -->
+						<div class="form-group"></div>
+					</div>
+
+
+					<!-- 표지 이미지 선택 -->
+					<label for="title">커버 선택</label>
 					<div class="col-md-6">
 						<button type="button" class="btn btn-custom" data-toggle="modal"
-							data-target="#coverImageModal">이미지 또는 비디오 선택</button>
+							data-target="#coverImageModal">커버선택하기</button>
 
 						<!-- 선택된 미리보기 -->
 						<div class="preview-container mt-3">
@@ -74,6 +83,7 @@
 								선택한 파일명: <span id="selectedCoverImageFileName">없음</span>
 							</p>
 						</div>
+
 
 						<!-- 선택한 이미지/비디오 ID를 숨긴 필드로 전송 -->
 						<input type="hidden" id="selectedCoverImageId" name="illust"
@@ -126,8 +136,6 @@
 							</div>
 						</div>
 					</div>
-
-
 					<!-- 줄거리 입력 -->
 					<div class="form-group mt-4">
 						<label for="intro">소설 줄거리</label>
@@ -157,7 +165,6 @@
 					style="position: relative;">
 					<div id="chat-log" class="chat-window border p-3"
 						style="height: 400px; overflow-y: scroll;"></div>
-
 					<!-- 사용자 입력 -->
 					<div id="input-area" class="mt-3 d-flex input-area-sticky">
 						<input type="text" id="user-input" placeholder="메시지를 입력하세요"
@@ -167,7 +174,10 @@
 				</div>
 
 			</div>
+
 		</div>
+
+
 	</div>
 
 	<!-- JavaScript 파일 링크 -->
