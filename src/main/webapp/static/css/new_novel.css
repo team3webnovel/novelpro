@@ -1,3 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.parent-container {
+    height: 100%; /* chat-container의 부모 요소 */
+    display: flex;
+    flex-direction: column;
+}
+
 /* 채팅 창 스타일 */
 .chat-window {
     background-color: #f9f9f9;
@@ -15,7 +27,7 @@
 
 /* 유저 메시지 스타일 */
 .user-message {
-    background-color: #d1e7dd;
+    background-color: #cce5ff;
     text-align: right;
     margin-left: auto;
     border-radius: 10px 10px 0 10px;
@@ -69,27 +81,23 @@
 
 /* 입력 영역 스타일 */
 .input-area-sticky {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     background-color: white;
     padding: 10px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 상단 그림자 */
+    /* 위치를 고정하지 않고 자연스럽게 채팅 로그 아래에 위치하도록 설정 */
 }
 
 /* 채팅 로그와 입력 영역 배치 */
 #chat-container {
-    position: relative;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* 스크롤 문제가 생기지 않도록 설정 */
 }
 
 #chat-log {
     flex-grow: 1;
-    overflow-y: auto;
-    padding-bottom: 10px;
-    margin-bottom: 0;
+    overflow-y: auto; /* 스크롤 허용 */
+    padding-bottom: 60px; /* 입력 창 높이만큼 패딩 추가 */
 }
 
 #input-area {
