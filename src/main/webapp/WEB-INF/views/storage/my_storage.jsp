@@ -208,7 +208,7 @@
 						<div class="d-flex justify-content-between align-items-center">
 							<p id="modalTitle" class="mb-2"></p>
 							<button type="button" class="btn btn-secondary btn-sm"
-								id="editButton" onclick="enableEditTitle()">수정</button>
+								id="editButton" onclick="enableEditTitle()">이름 바꾸기</button>
 
 							<!-- 확인과 취소 버튼 (처음에는 숨김 처리) -->
 							<div id="editControls" style="display: none;">

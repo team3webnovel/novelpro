@@ -1,48 +1,11 @@
+/* 채팅 창 스타일 */
 .chat-window {
     background-color: #f9f9f9;
     padding: 10px;
     border-radius: 10px;
 }
 
-.message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 15px;
-    max-width: 70%;
-}
-
-.user-message {
-    background-color: #dcf8c6;
-    text-align: right;
-    align-self: flex-end;
-}
-
-.bot-message {
-    background-color: #f1f0f0;
-    text-align: left;
-    align-self: flex-start;
-}
-
-#chat-log .bot-message, 
-#chat-log .user-message {
-    display: inline-block;
-    margin: 5px 0;
-}
-
-#input-area {
-    display: flex;
-    align-items: center;
-}
-
-#user-input {
-    width: 80%;
-}
-
-#submit-btn {
-    width: 20%;
-}
-
-/* 기본 메시지 스타일 */
+/* 메시지 공통 스타일 */
 .message {
     padding: 10px;
     margin: 5px 0;
@@ -50,46 +13,34 @@
     max-width: 70%;
 }
 
-/* 유저 메시지를 오른쪽 정렬 */
+/* 유저 메시지 스타일 */
 .user-message {
     background-color: #d1e7dd;
     text-align: right;
-    margin-left: auto; /* 오른쪽 정렬 */
+    margin-left: auto;
+    border-radius: 10px 10px 0 10px;
 }
 
-/* 봇 메시지를 왼쪽 정렬 */
+/* 봇 메시지 스타일 */
 .bot-message {
     background-color: #f8d7da;
     text-align: left;
-    margin-right: auto; /* 왼쪽 정렬 */
+    margin-right: auto;
+    border-radius: 10px 10px 10px 0;
 }
 
-/* 메시지를 감싸는 wrapper 공통 스타일 */
+/* 메시지 래퍼 스타일 */
 .message-wrapper {
     display: flex;
     margin: 5px 0;
 }
 
-/* 봇 메시지는 왼쪽 정렬 */
 .bot-wrapper {
     justify-content: flex-start;
 }
 
-.bot-message {
-    background-color: #f8d7da;
-    border-radius: 10px 10px 10px 0;
-    padding: 10px;
-}
-
-/* 유저 메시지는 오른쪽 정렬 */
 .user-wrapper {
     justify-content: flex-end;
-}
-
-.user-message {
-    background-color: #d1e7dd;
-    border-radius: 10px 10px 0 10px;
-    padding: 10px;
 }
 
 /* 깜빡임 애니메이션 */
@@ -110,11 +61,13 @@
     animation: blink 1s infinite;
 }
 
+/* 채팅 윈도우 컨테이너 스타일 */
 .chat-window-container {
     position: relative;
     height: 100%;
 }
 
+/* 입력 영역 스타일 */
 .input-area-sticky {
     position: absolute;
     bottom: 0;
@@ -122,4 +75,40 @@
     background-color: white;
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 상단 그림자 */
+}
+
+/* 채팅 로그와 입력 영역 배치 */
+#chat-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-log {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+#input-area {
+    display: flex;
+    margin-top: 0;
+}
+
+/* 입력 필드와 버튼 스타일 */
+#user-input {
+    width: 80%;
+}
+
+#submit-btn {
+    width: 20%;
+    margin-left: 10px;
+}
+
+.btn-custom {
+    border: 2px solid #007bff; /* 원하는 색상으로 변경 */
+    border-radius: 5px; /* 둥근 테두리 */
+    padding: 10px 20px; /* 버튼 크기 조정 */
 }
