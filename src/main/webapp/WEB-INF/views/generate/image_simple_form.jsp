@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>모델 선택</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -115,6 +116,15 @@
 		    height: auto;
 		    aspect-ratio: 7 / 9; /* CSS의 최신 속성으로 9:7 비율을 적용 */
 		    object-fit: cover; /* 비율에 맞춰서 잘라내기 */
+		}
+		.btn-circle {
+		    width: 40px;  /* 버튼의 너비 */
+		    height: 40px; /* 버튼의 높이 */
+		    padding: 6px 0; /* 패딩 설정 */
+		    border-radius: 50%; /* 원형으로 만들기 */
+		    text-align: center; /* 가운데 정렬 */
+		    font-size: 20px; /* 아이콘 크기 */
+		    line-height: 1.42857;
 		}
     </style>
     <!-- Bootstrap JS and dependencies -->
@@ -238,7 +248,7 @@
 				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(5).png" alt="Generated Image 1" class="img-fluid">
 				            </div>
 				
-				            <button class="btn btn-primary mt-2" onclick="toggleImage('RomanticImage2')">'중세 판타지, 절벽, 조그마한 마법사, 거대한 성, 강, 구름'</button>
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('RomanticImage2')">'중세 판타지, 기사, 마법사, 거대한 성'</button>
 				            <div id="RomanticImage2" style="display:none; margin-top: 15px;">
 				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(6).png" alt="Generated Image 2" class="img-fluid">
 				                </div>
@@ -287,9 +297,12 @@
 			        <!-- Card Body -->
 			        <div class="card-body">
 			            <h5 class="card-title">Animagine XL</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
 			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimagine">?</button>
+			        	<button class="btn btn-info btn-circle mb-2" data-toggle="modal" data-target="#infoModalAAMXLAnimeMix">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
@@ -306,7 +319,12 @@
 				        <div class="modal-body">
 				            <p>이 모델은 일본 애니메이션 기반 모델입니다.</p>
 				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
-				
+							
+							<button class="btn btn-primary mt-2" onclick="toggleImage('AnimagineImage1')">'무협, 무사, 카타나, 대나무'</button>
+				            <div id="AnimagineImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(7).png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+							
 				            <button class="btn btn-primary mt-2" onclick="toggleImage('AnimagineImage2')">'중세 판타지, 기사, 드레스, 궁전'</button>
 				            <div id="AnimagineImage2" style="display:none; margin-top: 15px;">
 				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(9).png" alt="Generated Image 2" class="img-fluid">
