@@ -11,7 +11,7 @@
     <style>
         /* 전체 페이지 스타일 */
         body {
-            background: linear-gradient(to right, #ff6f61, #ff9671);
+            background: #f9f9f9;
             font-family: 'Poppins', sans-serif;
             color: white;
             text-align: center;
@@ -71,8 +71,8 @@
 
         /* 작업 시작 버튼 */
         .start-btn {
-            background-color: #0056b3;
-            color: white;
+            background-color: #003366;
+            color: white;	
             padding: 15px 30px;
             border: none;
             font-size: 1.2rem;
