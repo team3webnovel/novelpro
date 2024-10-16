@@ -30,12 +30,6 @@
             <a href="<%=request.getContextPath()%>/board" style="text-decoration: none; color: inherit;"> 리뷰/홍보 </a>
         </div>
         <div class="ultra-unique-top-right-links">
-            <a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary btn-sm">
-                <i class="bi bi-music-note"></i> <!-- 음악 생성 -->
-            </a>
-            <a href="<%=request.getContextPath()%>/images" class="btn btn-primary btn-sm">
-                <i class="bi bi-image"></i> <!-- 이미지 생성 -->
-            </a>
             <a href="<%=request.getContextPath()%>/generate-search" class="btn btn-primary btn-sm">
                 <i class="bi bi-search"></i> <!-- 검색 -->
             </a>

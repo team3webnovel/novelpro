@@ -319,6 +319,9 @@
 			                <div class="carousel-item">
 			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
 			            </div>
 			            <!-- Carousel controls -->
 			            <a class="carousel-control-prev" href="#modelCarouselAnimeMix" role="button" data-slide="prev">
@@ -617,12 +620,12 @@
 <c:if test="${not empty AImessage}">
     <!-- 하단 고정 버튼 추가 -->
     <button class="fixed-bottom-button" id="bottomButton">다음 페이지로 이동</button>
+        <script>
+	        // 버튼 클릭 시 /generate-font 페이지로 이동
+	        document.getElementById('bottomButton').addEventListener('click', function() {
+	            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
+	        });
+	    </script>
 </c:if>
-    <script>
-        // 버튼 클릭 시 /generate-font 페이지로 이동
-        document.getElementById('bottomButton').addEventListener('click', function() {
-            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
-        });
-    </script>
 </body>
 </html>
