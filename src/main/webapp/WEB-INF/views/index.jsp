@@ -116,7 +116,15 @@
                     <div class="col-md-4 novel" data-genre="${novel.genre}">
                         <a href="${pageContext.request.contextPath}/novel/novel-detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                             <div class="card mb-4">
-                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
+                            	<c:choose>
+		                            <c:when test="${empty novel.imageUrl}">						
+										<img src="<%=request.getContextPath()%>/static/images/logo.png"
+										alt="logo" class="card-img-top">
+									</c:when>
+									<c:otherwise>
+	                                <img src="${novel.imageUrl}" class="card-img-top" alt="${novel.title}" >
+	                                </c:otherwise>
+                                </c:choose>
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         <c:choose>
