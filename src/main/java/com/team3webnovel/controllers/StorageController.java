@@ -67,7 +67,7 @@ public class StorageController {
         System.err.println("비디오정보!!!!!!!!!!" + videoList);
         // 가져온 음악 데이터를 모델에 추가
         model.addAttribute("musicList", musicList);
-
+        model.addAttribute("user", user);
         // 마이 스토리지 페이지로 이동
         return "storage/my_storage"; // JSP 파일 경로
     }
