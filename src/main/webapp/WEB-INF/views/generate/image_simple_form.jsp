@@ -48,7 +48,7 @@
         }
         .card {
         	margin-bottom: 5px;
-            padding: 20px 20px 10px 20px;
+            padding: 10px;
             background-color: #f9f9f9;
             border-radius: 8px;
             text-align: center;
@@ -142,25 +142,25 @@
 							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3.png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(2).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(2).png" class="d-block w-100" alt="모델 예시 이미지 2" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(3).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(3).png" class="d-block w-100" alt="모델 예시 이미지 3" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(4).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(4).png" class="d-block w-100" alt="모델 예시 이미지 4" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(5).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(5).png" class="d-block w-100" alt="모델 예시 이미지 5" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(6).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(6).png" class="d-block w-100" alt="모델 예시 이미지 6" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(7).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(7).png" class="d-block w-100" alt="모델 예시 이미지 7" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(8).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(8).png" class="d-block w-100" alt="모델 예시 이미지 8" onclick="showImageInModal(this)">
 							</div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -175,7 +175,7 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">포니</h5>
+			            <h5 class="card-title">Prefect Pony XL</h5>
 			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('prefectPonyXL_v3.safetensors')">모델 선택</button>
 			            <button class="btn btn-success" onclick="changeModelAIModal('prefectPonyXL_v3.safetensors')">직접 입력</button>
 			        </div>
@@ -187,20 +187,17 @@
 			        <!-- Bootstrap Carousel -->
 			        <div id="modelCarouselRomantic" class="carousel slide" data-ride="carousel" data-interval="3000">
 			            <div class="carousel-inner">
-			            	<div class="carousel-item active">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 2" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 3" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 4" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
-			                </div>
-			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
-			                </div>
-			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 5" onclick="showImageInModal(this)">
 			                </div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -215,12 +212,43 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">로맨틱</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
+			            <h5 class="card-title">RomanticPrism</h5>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
+			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalRomantic">?</button>
 			        </div>
 			    </div>
 			</div>
+			
+			<div class="modal fade" id="infoModalRomantic" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">RomanticPrism 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 중세풍 로맨스 특유의 그림체를 표현하는데에 특화된 모델입니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+				            
+				            <button class="btn btn-primary" onclick="toggleImage('RomanticImage1')">'무협, 무사, 카타나, 대나무'</button>
+				            <div id="RomanticImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(5).png" alt="Generated Image 1" class="img-fluid">
+				            </div>
+				
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('RomanticImage2')">'중세 판타지, 절벽, 조그마한 마법사, 거대한 성, 강, 구름'</button>
+				            <div id="RomanticImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(6).png" alt="Generated Image 2" class="img-fluid">
+				                </div>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>  
             
             <div class="col-md-4">
 			    <div class="card">
@@ -231,19 +259,19 @@
 							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 2" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 3" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 4" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 5" onclick="showImageInModal(this)">
 							</div>
 							<div class="carousel-item">
-							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(6).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(6).png" class="d-block custom-img-size" alt="모델 예시 이미지 6" onclick="showImageInModal(this)">
 							</div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -258,11 +286,44 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">animagin</h5>
+			            <h5 class="card-title">Animagine XL</h5>
 			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
 			            <button class="btn btn-success" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
+			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimagine">?</button>
 			        </div>
 			    </div>
+			</div>
+			
+			<div class="modal fade" id="infoModalAnimagine" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">Animagine 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 일본 애니메이션 기반 모델입니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+				
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('AnimagineImage2')">'중세 판타지, 기사, 드레스, 궁전'</button>
+				            <div id="AnimagineImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(9).png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+				                
+				             <button class="btn btn-primary mt-2" onclick="toggleImage('AnimagineImage3')">'애니메 풍, 여자, 수영장, 수영복, 여름'</button>
+				            <div id="AnimagineImage3" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(8).png" alt="Generated Image 3" class="img-fluid">
+				            </div>
+				        </div>
+				            
+				           
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				        </div>
+				    </div>
+				</div>
 			</div>
             
             <div class="col-md-4">
@@ -274,13 +335,13 @@
 			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80.png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(2).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(2).png" class="d-block w-100" alt="모델 예시 이미지 2" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(3).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(3).png" class="d-block w-100" alt="모델 예시 이미지 3" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(4).png" class="d-block w-100" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(4).png" class="d-block w-100" alt="화질 구림" onclick="showImageInModal(this)">
 			                </div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -295,11 +356,49 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">wai포니</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('waiANINSFWPONYXL_v80.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('waiANINSFWPONYXL_v80.safetensors')">직접 입력</button>
+			            <h5 class="card-title">WAI-ANI-PONYXL</h5>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('waiANINSFWPONYXL_v80.safetensors')">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('waiANINSFWPONYXL_v80.safetensors')">직접 입력</button>
+			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalWaiPony">?</button>
 			        </div>
 			    </div>
+			</div>
+			
+			<div class="modal fade" id="infoModalWaiPony" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">WAI-ANI-PONYXL 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 2D 애니메이션 풍 캐릭터 묘사에 특화된 모델입니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+				            
+				            <button class="btn btn-primary" onclick="toggleImage('WaiPonyImage1')">'여학생, 교실, 교복, 갸루'</button>
+				            <div id="WaiPonyImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(7).png" alt="Generated Image 1" class="img-fluid">
+				            </div>
+				
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('WaiPonyImage2')">'중세 판타지, 여자, 드레스, 궁전'</button>
+				            <div id="WaiPonyImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(6).png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+				                
+				             <button class="btn btn-primary mt-2" onclick="toggleImage('WaiPonyImage3')">'애니메 풍, 여자, 수영장, 수영복, 여름'</button>
+				            <div id="WaiPonyImage3" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/waiANINSFWPONYXL_v80(5).png" alt="Generated Image 3" class="img-fluid">
+				            </div>
+				        </div>
+				            
+				           
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				        </div>
+				    </div>
+				</div>
 			</div>
             
             <div class="col-md-4">
@@ -308,19 +407,19 @@
 			        <div id="modelCarouselAnimeMix" class="carousel slide" data-ride="carousel" data-interval="3000">
 			            <div class="carousel-inner">
 			                <div class="carousel-item active">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(6).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 2" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 3" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 4" onclick="showImageInModal(this)">
 			                </div>
 			                <div class="carousel-item">
-			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 5" onclick="showImageInModal(this)">
 			                </div>
 			            </div>
 			            <!-- Carousel controls -->
@@ -335,11 +434,49 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">애니믹스</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('aamXLAnimeMix_v10.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('aamXLAnimeMix_v10.safetensors')">직접 입력</button>
+			            <h5 class="card-title">AAM XL (Anime Mix)</h5>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('aamXLAnimeMix_v10.safetensors')">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('aamXLAnimeMix_v10.safetensors')">직접 입력</button>
+			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimeMix">?</button>
 			        </div>
 			    </div>
+			</div>
+			
+			<div class="modal fade" id="infoModalAnimeMix" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">AAM XL (Anime Mix) 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 Anime 스타일을 기본으로 배경 묘사에 특화된 모델입니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+				            
+				            <button class="btn btn-primary" onclick="toggleImage('AniMixImage1')">'무협, 무사, 카타나, 대나무'</button>
+				            <div id="AniMixImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(7).png" alt="Generated Image 1" class="img-fluid">
+				            </div>
+				
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('AniMixImage2')">'중세 판타지, 절벽, 조그마한 마법사, 거대한 성, 강, 구름'</button>
+				            <div id="AniMixImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10.png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+				                
+				             <button class="btn btn-primary mt-2" onclick="toggleImage('AniMixImage3')">'여자, 수영장, 수영복, 여름'</button>
+				            <div id="AniMixImage3" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(5).png" alt="Generated Image 3" class="img-fluid">
+				            </div>
+				        </div>
+				            
+				           
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				        </div>
+				    </div>
+				</div>
 			</div>
 
             <div class="col-md-4">
@@ -372,12 +509,43 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">니지세븐</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
+			            <h5 class="card-title">SDXL_Niji_Seven</h5>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
+			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalNijiSeven">?</button>
 			        </div>
 			    </div>
-			</div>   
+			</div>
+			
+			<div class="modal fade" id="infoModalNijiSeven" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">SDXL_Niji_Seven 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 모르겠습니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+				            
+				            <button class="btn btn-primary" onclick="toggleImage('NijiImage1')">'무협, 무사, 카타나, 대나무'</button>
+				            <div id="NijiImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(3).png" alt="Generated Image 1" class="img-fluid">
+				            </div>
+				
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('NijiImage2')">'중세 판타지, 절벽, 조그마한 마법사, 거대한 성, 강, 구름'</button>
+				            <div id="NijiImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(5).png" alt="Generated Image 2" class="img-fluid">
+				                </div>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>  
 			         
         </div>
     </div>
@@ -525,14 +693,12 @@
             <div class="form-group col-6">
               <label for="checkpoint">Checkpoint:</label>
               <select id="checkpoint" name="checkpoint" class="form-control">
-                <option value="aamXLAnimeMix_v10.safetensors">aamXLAnimeMix_v10</option>
-                <option value="animagineXLV31_v31.safetensors">animagineXLV31_v31</option>
-                <option value="juggernautXL_juggXIByRundiffusion.safetensors">juggernautXL_juggXIByRundiffusion</option>
-                <option value="prefectPonyXL_v3.safetensors">prefectPonyXL_v3</option>
-                <option value="romanticprism_v10.safetensors">romanticprism_v10</option>
-                <option value="dreamshaper_8.safetensors">dreamshaper_8</option>
-                <option value="majicmixRealistic.safetensors">majicmixRealistic</option>
-                <option value="sdxlNijiSeven_sdxlNijiSeven.safetensors">sdxlNijiSeven</option>
+                <option value="aamXLAnimeMix_v10.safetensors">AAM XL (Anime Mix)</option>
+                <option value="animagineXLV31_v31.safetensors">Animagine XL</option>
+                <option value="prefectPonyXL_v3.safetensors">Prefect Pony XL</option>
+                <option value="waiANINSFWPONYXL_v80.safetensors">WAI-ANI-PONYXL</option>
+                <option value="romanticprism_v10.safetensors">RomanticPrism</option>
+                <option value="sdxlNijiSeven_sdxlNijiSeven.safetensors">SDXL_Niji_Seven</option>
               </select>
             </div>
 
