@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.team3webnovel.services.ImageService;
 import com.team3webnovel.services.MusicService;
 import com.team3webnovel.services.NovelService;
+import com.team3webnovel.services.OpenAiService;
 import com.team3webnovel.services.VideoService;
 import com.team3webnovel.vo.CreationVo;
 import com.team3webnovel.vo.ImageVo;

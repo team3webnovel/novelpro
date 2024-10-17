@@ -25,11 +25,17 @@
         }
         .card {
         	margin-bottom: 10px;
-            padding: 10px;
+            padding: 5px;
             background-color: #f9f9f9;
             border-radius: 8px;
             transition: transform 0.3s ease;
         }
+        .custom-img-size {
+		    width: 100%; /* 부모 요소 너비에 맞춰서 표시 */
+		    height: auto;
+		    aspect-ratio: 7 / 9; /* CSS의 최신 속성으로 9:7 비율을 적용 */
+		    object-fit: cover; /* 비율에 맞춰서 잘라내기 */
+		}
         .card img{
         	
         }
@@ -49,7 +55,7 @@
 		}
 		.like-container {
 		    display: inline-block;
-		    margin-top: 10px;
+		    margin-top: 3px;
 		}
 		
 		.like-btn {
@@ -95,7 +101,7 @@
             <c:forEach var="image" items="${list}">
                 <div class="col-md-4">
                     <div class="card">
-                        <img src="${image.imageUrl}" alt="이미지" class="card-img-top" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
+                        <img src="${image.imageUrl}" alt="이미지" class="card-img-top custom-img-size" onclick="openModal(${image.boardId}, '${image.imageUrl}', ${image.creationId}, '${image.content }', ${image.userId })">
                          <!-- 좋아요 버튼 및 카운트 표시 -->
 						<div class="like-container">
 						    <button class="like-btn" onclick="toggleLike(${image.boardId})">
