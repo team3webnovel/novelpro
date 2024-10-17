@@ -75,7 +75,7 @@ public class OpenAiService {
         String genreInstruction = "";  // 장르별 지시문을 담는 변수
 
         // 기본 지시문
-        String generalInstruction = "Based on the provided input, make sure to write the title, characters, and novel synopsis in Korean. Do not use unnecessary labeling. Please create a title that does not directly include the provided keywords. Instead, expand on the meaning or interpret the essence of the keywords to form a creative and fitting title. Avoid using the exact words from the input, but ensure the title reflects the overall theme or message. Only one story should be created. Based on the input, the system will reference the genre and background of the example to set character names and settings. You also need to set up the characters. You do not need to directly use the provided keywords in the title or synopsis, but rather expand and interpret their meaning. The story must include 3 characters and the synopsis should be written within 1,000 characters, including twists, entertainment elements, and a coherent storyline. Please format the response with line breaks for easy reading. use concise and intuitive expressions. There should be dramatic situation portrayals. While themes such as regression, reincarnation, possession, survival, growth, sports, entertainment industry, war, and dimensional travel are available, it is not necessary to use all of them. You need to assess whether the user-provided keywords and genres are suitable, then expand and interpret them accordingly for appropriate use.";
+        String generalInstruction = "Based on the provided input, make sure to write the title, characters, and novel synopsis in Korean. Do not use unnecessary labeling. Please create a title that does not directly include the provided keywords. Instead, expand on the meaning or interpret the essence of the keywords to form a creative and fitting title. Avoid using the exact words from the input, but ensure the title reflects the overall theme or message. Only one story should be created. Based on the input, the system will reference the genre and background of the example to set character names and settings. You also need to set up the characters. You do not need to directly use the provided keywords in the title or synopsis, but rather expand and interpret their meaning. The story must include 3 characters and the synopsis should be written within 1,000 characters, including twists, entertainment elements, and a coherent storyline. Please format the response with line breaks for easy reading. use concise and intuitive expressions. There should be dramatic situation portrayals. While themes such as regression, reincarnation, possession, survival, growth, sports, entertainment industry, war, and dimensional travel are available, it is not necessary to use all of them. You need to assess whether the user-provided keywords and genres are suitable, then expand and interpret them accordingly for appropriate use. Output in HTML format";
         
         // 장르별 지시문을 설정하는 switch 문
         switch (genre) {
@@ -118,7 +118,7 @@ public class OpenAiService {
 
         // JSON 요청 본문 생성
         String requestBody = "{"
-                + "\"model\": \"gpt-4o\","
+                + "\"model\": \"gpt-4\","
                 + "\"messages\": ["
                 + messages  // 모든 대화 기록을 포함한 메시지
                 + "],"

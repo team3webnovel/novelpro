@@ -136,8 +136,12 @@
             <div class="col-md-6">
                 <h4>줄거리 & 등장인물</h4>
                 <!-- 채팅 로그 영역 -->
-                <div id="chat-container" class="chat-window-container" style="position: relative;">
-                    <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;"></div>
+               <div id="chat-container" class="chat-window-container" style="position: relative;">
+				    <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;">
+				        <c:out value="${content}" escapeXml="false" />
+				    </div>
+				</div>
+				               
                     <!-- 사용자 입력 -->
                     <div id="input-area" class="mt-3 d-flex input-area-sticky">
                         <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
