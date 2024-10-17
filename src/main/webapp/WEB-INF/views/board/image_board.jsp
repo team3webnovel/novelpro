@@ -41,12 +41,12 @@
 		    color: #999;
 		    margin-left: 10px;
 		}
-        /* 모달 크기 조정 */
-		@media (min-width: 768px) { /* md 이상의 화면 크기에서 적용 */
+         /* 모달 크기 조정 */
+/* 		@media (min-width: 768px) 
 		    .modal-dialog {
 		        max-width: 85%;
 		    }
-		}
+		}  */
 		.like-container {
 		    display: inline-block;
 		    margin-top: 10px;
