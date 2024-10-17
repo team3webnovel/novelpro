@@ -199,6 +199,9 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('prefectPonyXL_v3.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('prefectPonyXL_v3.safetensors')">직접 입력</button>
 			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalPony">?</button>
+			            <button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalPony">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
@@ -274,6 +277,9 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
 			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalRomantic">?</button>
+			            <button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalRomantic">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
@@ -348,7 +354,7 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
 			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimagine">?</button>
-			        	<button class="btn btn-outline-warning btn-sm btn-circle" data-toggle="modal" data-target="#infoModalAAMXLAnimeMix">
+			        	<button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalAnimagine">
 						    <i class="fas fa-question"></i>
 						</button>
 			        </div>
@@ -426,6 +432,9 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('waiANINSFWPONYXL_v80.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('waiANINSFWPONYXL_v80.safetensors')">직접 입력</button>
 			        	<button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalWaiPony">?</button>
+			        	<button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalWaiPony">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
@@ -504,6 +513,9 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('aamXLAnimeMix_v10.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('aamXLAnimeMix_v10.safetensors')">직접 입력</button>
 			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalAnimeMix">?</button>
+			            <button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalAnimeMix">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
@@ -579,6 +591,9 @@
 			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
 			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
 			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalNijiSeven">?</button>
+			            <button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#infoModalNijiSeven">
+						    <i class="fas fa-question"></i>
+						</button>
 			        </div>
 			    </div>
 			</div>
