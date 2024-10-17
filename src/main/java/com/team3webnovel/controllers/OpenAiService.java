@@ -6,7 +6,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -15,6 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team3webnovel.dao.PwDao;
@@ -70,12 +73,12 @@ public class OpenAiService {
     }
 
     // 장르별 system instruction
-    public String generateIntroFromApi(String userMessage, String genre) {
+    public String generateIntroFromApi(String userMessage, String genre) throws JsonProcessingException {
         String response = "";
         String genreInstruction = "";  // 장르별 지시문을 담는 변수
 
         // 기본 지시문
-        String generalInstruction = "Based on the provided input, make sure to write the title(제목), characters(등장인물), and novel synopsis(줄거리) in Korean. Please create a title that does not directly include the provided keywords. Instead, expand on the meaning or interpret the essence of the keywords to form a creative and fitting title. Avoid using the exact words from the input, but ensure the title reflects the overall theme or message. Only one story should be created. Based on the input, the system will reference the genre and background of the example to set character names and settings. You also need to set up the characters. You do not need to directly use the provided keywords in the title or synopsis, but rather expand and interpret their meaning. The story must include 3 characters and the synopsis should be written within 1,000 characters, including twists, entertainment elements, and a coherent storyline. Please format the response with line breaks for easy reading.";
+        String generalInstruction = "Based on the provided input, make sure to write the title, characters, and novel synopsis in Korean. Do not use unnecessary labeling. It must include the title, characters, and plot when outputting in HTML format. Please create a title that does not directly include the provided keywords. The provided keywords should not be directly included in the title, but rather their meaning should be expanded or the essence of the keywords interpreted. Web novel titles tend to be long and specific, emphasizing themes of reversal and growth, revealing intuitive settings and genre characteristics, and highlighting the protagonist's unique circumstances. Create a casual, fun, and engaging title similar to those used in popular web fiction. Focus on simplicity, humor, and catchy phrasing rather than complex and heavy titles. Themes like reincarnation, survival, fantasy, or revenge can be used, but the tone should remain light and playful. Avoid using the exact words from the input, but ensure the title reflects the overall theme or message. Only one story should be created. Based on the input, the system will reference the genre and background of the example to set character names and settings. You also need to set up the characters. You do not need to directly use the provided keywords in the title or synopsis, but rather expand and interpret their meaning. The story must include the synopsis should be written within 1,000 characters, including twists, entertainment elements, and a coherent storyline. Please format the response with line breaks for easy reading. use concise and intuitive expressions. There should be dramatic situation portrayals. While themes such as regression, reincarnation, possession, survival, growth, sports, entertainment industry, war, and dimensional travel are available, it is not necessary to use all of them. You need to assess whether the user provided keywords and genres are suitable, then expand and interpret them accordingly for appropriate use.";
         
         // 장르별 지시문을 설정하는 switch 문
         switch (genre) {
@@ -106,28 +109,45 @@ public class OpenAiService {
         String finalInstruction = generalInstruction + " " + genreInstruction;
 
         // 새로운 시스템 지시문 설정
-        String newinstruction = "Catch the part that the user wants to change or add during the conversation, whether it’s the title, characters, or synopsis, and only respond with the requested changes or additions.";
+        String newinstruction = "Accurately assess the content of the user's question during the conversation, and respond conversationally with only the requested changes or additional questions. There is no need to repeat the keywords or phrases used by the user. When providing additional answers, it is not necessary to generate the title, characters, and synopsis altogether. Just respond concisely and intuitively with only what the user wants, while referencing the entire context.";
 
-        // 이전 대화 기록을 추가하여 연속성 유지
-        addChatHistory("system", finalInstruction);  // 시스템 지시문 추가
-        addChatHistory("user", userMessage);  // 사용자 메시지 추가
-        addChatHistory("system", newinstruction);  // 새로운 시스템 지시문 추가
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        // 대화 기록을 JSON으로 변환
-        String messages = String.join(",", chatHistory);  // 대화 기록을 모두 포함
-
-        // JSON 요청 본문 생성
-        String requestBody = "{"
-                + "\"model\": \"gpt-4\","
-                + "\"messages\": ["
-                + messages  // 모든 대화 기록을 포함한 메시지
-                + "],"
-                + "\"max_tokens\": 2048,"
-                + "\"temperature\": 1,"
-                + "\"top_p\": 1,"
-                + "\"frequency_penalty\": 0,"
-                + "\"presence_penalty\": 0"
-                + "}";
+	     // chatHistory는 대화 기록을 JSON 형식으로 저장하는 리스트
+	     List<Map<String, String>> chatHistory = new ArrayList<>();
+	
+	     // 시스템 지시문 추가
+	     Map<String, String> systemMessage = new HashMap<>();
+	     systemMessage.put("role", "system");
+	     systemMessage.put("content", finalInstruction);
+	     chatHistory.add(systemMessage);
+	
+	     // 사용자 메시지 추가
+	     Map<String, String> userMessageMap = new HashMap<>();
+	     userMessageMap.put("role", "user");
+	     userMessageMap.put("content", userMessage);
+	     chatHistory.add(userMessageMap);
+	
+	     // 새로운 시스템 지시문 추가
+	     Map<String, String> newSystemMessage = new HashMap<>();
+	     newSystemMessage.put("role", "system");
+	     newSystemMessage.put("content", newinstruction);
+	     chatHistory.add(newSystemMessage);
+	
+	     // ObjectMapper를 사용하여 chatHistory 리스트를 JSON 배열로 변환
+	     String messagesJson = objectMapper.writeValueAsString(chatHistory);
+	
+	     // JSON 요청 본문 생성
+	     String requestBody = "{"
+	         + "\"model\": \"gpt-4o\","
+	         + "\"messages\": " + messagesJson + ","
+	         + "\"max_tokens\": 2048,"
+	         + "\"temperature\": 1,"
+	         + "\"top_p\": 1,"
+	         + "\"frequency_penalty\": 0,"
+	         + "\"presence_penalty\": 0"
+	         + "}";
+        
 
         // API 키 복호화
         API_KEY = getDecryptedApiKey();
@@ -152,7 +172,7 @@ public class OpenAiService {
                 String jsonResponse = httpResponse.body();
 
                 // ObjectMapper로 JSON 파싱
-                ObjectMapper objectMapper = new ObjectMapper();
+                ObjectMapper objectMapper1 = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(jsonResponse);
 
                 // 응답 중 content 필드만 추출

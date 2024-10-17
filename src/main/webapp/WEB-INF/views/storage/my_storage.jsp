@@ -199,16 +199,17 @@
 						</div>
 					</div>
 
-					<a href="<%=request.getContextPath()%>/generate-music"
-						class="btn btn-primary">BGM 만들기</a> <a
-						href="<%=request.getContextPath()%>/images"
-						class="btn btn-primary">표지 제작</a> <a
-						href="<%=request.getContextPath()%>/generate-font"
-						class="btn btn-primary">표지 폰트</a> <a
-						href="<%=request.getContextPath()%>/novel/new-novel"
-						class="btn btn-primary">글쓰기</a> <a
-						href="<%=request.getContextPath()%>/videos/video"
-						class="btn btn-primary">비디오 제작(임시)</a>
+					<a href="<%=request.getContextPath()%>/novel/new-novel" class="btn btn-primary">글쓰기</a>
+					<div class="dropdown">
+					    <a href="<%=request.getContextPath()%>/images" class="btn btn-primary dropdown-toggle" id="cover-image-btn">표지 이미지</a>
+					    <div class="dropdown-content">
+					        <a href="<%=request.getContextPath()%>/generate-font" class="btn btn-primary">폰트</a>
+					        <a href="<%=request.getContextPath()%>/videos/video" class="btn btn-primary">비디오</a>
+					    </div>
+					</div>
+					<a href="<%=request.getContextPath()%>/generate-music" class="btn btn-primary">BGM 만들기</a>
+					
+
 
 				</div> --%>
 			</div>

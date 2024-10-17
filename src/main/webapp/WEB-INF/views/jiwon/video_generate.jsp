@@ -15,7 +15,7 @@
     <h1 class="video-gen-h1">비디오 생성</h1>
     <form id="videoGenerateForm" class="video-gen-form" method="post" action="<%=request.getContextPath()%>/videos/vidgenerate" onsubmit="setRandomSeed()">
         <!-- 데이터베이스에서 이미지 선택 -->
-        <h2 class="video-gen-h2">데이터베이스에서 이미지 선택</h2>
+        <h2 class="video-gen-h2">이미지 선택</h2>
         <div class="video-gen-image-grid" id="imageGrid">
             <c:forEach var="image" items="${imageList}">
                 <div class="video-gen-image-item" data-url="${image.imageUrl}" data-filename="${image.filename}"
@@ -44,9 +44,9 @@
         <input type="hidden" id="motionBucketId" name="motionBucketId" value="127" required>
         
         <!-- 이미지 생성 버튼 추가 -->
-        <button type="button" id="generateImageBtn" class="video-gen-button" onclick="generateImage()">이미지 생성</button>
+        <button type="button" id="generateImageBtn" class="video-gen-button" onclick="generateImage()">확인</button>
 
-        <button type="submit" id="submitBtn" class="video-gen-button" disabled>비디오 생성</button>
+        <button type="submit" id="submitBtn" class="video-gen-button" disabled>비디오 만들기</button>
     </form>
 
     <!-- 결과 표시 영역 -->
@@ -127,6 +127,8 @@
                     alert("이미지 업로드 실패: " + error.message);
                 });
         }
+
+
     </script>
 </body>
 </html>
