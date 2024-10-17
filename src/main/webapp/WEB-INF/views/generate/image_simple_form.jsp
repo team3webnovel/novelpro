@@ -110,7 +110,12 @@
 		        flex-direction: column;
 		    }
 		}
-
+		.custom-img-size {
+		    width: 100%; /* 부모 요소 너비에 맞춰서 표시 */
+		    height: auto;
+		    aspect-ratio: 7 / 9; /* CSS의 최신 속성으로 9:7 비율을 적용 */
+		    object-fit: cover; /* 비율에 맞춰서 잘라내기 */
+		}
     </style>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -170,7 +175,7 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">prefectPonyXL_v3</h5>
+			            <h5 class="card-title">포니</h5>
 			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('prefectPonyXL_v3.safetensors')">모델 선택</button>
 			            <button class="btn btn-success" onclick="changeModelAIModal('prefectPonyXL_v3.safetensors')">직접 입력</button>
 			        </div>
@@ -178,26 +183,87 @@
 			</div>
             
             <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="card-img-top" alt="모델 예시 이미지" onclick="showImageInModal(this)">
-                    <div class="card-body">
-                        <h5 class="card-title">romanticprism_v10</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
-                    </div>
-                </div>
-            </div>
+			    <div class="card">
+			        <!-- Bootstrap Carousel -->
+			        <div id="modelCarouselRomantic" class="carousel slide" data-ride="carousel" data-interval="3000">
+			            <div class="carousel-inner">
+			            	<div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/romanticprism_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			            </div>
+			            <!-- Carousel controls -->
+			            <a class="carousel-control-prev" href="#modelCarouselRomantic" role="button" data-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="sr-only">이전</span>
+			            </a>
+			            <a class="carousel-control-next" href="#modelCarouselRomantic" role="button" data-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="sr-only">다음</span>
+			            </a>
+			        </div>
+			        <!-- Card Body -->
+			        <div class="card-body">
+			            <h5 class="card-title">로맨틱</h5>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('romanticprism_v10.safetensors')" id = "tuto">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('romanticprism_v10.safetensors')" id = "tuto2">직접 입력</button>
+			        </div>
+			    </div>
+			</div>
             
             <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">animagineXLV31_v31</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
+			    <div class="card">
+			        <!-- Bootstrap Carousel -->
+			        <div id="modelCarouselAnimagine" class="carousel slide" data-ride="carousel" data-interval="3000">
+			            <div class="carousel-inner">
+							<div class="carousel-item active">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+							<div class="carousel-item">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+							<div class="carousel-item">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+							<div class="carousel-item">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+							<div class="carousel-item">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+							<div class="carousel-item">
+							    <img src="<%= request.getContextPath()%>/static/images/model_example_images/animagineXLV31_v31(6).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+							</div>
+			            </div>
+			            <!-- Carousel controls -->
+			            <a class="carousel-control-prev" href="#modelCarouselAnimagine" role="button" data-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="sr-only">이전</span>
+			            </a>
+			            <a class="carousel-control-next" href="#modelCarouselAnimagine" role="button" data-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="sr-only">다음</span>
+			            </a>
+			        </div>
+			        <!-- Card Body -->
+			        <div class="card-body">
+			            <h5 class="card-title">animagin</h5>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('animagineXLV31_v31.safetensors')">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('animagineXLV31_v31.safetensors')">직접 입력</button>
+			        </div>
+			    </div>
+			</div>
             
             <div class="col-md-4">
 			    <div class="card">
@@ -229,7 +295,7 @@
 			        </div>
 			        <!-- Card Body -->
 			        <div class="card-body">
-			            <h5 class="card-title">waiANINSFWPONYXL_v80</h5>
+			            <h5 class="card-title">wai포니</h5>
 			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('waiANINSFWPONYXL_v80.safetensors')">모델 선택</button>
 			            <button class="btn btn-success" onclick="changeModelAIModal('waiANINSFWPONYXL_v80.safetensors')">직접 입력</button>
 			        </div>
@@ -237,60 +303,82 @@
 			</div>
             
             <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10.png" class="card-img-top" alt="모델 예시 이미지" onclick="showImageInModal(this)">
-                    <div class="card-body">
-                        <h5 class="card-title">aamXLAnimeMix_v10(이거 되게 별로네)</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('aamXLAnimeMix_v10.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('aamXLAnimeMix_v10.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
+			    <div class="card">
+			        <!-- Bootstrap Carousel -->
+			        <div id="modelCarouselAnimeMix" class="carousel slide" data-ride="carousel" data-interval="3000">
+			            <div class="carousel-inner">
+			                <div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/aamXLAnimeMix_v10(5).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			            </div>
+			            <!-- Carousel controls -->
+			            <a class="carousel-control-prev" href="#modelCarouselAnimeMix" role="button" data-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="sr-only">이전</span>
+			            </a>
+			            <a class="carousel-control-next" href="#modelCarouselAnimeMix" role="button" data-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="sr-only">다음</span>
+			            </a>
+			        </div>
+			        <!-- Card Body -->
+			        <div class="card-body">
+			            <h5 class="card-title">애니믹스</h5>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('aamXLAnimeMix_v10.safetensors')">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('aamXLAnimeMix_v10.safetensors')">직접 입력</button>
+			        </div>
+			    </div>
+			</div>
+
             <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">juggernautXL_juggXIByRundiffusion</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('juggernautXL_juggXIByRundiffusion.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('juggernautXL_juggXIByRundiffusion.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">dreamshaper_8</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('dreamshaper_8.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('dreamshaper_8.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">majicmixRealistic</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('majicmixRealistic.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('majicmixRealistic.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="<%= request.getContextPath()%>/static/images/prefectPonyXL_v2CleanedStyle.png" class="card-img-top" alt="모델 예시 이미지">
-                    <div class="card-body">
-                        <h5 class="card-title">sdxlNijiSeven_sdxlNijiSeven.safetensors</h5>
-                        <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
-                        <button class="btn btn-success" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
-                    </div>
-                </div>
-            </div>
-            
+			    <div class="card">
+			        <!-- Bootstrap Carousel -->
+			        <div id="modelCarouselNiji" class="carousel slide" data-ride="carousel" data-interval="3000">
+			            <div class="carousel-inner">
+			            	<div class="carousel-item active">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(4).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven.png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(2).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			                <div class="carousel-item">
+			                    <img src="<%= request.getContextPath()%>/static/images/model_example_images/sdxlNijiSeven_sdxlNijiSeven(3).png" class="d-block custom-img-size" alt="모델 예시 이미지 1" onclick="showImageInModal(this)">
+			                </div>
+			            </div>
+			            <!-- Carousel controls -->
+			            <a class="carousel-control-prev" href="#modelCarouselNiji" role="button" data-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="sr-only">이전</span>
+			            </a>
+			            <a class="carousel-control-next" href="#modelCarouselNiji" role="button" data-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="sr-only">다음</span>
+			            </a>
+			        </div>
+			        <!-- Card Body -->
+			        <div class="card-body">
+			            <h5 class="card-title">니지세븐</h5>
+			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">모델 선택</button>
+			            <button class="btn btn-success" onclick="changeModelAIModal('sdxlNijiSeven_sdxlNijiSeven.safetensors')">직접 입력</button>
+			        </div>
+			    </div>
+			</div>   
+			         
         </div>
     </div>
     
@@ -532,12 +620,12 @@
 <c:if test="${not empty AImessage}">
     <!-- 하단 고정 버튼 추가 -->
     <button class="fixed-bottom-button" id="bottomButton">다음 페이지로 이동</button>
+        <script>
+	        // 버튼 클릭 시 /generate-font 페이지로 이동
+	        document.getElementById('bottomButton').addEventListener('click', function() {
+	            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
+	        });
+	    </script>
 </c:if>
-    <script>
-        // 버튼 클릭 시 /generate-font 페이지로 이동
-        document.getElementById('bottomButton').addEventListener('click', function() {
-            window.location.href = '/team3webnovel/creation-studio/font';  // 원하는 경로로 이동
-        });
-    </script>
 </body>
 </html>

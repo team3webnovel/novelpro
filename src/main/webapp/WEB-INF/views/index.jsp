@@ -132,7 +132,7 @@
                             </a>
      					<div class="like-container">
 						    <button class="like-btn" onclick="toggleLike(${novel.novelId})">
-						        <span class="like-icon">👍</span>
+						        <span class="like-icon">❤️</span>
 						        <span id="like-count-${novel.novelId}">${novel.likeCount}</span> <!-- 좋아요 수 -->
 						    </button>
 						</div>  

@@ -7,7 +7,7 @@
     width: 100%; /* 너비 100% */
     z-index: 1000; /* 다른 요소 위에 표시 */        
     transition: background-color 0.3s, color 0.3s, opacity 0.3s !important; /* 배경색, 글자색 및 투명도 전환 효과 */
-    background-color: #000 !important; /* 투명한 검은색 */
+    background-color: #495057 !important; /* 투명한 검은색 */
     color: #fff; /* 기본 글자 색상 */
     height: 50px; /* 헤더 높이 */
 }

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,16 +22,154 @@
 
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
 <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+<style>
+/* 전체 사이드바 스타일 */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #495057;
+   	background-color: #6c757d;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    color: #fff;  /* 텍스트 색상 흰색 */
+}
+
+/* 사이드바의 메뉴 항목 */
+.sidebar a, .sidebar button {
+    padding: 15px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #adb5bd; /* 기본 회색 텍스트 색상 */
+    display: block;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+/* 사이드바 메뉴 항목 호버 및 활성화 상태 */
+.sidebar a:hover, .sidebar button:hover {
+    background-color: #495057; /* 호버 시 조금 더 밝은 회색 배경 */
+    color: #fff; /* 호버 시 텍스트는 흰색 */
+}
+
+/* AI 창작 스튜디오 버튼 스타일 */
+.btn-ai-studio {
+    margin: 15px auto;
+    font-size: 18px;
+    color: #adb5bd;
+    display: block;
+    text-align: center;
+    padding: 12px 20px;
+    background-color: #495057; /* 배경 어두운 회색 */
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+    width: 80%;  /* 가로 폭 줄이기 */
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+.btn-ai-studio:hover {
+    background-color: #007bff; /* 호버 시 파란색 배경 */
+    color: white; /* 호버 시 텍스트는 흰색 */
+}
+
+/* 사이드바 내 프로필 섹션 */
+.profile-section {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #b0b3b8; /* 더 밝고 두꺼운 경계선 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-section img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #6c757d; /* 테두리 추가 */
+}
+
+.profile-section h4 {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #fff; /* 이름은 흰색 */
+}
+
+.profile-section p {
+    font-size: 14px;
+    color: #adb5bd; /* 이메일은 밝은 회색 */
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-container {
+    display: none;
+    padding-left: 15px;
+}
+
+.dropdown-container a {
+    font-size: 16px;
+    color: #adb5bd; /* 드롭다운 텍스트 기본 색상 */
+}
+
+.dropdown-btn:after {
+    content: '\25BC';
+    float: right;
+    margin-right: 15px;
+    font-size: 12px;
+    color: #adb5bd; /* 화살표 색상 */
+}
+
+.dropdown-btn.active:after {
+    content: '\25B2'; /* 위로 화살표 */
+}
 
 
+</style>
 </head>
 
 <body>
+	<!-- 왼쪽 사이드바 시작 -->
+	<div class="sidebar">
+		<h4 class="text-center">내 보관함</h4>
+		        <!-- 내 정보 섹션 추가 -->
+        <div class="profile-section">
+            <h4>${user.username }</h4>
+            <p>${user.email }</p>
+        </div>
+		<!-- AI 창작 스튜디오 버튼 추가 -->
+		<button class="btn-ai-studio" id="aiStudioButton">AI 창작 스튜디오</button>
+		<!-- 컨텐츠 생성 버튼 -->
+		<button class="dropdown-btn">컨텐츠 생성</button>
+		<div class="dropdown-container">
+			<a href="<%=request.getContextPath()%>/images">표지 제작</a> <a
+				href="<%=request.getContextPath()%>/generate-font">표지 폰트</a> <a
+				href="<%=request.getContextPath()%>/videos/video">비디오 제작(임시)</a> <a
+				href="<%=request.getContextPath()%>/generate-music">BGM 만들기</a>
+		</div>
+
+		<a href="<%=request.getContextPath()%>/novel/new-novel">글쓰기</a>
+	</div>
+	<!-- 왼쪽 사이드바 끝 -->
 	<div class="main-content">
 		<div class="container mt-5">
 			<div class="d-flex justify-content-between align-items-center">
+				<div id="overlay" class="overlay" style="display: none;">
+					<div id="messageBox" class="message-box">
+						<p>당신의 창작을 도와드리겠습니다.</p>
+						<button id="confirmButton">확인</button>
+					</div>
+				</div>
+
 				<h2>내 보관함</h2>
-				<div class="btn-group">
+				<%-- <div class="btn-group">
 					<a class="btn btn-studio" id="aiStudioButton">AI 창작 스튜디오</a>
 					<div id="overlay" class="overlay" style="display: none;">
 						<div id="messageBox" class="message-box">
@@ -52,7 +190,7 @@
 					
 
 
-				</div>
+				</div> --%>
 			</div>
 
 			<!-- 탭 메뉴 -->
@@ -78,27 +216,31 @@
 									href="<%=request.getContextPath()%>/novel/novel-detail/${novel.novelId}"
 									class="card-link">
 									<div class="card h-100">
-						                <c:choose>
-						                    <c:when test="${empty novel.imageUrl}">
-						                        <img src="<%= request.getContextPath() %>/static/images/logo.png" alt="logo" class="card-img-top" style="max-height: 200px; object-fit: contain;">
-						                    </c:when>
-						                    <c:otherwise>
-						                        <img src="${novel.imageUrl}" class="card-img-top" style="max-height: 200px; object-fit: contain;">
-						                    </c:otherwise>
-						                </c:choose>
+										<c:choose>
+											<c:when test="${empty novel.imageUrl}">
+												<img
+													src="<%=request.getContextPath()%>/static/images/logo.png"
+													alt="logo" class="card-img-top"
+													style="max-height: 200px; object-fit: contain;">
+											</c:when>
+											<c:otherwise>
+												<img src="${novel.imageUrl}" class="card-img-top"
+													style="max-height: 200px; object-fit: contain;">
+											</c:otherwise>
+										</c:choose>
 										<div class="card-body">
 											<h5 class="card-title">제목: ${novel.title}</h5>
 											<p class="card-text">장르: ${novel.genre}</p>
 											<p class="card-text">
-											    내용: 
-											    <c:choose>
-											        <c:when test="${fn:length(novel.intro) > 15}">
+												내용:
+												<c:choose>
+													<c:when test="${fn:length(novel.intro) > 15}">
 											            ${fn:substring(novel.intro, 0, 15)}...
 											        </c:when>
-											        <c:otherwise>
+													<c:otherwise>
 											            ${novel.intro}
 											        </c:otherwise>
-											    </c:choose>
+												</c:choose>
 											</p>
 											<p class="card-text">작성일: ${novel.createdAt}</p>
 										</div>
@@ -114,16 +256,15 @@
 					<div class="row">
 						<c:forEach var="image" items="${imageList}">
 							<div class="col-md-3 col-sm-6 mb-2">
-								<div class="card" 
-								     data-creation-id="${image.creationId}" 
-								     data-image-url="${fn:escapeXml(image.imageUrl)}" 
-								     data-created-at="${fn:escapeXml(image.createdAt)}" 
-								     data-sampler="${fn:escapeXml(image.sampler)}"
-								     data-prompt="${fn:escapeXml(image.prompt)}" 
-								     data-model-check="${fn:escapeXml(image.modelCheck)}" 
-								     data-title="${fn:escapeXml(image.title)}"
-								     onclick="handleCardClick(this)">
-								    <img src="${image.imageUrl}" class="card-img-top">
+								<div class="card" data-creation-id="${image.creationId}"
+									data-image-url="${fn:escapeXml(image.imageUrl)}"
+									data-created-at="${fn:escapeXml(image.createdAt)}"
+									data-sampler="${fn:escapeXml(image.sampler)}"
+									data-prompt="${fn:escapeXml(image.prompt)}"
+									data-model-check="${fn:escapeXml(image.modelCheck)}"
+									data-title="${fn:escapeXml(image.title)}"
+									onclick="handleCardClick(this)">
+									<img src="${image.imageUrl}" class="card-img-top">
 								</div>
 							</div>
 						</c:forEach>
@@ -311,8 +452,8 @@
 								id="editVideoButton" onclick="enableEditVideoTitle()">
 							<div id="editVideoControls" style="display: none;">
 								<input type="button" class="btn btn-primary btn-sm"
-									onclick="saveVideoTitle()">
-								<input type="button" class="btn btn-secondary btn-sm"
+									onclick="saveVideoTitle()"> <input type="button"
+									class="btn btn-secondary btn-sm"
 									onclick="cancelEditVideoTitle()">
 							</div>
 						</div>
@@ -684,7 +825,20 @@
 		            });
 		        }
 		    }
-		    
+	        var dropdown = document.getElementsByClassName("dropdown-btn");
+	        var i;
+
+	        for (i = 0; i < dropdown.length; i++) {
+	            dropdown[i].addEventListener("click", function() {
+	                this.classList.toggle("active");
+	                var dropdownContent = this.nextElementSibling;
+	                if (dropdownContent.style.display === "block") {
+	                    dropdownContent.style.display = "none";
+	                } else {
+	                    dropdownContent.style.display = "block";
+	                }
+	            });
+	        }
 
 		</script>
 	</div>
