@@ -279,6 +279,10 @@ public class NovelController {
 		novelVo.setEpisodeNo(episodeNo);
 		novelVo = novelService.getNovelDetail(novelVo);
 		model.addAttribute("episode", novelVo);
+		
+		NovelVo maxNovelVo = novelService.getNovelByNovelId(novelId);
+		model.addAttribute("maxEpisode", maxNovelVo.getEpisodeNo());
+
 		return "storage/episode_user";
 
 	}

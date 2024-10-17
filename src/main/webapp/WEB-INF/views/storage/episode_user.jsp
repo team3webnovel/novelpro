@@ -66,7 +66,7 @@
     if (currentEpisode > 1) {
         prevBtn.style.visibility = 'visible';
         prevBtn.onclick = function() {
-            window.location.href = `<%= request.getContextPath() %>/novel/episode/${novelId}/${episode.episodeNo - 1}`;
+            window.location.href = `<%= request.getContextPath() %>/novel/episodeview/${novelId}/${episode.episodeNo - 1}`;
         };
     }
 
@@ -74,7 +74,7 @@
     if (currentEpisode < maxEpisode) {
         nextBtn.style.visibility = 'visible';
         nextBtn.onclick = function() {
-            window.location.href = `<%= request.getContextPath() %>/novel/episode/${novelId}/${episode.episodeNo + 1}`;
+            window.location.href = `<%= request.getContextPath() %>/novel/episodeview/${novelId}/${episode.episodeNo + 1}`;
         };
     }
 </script>

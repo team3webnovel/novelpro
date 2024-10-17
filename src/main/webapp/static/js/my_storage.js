@@ -48,10 +48,10 @@ document.addEventListener('click', function(event) {
     const messageBox = document.getElementById("messageBox");
     const confirmButton = document.getElementById("confirmButton");
 
-    // 클릭된 요소가 AI 창작 스튜디오 버튼인지 확인
-    if (event.target && event.target.id === 'aiStudioButton') {
-        event.preventDefault(); // 기본 동작 방지
-        console.log('AI 창작 스튜디오 버튼이 클릭되었습니다.');
+	// 클릭된 요소가 AI 창작 스튜디오 버튼인지 확인
+	if (event.target.closest('#aiStudioButton')) {
+	    event.preventDefault(); // 기본 동작 방지
+	    console.log('AI 창작 스튜디오 버튼이 클릭되었습니다.');
 
         if (overlay && messageBox && confirmButton) {
             // 오버레이 보이기
