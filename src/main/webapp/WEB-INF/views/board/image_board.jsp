@@ -50,7 +50,7 @@
         /* 모달 크기 조정 */
 		@media (min-width: 768px) { /* md 이상의 화면 크기에서 적용 */
 		    .modal-dialog {
-		        max-width: 85%;
+		        max-width: 80%;
 		    }
 		}
 		.like-container {

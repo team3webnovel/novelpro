@@ -196,10 +196,48 @@
 			        <!-- Card Body -->
 			        <div class="card-body">
 			            <h5 class="card-title">Prefect Pony XL</h5>
-			            <button class="btn btn-success mt-2 mb-2" onclick="changeModelChoiceModal('prefectPonyXL_v3.safetensors')">모델 선택</button>
-			            <button class="btn btn-success" onclick="changeModelAIModal('prefectPonyXL_v3.safetensors')">직접 입력</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelChoiceModal('prefectPonyXL_v3.safetensors')">모델 선택</button>
+			            <button class="btn btn-success mb-2" onclick="changeModelAIModal('prefectPonyXL_v3.safetensors')">직접 입력</button>
+			            <button class="btn btn-info mb-2" data-toggle="modal" data-target="#infoModalPony">?</button>
 			        </div>
 			    </div>
+			</div>
+			
+			<div class="modal fade" id="infoModalPony" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				        <div class="modal-header">
+				            <h5 class="modal-title" id="infoModalLabel">Prefect Pony XL 정보</h5>
+				            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                <span aria-hidden="true">&times;</span>
+				            </button>
+				        </div>
+				        <div class="modal-body">
+				            <p>이 모델은 2D 일러스트 풍 캐릭터 생성에 특화된 모델입니다.</p>
+				            <p>다음 프롬프트를 사용해 생성된 이미지를 보려면 버튼을 클릭하세요</p>
+							
+							<button class="btn btn-primary mt-2" onclick="toggleImage('PonyImage1')">'여자, 수영장, 수영복, 여름'</button>
+				            <div id="PonyImage1" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(9).png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+							
+				            <button class="btn btn-primary mt-2" onclick="toggleImage('PonyImage2')">'여자, 포니테일, 홍조, 마법소녀, 밤하늘'</button>
+				            <div id="PonyImage2" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(10).png" alt="Generated Image 2" class="img-fluid">
+				            </div>
+				                
+				             <button class="btn btn-primary mt-2" onclick="toggleImage('PonyImage3')">'남자, 검은 머리, 긴 머리, 갑옷, 동굴 안'</button>
+				            <div id="PonyImage3" style="display:none; margin-top: 15px;">
+				                <img src="<%= request.getContextPath()%>/static/images/model_example_images/prefectPonyXL_v3(11).png" alt="Generated Image 3" class="img-fluid">
+				            </div>
+				        </div>
+				            
+				           
+				        <div class="modal-footer">
+				            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+				        </div>
+				    </div>
+				</div>
 			</div>
             
             <div class="col-md-4">

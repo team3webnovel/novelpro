@@ -112,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					console.log("Received JSON:", result);  // 서버에서 받은 JSON 응답 출력
 				    if (document.getElementById('AImessage')) {
 				        // 리다이렉트 URL이 있으면 해당 페이지로 이동
+						alert("이미지 생성이 완료되었습니다.");
 				        window.location.href = "/team3webnovel/creation-studio/font";
 				    } else {
 				        console.log('result:', result);  // 처리 결과 출력
@@ -196,6 +197,7 @@ document.addEventListener("DOMContentLoaded", function() {
 							console.log("Received JSON:", result);  // 서버에서 받은 JSON 응답 출력
 						    if (document.getElementById('AImessage')) {
 						        // 리다이렉트 URL이 있으면 해당 페이지로 이동
+								alert("이미지 생성이 완료되었습니다.");
 						        window.location.href = "/team3webnovel/creation-studio/font";
 						    } else {
 						        console.log('result:', result);  // 처리 결과 출력
@@ -253,6 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			console.log("Received JSON:", result);  // 서버에서 받은 JSON 응답 출력
 		    if (document.getElementById('AImessage')) {
 		        // 리다이렉트 URL이 있으면 해당 페이지로 이동
+				alert("이미지 생성이 완료되었습니다.");
 		        window.location.href = "/team3webnovel/creation-studio/font";
 		    } else {
 		        console.log('result:', result);  // 처리 결과 출력
