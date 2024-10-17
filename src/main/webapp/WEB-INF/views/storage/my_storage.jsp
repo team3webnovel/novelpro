@@ -13,149 +13,170 @@
 <link rel="stylesheet" href="static/css/my_storage.css">
 <!-- jQuery 전체 버전 로드 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="static/js/my_storage.js"></script>
+<!-- Font Awesome 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <jsp:include page="/WEB-INF/views/includes/header.jsp" />
 
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
 <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
 <style>
-/* 전체 사이드바 스타일 */
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #495057;
-   	background-color: #6c757d;
-    padding-top: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    color: #fff;  /* 텍스트 색상 흰색 */
-}
+    /* 기본 사이드바 스타일 */
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #6c757d;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+        color: #fff;
+        transition: width 0.3s;
+    }
 
-/* 사이드바의 메뉴 항목 */
-.sidebar a, .sidebar button {
-    padding: 15px 20px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #adb5bd; /* 기본 회색 텍스트 색상 */
-    display: block;
-    background: none;
-    border: none;
-    width: 100%;
-    text-align: left;
-    transition: background-color 0.3s, color 0.3s;
-    cursor: pointer;
-}
+    /* 메뉴 항목 */
+    .sidebar a, .sidebar button {
+        padding: 15px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #dee2e6;
+        display: block;
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        transition: background-color 0.3s, color 0.3s;
+        cursor: pointer;
+    }
 
-/* 사이드바 메뉴 항목 호버 및 활성화 상태 */
-.sidebar a:hover, .sidebar button:hover {
-    background-color: #495057; /* 호버 시 조금 더 밝은 회색 배경 */
-    color: #fff; /* 호버 시 텍스트는 흰색 */
-}
+    /* 호버 및 활성화 상태 */
+    .sidebar a:hover, .sidebar button:hover {
+        background-color: #495057;
+        color: #fff;
+    }
 
-/* AI 창작 스튜디오 버튼 스타일 */
-.btn-ai-studio {
-    margin: 15px auto;
-    font-size: 18px;
-    color: #adb5bd;
-    display: block;
-    text-align: center;
-    padding: 12px 20px;
-    background-color: #495057; /* 배경 어두운 회색 */
-    border: none;
-    transition: background-color 0.3s, color 0.3s;
-    width: 80%;  /* 가로 폭 줄이기 */
-    border-radius: 5px; /* 둥근 모서리 */
-}
+    /* 아이콘 스타일 */
+    .icon {
+        font-size: 24px;
+        margin-right: 10px;
+    }
 
-.btn-ai-studio:hover {
-    background-color: #007bff; /* 호버 시 파란색 배경 */
-    color: white; /* 호버 시 텍스트는 흰색 */
-}
+    /* 드롭다운 컨테이너 기본적으로 숨기기 */
+    .dropdown-container {
+        display: none; /* 기본적으로 숨겨둠 */
+        padding-left: 20px; /* 약간의 패딩으로 드롭다운 항목 들여쓰기 */
+    }
 
-/* 사이드바 내 프로필 섹션 */
-.profile-section {
-    padding: 20px;
-    text-align: center;
-    border-bottom: 2px solid #b0b3b8; /* 더 밝고 두꺼운 경계선 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    /* 드롭다운 버튼에 대한 토글 아이콘 */
+    .dropdown-btn:after {
+        content: '\25BC'; /* 기본적으로 아래로 화살표 */
+        float: right;
+        margin-right: 15px;
+    }
 
-.profile-section img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 2px solid #6c757d; /* 테두리 추가 */
-}
+    .dropdown-btn.active:after {
+        content: '\25B2'; /* 열리면 위로 화살표 */
+    }
 
-.profile-section h4 {
-    margin-top: 10px;
-    font-size: 20px;
-    color: #fff; /* 이름은 흰색 */
-}
+    /* 화면이 작아질 때 사이드바 스타일 변경 */
+    @media (max-width: 1650px) {
+        .sidebar {
+            width: 50px; /* 사이드바 너비 줄이기 */
+            padding-top: 55px;
+        }
+        .sidebar a, .sidebar button {
+            text-align: center; /* 텍스트 대신 아이콘만 가운데 정렬 */
+            padding: 15px 0;
+        }
+        .sidebar a span, .sidebar button span {
+            display: none; /* 텍스트 숨기기 */
+        }
+        .sidebar a i, .sidebar button i {
+            font-size: 24px;
+        }
+        .main-content {
+            margin-left: 50px; /* 사이드바 가로폭만큼 마진 줄이기 */
+        }
 
-.profile-section p {
-    font-size: 14px;
-    color: #adb5bd; /* 이메일은 밝은 회색 */
-}
+        /* 작아지면 사용자 정보 숨기기 */
+        .profile-section {
+            display: none;
+        }
 
-/* 드롭다운 메뉴 스타일 */
-.dropdown-container {
-    display: none;
-    padding-left: 15px;
-}
+        /* 작아지면 "내 보관함" 텍스트 숨기기 */
+        h4.text-center {
+            display: none;
+        }
+    .dropdown-btn {
+        display: none !important; /* 드롭다운 버튼 숨기기 */
+    }
+    .dropdown-container {
+        display: block !important; /* 드롭다운 컨텐츠 항상 보이게 */
+        padding-left: 0 !important; /* 패딩을 제거해서 왼쪽 정렬 */
+    }
 
-.dropdown-container a {
-    font-size: 16px;
-    color: #adb5bd; /* 드롭다운 텍스트 기본 색상 */
-}
+    .dropdown-container a {
+        padding-left: 3px !important; /* 링크 항목에 기본 패딩 추가 (원하는 만큼 조정) */
+    }
+    }
 
-.dropdown-btn:after {
-    content: '\25BC';
-    float: right;
-    margin-right: 15px;
-    font-size: 12px;
-    color: #adb5bd; /* 화살표 색상 */
-}
+    /* 더 작은 화면에서 사이드바 숨기기 */
+    @media (max-width: 768px) {
+        .sidebar {
+            display: none;
+        }
+        .main-content {
+            margin-left: 0;
+        }
+    }
 
-.dropdown-btn.active:after {
-    content: '\25B2'; /* 위로 화살표 */
-}
+    /* 프로필 섹션 */
+    .profile-section {
+        padding: 20px;
+        text-align: center;
+        border-bottom: 2px solid #b0b3b8;
+    }
 
+    .profile-section img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border: 2px solid #6c757d;
+    }
 
+    .profile-section h4, .profile-section p {
+        font-size: 14px;
+        color: #adb5bd;
+    }
 </style>
+
 </head>
 
 <body>
 	<!-- 왼쪽 사이드바 시작 -->
 	<div class="sidebar">
 		<h4 class="text-center">내 보관함</h4>
-		        <!-- 내 정보 섹션 추가 -->
+		<!-- 내 정보 섹션 추가 -->
         <div class="profile-section">
-            <h4>${user.username }</h4>
-            <p>${user.email }</p>
+            <h4>${user.username}</h4>
+            <p>${user.email}</p>
         </div>
 		<!-- AI 창작 스튜디오 버튼 추가 -->
-		<button class="btn-ai-studio" id="aiStudioButton">AI 창작 스튜디오</button>
+		<button class="btn-ai-studio" id="aiStudioButton"><i class="icon fas fa-robot"></i><span>AI 창작 스튜디오</span></button>
 		<!-- 컨텐츠 생성 버튼 -->
-		<button class="dropdown-btn">컨텐츠 생성</button>
+		<button class="dropdown-btn"><i class="icon fas fa-cogs"></i><span>컨텐츠 생성</span></button>
 		<div class="dropdown-container">
-			<a href="<%=request.getContextPath()%>/images">표지 제작</a> <a
-				href="<%=request.getContextPath()%>/generate-font">표지 폰트</a> <a
-				href="<%=request.getContextPath()%>/videos/video">비디오 제작(임시)</a> <a
-				href="<%=request.getContextPath()%>/generate-music">BGM 만들기</a>
+			<a href="<%=request.getContextPath()%>/images"><i class="icon fas fa-image"></i><span>표지 제작</span></a>
+			<a href="<%=request.getContextPath()%>/generate-font"><i class="icon fas fa-font"></i><span>표지 폰트</span></a>
+			<a href="<%=request.getContextPath()%>/videos/video"><i class="icon fas fa-video"></i><span>비디오 제작</span></a>
+			<a href="<%=request.getContextPath()%>/generate-music"><i class="icon fas fa-music"></i><span>BGM 만들기</span></a>
 		</div>
-
-		<a href="<%=request.getContextPath()%>/novel/new-novel">글쓰기</a>
+		<a href="<%=request.getContextPath()%>/novel/new-novel"><i class="icon fas fa-pen"></i><span>글쓰기</span></a>
 	</div>
 	<!-- 왼쪽 사이드바 끝 -->
 	<div class="main-content">
@@ -512,6 +533,12 @@
 		<script type="text/javascript">
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalTitle = '';  // 제목 저장 변수
+		 // 탭 클릭 시 자동 스크롤 방지
+		    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		        var scrollPosition = $(window).scrollTop(); // 현재 스크롤 위치 저장
+		        window.location.hash = e.target.hash; // 해시값 설정 (페이지를 이동시키지 않음)
+		        $(window).scrollTop(scrollPosition); // 스크롤 위치 복원
+		    });
 
 		    function handleCardClick(cardElement) {
 		        const creationId = cardElement.getAttribute('data-creation-id');
