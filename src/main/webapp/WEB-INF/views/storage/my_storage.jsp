@@ -533,6 +533,12 @@
 		<script type="text/javascript">
 		    var contextPath = "<%=request.getContextPath()%>";
 		    var originalTitle = '';  // 제목 저장 변수
+		 // 탭 클릭 시 자동 스크롤 방지
+		    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		        var scrollPosition = $(window).scrollTop(); // 현재 스크롤 위치 저장
+		        window.location.hash = e.target.hash; // 해시값 설정 (페이지를 이동시키지 않음)
+		        $(window).scrollTop(scrollPosition); // 스크롤 위치 복원
+		    });
 
 		    function handleCardClick(cardElement) {
 		        const creationId = cardElement.getAttribute('data-creation-id');

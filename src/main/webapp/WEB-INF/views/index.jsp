@@ -78,6 +78,18 @@
 		    width: 100%;
 		    height: 100%;
 		}
+		
+		.card-body:hover {
+		    background-color: inherit; /* card-body에 호버 시 배경색 변화 없음 */
+		}
+		
+		.card-body .card-title:hover {
+		    color: inherit; /* card-title에 호버 시 텍스트 색상 변화 없음 */
+		    cursor: default; /* 호버 시 커서가 기본 상태로 유지되도록 */
+		}
+				
+
+
 		        
     </style>
     
