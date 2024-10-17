@@ -110,6 +110,17 @@
         h4.text-center {
             display: none;
         }
+    .dropdown-btn {
+        display: none !important; /* 드롭다운 버튼 숨기기 */
+    }
+    .dropdown-container {
+        display: block !important; /* 드롭다운 컨텐츠 항상 보이게 */
+        padding-left: 0 !important; /* 패딩을 제거해서 왼쪽 정렬 */
+    }
+
+    .dropdown-container a {
+        padding-left: 3px !important; /* 링크 항목에 기본 패딩 추가 (원하는 만큼 조정) */
+    }
     }
 
     /* 더 작은 화면에서 사이드바 숨기기 */
