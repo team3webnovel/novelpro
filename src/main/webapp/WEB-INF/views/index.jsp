@@ -52,6 +52,32 @@
 		    -webkit-line-clamp: 2; /* 최대 두 줄까지만 표시 */
 		    -webkit-box-orient: vertical;
 		}
+		
+		.genres-section .card {
+		    height: 100%; /* 카드의 높이를 100%로 설정 */
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+		
+		.genres-section .card-body {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    padding: 0; /* 기존 패딩 제거 */
+		}
+		
+		.genres-section .card-title {
+		    margin: 0; /* 기존 마진 제거 */
+		    height: auto; /* 고정 높이 제거 */
+		    line-height: normal; /* 라인 높이 정상으로 복원 */
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    text-align: center;
+		    width: 100%;
+		    height: 100%;
+		}
 		        
     </style>
     
