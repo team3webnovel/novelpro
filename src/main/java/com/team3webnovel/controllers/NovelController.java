@@ -186,6 +186,7 @@ public class NovelController {
         }
 
         return "redirect:/storage"; // 일반적으로 보관함 페이지로 리다이렉트
+
     }
 
     

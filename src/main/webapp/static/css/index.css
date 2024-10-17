@@ -39,18 +39,18 @@ body {
 
 /* 배너 각 항목의 배경 색상 */
 #banner .carousel-item.type1 {
-	background: linear-gradient(to bottom, #fcae78, #f6d291, #a8c1a3, #4a6d8a);
-	/* 첫 번째 배너 색상 */
+    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
+    /* 첫 번째 배너 색상 */
 }
 
 #banner .carousel-item.type2 {
-	background: linear-gradient(to bottom, #001d4c, #003366, #0a64a0, #ff8c00);
-	/* 두 번째 배너 색상 */
+    background: linear-gradient(to bottom, #00122d, #00264d, #004080, #0099cc);
+    /* 두 번째 배너 색상 */
 }
 
 #banner .carousel-item.type3 {
-	background: linear-gradient(to bottom, #2d1b60, #4e3d8a, #ffb347, #87ceeb);
-	/* 세 번째 배너 색상 */
+    background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
+    /* 세 번째 배너 색상 */
 }
 
 /* 배너 이미지 스타일 */
