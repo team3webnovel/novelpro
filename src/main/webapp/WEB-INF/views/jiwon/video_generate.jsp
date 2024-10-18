@@ -13,6 +13,7 @@
 <body class="video-gen-body">
 
     <h1 class="video-gen-h1">비디오 생성</h1>
+    <h1 class="video-gen-h1">비디오 생성</h1>
     <form id="videoGenerateForm" class="video-gen-form" method="post" action="<%=request.getContextPath()%>/videos/vidgenerate" onsubmit="setRandomSeed()">
         <!-- 데이터베이스에서 이미지 선택 -->
         <h2 class="video-gen-h2">이미지 선택</h2>
