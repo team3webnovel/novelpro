@@ -1,12 +1,12 @@
 /* 기본 스타일 */
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f9f9f9;
+   font-family: Arial, sans-serif;
+   background-color: #f9f9f9;
 }
 
 .container {
-	max-width: 1200px;
-	margin: 0 auto;
+   max-width: 1200px;
+   margin: 0 auto;
 }
 
 .ultra-unique-header {
@@ -18,70 +18,70 @@ body {
 
 /* 슬라이드 배너 스타일 */
 #banner {
-	height: 470px; /* 원하는 높이로 조정 */
-	overflow: hidden; /* 내용이 넘치는 경우 숨기기 */
-	margin-bottom: 50px; /* 배너 아래 여백 추가 */
+   height: 470px; /* 원하는 높이로 조정 */
+   overflow: hidden; /* 내용이 넘치는 경우 숨기기 */
+   margin-bottom: 50px; /* 배너 아래 여백 추가 */
 }
 
 #banner .carousel-item {
-	height: 100%; /* 높이 100%로 설정 */
-	opacity: 1; /* 기본적으로 불투명하게 설정 */
-	transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+   height: 100%; /* 높이 100%로 설정 */
+   opacity: 1; /* 기본적으로 불투명하게 설정 */
+   transition: transform 0.5s ease; /* 부드러운 전환 효과 */
 }
 
 #banner .carousel-item.active {
-	opacity: 1; /* 현재 활성화된 배너는 보이도록 설정 */
+   opacity: 1; /* 현재 활성화된 배너는 보이도록 설정 */
 }
 
 #banner .carousel-item-next, #banner .carousel-item-prev {
-	opacity: 0.5; /* 이전 및 다음 이미지를 흐릿하게 설정 */
+   opacity: 0.5; /* 이전 및 다음 이미지를 흐릿하게 설정 */
 }
 
 /* 배너 각 항목의 배경 색상 */
 #banner .carousel-item.type1 {
-    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
+    background: linear-gradient(to bottom, #003366, #336699, #6699CC, #FF99CC);
     /* 첫 번째 배너 색상 */
 }
 
 #banner .carousel-item.type2 {
-    background: linear-gradient(to bottom, #00122d, #00264d, #004080, #0099cc);
+    background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
     /* 두 번째 배너 색상 */
 }
 
 #banner .carousel-item.type3 {
-    background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
+    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
     /* 세 번째 배너 색상 */
 }
 
 /* 배너 이미지 스타일 */
 #banner .carousel-item img {
-	width: 100%; /* 너비 100%로 설정 */
-	height: auto; /* 높이는 자동으로 조정하여 비율 유지 */
-	max-height: 470px; /* 최대 높이 설정 */
-	object-fit: contain; /* 이미지 비율 유지 */
+   width: 100%; /* 너비 100%로 설정 */
+   height: auto; /* 높이는 자동으로 조정하여 비율 유지 */
+   max-height: 470px; /* 최대 높이 설정 */
+   object-fit: contain; /* 이미지 비율 유지 */
 }
 
 /* 소설 섹션 스타일 */
 .novel-section {
-	padding: 50px 0; /* 상하 여백 */
-	margin-top: 20px; /* 여백 조정 (배너와의 간격 조정) */
+   padding: 50px 0; /* 상하 여백 */
+   margin-top: 20px; /* 여백 조정 (배너와의 간격 조정) */
 }
 
 .novel-section h2 {
-	text-align: center; /* 제목 중앙 정렬 */
-	margin-bottom: 30px; /* 제목과 내용 간격 조정 */
-	color: #333; /* 제목 색상 */
+   text-align: center; /* 제목 중앙 정렬 */
+   margin-bottom: 30px; /* 제목과 내용 간격 조정 */
+   color: #333; /* 제목 색상 */
 }
 
 /* 카드 스타일 */
 .card {
-	transition: transform 0.3s ease;
-	border: none; /* 카드 테두리 제거 */
-	margin-bottom: 30px; /* 카드 간격 조정 */
+   transition: transform 0.3s ease;
+   border: none; /* 카드 테두리 제거 */
+   margin-bottom: 30px; /* 카드 간격 조정 */
 }
 
 .card:hover {
-	transform: scale(1.05); /* 카드 확대 효과 */
+   transform: scale(1.05); /* 카드 확대 효과 */
 }
 
 .card img {
@@ -94,75 +94,75 @@ body {
 
 /* 장르 섹션 스타일 */
 .genres-section {
-	padding: 30px 0; /* 상하 여백 */
-	margin-top: 20px; /* 위쪽 여백 조정 */
+   padding: 30px 0; /* 상하 여백 */
+   margin-top: 20px; /* 위쪽 여백 조정 */
 }
 
 .genres-section h2 {
-	text-align: center; /* 제목 중앙 정렬 */
-	margin-bottom: 30px; /* 제목과 내용 간격 조정 */
-	color: #333; /* 제목 색상 */
-	border: 2px solid black; /* 테두리 두께 및 색상 설정 */
-	padding: 10px; /* 테두리와 내용 간격 조정 */
-	border-radius: 5px; /* 테두리 모서리 둥글게 */
-	display: inline-block; /* 제목 크기 조정 */
+   text-align: center; /* 제목 중앙 정렬 */
+   margin-bottom: 30px; /* 제목과 내용 간격 조정 */
+   color: #333; /* 제목 색상 */
+   border: 2px solid black; /* 테두리 두께 및 색상 설정 */
+   padding: 10px; /* 테두리와 내용 간격 조정 */
+   border-radius: 5px; /* 테두리 모서리 둥글게 */
+   display: inline-block; /* 제목 크기 조정 */
 }
 
 /* 선택된 장르 스타일 */
 .genre.selected {
-	background-color: black; /* 배경을 검은색으로 설정 */
-	color: white; /* 글자 색상을 흰색으로 설정 */
+   background-color: black; /* 배경을 검은색으로 설정 */
+   color: white; /* 글자 색상을 흰색으로 설정 */
 }
 
 /* 장르 카드 스타일 */
 .card-body {
-	padding: 20px; /* 카드 내부 여백 */
-	cursor: pointer; /* 포인터 커서 추가 */
-	transition: background-color 0.3s; /* 배경 색상 전환 효과 */
+   padding: 20px; /* 카드 내부 여백 */
+   cursor: pointer; /* 포인터 커서 추가 */
+   transition: background-color 0.3s; /* 배경 색상 전환 효과 */
 }
 
 .card-body:hover {
-	background-color: #f0f0f0; /* 호버 시 배경 색상 변경 */
+   background-color: #f0f0f0; /* 호버 시 배경 색상 변경 */
 }
 
 .card-title {
-	font-size: 1.0rem; /* 제목 크기 조정 */
+   font-size: 1.0rem; /* 제목 크기 조정 */
 }
 
 /* 소설 카드 레이아웃 */
 .novel-section .row {
-	display: flex; /* 플렉스박스 사용 */
-	flex-wrap: wrap; /* 줄 바꿈 허용 */
-	justify-content: space-between; /* 간격 조정 */
+   display: flex; /* 플렉스박스 사용 */
+   flex-wrap: wrap; /* 줄 바꿈 허용 */
+   justify-content: space-between; /* 간격 조정 */
 }
 
 .novel-section .col-md-4 {
-	flex: 0 0 calc(20% - 20px); /* 한 줄에 5개 표시 (20% - 여백) */
-	margin-bottom: 30px; /* 카드 간격 조정 */
+   flex: 0 0 calc(20% - 20px); /* 한 줄에 5개 표시 (20% - 여백) */
+   margin-bottom: 30px; /* 카드 간격 조정 */
 }
 
 /* 네비게이션 스타일 */
 nav {
-	background-color: #fff;
+   background-color: #fff;
 }
 
 .navbar {
-	display: flex;
-	justify-content: center;
+   display: flex;
+   justify-content: center;
 }
 
 .navbar li {
-	margin: 0 20px;
+   margin: 0 20px;
 }
 
 .navbar li a {
-	color: #333;
-	text-decoration: none;
+   color: #333;
+   text-decoration: none;
 }
 
 .navbar li a:hover {
-	background-color: #555; /* 링크 호버 시 배경 색상 */
-	border-radius: 5px; /* 링크 모서리 둥글게 */
+   background-color: #555; /* 링크 호버 시 배경 색상 */
+   border-radius: 5px; /* 링크 모서리 둥글게 */
 }
 
 /* Footer 고정 스타일 */
@@ -189,25 +189,25 @@ footer {
 
 /* 반응형 미디어 쿼리 */
 @media ( max-width : 1200px) {
-	.novel-section .col-md-4 {
-		flex: 0 0 calc(25% - 20px); /* 한 줄에 4개 표시 */
-	}
+   .novel-section .col-md-4 {
+      flex: 0 0 calc(25% - 20px); /* 한 줄에 4개 표시 */
+   }
 }
 
 @media ( max-width : 992px) {
-	.novel-section .col-md-4 {
-		flex: 0 0 calc(33.33% - 20px); /* 한 줄에 3개 표시 */
-	}
+   .novel-section .col-md-4 {
+      flex: 0 0 calc(33.33% - 20px); /* 한 줄에 3개 표시 */
+   }
 }
 
 @media ( max-width : 768px) {
-	.novel-section .col-md-4 {
-		flex: 0 0 calc(50% - 20px); /* 한 줄에 2개 표시 */
-	}
+   .novel-section .col-md-4 {
+      flex: 0 0 calc(50% - 20px); /* 한 줄에 2개 표시 */
+   }
 }
 
 @media ( max-width : 576px) {
-	.novel-section .col-md-4 {
-		flex: 0 0 100%; /* 한 줄에 1개 표시 */
-	}
+   .novel-section .col-md-4 {
+      flex: 0 0 100%; /* 한 줄에 1개 표시 */
+   }
 }
