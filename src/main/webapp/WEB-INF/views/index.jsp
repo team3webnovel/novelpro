@@ -116,10 +116,11 @@
                 <img src="<%=request.getContextPath()%>/static/images/banner1.png" alt="Banner 1">
             </div>
             <div class="carousel-item type2">
+            	<a href="/team3webnovel/novel/novel-detail/248">
                 <img src="<%=request.getContextPath()%>/static/images/banner2.png" alt="Banner 2">
+                </a>
             </div>
             <div class="carousel-item type3">
-            <a href="/team3webnovel/novel/novel-detail/248">
                 <img src="<%=request.getContextPath()%>/static/images/banner3.png" alt="Banner 3">
             </div>
         </div>

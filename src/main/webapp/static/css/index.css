@@ -38,21 +38,21 @@ body {
 }
 
 /* 배너 각 항목의 배경 색상 */
-#banner .carousel-item.type1 {
-    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
-    /* 첫 번째 배너 색상 */
-}
 
-#banner .carousel-item.type2 {
-    background: linear-gradient(to bottom, #00122d, #00264d, #004080, #0099cc);
+#banner .carousel-item.type1 {
+    background: linear-gradient(to bottom, #003366, #336699, #6699CC, #FF99CC);
     /* 두 번째 배너 색상 */
 }
 
-#banner .carousel-item.type3 {
+#banner .carousel-item.type2 {
     background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
     /* 세 번째 배너 색상 */
 }
 
+#banner .carousel-item.type3 {
+    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
+    /* 첫 번째 배너 색상 */
+}
 /* 배너 이미지 스타일 */
 #banner .carousel-item img {
 	width: 100%; /* 너비 100%로 설정 */
