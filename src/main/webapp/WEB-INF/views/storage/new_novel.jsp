@@ -112,6 +112,11 @@
                 </div>
             </form>
         </div>
+       			<!-- AImessage가 있을 때 숨겨진 필드로 추가 -->
+		<c:if test="${not empty AImessage}">
+			<input type="hidden" id="AImessage" name="AImessage"
+				value="${AImessage}">
+		</c:if>
 
         <!-- 오른쪽: AI Story Maker -->
         <div class="col-md-6">
@@ -130,6 +135,18 @@
 
                 
 
+    <!-- 이미지 선택 스크립트 -->
+    <script>
+    function selectCoverImage(creationId, imageUrl, fileName) {
+        var imgPreview = document.getElementById('selectedCoverImagePreview');
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block'; // 이미지 표시
+        document.getElementById('selectedCoverImageFileName').innerText = fileName;
+        document.getElementById('selectedCoverImageId').value = creationId;
+        $('#coverImageModal').modal('hide'); // 모달 닫기
+    }
+
+    </script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector('form');
@@ -155,17 +172,5 @@ document.addEventListener("DOMContentLoaded", function() {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- 이미지 선택 스크립트 -->
-    <script>
-    function selectCoverImage(creationId, imageUrl, fileName) {
-        var imgPreview = document.getElementById('selectedCoverImagePreview');
-        imgPreview.src = imageUrl;
-        imgPreview.style.display = 'block'; // 이미지 표시
-        document.getElementById('selectedCoverImageFileName').innerText = fileName;
-        document.getElementById('selectedCoverImageId').value = creationId;
-        $('#coverImageModal').modal('hide'); // 모달 닫기
-    }
-
-    </script>
 </body>
 </html>
