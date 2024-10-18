@@ -13,7 +13,7 @@
         body {
             background: #f9f9f9;
             font-family: 'Poppins', sans-serif;
-            color: white;
+            color: black;
             text-align: center;
         }
 
@@ -42,7 +42,7 @@
         h3 {
             font-size: 1.8rem;
             margin-bottom: 10px;
-            color: #fffbea; /* 밝은 색상 */
+            color: black; /* 밝은 색상 */
         }
 
         h4 {
