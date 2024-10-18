@@ -231,9 +231,6 @@ document.getElementById('user-input').addEventListener('keydown', function(event
     }
 });
 
-
-
-
 const chatLog = document.getElementById('chat-log');
 
     chatLog.addEventListener('click', function() {
@@ -241,3 +238,5 @@ const chatLog = document.getElementById('chat-log');
         const chatContainer = document.getElementById('chat-container');
         chatContainer.classList.toggle('enlarged');
     });
+	
+	

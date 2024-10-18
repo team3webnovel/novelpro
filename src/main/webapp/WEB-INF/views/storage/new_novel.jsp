@@ -171,6 +171,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script>
+        window.addEventListener('beforeunload', function () {
+            fetch('/resetChatHistory', {
+                method: 'POST'
+            }).then(response => {
+                // 성공적으로 chatHistory 리셋됨
+            }).catch(error => {
+                console.error('Error resetting chat history:', error);
+            });
+        });
+    </script>
 </body>
 </html>

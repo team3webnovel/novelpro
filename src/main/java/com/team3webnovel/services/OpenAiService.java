@@ -116,23 +116,30 @@ public class OpenAiService {
 	     // chatHistory는 대화 기록을 JSON 형식으로 저장하는 리스트
 	     List<Map<String, String>> chatHistory = new ArrayList<>();
 	
-	     // 시스템 지시문 추가
+	  // 시스템 지시문 추가 (최초)
 	     Map<String, String> systemMessage = new HashMap<>();
 	     systemMessage.put("role", "system");
 	     systemMessage.put("content", finalInstruction);
 	     chatHistory.add(systemMessage);
-	
-	     // 사용자 메시지 추가
+
+	     // 사용자 메시지 추가 (최초)
 	     Map<String, String> userMessageMap = new HashMap<>();
 	     userMessageMap.put("role", "user");
 	     userMessageMap.put("content", userMessage);
 	     chatHistory.add(userMessageMap);
-	
-	     // 새로운 시스템 지시문 추가
-	     Map<String, String> newSystemMessage = new HashMap<>();
-	     newSystemMessage.put("role", "system");
-	     newSystemMessage.put("content", newinstruction);
-	     chatHistory.add(newSystemMessage);
+
+	     // 시스템 지시문 추가 (새로운 지시문)
+	     Map<String, String> systemMessage1 = new HashMap<>();
+	     systemMessage1.put("role", "system");
+	     systemMessage1.put("content", newinstruction);
+	     chatHistory.add(systemMessage1);
+
+	     // 사용자 메시지 추가 (새로운 메시지)
+	     Map<String, String> userMessageMap1 = new HashMap<>();
+	     userMessageMap1.put("role", "user");
+	     userMessageMap1.put("content", userMessage);
+	     chatHistory.add(userMessageMap1);
+
 	
 	     // ObjectMapper를 사용하여 chatHistory 리스트를 JSON 배열로 변환
 	     String messagesJson = objectMapper.writeValueAsString(chatHistory);
