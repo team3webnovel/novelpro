@@ -86,7 +86,7 @@
         
         <!-- 게시글 작성 버튼 -->
         <div class="text-right">
-            <a href="board/write" class="btn btn-primary create-btn">게시글 작성</a>
+            <a href="board/write" class="btn btn-primary create-btn" style="background-color: #003366; border-color: #003366; color: white;">게시글 작성</a>
         </div>
 
         <!-- 페이지네이션 -->

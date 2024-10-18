@@ -215,7 +215,17 @@ window.onload = function() {
 }
 
 </script>
-
+<script>
+        window.addEventListener('beforeunload', function () {
+            fetch('/resetChatHistory', {
+                method: 'POST'
+            }).then(response => {
+                // 성공적으로 chatHistory 리셋됨
+            }).catch(error => {
+                console.error('Error resetting chat history:', error);
+            });
+        });
+    </script>
 
 
 </body>

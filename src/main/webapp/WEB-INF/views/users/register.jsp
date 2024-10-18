@@ -23,7 +23,7 @@
             <!-- 이메일 인증 버튼과 인증번호 입력 -->
             <button type="button" id="emailAuthBtn" onclick="sendAuthToken()" style="background-color: #003366; border-color: #003366; color: white;">이메일 인증</button><br>
             <input type="text" id="emailToken" name="emailToken" placeholder="인증번호 입력" style="display:none;"><br>
-            <button type="button" id="verifyTokenBtn" onclick="verifyAuthToken()" style="display:none;">인증번호 확인</button>
+            <button type="button" id="verifyTokenBtn" onclick="verifyAuthToken()" style="display:none; background-color: #003366; border-color: #003366; color: white;">인증번호 확인</button>
 
             <input type="password" id="password" name="password" placeholder="비밀번호" oninput="checkPasswordStrength()" required><br>
             
