@@ -136,8 +136,8 @@ html, body {
 
 /* AI Story Maker 스타일 */
 #chat-container {
-    height: 900px; /* 고정된 높이 */
-    width: 800px; /* 고정된 너비 */
+    height: 850px; /* 고정된 높이 */
+    width: 780px; /* 고정된 너비 */
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -152,7 +152,7 @@ html, body {
 
 
 #chat-log {
-    height: 400px;
+    height: 380px;
     overflow-y: auto;
 }
 

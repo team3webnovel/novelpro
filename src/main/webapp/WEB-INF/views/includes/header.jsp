@@ -24,10 +24,10 @@
 <header class="ultra-unique-header">
     <div class="ultra-unique-header-container container d-flex justify-content-between align-items-center py-2">
         <div class="ultra-unique-header-title">
-            <a href="<%=request.getContextPath()%>/" style="text-decoration: none; color: inherit;"> 노벨미디어 </a>
+            <a href="<%=request.getContextPath()%>/" style="text-decoration: none; color: inherit;"> AI-LAND </a>
         </div>
         <div class="ultra-unique-board">
-            <a href="<%=request.getContextPath()%>/board" style="text-decoration: none; color: inherit;"> 리뷰/홍보 </a>
+            <a href="<%=request.getContextPath()%>/board" style="text-decoration: none; color: inherit;"> 게시판 </a>
         </div>
         <div class="ultra-unique-top-right-links">
             <a href="<%=request.getContextPath()%>/generate-search" class="btn btn-primary btn-sm">
