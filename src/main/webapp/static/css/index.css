@@ -10,11 +10,11 @@ body {
 }
 
 .ultra-unique-header {
-    transition: background-color 0.3s, color 0.3s, opacity 0.3s !important; /* 배경색, 글자색 및 투명도 전환 효과 */
-    background-color: #000; /* 투명한 검은색 */
-    opacity: 0.5;
+	transition: background-color 0.3s, color 0.3s, opacity 0.3s !important;
+	/* 배경색, 글자색 및 투명도 전환 효과 */
+	background-color: #000; /* 투명한 검은색 */
+	opacity: 0.5;
 }
-
 
 /* 슬라이드 배너 스타일 */
 #banner {
@@ -39,18 +39,18 @@ body {
 
 /* 배너 각 항목의 배경 색상 */
 #banner .carousel-item.type1 {
-    background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
-    /* 첫 번째 배너 색상 */
+	background: linear-gradient(to bottom, #003366, #336699, #6699CC, #FF99CC);
+	/* 첫 번째 배너 색상 */
 }
 
 #banner .carousel-item.type2 {
-    background: linear-gradient(to bottom, #00122d, #00264d, #004080, #0099cc);
-    /* 두 번째 배너 색상 */
+	background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
+	/* 두 번째 배너 색상 */
 }
 
 #banner .carousel-item.type3 {
-    background: linear-gradient(to bottom, #3e5745, #789d70, #c2d8b3, #ffffff);
-    /* 세 번째 배너 색상 */
+	background: linear-gradient(to bottom, #ff8db1, #f5a9b3, #ffcedb, #ff98d6);
+	/* 세 번째 배너 색상 */
 }
 
 /* 배너 이미지 스타일 */
@@ -85,12 +85,11 @@ body {
 }
 
 .card img {
-    border-radius: 10px; /* 이미지 모서리 둥글게 */
-    width: 100%; /* 부모 컨테이너에 맞게 이미지 너비 설정 */
-    aspect-ratio: 1 / 1.5; /* 가로 1 : 세로 1.5 비율 */
-    object-fit: cover; /* 이미지가 잘리지 않고 비율에 맞게 채워지도록 설정 */
+	border-radius: 10px; /* 이미지 모서리 둥글게 */
+	width: 100%; /* 부모 컨테이너에 맞게 이미지 너비 설정 */
+	aspect-ratio: 1/1.5; /* 가로 1 : 세로 1.5 비율 */
+	object-fit: cover; /* 이미지가 잘리지 않고 비율에 맞게 채워지도록 설정 */
 }
-
 
 /* 장르 섹션 스타일 */
 .genres-section {
@@ -167,25 +166,24 @@ nav {
 
 /* Footer 고정 스타일 */
 footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 10px 0;
-    width: 100%;
+	background-color: #343a40;
+	color: #fff;
+	padding: 10px 0;
+	width: 100%;
 }
 
 .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    display: flex;
-    justify-content: center;
+	max-width: 1200px;
+	margin: 0 auto;
+	text-align: center;
+	display: flex;
+	justify-content: center;
 }
 
 .footer-container p {
-    margin: 0;
-    font-size: 1rem;
+	margin: 0;
+	font-size: 1rem;
 }
-
 
 /* 반응형 미디어 쿼리 */
 @media ( max-width : 1200px) {

@@ -136,6 +136,16 @@
 		    background-color: #ffc107; /* 호버 시 배경색 */
 		    color: white; /* 호버 시 아이콘 색상 */
 		}
+		.btn.btn-success.mb-2 {
+		    background-color: #003366 !important; /* 배경색을 #003366으로 변경 */
+		    border-color: #003366 !important; /* 테두리 색상도 #003366으로 변경 */
+		    color: #ffffff !important; /* 텍스트를 흰색으로 변경 */
+		}
+		
+		.btn.btn-success.mb-2:hover {
+		    background-color: #002244 !important; /* 호버 시 더 어두운 색상 */
+		    border-color: #002244 !important; /* 테두리 색상도 변경 */
+		}
     </style>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -704,7 +714,7 @@
 		    	<label><input type="checkbox" value="thighs"><span> 허벅지</span></label>
 	          </div>
 	
-	          <button type="submit" class="btn btn-primary mt-3">이미지 생성</button>
+	          <button type="submit" style="background-color: #003366; border-color: #003366;"  class="btn btn-primary mt-3">이미지 생성</button>
 	          <div id="spinner1" style="display:none;" class="mt-3">Loading...</div>
 	        </form>
 	      </div>
