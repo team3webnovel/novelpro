@@ -58,9 +58,9 @@ function refreshModal(boardId, creationId, comment, boardUserId){
 							<tr>
 								<th>
 									<div class="comment-container d-flex align-items-center">
-		            					<textarea id="comment" name="comment" class="form-control me-2" placeholder="댓글을 입력하세요" style="flex: 1;"></textarea>
+		            					<textarea id="comment" name="comment" class="form-control  me-2" placeholder="댓글을 입력하세요" style="flex: 1;"></textarea>
 										<input type="hidden" id="boardId" name="boardId" value="${boardId}" />
-		            					<button type="submit" id="comment-submit" class="btn btn-primary">작성</button>
+		            					<button type="submit" id="comment-submit" class="btn btn-primary btn-sm ml-1">작성</button>
 		        					</div>
 								</th>
 							</tr>

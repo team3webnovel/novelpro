@@ -49,7 +49,7 @@
 
         <div id="instrumentalOption" class="form-check mb-3">
             <input type="checkbox" class="form-check-input" id="make_instrumental" name="make_instrumental">
-            <label class="form-check-label" for="make_instrumental">가사 없이?</label>
+            <label class="form-check-label" for="make_instrumental">가사 없이 배경음악만 생성</label>
         </div>
 
         <button id="submitMusic" type="submit" class="btn btn-primary btn-block">BGM 생성</button>
@@ -87,6 +87,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const AImessageElement = document.getElementById('AImessage');
     const form = document.getElementById('musicForm');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const submitButtom = document.getElementById('submitMusic');
 
     // 폼 제출 시 숨겨진 필드로 AImessage 추가
     form.addEventListener('submit', function(event) {
@@ -97,6 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
             input.value = AImessageElement.value;
             form.appendChild(input);
         }
+        loadingIndicator.style.display = 'block';
+        submitButton.disabled = true;
     });
 
     // 해시 값이 '#music'이면 '내 음악' div를 활성화

@@ -95,7 +95,7 @@ function appendMessage(sender, message, isTemporary = false) {
 
 
 // 사용자 입력 처리 및 서버 요청
-document.getElementById('submit-btn').addEventListener('click', function() {
+function handleInputSubmission() {
     var userInput = document.getElementById('user-input').value;
     var genre = document.getElementById('genre').value;
 
@@ -217,4 +217,27 @@ document.getElementById('submit-btn').addEventListener('click', function() {
         console.log("User input is empty.");
         alert("메시지와 장르를 입력해주세요.");
     }
+}
+// 클릭 이벤트 처리
+document.getElementById('submit-btn').addEventListener('click', function() {
+    handleInputSubmission();
 });
+
+// 엔터 키 입력 처리
+document.getElementById('user-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {  // 엔터 키를 감지
+        event.preventDefault();   // 엔터 키의 기본 동작 방지 (폼 제출 등)
+        handleInputSubmission();
+    }
+});
+
+
+
+
+const chatLog = document.getElementById('chat-log');
+
+    chatLog.addEventListener('click', function() {
+        // chat-container를 찾아서 'enlarged' 클래스를 토글합니다.
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.classList.toggle('enlarged');
+    });
