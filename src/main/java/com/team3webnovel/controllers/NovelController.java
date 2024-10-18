@@ -1,6 +1,7 @@
 package com.team3webnovel.controllers;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3webnovel.services.ImageService;
@@ -40,6 +42,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/novel")
+@SessionAttributes("chatHistory")
 public class NovelController {
 
 	@Autowired
@@ -384,58 +387,72 @@ public class NovelController {
         return response;
 	}
 	
-	@PostMapping("/new_novel/api")
-	@ResponseBody
-	public ResponseEntity<String> generateIntro(@RequestBody Map<String, String> requestBody) {
-		String userMessage = requestBody.get("userMessage");
-		String genre = requestBody.get("genre");
 
-		// 디버깅 로그 추가
-		System.out.println("Received userMessage: " + userMessage);
-		System.out.println("Received genre: " + genre);
 
-		// 입력 값 검증
-		if (userMessage == null || genre == null || userMessage.trim().isEmpty() || genre.trim().isEmpty()) {
-			return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST) // 수정: HttpStatus.BAD_REQUEST 사용
-					.contentType(MediaType.APPLICATION_JSON)
-					.body("{\"error\": \"userMessage 또는 genre가 누락되었거나 비어있습니다.\"}");
-		}
+	    @ModelAttribute("chatHistory")
+	    public List<String> initializeChatHistory() {
+	        return new ArrayList<>();
+	    }
 
-		// OpenAI API를 호출하여 intro 생성
-		String generatedIntro;
-		 try {
-		        // OpenAI API를 호출하여 intro 생성
-		        generatedIntro = openAiService.generateIntroFromApi(userMessage, genre);
-		        System.out.println("Generated intro: " + generatedIntro); // 생성된 intro 로그
+	    @PostMapping("/new_novel/api")
+	    @ResponseBody
+	    public ResponseEntity<String> generateIntro(
+	        @RequestBody Map<String, String> requestBody,
+	        @ModelAttribute("chatHistory") List<String> chatHistory // chatHistory를 세션에서 가져옴
+	    ) {
+	        String userMessage = requestBody.get("userMessage");
+	        String genre = requestBody.get("genre");
 
-		        // intro 검증: 응답이 비어있는 경우 오류 반환
-		        if (generatedIntro == null || generatedIntro.trim().isEmpty()) {
-		            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-		                    .contentType(MediaType.APPLICATION_JSON)
-		                    .body("{\"error\": \"intro 생성 실패: 응답이 비어있습니다.\"}");
-		        }
+	        // 디버깅 로그 추가
+	        System.out.println("Received userMessage: " + userMessage);
+	        System.out.println("Received genre: " + genre);
 
-		    } catch (Exception e) {
-		        // 예외 처리 및 오류 메시지 반환
-		        e.printStackTrace(); // 예외 로그 출력
-		        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
-		                .contentType(MediaType.APPLICATION_JSON)
-		                .body("{\"error\": \"intro 생성 실패: " + e.getMessage() + "\"}");
-		    }
+	        // 입력 값 검증
+	        if (userMessage == null || genre == null || userMessage.trim().isEmpty() || genre.trim().isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST) // HttpStatus.BAD_REQUEST 사용
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .body("{\"error\": \"userMessage 또는 genre가 누락되었거나 비어있습니다.\"}");
+	        }
 
-		    // 문단 구분: 특정 키워드를 기준으로 줄바꿈 추가
-		    String introWithParagraphs = generatedIntro
-		            .replace("제목", "\\n\\n제목")
-		            .replace("등장인물", "\\n\\n등장인물")
-		            .replace("줄거리", "\\n\\n줄거리");
+	        // chatHistory에 새로운 메시지를 추가하고 이전 대화도 함께 포함
+	        chatHistory.add(userMessage);
+	        String messages = String.join(",", chatHistory);
 
-		    // 응답을 JSON 형식으로 반환 (문단 구분된 intro 반환)
-		    return ResponseEntity.ok()
-		            .contentType(MediaType.APPLICATION_JSON)
-		            .body("{\"intro\": \"" + introWithParagraphs + "\"}");
-		}
+	        // OpenAI API를 호출하여 intro 생성
+	        String generatedIntro;
+	        try {
+	            // OpenAI API를 호출하여 intro 생성
+	            generatedIntro = openAiService.generateIntroFromApi(messages, genre); // messages를 사용
+	            System.out.println("Generated intro: " + generatedIntro); // 생성된 intro 로그
 
+	            // intro 검증: 응답이 비어있는 경우 오류 반환
+	            if (generatedIntro == null || generatedIntro.trim().isEmpty()) {
+	                return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .body("{\"error\": \"intro 생성 실패: 응답이 비어있습니다.\"}");
+	            }
+
+	        } catch (Exception e) {
+	            // 예외 처리 및 오류 메시지 반환
+	            e.printStackTrace(); // 예외 로그 출력
+	            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .body("{\"error\": \"intro 생성 실패: " + e.getMessage() + "\"}");
+	        }
+
+	        // 문단 구분: 특정 키워드를 기준으로 줄바꿈 추가
+	        String introWithParagraphs = generatedIntro
+	                .replace("제목", "\\n\\n제목")
+	                .replace("등장인물", "\\n\\n등장인물")
+	                .replace("줄거리", "\\n\\n줄거리");
+
+	        // 응답을 JSON 형식으로 반환 (문단 구분된 intro 반환)
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .body("{\"intro\": \"" + introWithParagraphs + "\"}");
+	    }
 	
+
 	
     @GetMapping("/edit-new-novel/{novelId}")
     public String editNovel(@PathVariable("novelId") int novelId, Model model, HttpSession session) {

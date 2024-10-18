@@ -43,54 +43,54 @@
             font-size: 16px;
         }
         .card-title {
-		    height: 40px; /* 제목의 높이를 고정 */
-		    line-height: 1.2; /* 줄 간격 조절 */
-		    overflow: hidden; /* 내용이 넘치면 숨김 */
-		    text-overflow: ellipsis; /* 넘친 텍스트는 ...으로 표시 */
-		    white-space: normal; /* 텍스트 줄바꿈 허용 */
-		    display: -webkit-box;
-		    -webkit-line-clamp: 2; /* 최대 두 줄까지만 표시 */
-		    -webkit-box-orient: vertical;
-		}
-		
-		.genres-section .card {
-		    height: 100%; /* 카드의 높이를 100%로 설정 */
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		}
-		
-		.genres-section .card-body {
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    padding: 0; /* 기존 패딩 제거 */
-		}
-		
-		.genres-section .card-title {
-		    margin: 0; /* 기존 마진 제거 */
-		    height: auto; /* 고정 높이 제거 */
-		    line-height: normal; /* 라인 높이 정상으로 복원 */
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    text-align: center;
-		    width: 100%;
-		    height: 100%;
-		}
-		
-		.card-body:hover {
-		    background-color: inherit; /* card-body에 호버 시 배경색 변화 없음 */
-		}
-		
-		.card-body .card-title:hover {
-		    color: inherit; /* card-title에 호버 시 텍스트 색상 변화 없음 */
-		    cursor: default; /* 호버 시 커서가 기본 상태로 유지되도록 */
-		}
-				
+          height: 40px; /* 제목의 높이를 고정 */
+          line-height: 1.2; /* 줄 간격 조절 */
+          overflow: hidden; /* 내용이 넘치면 숨김 */
+          text-overflow: ellipsis; /* 넘친 텍스트는 ...으로 표시 */
+          white-space: normal; /* 텍스트 줄바꿈 허용 */
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* 최대 두 줄까지만 표시 */
+          -webkit-box-orient: vertical;
+      }
+      
+      .genres-section .card {
+          height: 100%; /* 카드의 높이를 100%로 설정 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      
+      .genres-section .card-body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0; /* 기존 패딩 제거 */
+      }
+      
+      .genres-section .card-title {
+          margin: 0; /* 기존 마진 제거 */
+          height: auto; /* 고정 높이 제거 */
+          line-height: normal; /* 라인 높이 정상으로 복원 */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          height: 100%;
+      }
+      
+      .card-body:hover {
+          background-color: inherit; /* card-body에 호버 시 배경색 변화 없음 */
+      }
+      
+      .card-body .card-title:hover {
+          color: inherit; /* card-title에 호버 시 텍스트 색상 변화 없음 */
+          cursor: default; /* 호버 시 커서가 기본 상태로 유지되도록 */
+      }
+            
 
 
-		        
+              
     </style>
     
 </head>
@@ -117,6 +117,7 @@
             </div>
             <div class="carousel-item type2">
             	<a href="/team3webnovel/novel/novel-detail/248">
+
                 <img src="<%=request.getContextPath()%>/static/images/banner2.png" alt="Banner 2">
                 </a>
             </div>
@@ -169,7 +170,7 @@
                     <a href="${pageContext.request.contextPath}/novel/novel-detail/${novel.novelId}" style="text-decoration: none; color: inherit;">
                         <div class="card mb-4">
                             <c:choose>
-                                <c:when test="${empty novel.imageUrl}">						
+                                <c:when test="${empty novel.imageUrl}">                  
                                     <img src="<%=request.getContextPath()%>/static/images/logo.png" alt="logo" class="card-img-top">
                                 </c:when>
                                 <c:otherwise>
@@ -188,13 +189,13 @@
                                     </c:choose>
                                 </h5>
                                 <!-- 좋아요 버튼을 카드 안에 추가 -->
-			                    </a>
-								<div class="like-container mt-1">
-								    <button class="like-btn" onclick="toggleLike(${novel.novelId})">
-								        <span class="like-icon">❤️</span>
-								        <span id="like-count-${novel.novelId}">${novel.likeCount}</span> <!-- 좋아요 수 -->
-								    </button>
-								</div>
+                             </a>
+                        <div class="like-container mt-1">
+                            <button class="like-btn" onclick="toggleLike(${novel.novelId})">
+                                <span class="like-icon">❤️</span>
+                                <span id="like-count-${novel.novelId}">${novel.likeCount}</span> <!-- 좋아요 수 -->
+                            </button>
+                        </div>
 
                             </div>
                         </div> <!-- card 닫는 div -->

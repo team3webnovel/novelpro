@@ -26,51 +26,38 @@
         <jsp:include page="/WEB-INF/views/includes/header.jsp" />
     </header>
    <div class="container mt-5">
-       <h2>소설 쓰기</h2>
-       
-       <div class="row">
-           <!-- 왼쪽 폼: 소설 제목 및 줄거리 입력 -->
-           <div class="col-md-6">
-               <!-- 폼 action 경로 수정 -->
-               <form method="POST" action="${pageContext.request.contextPath}/novel/new-novel">
-                   <!-- 제목 입력 -->
-                   <div class="form-group">
-                       <label for="title">소설 제목</label>
-                       <input type="text" class="form-control" id="title" name="title" placeholder="소설 제목을 입력하세요" required>
-                   </div>
-   
-                   <!-- 장르 선택 -->
-                   <div class="form-group">
-                       <label for="genre">장르</label>
-                       <select class="form-control" id="genre" name="genre" required>
-                           <option value="">장르 선택</option>
-                           <option value="로판">로맨스판타지</option>
-                           <option value="현판">현대판타지</option>
-                           <option value="판타지">판타지</option>
-                           <option value="무협">무협</option>
-                           <option value="로맨스">로맨스</option>
-                           <option value="일반">일반</option>
-                       </select>
-                   </div>
-   
-                   <!-- 표지 이미지 선택 -->
-                   <div class="col-md-6">
-                       
+    <div class="row">
+        <!-- 왼쪽: 소설 쓰기 폼 -->
+        <div class="col-md-6">
+            <h2>소설 쓰기</h2>
+            <form method="POST" action="${pageContext.request.contextPath}/novel/new-novel">
+                <!-- 제목 입력 -->
+                <div class="form-group">
+                    <label for="title">소설 제목</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="소설 제목을 입력하세요" required>
+                </div>
 
-                    <!-- 장르 선택 -->
-                    <div class="form-group">
-                        
-                    </div>
-                    </div>
-                    
+                <!-- 장르 선택 -->
+                <div class="form-group">
+                    <label for="genre">장르</label>
+                    <select class="form-control" id="genre" name="genre" required>
+                        <option value="">장르 선택</option>
+                        <option value="로판">로맨스판타지</option>
+                        <option value="현판">현대판타지</option>
+                        <option value="판타지">판타지</option>
+                        <option value="무협">무협</option>
+                        <option value="로맨스">로맨스</option>
+                        <option value="일반">일반</option>
+                    </select>
+                </div>
 
-                    <!-- 표지 이미지 선택 -->
+               <!-- 표지 이미지 선택 -->
                     <label for="title">커버 선택</label>
                     <div class="col-md-6">
                         <button type="button" class="btn btn-custom" data-toggle="modal" data-target="#coverImageModal">커버선택하기</button>
                         <!-- 선택된 미리보기 -->
                         <div class="preview-container mt-3">
-                            <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지 또는 비디오 썸네일" style="max-width: 100%; height: auto; display: none;" />
+                            <img id="selectedCoverImagePreview" src="" alt="선택된 표지 이미지 또는 비디오 썸네일" style="max-width: 150px; height: auto; display: none;" />
                             <p>선택한 파일명: <span id="selectedCoverImageFileName">없음</span></p>
                         </div>
                         <!-- 선택한 이미지/비디오 ID를 숨긴 필드로 전송 -->
@@ -113,40 +100,34 @@
                         </div>
                     </div>
 
-                    <!-- 줄거리 입력 -->
-                    <div class="form-group mt-4">
-                        <label for="intro">소설 줄거리</label>
-                        <textarea class="form-control" id="intro" name="intro" rows="6" placeholder="소설 줄거리를 입력하세요" required></textarea>
-                    </div>
+                <!-- 줄거리 입력 -->
+                <div class="form-group mt-4">
+                    <label for="intro">소설 줄거리</label>
+                    <textarea class="form-control" id="intro" name="intro" rows="6" placeholder="소설 줄거리를 입력하세요" required></textarea>
+                </div>
 
-                    <!-- 저장 버튼 -->
-                    <div class="d-flex justify-content-between mt-4">
-                        <button type="submit" class="btn btn-primary">소설 저장</button>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- AImessage가 있을 때 숨겨진 필드로 추가 -->
-           <c:if test="${not empty AImessage}">
-               <input type="hidden" id="AImessage" name="AImessage" value="${AImessage}">
-           </c:if>
-            
+                <!-- 저장 버튼 -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
 
-            <!-- GPT를 통한 줄거리 및 등장인물 생성 -->
-            <div class="col-md-6">
-                <h4>줄거리 & 등장인물</h4>
-                <!-- 채팅 로그 영역 -->
-                <div id="chat-container" class="chat-window-container" style="position: relative;">
-                    <div id="chat-log" class="chat-window border p-3" style="height: 400px; overflow-y: scroll;"></div>
+        <!-- 오른쪽: AI Story Maker -->
+        <div class="col-md-6">
+            <h2>AI Story Maker</h2>
+                <div id="chat-container" class="chat-window-container">
+                    <div id="chat-log" class="chat-window border p-3"></div>
                     <!-- 사용자 입력 -->
                     <div id="input-area" class="mt-3 d-flex input-area-sticky">
-                        <input type="text" id="user-input" placeholder="메시지를 입력하세요" class="form-control">
-                        <button id="submit-btn" type="button" class="btn btn-primary ml-2">입력</button>
+                        <input type="text" id="user-input" name="user-input" placeholder="메시지를 입력하세요" class="form-control">
+                        <button id="submit-btn" type="submit" class="btn btn-input ml-2">입력</button>
                     </div>
                 </div>
-                </div>
-                
-                </div>
+        </div>
+    </div>
+</div>
+
                 
 
 <script type="text/javascript">
@@ -176,14 +157,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <!-- 이미지 선택 스크립트 -->
     <script>
-        function selectCoverImage(creationId, imageUrl, fileName) {
-            var imgPreview = document.getElementById('selectedCoverImagePreview');
-            imgPreview.src = imageUrl;
-            imgPreview.style.display = 'block'; // 이미지 표시
-            document.getElementById('selectedCoverImageFileName').innerText = fileName;
-            document.getElementById('selectedCoverImageId').value = creationId;
-            $('#coverImageModal').modal('hide');
-        }
+    function selectCoverImage(creationId, imageUrl, fileName) {
+        var imgPreview = document.getElementById('selectedCoverImagePreview');
+        imgPreview.src = imageUrl;
+        imgPreview.style.display = 'block'; // 이미지 표시
+        document.getElementById('selectedCoverImageFileName').innerText = fileName;
+        document.getElementById('selectedCoverImageId').value = creationId;
+        $('#coverImageModal').modal('hide'); // 모달 닫기
+    }
+
     </script>
 </body>
 </html>
