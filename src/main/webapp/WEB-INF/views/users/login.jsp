@@ -21,7 +21,7 @@
         <form id="loginForm" action="<%= request.getContextPath() %>/login" method="post">
             <input type="text" id="username" name="username" placeholder="아이디" required><br>
             <input type="password" id="password" name="password" placeholder="비밀번호" required><br>
-            <button type="submit" class="login-btn">로그인</button>
+            <button type="submit" class="login-btn" style="background-color: #003366; border-color: #003366; color: white;">로그인</button>
         </form>
 
         <!-- 구글 로그인 버튼 추가 -->
@@ -35,9 +35,9 @@
         </div>
 
         <div class="login-options">
-            <a href="<%= request.getContextPath() %>/find-id">아이디 찾기</a> |
-            <a href="<%= request.getContextPath() %>/reset-password">비밀번호 재설정</a> |
-            <a href="<%= request.getContextPath() %>/register">회원가입</a>
+            <a href="<%= request.getContextPath() %>/find-id" style="color: #003366;">아이디 찾기</a> |
+            <a href="<%= request.getContextPath() %>/reset-password" style="color: #003366;">비밀번호 재설정</a> |
+            <a href="<%= request.getContextPath() %>/register" style="color: #003366;">회원가입</a>
         </div>
 
         <!-- 로그인 실패 시 서버에서 전달된 메시지를 표시하기 위한 공간 -->

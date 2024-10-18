@@ -223,3 +223,133 @@ html, body {
     resize: none; /* 사용자가 크기 조절을 못하게 설정 */
     margin-top: 5px; /* 위쪽 마진을 줄여서 위로 당김 */
 }
+
+/* 소설 수정 페이지의 스타일 추가 */
+
+/* 이미지 또는 비디오 선택 버튼 스타일 */
+.btn-custom {
+    border: 2px solid #003366; /* 테두리 색상 */
+    background-color: #ffffff; /* 버튼 배경색 */
+    color: #003366; /* 텍스트 색상 */
+    padding: 10px 20px; /* 버튼 크기 */
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer; /* 커서 모양 */
+    font-weight: bold; /* 텍스트 굵기 */
+}
+
+.btn-custom:hover {
+    background-color: #003366; /* 호버 시 배경색 */
+    color: #ffffff; /* 호버 시 텍스트 색상 */
+}
+
+/* 소설 수정 페이지에서 선택된 이미지 미리보기 */
+.preview-container img {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    max-width: 100%;
+}
+
+/* modal 안의 이미지 및 비디오 썸네일 스타일 */
+.img-thumbnail {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05); /* 이미지에 약간의 확대 효과 */
+}
+
+/* 모달 창 스타일 */
+.modal-header {
+    background-color: #003366;
+    color: #ffffff;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+}
+
+.modal-content {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 수정, 삭제 버튼 스타일 */
+#edit-novel-form .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+#edit-novel-form .btn-primary:hover {
+    background-color: #002244;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* 줄거리 입력창 스타일 */
+textarea#intro {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border: 2px solid #003366;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 채팅 로그 및 입력창 스타일 */
+#chat-container {
+    height: 850px; /* 고정된 높이 */
+    width: 780px; /* 고정된 너비 */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 세로 스크롤 허용 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    transition: width 0.3s ease, height 0.3s ease; /* 크기 변화를 부드럽게 처리 */
+    padding: 20px;
+    position: absolute; /* 고정된 위치를 유지 */
+}
+
+#chat-log {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+#input-area {
+    display: flex;
+    margin-top: 10px;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 2px solid #003366;
+    border-radius: 5px;
+}
+
+#submit-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    border: 2px solid #003366;
+    border-radius: 5px;
+}
+
+#submit-btn:hover {
+    background-color: #002244;
+    border-color: #002244;
+}
+

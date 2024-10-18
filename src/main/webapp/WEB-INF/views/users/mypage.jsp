@@ -16,18 +16,22 @@
     </header>
 
     <!-- 본문 내용 -->
-    <div class="container mypage">
-        <h2>마이페이지</h2>
-        
-        <div class="user-info">
-            <p><strong>아이디:</strong> ${sessionScope.user.username}</p>
-            <p><strong>이메일:</strong> ${sessionScope.user.email}</p>
-            <p><strong>가입일:</strong> ${sessionScope.user.createdAt}</p>
-        </div>
-
-        <div class="mypage-actions">
-            <a href="<%= request.getContextPath() %>/change-password" class="btn btn-primary">비밀번호 변경</a>
-            <a href="<%= request.getContextPath() %>/logout" class="btn btn-secondary">로그아웃</a>
+	<div class="container mypage">
+	    <h2 style="color: #003366;">마이페이지</h2>
+	
+	    <div class="user-info">
+	        <p><strong style="color: #003366;">아이디:</strong> ${sessionScope.user.username}</p>
+	        <p><strong style="color: #003366;">이메일:</strong> ${sessionScope.user.email}</p>
+	        <p><strong style="color: #003366;">가입일:</strong> ${sessionScope.user.createdAt}</p>
+	    </div>
+	
+	    <div class="mypage-actions">
+	        <a href="<%= request.getContextPath() %>/change-password" 
+	           class="btn btn-primary" 
+	           style="background-color: #003366; border-color: #003366; color: white;">
+	            비밀번호 변경
+	        </a>
+	            <a href="<%= request.getContextPath() %>/logout" class="btn btn-secondary">로그아웃</a>
         </div>
     </div>
 
