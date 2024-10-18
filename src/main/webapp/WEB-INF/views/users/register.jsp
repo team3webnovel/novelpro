@@ -21,7 +21,7 @@
             <input type="email" id="email" name="email" placeholder="이메일" required><br>
             
             <!-- 이메일 인증 버튼과 인증번호 입력 -->
-            <button type="button" id="emailAuthBtn" onclick="sendAuthToken()">이메일 인증</button><br>
+            <button type="button" id="emailAuthBtn" onclick="sendAuthToken()" style="background-color: #003366; border-color: #003366; color: white;">이메일 인증</button><br>
             <input type="text" id="emailToken" name="emailToken" placeholder="인증번호 입력" style="display:none;"><br>
             <button type="button" id="verifyTokenBtn" onclick="verifyAuthToken()" style="display:none;">인증번호 확인</button>
 
@@ -36,11 +36,11 @@
             
             <span id="password-match-message"></span>
 
-            <button type="submit" class="register-btn">회원가입</button>
+            <button type="submit" class="register-btn" style="background-color: #003366; border-color: #003366; color: white;">회원가입</button>
         </form>
 
         <div class="login-link">
-            이미 계정이 있으신가요? <a href="<%= request.getContextPath() %>/login">로그인</a>
+            이미 계정이 있으신가요? <a href="<%= request.getContextPath() %>/login" style="color: #003366;">로그인</a>
         </div>
     </div>
 

@@ -134,7 +134,7 @@
 
 					<!-- 삭제 및 수정 버튼 -->
 					<div class="d-flex justify-content-between mt-4">
-						<button type="submit" class="btn btn-primary">수정완료</button>
+						<button type="submit" class="btn btn-primary" style="background-color: #003366; border-color: #003366; color: white;">수정완료</button>
 						<!-- 삭제 버튼 -->
 						<button id="deleteBtn" class="btn btn-danger"
 							onclick="deleteNovel(${novelCover.novelId})">소설 삭제</button>
@@ -144,7 +144,7 @@
 
 			<!-- gpt를 통한 줄거리 및 등장인물 생성 -->
 			<div class="col-md-6">
-				<h4>줄거리&등장인물</h4>
+				<h4>AI Story Maker</h4>
 
 				<!-- 채팅 로그 영역 -->
 				<div id="chat-container" class="chat-window-container"

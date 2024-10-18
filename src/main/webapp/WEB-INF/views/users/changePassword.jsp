@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="change-password-container">
-        <h2>비밀번호 변경</h2>
+        <h2 style="color: #003366;">비밀번호 변경</h2>
         <form action="${pageContext.request.contextPath}/change-password" method="post">
             <div class="form-group">
                 <label for="current-password">현재 비밀번호:</label>
@@ -53,7 +53,7 @@
 
             <div id="password-match-message"></div> <!-- 비밀번호 일치 여부 메시지 -->
             
-            <button type="submit" class="btn btn-primary">비밀번호 변경</button>
+            <button type="submit" class="btn btn-primary" style="background-color: #003366; border-color: #003366; color: white;">비밀번호 변경</button>
         </form>
     </div>
 </body>

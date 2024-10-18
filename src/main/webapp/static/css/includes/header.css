@@ -9,7 +9,7 @@
     transition: background-color 0.3s, color 0.3s, opacity 0.3s !important; /* 배경색, 글자색 및 투명도 전환 효과 */
     background-color: #495057 !important; /* 투명한 검은색 */
     color: #fff; /* 기본 글자 색상 */
-    height: 70px; /* 헤더 높이 */
+    height: 60px; /* 헤더 높이 */
 }
 
 /* 스크롤된 상태의 헤더 */
@@ -38,10 +38,11 @@
 
 /* 제목 스타일 */
 .ultra-unique-header-title {
-    font-size: 1.3rem; /* 폰트 크기 조정 */
+    font-size: 1.8rem; /* 폰트 크기 조정 */
     color: white; /* 기본 색상 */
     margin-right: 20px; /* 리뷰/홍보와의 간격 */
     white-space: nowrap; /* 글자가 줄바꿈되지 않도록 설정 */
+    font-weight: bold;
 }
 
 /* 리뷰/홍보 스타일 */
