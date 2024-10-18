@@ -21,7 +21,7 @@ body, .main-contents {
 h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 	font-weight: bold;
 	text-align: center;
-	color: #003366; /* 세련된 짙은 파란색 */
+	color: #00509e; /* 세련된 짙은 파란색 */
 }
 
 /* 버튼 및 입력 필드 공통 스타일 */
@@ -30,7 +30,7 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 	margin: 20px auto;
 	padding: 14px;
 	font-size: 16px;
-	border: 2px solid #003366; /* 파란색 테두리 */
+	border: 2px solid #007bff; /* 파란색 테두리 */
 	border-radius: 50px; /* 둥근 모서리 */
 	width: 80%;
 	max-width: 300px;
@@ -40,7 +40,7 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 }
 
 #imageUpload:hover, #saveBtn:hover, #openModalBtn:hover {
-	border-color: #003366; /* 짙은 파란색 */
+	border-color: #0056b3; /* 짙은 파란색 */
 	background-color: #e9f4ff; /* 더 짙은 하늘색 배경 */
 	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 	transform: translateY(-3px);
@@ -58,29 +58,23 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 
 /* 왼쪽 패널: 이미지 선택 및 툴바 */
 .left-panel {
-    width: 32%; /* 왼쪽 패널의 너비 */
-    margin: 0 auto; /* 화면 가운데로 이동 */
-    margin-top: 50px; /* 헤더와의 간격을 벌림 (캔버스와 동일한 값으로 설정) */
-    padding-right: 10px; /* 오른쪽 패딩 */
+	width: 30%; /* 왼쪽 패널은 30% 너비 */
+	padding-right: 20px;
+	margin-top: 40px; /* 패널을 아래로 내림 */
 }
 
 /* 오른쪽 패널: 이미지 작업 공간 */
 .right-panel {
-    width: 63%; /* 오른쪽 패널의 너비 */
-    text-align: center;
-    margin-top: 50px; /* 헤더와의 간격 */
+	width: 65%; /* 오른쪽 패널은 65% 너비 */
+	text-align: center;
 }
 
 /* 반응형: 화면 크기가 작아질 경우 패널이 수직으로 쌓임 */
 @media ( max-width : 768px) {
 	.main-container {
-    display: flex;
-    justify-content: center !important; /* 패널들을 가운데 정렬 */
-    align-items: flex-start;
-    padding: 40px;
-    max-width: 1300px;
-    margin: 0 auto;
-}
+		flex-direction: column;
+		padding: 20px;
+	}
 	.left-panel, .right-panel {
 		width: 100%;
 		margin-top: 0; /* 작은 화면에서는 마진을 제거 */
@@ -88,14 +82,14 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 }
 /* 모달 버튼 스타일 */
 #openModalBtn {
-	background-color: #003366 !important;
+	background-color: #007bff;
 	color: #fff;
 	cursor: pointer;
 	transition: background-color 0.3s, transform 0.2s ease-in-out;
 }
 
 #openModalBtn:hover {
-	background-color: #003366;
+	background-color: #0056b3;
 	transform: translateY(-3px);
 }
 
@@ -125,14 +119,14 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 #fontSelect, #fontSizeSelect {
 	padding: 10px;
 	font-size: 16px;
-	border: 2px solid #003366;
+	border: 2px solid #007bff;
 	border-radius: 10px;
 	background-color: #fff;
 	transition: border-color 0.3s ease;
 }
 
 #fontSelect:hover, #fontSizeSelect:hover {
-	border-color: #003366;
+	border-color: #0056b3;
 }
 
 /* 텍스트 스타일 버튼 */
@@ -141,21 +135,21 @@ h2, label, .toolbar-btn, #imageUpload, #saveBtn, #openModalBtn {
 	font-size: 16px;
 	cursor: pointer;
 	background-color: #fff;
-	border: 2px solid #003366;
+	border: 2px solid #007bff;
 	border-radius: 10px;
 	transition: background-color 0.3s, box-shadow 0.2s, border-color 0.3s;
 }
 
 .toolbar-btn:hover {
 	background-color: #e9f4ff;
-	border-color: #003366;
+	border-color: #0056b3;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .toolbar-btn.active {
-	background-color: #003366;
+	background-color: #007bff;
 	color: white;
-	border-color: #003366;
+	border-color: #007bff;
 }
 
 /* 색상 선택 스타일 */
@@ -174,17 +168,17 @@ input[type="checkbox"] {
 	height: 20px;
 	margin-right: 10px;
 	border-radius: 5px;
-	border: 2px solid #003366;
+	border: 2px solid #007bff;
 }
 
 /* 캔버스 스타일 */
 canvas {
 	display: block;
 	margin: 30px auto;
-	border: 2px solid #003366;
+	border: 2px solid #0056b3;
 	background-color: #ffffff;
-	max-width: 400px;
-	height: 500px !important;
+	max-width: 100%;
+	height: auto;
 	border-radius: 10px;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
@@ -244,33 +238,3 @@ canvas {
 	opacity: 1;
 	transform: translate(-50%, -50%) scale(1.1);
 }
-
-.right-panel {
-    margin-top: 50px; /* 원하는 간격으로 조정 */
-}
-
-/* 메인 컨테이너를 Flexbox로 두 개의 컬럼 레이아웃 적용 */
-.main-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 40px;
-    max-width: 1600px; /* 전체 크기를 키움 */
-    margin: 0 auto; /* 화면 가운데 배치 */
-}
-
-/* 왼쪽 패널: 이미지 선택 및 툴바 */
-.left-panel {
-    width: 35%; /* 왼쪽 패널의 너비를 늘림 */
-    padding-right: 20px;
-    margin-top: 40px;
-}
-
-/* 오른쪽 패널: 이미지 작업 공간 */
-.right-panel {
-    width: 60%; /* 오른쪽 패널의 너비를 늘림 */
-    text-align: center;
-    margin-top: 50px; /* 헤더와의 간격을 더 벌림 */
-}
-
-

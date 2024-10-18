@@ -129,6 +129,7 @@ public class SimpleImageController {
                 session.setAttribute("imageGenerated", true);  // 세션에 완료 상태 저장
                 session.setAttribute("imageUrl", imageUrl);    // 세션에 URL 저장
                 
+                response.put("imageUrl", imageUrl);
                 response.put("success", true);
             } else {
                 model.addAttribute("message", "WebSocket is not connected.");
