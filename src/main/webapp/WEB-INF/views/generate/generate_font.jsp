@@ -17,6 +17,8 @@
 </head>
 <body>
 	<div class="main-container">
+	
+	
 		<!-- 왼쪽 패널: 이미지 선택 및 툴바 -->
 		<div class="left-panel">
 			<h2>폰트 작업을 할 이미지를 골라주세요.</h2>
@@ -119,6 +121,10 @@
 			<div id="uploadStatus" style="display: none;" class="custom-alert"></div>
 		</div>
 	</div>
+	
+	<c:if test="${not empty AImessage}">
+	<input type="hidden" id = "AImessage">
+</c:if>
 
 	<script src="static/js/font/libgif.js"></script>
 	<script src="static/js/font/text_style.js"></script>
