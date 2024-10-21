@@ -1,0 +1,17 @@
+/* 강조된 영역에 애니메이션 적용 */
+.highlight {
+    border: 3px solid #ffda44;
+    box-shadow: 0 0 15px rgba(255, 218, 68, 0.7);
+    animation: bounce 1.5s infinite;
+    background-color: white;
+    mix-blend-mode: screen;
+    z-index: 10001;
+    position: relative;
+}
+
+/* 강조 영역의 애니메이션 */
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.team3webnovel.mappers.ImageBoardLikeMapper">
+
+	<select id="check" parameterType="Map" resultType="int">
+		select like_id as likeId
+		from image_board_likes where board_id = #{boardId} and user_id = #{userId}
+	</select>
+
+	<insert id="pushLike" parameterType="Map">
+		insert into image_board_likes (board_id, user_id) values (#{boardId}, #{userId})
+	</insert>
+	
+	<delete id="unlike" parameterType="map">
+		delete from Image_board_likes where board_id = #{boardId} and user_id = #{userId}
+	</delete>
+	
+	<select id="likeCounts" resultType="Map">
+	    SELECT board_id as boardId, COUNT(*) AS like_count
+	    FROM Image_board_likes
+	    GROUP BY board_id
+	</select>
+</mapper>

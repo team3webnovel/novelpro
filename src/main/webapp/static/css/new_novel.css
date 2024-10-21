@@ -1,0 +1,355 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.parent-container {
+    height: 100%; /* chat-container의 부모 요소 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 채팅 창 스타일 */
+.chat-window {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* 메시지 공통 스타일 */
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+/* 유저 메시지 스타일 */
+.user-message {
+    background-color: #DAE1E9;
+    text-align: right;
+    margin-left: auto;
+    border-radius: 10px 10px 0 10px;
+}
+
+/* 봇 메시지 스타일 */
+.bot-message {
+    background-color: #CCCCFF;
+    text-align: left;
+    margin-right: auto;
+    border-radius: 10px 10px 10px 0;
+}
+
+/* 메시지 래퍼 스타일 */
+.message-wrapper {
+    display: flex;
+    margin: 5px 0;
+}
+
+.bot-wrapper {
+    justify-content: flex-start;
+}
+
+.user-wrapper {
+    justify-content: flex-end;
+}
+
+/* 깜빡임 애니메이션 */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 'loading' 클래스를 깜빡이게 만듦 */
+.loading {
+    animation: blink 1s infinite;
+}
+
+/* 채팅 윈도우 컨테이너 스타일 */
+.chat-window-container {
+    position: relative;
+    height: 100%;
+}
+
+/* 입력 영역 스타일 */
+.input-area-sticky {
+    background-color: white;
+    padding: 10px;
+    /* 위치를 고정하지 않고 자연스럽게 채팅 로그 아래에 위치하도록 설정 */
+}
+
+#chat-log {
+    flex-grow: 1;
+    overflow-y: auto; /* 스크롤 허용 */
+    padding-bottom: 60px; /* 입력 창 높이만큼 패딩 추가 */
+}
+
+#input-area {
+    display: flex;
+    margin-top: 0;
+}
+
+/* 입력 필드와 버튼 스타일 */
+#user-input {
+    width: 80%;
+}
+
+#submit-btn {
+    width: 20%;
+    margin-left: 10px;
+}
+
+.btn-custom {
+    border: 2px solid #007bff; /* 원하는 색상으로 변경 */
+    border-radius: 5px; /* 둥근 테두리 */
+    padding: 10px 20px; /* 버튼 크기 조정 */
+}
+
+/* 공통 스타일 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 소설 쓰기 폼 */
+.col-md-6 {
+    padding: 20px;
+    
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* AI Story Maker 스타일 */
+#chat-container {
+    height: 850px; /* 고정된 높이 */
+    width: 780px; /* 고정된 너비 */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 세로 스크롤 허용 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    transition: width 0.3s ease, height 0.3s ease; /* 크기 변화를 부드럽게 처리 */
+    padding: 20px;
+    position: absolute; /* 고정된 위치를 유지 */
+}
+
+
+
+#chat-log {
+    height: 380px;
+    overflow-y: auto;
+}
+
+#input-area {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    padding: 10px;
+}
+
+#user-input {
+    flex-grow: 1;
+}
+
+#submit-btn {
+    margin-left: 10px;
+}
+
+.btn-custom {
+    border: 2px solid #003366 !important; /* 테두리 색상 */
+    background-color: #ffffff !important; /* 버튼 배경색 */
+    padding: 10px 20px; /* 버튼 크기 조정 */
+    border-radius: 5px; /* 버튼 둥근 테두리 */
+    font-weight: bold; /* 텍스트 두껍게 */
+    color: #000000; /* 텍스트 색상 */
+    cursor: pointer !important; /* 마우스 올렸을 때 포인터 */
+}
+
+.btn-custom:hover {
+    background-color: #FFFFFF !important; /* 호버 시 배경색 */
+    color: black !important; /* 호버 시 텍스트 색상 */
+}
+
+/* 저장 버튼 스타일 */
+.btn-save {
+    background-color: #003366 !important; /* 저장 버튼의 배경색 */
+    border-color: #003366 !important; /* 저장 버튼 테두리 색상 */
+    color: white !important; /* 저장 버튼 텍스트 색상 */
+    padding: 10px 20px; /* 저장 버튼 크기 조정 */
+    border-radius: 5px; /* 저장 버튼 둥글게 */
+}
+
+.btn-save:hover {
+    background-color: #FFFFFF !important; /* 저장 버튼 호버 시 색상 */
+    border-color: #003366 !important; /* 저장 버튼 호버 시 테두리 색상 */
+    color: black !important; /*텍스트 색상 */
+}
+
+/* 입력 버튼 스타일 */
+.btn-input {
+    background-color: #003366 !important; /* 입력 버튼의 배경색 */
+    border-color: #003366 !important; /* 입력 버튼 테두리 색상 */
+    color: white !important; /* 입력 버튼 텍스트 색상 */
+    padding: 10px 20px; /* 입력 버튼 크기 조정 */
+    border-radius: 5px; /* 입력 버튼 둥글게 */
+}
+
+.btn-input:hover {
+    background-color: #FFFFFF !important; /* 입력 버튼 호버 시 색상 */
+    border-color: #003366 !important; /* 입력 버튼 호버 시 테두리 색상 */
+    color: black !important; /*텍스트 색상 */
+}
+
+#intro {
+    height: 200px; /* 고정된 높이 설정 */
+    width: 100%; /* 너비를 부모 요소에 맞춰 고정 */
+    resize: none; /* 사용자가 크기 조절을 못하게 설정 */
+    margin-top: 5px; /* 위쪽 마진을 줄여서 위로 당김 */
+}
+
+/* 소설 수정 페이지의 스타일 추가 */
+
+/* 이미지 또는 비디오 선택 버튼 스타일 */
+.btn-custom {
+    border: 2px solid #003366; /* 테두리 색상 */
+    background-color: #ffffff; /* 버튼 배경색 */
+    color: #003366; /* 텍스트 색상 */
+    padding: 10px 20px; /* 버튼 크기 */
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer; /* 커서 모양 */
+    font-weight: bold; /* 텍스트 굵기 */
+}
+
+.btn-custom:hover {
+    background-color: #003366; /* 호버 시 배경색 */
+    color: #ffffff; /* 호버 시 텍스트 색상 */
+}
+
+/* 소설 수정 페이지에서 선택된 이미지 미리보기 */
+.preview-container img {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    max-width: 100%;
+}
+
+/* modal 안의 이미지 및 비디오 썸네일 스타일 */
+.img-thumbnail {
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05); /* 이미지에 약간의 확대 효과 */
+}
+
+/* 모달 창 스타일 */
+.modal-header {
+    background-color: #003366;
+    color: #ffffff;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+}
+
+.modal-content {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 수정, 삭제 버튼 스타일 */
+#edit-novel-form .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+#edit-novel-form .btn-primary:hover {
+    background-color: #002244;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* 줄거리 입력창 스타일 */
+textarea#intro {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border: 2px solid #003366;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 채팅 로그 및 입력창 스타일 */
+#chat-container {
+    height: 850px; /* 고정된 높이 */
+    width: 780px; /* 고정된 너비 */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 세로 스크롤 허용 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    transition: width 0.3s ease, height 0.3s ease; /* 크기 변화를 부드럽게 처리 */
+    padding: 20px;
+    position: absolute; /* 고정된 위치를 유지 */
+}
+
+#chat-log {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+#input-area {
+    display: flex;
+    margin-top: 10px;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 2px solid #003366;
+    border-radius: 5px;
+}
+
+#submit-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    border: 2px solid #003366;
+    border-radius: 5px;
+}
+
+#submit-btn:hover {
+    background-color: #002244;
+    border-color: #002244;
+}
+

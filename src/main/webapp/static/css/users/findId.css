@@ -1,0 +1,86 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* 아이디 찾기 컨테이너 스타일 */
+.find-id-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 400px;
+    margin-bottom: 100px;
+}
+
+/* 제목 스타일 */
+h2 {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 입력 필드 스타일 */
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #f2f2f2;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="email"]:focus {
+    background-color: #ffffff;
+    border-color: #0056b3;
+    outline: none;
+}
+
+/* 아이디 찾기 버튼 스타일 */
+.find-id-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.find-id-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 메시지 스타일 */
+.message {
+    color: green;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 15px;
+}
+
+/* 로그인 페이지로 돌아가는 링크 스타일 */
+a {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

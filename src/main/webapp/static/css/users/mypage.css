@@ -1,0 +1,74 @@
+/* 전체 페이지 스타일 */
+body {
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* 마이페이지 컨테이너 스타일 */
+.mypage {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 200px;
+}
+
+/* 마이페이지 제목 스타일 */
+.mypage h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #007bff;
+}
+
+/* 사용자 정보 스타일 */
+.user-info p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.user-info strong {
+    color: #0056b3;
+}
+
+/* 버튼 스타일 */
+.mypage-actions {
+    margin-top: 30px;
+}
+
+.mypage-actions a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
+}
+
+/* 기본 버튼 스타일 */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+/* 버튼 호버 효과 */
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}

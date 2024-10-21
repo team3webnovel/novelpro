@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3webnovel.mappers.VideoMapper">
+
+    <!-- creation 테이블에 데이터 삽입 (CREATION_ID는 시퀀스에 의해 자동 생성됨) -->
+    <insert id="insertCreation" parameterType="map" useGeneratedKeys="true" keyProperty="creationId">
+        INSERT INTO creation (user_id, art_form)
+        VALUES (#{userId}, #{artForm})
+    </insert>
+
+    <!-- 마지막으로 삽입된 creation_id 가져오기 -->
+    <select id="getLastCreationId" resultType="int">
+        SELECT creation_id 
+        FROM creation 
+        WHERE rownum = 1
+        ORDER BY creation_id DESC
+    </select>
+
+    <!-- video_data 테이블에 비디오 데이터 삽입 -->
+    <insert id="insertVideoData" parameterType="map">
+        INSERT INTO video_generation_data (
+            creation_id, video_url, modelcheck, sampler,
+            steps, cfg, seed, width, height, 
+            video_frames, motion_bucket_id, fps, filename, title
+        )
+        VALUES (
+            #{creationId}, #{videoUrl}, #{modelCheck}, #{sampler}, 
+            #{steps}, #{cfg}, #{seed}, #{width}, #{height}, 
+            #{videoFrames}, #{motionBucketId}, #{fps}, #{fileName}, #{title}
+        )
+    </insert>
+
+    <!-- 특정 사용자 ID로 비디오 데이터 조회 -->
+    <select id="getVideoDataByUserId" parameterType="com.team3webnovel.vo.CreationVo" resultType="com.team3webnovel.vo.VideoVo">
+       SELECT igd.creation_id as creationId, igd.image_url as videoUrl,
+			igd.created_at as createdAt, sampler as sampler, prompt, 
+			n_prompt as nPrompt, steps, cfg, seed, width, height, modelcheck as modelCheck, title, filename as videoFilename
+		FROM image_generation_data igd 
+		JOIN creation c 
+		ON igd.creation_id = c.creation_id
+		WHERE c.user_id = #{userId} AND
+		c.art_form = 4
+		order by igd.created_at desc
+    </select>
+
+    <!-- 비디오에 대한 resultMap -->
+    <resultMap id="videoResultMap" type="com.team3webnovel.vo.VideoVo">
+        <result property="creationId" column="CREATION_ID" javaType="int" jdbcType="INTEGER"/>
+        <result property="title" column="FILENAME" javaType="String" jdbcType="VARCHAR"/>
+        <result property="videoUrl" column="VIDEO_URL" javaType="String" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="CREATED_AT" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+        <result property="modelCheck" column="MODELCHECK" javaType="String" jdbcType="VARCHAR"/>
+        <result property="sampler" column="SAMPLER" javaType="String" jdbcType="VARCHAR"/>
+        <result property="steps" column="STEPS" javaType="int" jdbcType="INTEGER"/>
+        <result property="cfg" column="CFG" javaType="int" jdbcType="INTEGER"/>
+        <result property="seed" column="SEED" javaType="int" jdbcType="INTEGER"/>
+        <result property="width" column="WIDTH" javaType="int" jdbcType="INTEGER"/>
+        <result property="height" column="HEIGHT" javaType="int" jdbcType="INTEGER"/>
+        <result property="videoFrames" column="VIDEO_FRAMES" javaType="int" jdbcType="INTEGER"/>
+        <result property="motionBucketId" column="MOTION_BUCKET_ID" javaType="int" jdbcType="INTEGER"/>
+        <result property="fps" column="FPS" javaType="int" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- creation_id로 비디오 정보 조회 -->
+    <select id="getAllInformation" parameterType="int" resultMap="videoResultMap">
+        SELECT 
+            creation_id, video_url, created_at, modelcheck, 
+            sampler, steps, cfg, seed, 
+            width, height, video_frames, motion_bucket_id, 
+            fps, filename AS title
+        FROM video_generation_data
+        WHERE creation_id = #{creationId}
+    </select>
+    
+    <update id="updateVideoTitle" parameterType="com.team3webnovel.vo.VideoVo">
+    	UPDATE IMAGE_GENERATION_DATA
+	    SET title = #{title}
+	    WHERE creation_id = #{creationId}
+    </update>
+    
+    <delete id="deleteVideoById" parameterType="int">
+        DELETE FROM IMAGE_GENERATION_DATA
+        WHERE creation_id = #{creationId}
+    </delete>
+    
+    <update id="updateCreationId" parameterType="int">
+	    UPDATE creation
+	    SET user_id = 0
+	    WHERE creation_id = #{creationId}
+	</update>
+
+</mapper>

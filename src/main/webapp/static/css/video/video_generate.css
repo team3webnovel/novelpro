@@ -1,0 +1,150 @@
+/* 기본 스타일 설정 */
+.video-gen-body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
+.video-gen-h1, .video-gen-h2 {
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* 컨테이너 스타일 */
+.video-gen-container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease;
+}
+
+.video-gen-container:hover {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 폼 스타일 */
+.video-gen-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.video-gen-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #7f8c8d;
+}
+
+.video-gen-input, .video-gen-select, .video-gen-button {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ced6e0;
+    transition: all 0.3s ease;
+}
+
+
+.video-gen-button {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px 15px;
+    font-size: 14px;
+    width: 120px; /* 버튼 넓이 줄이기 */
+    align-self: center; /* 버튼을 가운데 정렬 */
+}
+
+.video-gen-button:hover {
+    background-color: #16a085;
+    box-shadow: 0 8px 15px rgba(22, 160, 133, 0.3);
+}
+
+.video-gen-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* 이미지 선택 영역 */
+.video-gen-image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.video-gen-image-item {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.video-gen-image-item:hover {
+    transform: scale(1.05);
+}
+
+.video-gen-image-item.selected {
+    border-color: #1abc9c;
+    transform: scale(1.05);
+}
+
+.video-gen-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-gen-image-item:hover img {
+    transform: scale(1.1);
+}
+
+.video-gen-image-item p {
+    font-size: 13px;
+    text-align: center;
+    margin: 8px 0 0 0;
+    color: #7f8c8d;
+}
+
+/* 결과 표시 영역 */
+.video-gen-generation-result {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #e1e5eb;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.video-gen-generation-result.show {
+    display: block;
+    opacity: 1;
+}
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+    .video-gen-image-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .video-gen-image-item {
+        width: 100%;
+        max-width: 240px;
+    }
+}
